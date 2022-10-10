@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getSearchMulti } = require('../controlers API/searchbar-controller')
+const { getSearchMulti } = require('../controllers API/searchbar-controller')
 // const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
