@@ -3,10 +3,10 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 // Import components:
 import LandingPage from './Components/LandingPage/LandingPage.jsx';
-import Login from './Components/Login/Login.jsx';
+import Login from './Components/UserData/Login/Login.jsx';
 import Register from './Components/UserData/Register/Register.jsx';
 import Home from './Components/Home/Home.jsx';
-import PaymentCheckout from './Components/PaymentCheckout/PaymentCheckout.jsx';
+import PaymentCheckout from './Components/UserData/PaymentCheckout/PaymentCheckout.jsx';
 import UserProfile from './Components/UserData/UserProfile/UserProfile.jsx';
 import MovieDetail from './Components/Details/MovieDetail/MovieDetail.jsx';
 import TVShowDetail from './Components/Details/TVShowDetail/TVShowDetail.jsx';
@@ -16,6 +16,7 @@ import HomeTVShows from './Components/Home/HomeTVShows.jsx';
 
 // Import style:
 import './App.css';
+
 
 // Create App component:
 function App() {
