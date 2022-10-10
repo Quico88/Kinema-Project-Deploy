@@ -26,7 +26,7 @@ const getSearchMulti = async (search) => {
       backPoster: m.backdrop_path,
     }
   })
-  console.log(movieSearch)
+  return movieSearch
 }
 
 module.exports = {
