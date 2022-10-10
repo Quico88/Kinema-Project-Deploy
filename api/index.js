@@ -1,10 +1,15 @@
-//TODO: Adjust to mongoDB:
-
 const server = require('./src/app.js');
-// const { conn } = require('./src/DB/db.js');
+require('dotenv').config();
+const database = require('./src/Db/db.js');
+const PORT = process.env.PORT;
 
-// conn.sync(/* { force: false } */).then(() => {
-server.listen(process.env.PORT, () => {
-  console.log('%s listening');
+database.on('error', (error) => {
+  console.log(error);
 });
-// });
+database.once('connected', () => {
+  console.log('Database connected!');
+});
+
+server.listen(PORT, () => {
+  console.log(`Server connected on port: ${PORT}`);
+});
