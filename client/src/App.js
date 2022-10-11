@@ -1,5 +1,5 @@
 // Import react utilities:
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // Import components:
 import LandingPage from './Components/LandingPage/LandingPage.jsx';
@@ -21,22 +21,21 @@ import './App.css';
 // Create App component:
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
+    <div className="App">
         <h1>Probando</h1>
-          <Route exact path='/' component={LandingPage}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/register' component={Register}/>
-          <Route exact path='/home' component={Home}/>
-          <Route path='/payment' component={PaymentCheckout}/>
-          <Route path='/profile' component={UserProfile}/>
-          <Route path='/home/movies' component={HomeMovies}/>
-          <Route path='/home/tv_shows' component={HomeTVShows}/>
-          <Route path='/home/movie_details' component={MovieDetail}/>
-          <Route path='/home/tv_show_details' component={TVShowDetail}/>
-          
-      </div>
-    </BrowserRouter>
+      <Routes>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/home' element={<Home/>}/>
+          <Route path='/payment' element={<PaymentCheckout/>}/>
+          <Route path='/profile' element={<UserProfile/>}/>
+          <Route path='/home/movies' element={<HomeMovies/>}/>
+          <Route path='/home/tv_shows' element={<HomeTVShows/>}/>
+          <Route path='/home/movie_details' element={<MovieDetail/>}/>
+          <Route path='/home/tv_show_details' element={<TVShowDetail/>}/>
+      </Routes>      
+    </div>
   );
 }
 
