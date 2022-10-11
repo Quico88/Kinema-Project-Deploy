@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "./LandingPage.module.css";
 import logo from "../../Assets/logo.png";
-import menu from "../../Assets/menu.png";
+//import menu from "../../Assets/menu.png";
 //import close from "../../Assets/close.png";
 import { Link } from "react-router-dom";
 //import { openAndCloseMenu } from "../menuFunction";
@@ -25,6 +25,7 @@ export default function LandingPage() {
 
                 console.log(refMenuBtn.current.id)
             } */
+            
 
             if(refMenuBtn.current.id == 5){
                 refMenuBtn.current.id = refCloseBtn.current.id
@@ -51,8 +52,8 @@ export default function LandingPage() {
             <p className={styles.close} ref={refCloseBtn} id={6}  onClick={handleToggleMenu}>Close </p>
 
             </div>
-            <p className={styles.sign}>REGISTRARSE</p>
-            <p className={styles.sign}>INICIAR SESION</p>
+            <Link to={"/register"}><p className={styles.sign}>REGISTRARSE</p></Link>
+            <Link to={"/login"}><p className={styles.sign}>INICIAR SESION</p></Link>
           </ul>
           <div className={styles.nav__toggle}>
           {/* <img className={styles.menu} src={menu} id={5} onClick={handleToggleMenu} alt="menu" /> */}

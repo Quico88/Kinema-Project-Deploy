@@ -22,8 +22,7 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <h1>Probando</h1>
+      
           <Route exact path='/' component={LandingPage}/>
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
@@ -34,8 +33,7 @@ function App() {
           <Route path='/home/tv_shows' component={HomeTVShows}/>
           <Route path='/home/movie_details' component={MovieDetail}/>
           <Route path='/home/tv_show_details' component={TVShowDetail}/>
-          
-      </div>
+   
     </BrowserRouter>
   );
 }
