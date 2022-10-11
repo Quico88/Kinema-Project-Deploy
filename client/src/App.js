@@ -1,20 +1,19 @@
 // Import react utilities:
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import LandingPage from "./Components/LandingPage/LandingPage";
 
 // Import components:
 
 // Import style:
-import './App.css';
+import "./App.css";
 
 // Create App component:
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <h1>Probando</h1>
-
-        {/* Create Routes: */}
-      </div>
+      <Switch>
+        <Route exact path="/" component={LandingPage} />
+      </Switch>
     </BrowserRouter>
   );
 }
