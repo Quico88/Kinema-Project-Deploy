@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getSearchMulti } = require('../controllers API/searchbar-controller')
+const { getSearchMulti } = require('../controllers API/searchbar-controller');
 // const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
@@ -9,7 +9,23 @@ const {
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
 
+const {
+  getSeasonDetails,
+} = require('../controllers API/detailedSeasonSelected.js');
+
 // ROUTES:
+
+// Get season and it's episodes details by ID and season number:
+router.get('/season/:id/:season', async (req, res) => {
+  try {
+    const { id, season } = req.params;
+    const season_detail = await getSeasonDetails(id, season);
+    res.send(season_detail);
+  } catch (error) {
+    return res.status(404).send(error);
+  }
+});
+
 // Get movie from API by ID with trailer:
 router.get('/movies/:id', async (req, res) => {
   try {
@@ -28,17 +44,14 @@ router.get('/movies/:id', async (req, res) => {
 });
 
 router.get('/home/search', async (req, res) => {
-
-    try {
-        const { name } = req.query;
-        let allMovies = await getSearchMulti(name)
-        res.send(allMovies)
-        console.log(allMovies)
-    } catch (error){
-        res.status(400).json(error)
-    }
-
-})
-
+  try {
+    const { name } = req.query;
+    let allMovies = await getSearchMulti(name);
+    res.send(allMovies);
+    console.log(allMovies);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 module.exports = router;
