@@ -46,14 +46,7 @@ const getTVSeriesByIdApi = async (id) => {
     poster: image_route + seasonOne.data.poster_path,
     number_episodes: seasonOne.data.episodes.length,
     season_number: seasonOne.data.season_number,
-  };
-
-  const episodes_season_one = await axios.get(
-    `${api_general_route}/tv/${id}/season/1?api_key=${YOUR_API_KEY_1}`
-  );
-
-  TVSerie.season_one.episodes = episodes_season_one.data.episodes.map(
-    (episode) => {
+    episodes: seasonOne.data.episodes.map((episode) => {
       return {
         id: episode.id,
         name: episode.name,
@@ -63,14 +56,11 @@ const getTVSeriesByIdApi = async (id) => {
           'en-US',
           options
         ),
-        image: episode.still_path
-          ? image_route + episode.still_path
-          : TVSerie.back_poster,
+        image: image_route + episode.still_path,
         duration: episode.runtime,
       };
-    }
-  );
-
+    }),
+  };
   return TVSerie;
 };
 
