@@ -66,6 +66,7 @@ const getTVSeriesByIdApi = async (id) => {
         image: episode.still_path
           ? image_route + episode.still_path
           : TVSerie.back_poster,
+        duration: episode.runtime,
       };
     }
   );
