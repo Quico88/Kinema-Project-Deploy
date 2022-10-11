@@ -12,12 +12,11 @@ const getMoviesByIdApi = async (id) => {
 
   const image_route = 'https://image.tmdb.org/t/p/w400';
 
-  var options = {
+  const options = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   };
-  // var today = new Date();
 
   const movie = {
     id: apiResponse.data.id,
