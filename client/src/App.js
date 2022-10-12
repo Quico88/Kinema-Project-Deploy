@@ -12,8 +12,6 @@ import MovieDetail from './Components/Details/MovieDetail/MovieDetail.jsx';
 import TVShowDetail from './Components/Details/TVShowDetail/TVShowDetail.jsx';
 import HomeMovies from './Components/Home/HomeMovies.jsx';
 import HomeTVShows from './Components/Home/HomeTVShows.jsx';
-import NavBar from './Components/NavBar/NavBar.jsx';
-
 
 // Import style:
 import './App.css';
@@ -24,9 +22,6 @@ import './Components/global.css';
 // Create App component:
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App backgroundColor">
-        <h1>Probando</h1>
       <Routes>
           <Route path='/' element={<LandingPage/>}/>
           <Route path='/login' element={<Login/>}/>
@@ -39,7 +34,6 @@ function App() {
           <Route path='/home/movie_details/:id' element={<MovieDetail/>}/>
           <Route path='/home/tv_show_details/:id' element={<TVShowDetail/>}/>
       </Routes>      
-    </div>
   );
 }
 

@@ -1,10 +1,16 @@
 import React from "react";
-import WithBackgroundImage from "../PruebaChakraUI";
+import NavBar from "../NavBar/NavBar";
+import Footer from "./Chakra UI Components/Footer";
+import MainMovieMenu from "./Chakra UI Components/MainMovieMenu";
+
 
 export default function Home(){
     return (
-        <div>Esta es la HOME
-            <WithBackgroundImage></WithBackgroundImage>
+        <div>
+            <NavBar/>
+            <MainMovieMenu></MainMovieMenu>
+            
+            <Footer/>
         </div>
     )
 }

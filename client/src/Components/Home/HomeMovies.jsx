@@ -1,7 +1,11 @@
 import React from "react";
+import NavBar from "../NavBar/NavBar";
 
 export default function HomeMovies(){
     return (
-        <div>Esta es la Home cuando se selecciona el filtro Movies</div>
+        <div>
+            <NavBar/>
+            Esta es la Home cuando se selecciona el filtro Movies
+        </div>
     )
 }
