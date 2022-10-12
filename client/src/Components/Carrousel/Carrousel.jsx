@@ -15,7 +15,7 @@ export default function Carrousel({ movies, routeType }) {
     <div>
       <Carousel breakPoints={breakPoints}>
         {movies.map((m) => {
-            if(m.media_type === 'movie'){
+            if(routeType === 'movie'){
                 return (
                     <Link to={'home/movie_details'}>
                       <img
@@ -23,8 +23,7 @@ export default function Carrousel({ movies, routeType }) {
                       ></img>
                     </Link>
                   );
-            }
-            if(m.media_type === 'tv'){
+            } else {
                 return (
                     <Link to={'home/tv_show_details'}>
                       <img
@@ -33,13 +32,6 @@ export default function Carrousel({ movies, routeType }) {
                     </Link>
                   );
             }
-          return (
-            <Link to={'home'}>
-              <img
-                src={"https://image.tmdb.org/t/p/w300" + m.poster_path}
-              ></img>
-            </Link>
-          );
         })}
       </Carousel>
     </div>
