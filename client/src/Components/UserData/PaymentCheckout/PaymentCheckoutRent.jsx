@@ -23,8 +23,8 @@ const CheckoutForm = () => {
     if(!error){
         
         const {id} = paymentMethod
-        const {data} = await axios.post("http://localhost:3001/payment/premium",{id,
-    amount: 5000
+        const {data} = await axios.post("http://localhost:3001/payment/rent",{id,
+    amount: 500
     })
     console.log(data)
     }
@@ -33,8 +33,7 @@ const CheckoutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="card card-body">
-            <img src="https://definicionabc.com/wp-content/uploads/2014/07/Premium.jpg" alt="Premium" className="img-fluid"/>
-            <h1>Price : 50 U$D</h1>
+            <h1>Price : 5 U$D</h1>
 
             <div className="form-group">
             <CardElement className="form-control"/>
@@ -46,7 +45,7 @@ const CheckoutForm = () => {
 
 }
 
-export default function PaymentCheckout() {
+export default function PaymentCheckoutRent() {
     return (
         <Elements stripe={stripePromise}>
             <div className="container p-4">
