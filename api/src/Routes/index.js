@@ -10,8 +10,13 @@ const {
 } = require('../controllers API/detailedMovie.js');
 
 const {
+
   getSeasonDetails,
 } = require('../controllers API/detailedSeasonSelected.js');
+const {
+  getTVSeriesByIdApi,
+  getTrailerSerie,
+} = require('../controllers API/detailedTVSerie.js');
 
 // ROUTES:
 
@@ -42,6 +47,28 @@ router.get('/movies/:id', async (req, res) => {
     return res.status(404).send(error);
   }
 });
+
+
+// Get serie from API by ID with trailer:
+router.get('/tv/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    let TVSeriesDetail = await getTVSeriesByIdApi(id);
+
+    const trailer = await getTrailerSerie(id);
+
+    TVSeriesDetail = {
+      ...TVSeriesDetail,
+      trailer,
+    };
+
+    res.send(TVSeriesDetail);
+  } catch (error) {
+    return res.status(404).send(error);
+  }
+});
+
+// Get movie/series from API by name search:
 
 router.get('/home/search', async (req, res) => {
   try {
