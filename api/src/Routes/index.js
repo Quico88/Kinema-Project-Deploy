@@ -8,6 +8,9 @@ const {
   getMoviesByIdApi,
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
+const {
+  getMovies
+} = require('../controllers API/only-movies')
 
 // ROUTES:
 // Get movie from API by ID with trailer:
@@ -33,10 +36,20 @@ router.get('/home/search', async (req, res) => {
         const { name } = req.query;
         let allMovies = await getSearchMulti(name)
         res.send(allMovies)
-        console.log(allMovies)
     } catch (error){
         res.status(400).json(error)
     }
+
+})
+
+router.get('/home/movies', async (req, res) => {
+
+  try {
+      let movies = await getMovies()
+      res.send(movies)
+  } catch (error){
+      res.status(400).json(error)
+  }
 
 })
 
