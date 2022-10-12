@@ -8,6 +8,9 @@ const {
   getMoviesByIdApi,
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
+const {
+  getMovies
+} = require('../controllers API/only-movies')
 
 const {
 
@@ -68,7 +71,18 @@ router.get('/tv/:id', async (req, res) => {
   }
 });
 
+
 // Get movie/series from API by name search:
+
+
+router.get('/home/movies', async (req, res) => {
+  try {
+      let movies = await getMovies()
+      res.send(movies)
+  } catch (error){
+      res.status(400).json(error)
+  }
+})
 
 router.get('/home/search', async (req, res) => {
   try {
