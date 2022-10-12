@@ -8,19 +8,17 @@ const {
   getMoviesByIdApi,
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
-const {
-  getMovies
-} = require('../controllers API/only-movies')
+const { getMovies } = require('../controllers API/only-movies');
 
 const {
-
   getSeasonDetails,
 } = require('../controllers API/detailedSeasonSelected.js');
 const {
   getTVSeriesByIdApi,
   getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
-
+const { getAllCarrusels } = require('../controllers API/homeAll.js');
+const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
 // ROUTES:
 
 // Get season and it's episodes details by ID and season number:
@@ -51,7 +49,6 @@ router.get('/movies/:id', async (req, res) => {
   }
 });
 
-
 // Get serie from API by ID with trailer:
 router.get('/tv/:id', async (req, res) => {
   try {
@@ -71,18 +68,16 @@ router.get('/tv/:id', async (req, res) => {
   }
 });
 
-
 // Get movie/series from API by name search:
-
 
 router.get('/home/movies', async (req, res) => {
   try {
-      let movies = await getMovies()
-      res.send(movies)
-  } catch (error){
-      res.status(400).json(error)
+    let movies = await getMovies();
+    res.send(movies);
+  } catch (error) {
+    res.status(400).json(error);
   }
-})
+});
 
 router.get('/home/search', async (req, res) => {
   try {
@@ -90,6 +85,20 @@ router.get('/home/search', async (req, res) => {
     let allMovies = await getSearchMulti(name);
     res.send(allMovies);
     console.log(allMovies);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Get movies/series carrusels from API:
+router.get('/home', async (req, res) => {
+  try {
+    const allCarruselsMovies = await getAllCarrusels();
+    // const allCarruselsSeries = await getAllCarruselsTV();
+    res.send({
+      allCarruselsMovies,
+      // allCarruselsSeries,
+    });
   } catch (error) {
     res.status(400).json(error);
   }
