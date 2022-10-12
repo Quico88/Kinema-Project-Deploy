@@ -21,6 +21,10 @@ const {
   getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
 
+const {
+  getSeriesByGenre,
+  getAllSeriesDB
+} = require('../controllers DB/getDataDB.js');
 // ROUTES:
 
 // Get season and it's episodes details by ID and season number:
@@ -95,4 +99,29 @@ router.get('/home/search', async (req, res) => {
   }
 });
 
+// Get serie by genres:
+
+router.get('/home/series/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    let data = await getSeriesByGenre(id);
+    res.send(data);
+  } catch (error) {
+    res.status(400).json({Error: error.message});
+  }
+});
+
+// Get all serie from database:
+
+router.get('/home/series', async (req, res) => {
+  const { page } = req.query;
+  try {
+    let skip = page * 10;
+    let limit = skip + 10;
+    let data = await getAllSeriesDB(skip, limit);
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({Error: error.message});
+  }
+})
 module.exports = router;

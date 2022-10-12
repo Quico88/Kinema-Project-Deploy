@@ -1,22 +1,65 @@
 const Genre = require('../Db/Schema/genre.js');
 const Serie = require('../Db/Schema/serie.js');
 
-//EJEMPLO CONTROLLER:
-
-const getSeriesByGenre = async (id) => {
-	let genre = await Genre.findById(id)
-	let listSeries = await Serie.find({'genre': genre._id})
-	return listSeries
+const nameGenre = async (id) => {
+	let data = await Genre.findById(id);
+	return data.name;
 };
 
-//EJEMPLO RUTA:
+const getSeriesByGenre = async (id) => {
+	let genre = await Genre.findById(id);
+	let dataSeries = await Serie.find({'genre': genre._id}).skip(1).limit(2)
 
-// router.get('/home/series/:id', async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     let data = await getSeriesByGenre(id)
-//     res.send(data);
-//   } catch (error) {
-//     res.status(400).json({Error: error.message});
-//   }
-// });
+	let listSeries = [];
+	for(let i = 0; i < dataSeries.length; i++) {
+		let serie = {
+			id: dataSeries[i].id,
+			name: dataSeries[i].name,
+			popularity: dataSeries[i].popularity,
+			description: dataSeries[i].description,
+			poster: dataSeries[i].poster,
+			backPoster: dataSeries[i].backPoster,
+			vote_average: dataSeries[i].vote_average,
+			vote_count: dataSeries[i].vote_count,
+			first_air_date: dataSeries[i].first_air_date
+		}
+		let genre = [];
+		for(let j = 0; j < dataSeries[i].genre.length; j++) {
+			genre.push(await nameGenre(dataSeries[i].genre[j]));
+		}
+		serie.genre = genre;
+		listSeries.push(serie);
+	}
+	return listSeries;
+};
+
+const getAllSeriesDB = async (omi, lim) => {
+	let dataSeries = await Serie.find().skip(omi).limit(lim)
+
+	let listSeries = [];
+	for(let i = 0; i < dataSeries.length; i++) {
+		let serie = {
+			id: dataSeries[i].id,
+			name: dataSeries[i].name,
+			popularity: dataSeries[i].popularity,
+			description: dataSeries[i].description,
+			poster: dataSeries[i].poster,
+			backPoster: dataSeries[i].backPoster,
+			vote_average: dataSeries[i].vote_average,
+			vote_count: dataSeries[i].vote_count,
+			first_air_date: dataSeries[i].first_air_date
+		}
+		let genre = [];
+		for(let j = 0; j < dataSeries[i].genre.length; j++) {
+			genre.push(await nameGenre(dataSeries[i].genre[j]));
+		}
+		serie.genre = genre;
+		listSeries.push(serie);
+	}
+	return listSeries;
+};
+
+module.exports = {
+	getSeriesByGenre,
+	getAllSeriesDB
+}
