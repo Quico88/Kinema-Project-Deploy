@@ -114,6 +114,8 @@ router.post("/payment/premium", async (req,res)=>{
     payment_method : id,
     confirm : true
 
+
+    
   })
   console.log(payment)
 
