@@ -1,8 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 const { getSearchMulti } = require('../controllers API/searchbar-controller');
-// const { Movies, Genres } = require('../db.js');
+const Stripe = require("stripe")
+const stripe = new Stripe(process.env.STRIPE_KEY)
 
+
+// const { Movies, Genres } = require('../db.js');
 // Import functions from controllers:
 const {
   getMoviesByIdApi,
@@ -94,5 +97,58 @@ router.get('/home/search', async (req, res) => {
     res.status(400).json(error);
   }
 });
+
+
+
+
+
+router.post("/payment/premium", async (req,res)=>{
+ try {
+  
+  const {id, amount} = req.body
+  
+  const payment = await stripe.paymentIntents.create({
+    amount,
+    currency : "USD",
+    description : "Plan Premium",
+    payment_method : id,
+    confirm : true
+
+  })
+  console.log(payment)
+
+    res.send({message : "Congratulations for your Premium Plan"})
+
+ } catch (error) {
+  
+  res.json({message: error.row.message})
+ }
+  
+  })
+
+  
+router.post("/payment/rent", async (req,res)=>{
+  try {
+   
+   const {id, amount} = req.body
+   
+   const payment = await stripe.paymentIntents.create({
+     amount,
+     currency : "USD",
+     description : "Movie rent",
+     payment_method : id,
+     confirm : true
+ 
+   })
+   console.log(payment)
+ 
+     res.send({message : "Enjoy your movie"})
+ 
+  } catch (error) {
+   
+   res.json({message: error.row.message})
+  }
+   
+   })
 
 module.exports = router;
