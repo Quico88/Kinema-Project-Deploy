@@ -40,7 +40,8 @@ router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
     const season_detail = await getSeasonDetails(id, season);
-    res.send(season_detail);
+    if(typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
+    res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
   } catch (error) {
     return res.status(404).send(error);
   }
@@ -68,16 +69,16 @@ router.get('/tv/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let TVSeriesDetail = await getTVSeriesByIdApi(id);
-
+    if(typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail) //si NO existe la serie te envia un string
     const trailer = await getTrailerSerie(id);
 
     TVSeriesDetail = {
       ...TVSeriesDetail,
       trailer,
     };
-    res.send(TVSeriesDetail);
+    res.send(TVSeriesDetail); //si existe la serie te envia un objeto con todos los datos
   } catch (error) {
-    return res.status(404).send(error);
+    return res.status(404).send({Error: error.message});
   }
 });
 
