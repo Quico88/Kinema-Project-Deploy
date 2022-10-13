@@ -7,7 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_KEY)
 // const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
-
 const {
   getMoviesByIdApi,
   getTrailerMovie,
@@ -69,14 +68,14 @@ router.get('/tv/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let TVSeriesDetail = await getTVSeriesByIdApi(id);
-    if(typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail) //si NO existe la serie te envia un string
+    if(typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail)
     const trailer = await getTrailerSerie(id);
 
     TVSeriesDetail = {
       ...TVSeriesDetail,
       trailer,
     };
-    res.send(TVSeriesDetail); //si existe la serie te envia un objeto con todos los datos
+    res.send(TVSeriesDetail);
   } catch (error) {
     return res.status(404).send({Error: error.message});
   }
