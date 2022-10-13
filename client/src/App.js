@@ -12,6 +12,7 @@ import MovieDetail from './Components/Details/MovieDetail/MovieDetail.jsx';
 import TVShowDetail from './Components/Details/TVShowDetail/TVShowDetail.jsx';
 import HomeMovies from './Components/Home/HomeMovies.jsx';
 import HomeTVShows from './Components/Home/HomeTVShows.jsx';
+import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCheckoutRent.jsx';
 
 
 // Import style:
@@ -29,6 +30,7 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/home' element={<Home/>}/>
           <Route path='/payment' element={<PaymentCheckout/>}/>
+          <Route path='/rent' element={<PaymentCheckoutRent/>}/>
           <Route path='/profile' element={<UserProfile/>}/>
           <Route path='/home/movies' element={<HomeMovies/>}/>
           <Route path='/home/tv_shows' element={<HomeTVShows/>}/>

@@ -6,7 +6,7 @@ const api_general_route = 'https://api.themoviedb.org/3';
 
 // Get TVSeries from API by ID with first season:
 const getTVSeriesByIdApi = async (id) => {
-  const image_route = 'https://image.tmdb.org/t/p/w400';
+  const image_route = 'https://image.tmdb.org/t/p/original';
 
   const options = {
     year: 'numeric',
