@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./Routes/index.js');
-
+const session = require('express-session')
 require('./Db/db.js');
 
 const server = express();
@@ -27,6 +27,13 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+
+//guardar la session
+server.use(session({
+  secret: 'estaseriaunaclavesecreta',
+  resave: true,
+  saveUninitialized: true
+}))
 
 server.use('/', routes);
 
