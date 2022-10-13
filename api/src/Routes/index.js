@@ -24,6 +24,11 @@ const {
   getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
 
+const {
+  getSeriesByGenre,
+  getAllSeriesDB
+} = require('../controllers DB/getDataDB.js');
+
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
@@ -70,7 +75,6 @@ router.get('/tv/:id', async (req, res) => {
       ...TVSeriesDetail,
       trailer,
     };
-
     res.send(TVSeriesDetail);
   } catch (error) {
     return res.status(404).send(error);
@@ -93,7 +97,6 @@ router.get('/home/search', async (req, res) => {
     const { name } = req.query;
     let allMovies = await getSearchMulti(name);
     res.send(allMovies);
-
   } catch (error) {
     res.status(400).json(error);
   }
@@ -103,7 +106,6 @@ router.get('/home/search', async (req, res) => {
 router.post("/payment/premium", async (req,res)=>{
  try { 
   const {id, amount} = req.body
-  
   const payment = await stripe.paymentIntents.create({
     amount,
     currency : "USD",
@@ -111,9 +113,7 @@ router.post("/payment/premium", async (req,res)=>{
     payment_method : id,
     confirm : true
   })
-
     res.send({message : "Congratulations for your Premium Plan"})
-
  } catch (error) { 
   res.json({message: error.row.message})
  }
@@ -122,7 +122,6 @@ router.post("/payment/premium", async (req,res)=>{
 router.post("/payment/rent", async (req,res)=>{
   try { 
    const {id, amount} = req.body
-   
    const payment = await stripe.paymentIntents.create({
      amount,
      currency : "USD",
@@ -149,5 +148,29 @@ router.get('/home', async (req, res) => {
     res.status(400).json(error);
   }
 });
+
+// Get serie by genres:
+router.get('/home/series/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    let data = await getSeriesByGenre(id);
+    res.send(data);
+  } catch (error) {
+    res.status(400).json({Error: error.message});
+  }
+});
+
+// Get all serie from database:
+router.get('/home/series', async (req, res) => {
+  const { page } = req.query;
+  try {
+    let skip = page * 10;
+    let limit = skip + 10;
+    let data = await getAllSeriesDB(skip, limit);
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({Error: error.message});
+  }
+})
 
 module.exports = router;
