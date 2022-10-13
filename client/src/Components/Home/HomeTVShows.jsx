@@ -1,35 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
-import MovieCard from "./Chakra UI Components/MovieCard";
-import { Wrap } from '@chakra-ui/react'
 import Footer from "./Chakra UI Components/Footer";
+import { getTvShows } from "../../Redux/actions";
+import DataList from "../DataList/DataList";
 
-export default function HomeTVShows(){
+export default function HomeTVShows() {
+  const dispatch = useDispatch();
+  const series = useSelector((state) => state.series);
+  const [page, setPage] = useState(1);
+  const [seriesToShow, setSeriesToShow] = useState([]);
 
-    //fake test con serie "Dahmer"
-    const testUrl = 'https://elcomercio.pe/resizer/lS_CUO8cGo2WRJXun5pWLzwEwGk=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/BUBYNVWCSNBQXB7RSWVBKBBKXY.jpg';
-    const testId = 123;
+  useEffect(() => {
+    dispatch(getTvShows(page));
+  }, [page]);
 
-    const renderTestCards = () => {
-        let tc = [];
-        for (let i = 1; i <= 20; i++) {
-            tc.push(    
-                <MovieCard
-                    posterUrl = {testUrl}
-                    testId = {testId}/>
-                );
-        }
-        return tc;
-      };
-      
+  useEffect(() => {
+    setSeriesToShow((prev) => prev.concat(series));
+  }, [series]);
 
-    return (
-        <div>
-            <NavBar/>
-            <Wrap justify='center' my='10'>
-                {renderTestCards()}
-            </Wrap>
-            <Footer/>
-        </div>
-    )
+  return (
+    <div>
+        <NavBar />
+        <DataList data={seriesToShow} next={setPage} />
+        <Footer />
+    </div>
+  );
 }

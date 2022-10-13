@@ -1,12 +1,22 @@
-import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL  } from "../actions/const";
+import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS  } from "../actions/const";
 const initialState = {
   movies: [],
+  series: [],
   movieDetail: [],
 };
 
 const rootReducer = (state = initialState, action) => {
-  switch (action.type)
-  {
+  switch (action.type) {
+    case GET_MOVIES:
+      return {
+        ...state,
+        movies: action.payload
+      }
+    case GET_TV_SHOWS:
+      return {
+        ...state,
+        series: action.payload
+      }
     case GET_MOVIE_DETAIL:
       return {
         ...state,
