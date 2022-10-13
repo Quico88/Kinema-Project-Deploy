@@ -17,56 +17,61 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
+import SearchBar from './SearchBar.jsx';
+
 const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
 
 const NavLink1 = () => (
   <Link
-      px={2}
-      py={1}
-      rounded={'md'}
-      color='gray.400'
-      _hover={{
-        textDecoration: 'none',
-        color: 'white',
-      }}
-    href={'/home'}>
-        {Links[0]}
+    px={2}
+    py={1}
+    rounded={'md'}
+    color="gray.400"
+    _hover={{
+      textDecoration: 'none',
+      color: 'white',
+    }}
+    href={'/home'}
+  >
+    {Links[0]}
   </Link>
 );
 
 const NavLink2 = () => (
-    <Link
-      px={2}
-      py={1}
-      rounded={'md'}
-      color='gray.400'
-      _hover={{
-        textDecoration: 'none',
-        color: 'white',
-      }}
-      href={'/home/movies'}>
-          {Links[1]}
-    </Link>
-  );
+  <Link
+    px={2}
+    py={1}
+    rounded={'md'}
+    color="gray.400"
+    _hover={{
+      textDecoration: 'none',
+      color: 'white',
+    }}
+    href={'/home/movies'}
+  >
+    {Links[1]}
+  </Link>
+);
 
-  const NavLink3 = () => (
-    <Link
-      px={2}
-      py={1}
-      rounded={'md'}
-      color='gray.400'
-      _hover={{
-        textDecoration: 'none',
-        color: 'white',
-      }}
-      href={'/home/tv_shows'}>
-          {Links[2]}
-    </Link>
-  );
+const NavLink3 = () => (
+  <Link
+    px={2}
+    py={1}
+    rounded={'md'}
+    color="gray.400"
+    _hover={{
+      textDecoration: 'none',
+      color: 'white',
+    }}
+    href={'/home/tv_shows'}
+  >
+    {Links[2]}
+  </Link>
+);
 
-  const color = {
-    kinemaBg: "#1d1d1d"
-  }
+const color = {
+  kinemaBg: '#1d1d1d',
+};
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -87,20 +92,23 @@ export default function Simple() {
             <HStack
               as={'nav'}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              <NavLink1/>
-              <NavLink2/>
-              <NavLink3/>
+              display={{ base: 'none', md: 'flex' }}
+            >
+              <NavLink1 />
+              <NavLink2 />
+              <NavLink3 />
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            <SearchBar />
             <Menu>
               <MenuButton
                 as={Button}
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
+                minW={0}
+              >
                 <Avatar
                   size={'sm'}
                   src={
@@ -121,9 +129,9 @@ export default function Simple() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-                <NavLink1/>
-                <NavLink2/>
-                <NavLink3/>
+              <NavLink1 />
+              <NavLink2 />
+              <NavLink3 />
             </Stack>
           </Box>
         ) : null}
