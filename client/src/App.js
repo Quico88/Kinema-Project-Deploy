@@ -12,30 +12,36 @@ import MovieDetail from './Components/Details/MovieDetail/MovieDetail.jsx';
 import TVShowDetail from './Components/Details/TVShowDetail/TVShowDetail.jsx';
 import HomeMovies from './Components/Home/HomeMovies.jsx';
 import HomeTVShows from './Components/Home/HomeTVShows.jsx';
+import AuthProvider  from './Components/AuthContext/AuthContext.jsx';
 
 
 // Import style:
 import './App.css';
+import { ProtectedRoute } from './Components/AuthContext/ProtectedRoute.js';
 
 
 // Create App component:
 function App() {
   return (
-    <div className="App">
-        <h1>Probando</h1>
+    <AuthProvider>
       <Routes>
           <Route path='/' element={<LandingPage/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/home' element={<Home/>}/>
           <Route path='/payment' element={<PaymentCheckout/>}/>
-          <Route path='/profile' element={<UserProfile/>}/>
+          <Route path='/profile' element={
+              <ProtectedRoute>
+                <UserProfile/>
+              </ProtectedRoute>
+              }/>
           <Route path='/home/movies' element={<HomeMovies/>}/>
           <Route path='/home/tv_shows' element={<HomeTVShows/>}/>
           <Route path='/home/movie_details' element={<MovieDetail/>}/>
           <Route path='/home/tv_show_details' element={<TVShowDetail/>}/>
-      </Routes>      
-    </div>
+      </Routes> 
+    </AuthProvider>     
+  
   );
 }
 

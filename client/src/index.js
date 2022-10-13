@@ -20,6 +20,7 @@ import axios from 'axios';
 // dotenv.config();
 axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3000';
 
+
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
@@ -27,9 +28,9 @@ root.render(
   <ChakraProvider>
     <Provider store={store}>
       <React.StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+              <BrowserRouter>
+            <App />
+          </BrowserRouter>
       </React.StrictMode>
     </Provider>
   </ChakraProvider>
