@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { doc, setDoc, getDoc  } from "firebase/firestore";
 import { firestore } from "../../AuthContext/firebase";
 import { useEffect, useState } from "react";
-/* import axios from "axios"
-import { useEffect } from "react" */
-
 
 export default function UserProfile(){
     const navigate = useNavigate()
@@ -22,13 +19,9 @@ export default function UserProfile(){
 const docSnap = await getDoc(docRef);
 
 if (docSnap.exists()) {
-  /* console.log("Document data:", docSnap.data()); */
   let data = docSnap.data()
   return data
-} else {
-  // doc.data() will be undefined in this case
-  console.log("No such document!");
-}
+} 
     }
 
 
@@ -40,10 +33,6 @@ if (docSnap.exists()) {
         exe()
     }, [])
 
- 
-
-
-   /*  console.log(user) */
 
     if(loading) return <h1>loading</h1>
 
