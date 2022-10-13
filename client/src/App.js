@@ -14,16 +14,15 @@ import HomeMovies from './Components/Home/HomeMovies.jsx';
 import HomeTVShows from './Components/Home/HomeTVShows.jsx';
 import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCheckoutRent.jsx';
 
-
 // Import style:
 import './App.css';
+import './Components/global.css';
+
 
 
 // Create App component:
 function App() {
   return (
-    <div className="App">
-        <h1>Probando</h1>
       <Routes>
           <Route path='/' element={<LandingPage/>}/>
           <Route path='/login' element={<Login/>}/>
@@ -37,7 +36,6 @@ function App() {
           <Route path='/home/movie_details/:id' element={<MovieDetail/>}/>
           <Route path='/home/tv_show_details/:id' element={<TVShowDetail/>}/>
       </Routes>      
-    </div>
   );
 }
 
