@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getSearchMulti } = require('../controllers API/searchbar-controller');
+const { getSearchSeriesDB, getSearchMovies } = require('../controllers API/searchbar-controller');
 const Stripe = require("stripe")
 const stripe = new Stripe(process.env.STRIPE_KEY)
 
@@ -95,9 +95,21 @@ router.get('/home/movies', async (req, res) => {
 // Get movie/series from API by name search:
 router.get('/home/search', async (req, res) => {
   try {
-    const { name } = req.query;
-    let allMovies = await getSearchMulti(name);
-    res.send(allMovies);
+    const { page , name} = req.query;
+    let allSeries = await getSearchSeriesDB(name, page);
+    let allMovies = await getSearchMovies(name, page)
+    let seriesAndMovies = allSeries.concat(allMovies)
+    
+    seriesAndMovies.sort((a, b) => {
+      if (a.vote_average < b.vote_average) {
+          return 1;
+      }
+      if (a.vote_average > b.vote_average) {
+          return -1;
+      }
+      return 0;
+  })
+    res.send(seriesAndMovies);
   } catch (error) {
     res.status(400).json(error);
   }
