@@ -83,8 +83,9 @@ router.get('/tv/:id', async (req, res) => {
 
 // Get only movies:
 router.get('/home/movies', async (req, res) => {
+  const { page } = req.query
   try {
-    let movies = await getMovies();
+    let movies = await getMovies(page);
     res.send(movies);
   } catch (error) {
     res.status(400).json(error);
@@ -164,8 +165,8 @@ router.get('/home/series/:id', async (req, res) => {
 router.get('/home/series', async (req, res) => {
   const { page } = req.query;
   try {
-    let skip = page * 10;
-    let limit = skip + 10;
+    let skip = (page - 1) * 20;
+    let limit = skip + 20;
     let data = await getAllSeriesDB(skip, limit);
     res.json(data);
   } catch (error) {
