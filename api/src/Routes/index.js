@@ -4,21 +4,23 @@ const { getSearchMulti } = require('../controllers API/searchbar-controller');
 const Stripe = require("stripe")
 const stripe = new Stripe(process.env.STRIPE_KEY)
 
-
 // const { Movies, Genres } = require('../db.js');
+
 // Import functions from controllers:
+
 const {
   getMoviesByIdApi,
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
+
 const {
   getMovies
 } = require('../controllers API/only-movies')
 
 const {
-
   getSeasonDetails,
 } = require('../controllers API/detailedSeasonSelected.js');
+
 const {
   getTVSeriesByIdApi,
   getTrailerSerie,
@@ -54,7 +56,6 @@ router.get('/movies/:id', async (req, res) => {
   }
 });
 
-
 // Get serie from API by ID with trailer:
 router.get('/tv/:id', async (req, res) => {
   try {
@@ -74,9 +75,7 @@ router.get('/tv/:id', async (req, res) => {
   }
 });
 
-
 // Get movie/series from API by name search:
-
 
 router.get('/home/movies', async (req, res) => {
   try {
@@ -98,10 +97,6 @@ router.get('/home/search', async (req, res) => {
   }
 });
 
-
-
-
-
 router.post("/payment/premium", async (req,res)=>{
  try {
   
@@ -113,9 +108,6 @@ router.post("/payment/premium", async (req,res)=>{
     description : "Plan Premium",
     payment_method : id,
     confirm : true
-
-
-    
   })
 
 
@@ -127,8 +119,7 @@ router.post("/payment/premium", async (req,res)=>{
  }
   
   })
-
-  
+ 
 router.post("/payment/rent", async (req,res)=>{
   try {
    
@@ -142,7 +133,6 @@ router.post("/payment/rent", async (req,res)=>{
      confirm : true
  
    })
-   console.log(payment)
  
      res.send({message : "Enjoy your movie"})
  
