@@ -15,11 +15,6 @@ export const useAuth = () =>{
 
 export default function AuthProvider({children}){
 
-
-    /* const user = {
-        login: true
-    } */
-
     const [loading, setLoading] = useState(true)
 
     const [user, setUser] = useState(null)
@@ -34,12 +29,10 @@ export default function AuthProvider({children}){
 
     const login = async(email, password) => {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-       /*  console.log(userCredentials) */
 }
 
     const loginWithGoogle = async () =>{
         const googleProvider = new GoogleAuthProvider()
-        console.log(googleProvider)
 
         let infoUser = await signInWithPopup(auth, googleProvider)  
                                 .then(userFirebase => userFirebase)
@@ -53,13 +46,13 @@ export default function AuthProvider({children}){
         onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
             setLoading(false)
-            /* console.log(currentUser) */
+
         })
     }, [])
 
 
     return(
-        <authContext.Provider /* value={{user}} */ value={{signup, login, logout, user, loading, loginWithGoogle }} >{children}</authContext.Provider>
+        <authContext.Provider value={{signup, login, logout, user, loading, loginWithGoogle }} >{children}</authContext.Provider>
     )
 }
 
