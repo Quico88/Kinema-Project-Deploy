@@ -1,9 +1,8 @@
-import {Box, Flex, Stack, Heading, Text, Container, Input, Button, SimpleGrid, Avatar, AvatarGroup, useBreakpointValue, Center, Link, Checkbox, FormControl,} from "@chakra-ui/react";
+import {Box, Stack, Heading, Text, Container, Input, Button, SimpleGrid, Center, Link, Checkbox, FormControl,} from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { useAuth } from "../../AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
 
 
 export default function Register() {
@@ -32,7 +31,6 @@ export default function Register() {
     e.preventDefault()
     try {
       await signup(user.email, user.password, user.displayName)
-   /*  console.log(user) */
     navigate("/profile")
       
     } catch (error) {
@@ -44,8 +42,6 @@ export default function Register() {
     await loginWithGoogle()
     navigate("/profile")
   }
-
-
 
   return (
     <Box
@@ -63,67 +59,7 @@ export default function Register() {
         spacing={{ base: 10, lg: 32 }}
         py={{ base: 10, sm: 20, lg: 32 }}
       >
-        <Stack spacing={{ base: 10, md: 20 }}>
-        {/*   <Heading
-            lineHeight={1.1}
-            fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
-          >
-            Logueate
-          </Heading> */}
-   {/*        <Stack direction={"row"} spacing={4} align={"center"}>
-            <AvatarGroup>
-              {avatars.map((avatar) => (
-                <Avatar
-                  key={avatar.name}
-                  name={avatar.name}
-                  src={avatar.url}
-                  position={"relative"}
-                  zIndex={2}
-                  _before={{
-                    content: '""',
-                    width: "full",
-                    height: "full",
-                    rounded: "full",
-                    transform: "scale(1.125)",
-                    bgGradient: "linear(to-bl, red.400,pink.400)",
-                    position: "absolute",
-                    zIndex: -1,
-                    top: 0,
-                    left: 0,
-                  }}
-                />
-              ))}
-            </AvatarGroup>
-            <Text fontFamily={"heading"} fontSize={{ base: "4xl", md: "6xl" }}>
-              +
-            </Text>
-            <Flex
-              align={"center"}
-              justify={"center"}
-              fontFamily={"heading"}
-              fontSize={{ base: "sm", md: "lg" }}
-              bg={"gray.800"}
-              color={"white"}
-              rounded={"full"}
-              minWidth={useBreakpointValue({ base: "44px", md: "60px" })}
-              minHeight={useBreakpointValue({ base: "44px", md: "60px" })}
-              position={"relative"}
-              _before={{
-                content: '""',
-                width: "full",
-                height: "full",
-                rounded: "full",
-                transform: "scale(1.125)",
-                bgGradient: "linear(to-bl, orange.400,yellow.400)",
-                position: "absolute",
-                zIndex: -1,
-                top: 0,
-                left: 0,
-              }}
-            >
-              YOU
-            </Flex>
-          </Stack> */}
+        <Stack spacing={{ base: 10, md: 20 }}> 
         </Stack>
         <Stack
           bg={"rgba(17, 173, 152, 0.3)"}
@@ -149,10 +85,6 @@ export default function Register() {
                 !
               </Text>
             </Heading>
-            {/*  <Text color={'white'} fontSize={{ base: 'sm', sm: 'md' }}>
-                We’re looking for amazing engineers just like you! Become a part
-                of our rockstar engineering team and skyrocket your career!
-              </Text> */}
           </Stack>
           <Box as={"form"} mt={10}>
             <Stack spacing={4} >
@@ -171,7 +103,7 @@ export default function Register() {
                   color: "gray.500",
                 }}
               />
-              <FormControl /* onSubmit={() => handleSubmit() }  */>
+              <FormControl>
               <Input
                 placeholder="example@email.com"
                 bg={"gray.100"}
@@ -257,13 +189,6 @@ export default function Register() {
           </Stack>
         </Stack>
       </Container>
-      {/* <Blur
-          position={'absolute'}
-          top={-10}
-          left={-10}
-          style={{ filter: 'blur(70px)' }}
-          zIndex={-1}
-        /> */}
     </Box>
   );
 }
