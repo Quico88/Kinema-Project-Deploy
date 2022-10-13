@@ -6,7 +6,6 @@
     position: relative;
 }
 
-
 .nav{
     height: 50px;
     display: flex;
@@ -19,13 +18,10 @@
 
 .list{
     display: inline-flex;
-    
-    justify-content: flex-end;
-    
+    justify-content: flex-end;    
 }
 
 .logo{
-    /* margin-left: 20px; */
     width: 250px;
     height: 180px;
     margin-top: -20px;
@@ -40,14 +36,6 @@
     background-image: url("../../Assets/menu.png");
     background-repeat: no-repeat;
 }
-
-/* .menu{
-    display: none;
-    cursor: pointer;
-    width: 32px;
-    margin-top: 40px;
-    margin-right: 20px;
-} */
 
 .nav__close{
     position: fixed;
@@ -93,7 +81,6 @@
 .main_text{
     font-size: 48px;
     color: #FFFFFF;
-    /* -webkit-text-stroke: 2px black; */
 }
 
 .movies{
@@ -108,9 +95,7 @@
 
 }
 
-
 .movie_list{
-    /* position: fixed; */
     width: 300px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/avatar.jpg");
     background-repeat: no-repeat;
@@ -119,7 +104,6 @@
 }
 
 .movie_list2{
-    /* position: fixed; */
     width: 320px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/avengers.jpg");
     background-repeat: no-repeat;
@@ -128,7 +112,6 @@
 }
 
 .movie_list3{
-    /* position: fixed; */
     width: 220px;
     color: rgba(17, 173, 152, 0.3);
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/Spider-man-wallpaper.jpg");
@@ -138,7 +121,6 @@
 }
 
 .movie_list4{
-    /* position: fixed; */
     width: 220px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/juman.jpg");
     background-repeat: no-repeat;
@@ -148,7 +130,6 @@
 }
 
 .movie_list5{
-    /* position: fixed; */
     width: 220px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/blackpanter.jpg");
     background-repeat: no-repeat;
@@ -158,7 +139,6 @@
 }
 
 .movie_list6{
-    /* position: fixed; */
     width: 320px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/aquaman.jpg");
     background-repeat: no-repeat;
@@ -167,7 +147,6 @@
 }
 
 .movie_list7{
-    /* position: fixed; */
     width: 320px;
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url("../../Assets/venom.jpg");
     background-repeat: no-repeat;
@@ -177,7 +156,6 @@
 
 
 .movie_list_collage{
-    /* position: fixed; */
     margin-top: 110px;
     width: 100vw;
     height: 100vh;
@@ -187,20 +165,6 @@
     background-size: cover;
 
 }
-
-/* .left_blur{
-    position: fixed;
-    justify-content: flex-start;
-    top: 60px;
-height: 200px;
-width: 100%;
-   
-
-
-background: linear-gradient(180deg, #030614 0%, rgba(3, 6, 20, 0) 100%);
-transform: rotate(-90deg);
-z-index: 1;
-} */
 
 .top_blur{
     position: absolute  ;
@@ -282,9 +246,6 @@ h3{
         
     }
 
-   
-    
-   
     .list{
         display: none;
         position: fixed;
