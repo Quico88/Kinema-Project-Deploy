@@ -72,7 +72,7 @@ const getTrailerSerie = async (id) => {
 
   const trailer = apiResponse.data.results[0]
     ? `https://www.youtube.com/watch?v=${apiResponse.data.results[0].key}`
-    : 'Movie not yet released.';
+    : null;
 
   return trailer;
 };
