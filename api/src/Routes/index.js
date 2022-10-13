@@ -92,7 +92,7 @@ router.get('/home/search', async (req, res) => {
     const { name } = req.query;
     let allMovies = await getSearchMulti(name);
     res.send(allMovies);
-    console.log(allMovies);
+
   } catch (error) {
     res.status(400).json(error);
   }
@@ -117,7 +117,7 @@ router.post("/payment/premium", async (req,res)=>{
 
     
   })
-  console.log(payment)
+
 
     res.send({message : "Congratulations for your Premium Plan"})
 
