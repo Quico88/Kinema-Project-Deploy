@@ -10,7 +10,7 @@ const getMoviesByIdApi = async (id) => {
     `${api_general_route}/movie/${id}?api_key=${YOUR_API_KEY_1}`
   );
 
-  const image_route = 'https://image.tmdb.org/t/p/w400';
+  const image_route = 'https://image.tmdb.org/t/p/original';
 
   const options = {
     year: 'numeric',
