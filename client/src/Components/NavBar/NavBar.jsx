@@ -15,9 +15,13 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
+
+import {Link as RouteLink } from "react-router-dom";
+
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
+
 
 const NavLink1 = () => (
   <Link
@@ -29,7 +33,7 @@ const NavLink1 = () => (
         textDecoration: 'none',
         color: 'white',
       }}
-    href={'/home'}>
+    >
         {Links[0]}
   </Link>
 );
@@ -44,7 +48,7 @@ const NavLink2 = () => (
         textDecoration: 'none',
         color: 'white',
       }}
-      href={'/home/movies'}>
+      >
           {Links[1]}
     </Link>
   );
@@ -59,7 +63,7 @@ const NavLink2 = () => (
         textDecoration: 'none',
         color: 'white',
       }}
-      href={'/home/tv_shows'}>
+     >
           {Links[2]}
     </Link>
   );
@@ -88,9 +92,15 @@ export default function Simple() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              <NavLink1/>
-              <NavLink2/>
-              <NavLink3/>
+              <RouteLink to='/home'>
+                  <NavLink1/>
+              </RouteLink>
+              <RouteLink to='/home/movies'>
+                  <NavLink2/>
+              </RouteLink>
+              <RouteLink to='/home/tv_shows'>
+                  <NavLink3/>
+              </RouteLink>
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -121,9 +131,15 @@ export default function Simple() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-                <NavLink1/>
-                <NavLink2/>
-                <NavLink3/>
+              <RouteLink to='/home'>
+                  <NavLink1/>
+              </RouteLink>
+              <RouteLink to='/home/movies'>
+                  <NavLink2/>
+              </RouteLink>
+              <RouteLink to='/home/tv_shows'>
+                  <NavLink3/>
+              </RouteLink>
             </Stack>
           </Box>
         ) : null}

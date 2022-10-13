@@ -5,8 +5,16 @@ import logo from "../../Assets/logo.png";
 //import close from "../../Assets/close.png";
 import { Link } from "react-router-dom";
 //import { openAndCloseMenu } from "../menuFunction";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getHomeAll } from "../../Redux/actions";
 
 export default function LandingPage() {
+
+  const dispatch = useDispatch();
+  const { movies } = useSelector( state => state)
+  useEffect( () =>{ dispatch(getHomeAll()) } , [dispatch] );
+  
 
     let refMenuBtn = useRef() 
     let list = useRef()
