@@ -37,11 +37,7 @@
     });
   }
 
-  async function postUser(info){
-    let sendUser = await axios.post("http://localhost:3001/users", info)
 
-    return sendUser
-}
 
     function handleChange(e) {
         e.preventDefault();
