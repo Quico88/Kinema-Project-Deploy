@@ -1,24 +1,3 @@
-// import React from "react";
-// import s from './NavBar.module.css'
-// import '../global.css'
-// import { NavLink, useLocation } from "react-router-dom";
-
-
-// export default function NavBar(){
-//     let { pathname } = useLocation();
-    
-//     return (
-//         <div className={s.navBar}>
-//                 <NavLink to="/home" 
-//                     className={ pathname === '/home' ? `subTitleSelected ${s.typeFilter}` : `subTitleUnselected ${s.typeFilter}`}>ALL</NavLink>
-//                 <NavLink to="/home/movies" 
-//                     className={ navData => navData.isActive ? `subTitleSelected ${s.typeFilter}` : `subTitleUnselected ${s.typeFilter}`}>TV Show</NavLink>
-//                 <NavLink to="/home/tv_shows" 
-//                     className={ navData => navData.isActive ? `subTitleSelected ${s.typeFilter}` : `subTitleUnselected ${s.typeFilter}`}>Movie</NavLink>
-//         </div>
-//     )
-// }
-
 import {
   Box,
   Flex,
@@ -42,13 +21,14 @@ const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
 
 const NavLink1 = () => (
   <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
+      px={2}
+      py={1}
+      rounded={'md'}
+      color='gray.400'
+      _hover={{
+        textDecoration: 'none',
+        color: 'white',
+      }}
     href={'/home'}>
         {Links[0]}
   </Link>
@@ -59,9 +39,10 @@ const NavLink2 = () => (
       px={2}
       py={1}
       rounded={'md'}
+      color='gray.400'
       _hover={{
         textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
+        color: 'white',
       }}
       href={'/home/movies'}>
           {Links[1]}
@@ -73,21 +54,26 @@ const NavLink2 = () => (
       px={2}
       py={1}
       rounded={'md'}
+      color='gray.400'
       _hover={{
         textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
+        color: 'white',
       }}
       href={'/home/tv_shows'}>
           {Links[2]}
     </Link>
   );
 
+  const color = {
+    kinemaBg: "#1d1d1d"
+  }
+
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box bg={color.kinemaBg} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
