@@ -5,7 +5,6 @@ const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
 const { YOUR_API_KEY_1 } = process.env
 
-
 const getSearchSeriesDB = async (name) => {
 	let dataSeries = await Serie.find({name: new RegExp(name , 'i')})
   const search = dataSeries.map(e => {
@@ -18,8 +17,6 @@ const getSearchSeriesDB = async (name) => {
   })  
   return search
 };
-
-
 
 const getSearchMovies = async (search, page) => {
   const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${search}&page=${page}&include_adult=false`)   
@@ -54,6 +51,7 @@ const getSearchMovies = async (search, page) => {
           })
       }
   })
+  
   const validate = (m) => {
       const moviesVal = [];
       m.map(n => {
@@ -69,6 +67,7 @@ const getSearchMovies = async (search, page) => {
       })
       return moviesVal
   }
+  
   const fetchMovie = async (id) => {
       const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
           params: {
@@ -81,9 +80,8 @@ const getSearchMovies = async (search, page) => {
   return validate(movieData)
 }
 
-
-
 module.exports = {
   getSearchSeriesDB,
   getSearchMovies
 }
+
