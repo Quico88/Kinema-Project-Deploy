@@ -11,9 +11,9 @@ const breakPoints = [
         { width: 1600, itemsToShow: 5 },
       ];
 
-export default function Carrousel({movies, videoSerie}) {
+export default function Carrousel({movies}) {
     
   return (
-    <Carousel movies={movies} videoSerie={videoSerie}></Carousel>
+    <Carousel movies={movies}></Carousel>
   );
 }
