@@ -17,7 +17,7 @@ const settings = {
     slidesToScroll: 4,
 };
 
-export default function Carousel({ movies }) {
+export default function Carousel({ movies, videoSerie }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = React.useState(null);
@@ -85,6 +85,18 @@ export default function Carousel({ movies }) {
                             >
                                 <Link to={`/home/tv_show/${m.id}`}>
                                     <img src={"https://image.tmdb.org/t/p/w300" + m.poster_path} />
+                                </Link>
+                            </Box>
+
+                        )
+                    } else if(m.episode_number){
+                        return (
+                            <Box
+                                key={index}
+                                height={'6xl'}
+                            >
+                                <Link to={videoSerie}>
+                                    <img src={m.image} />
                                 </Link>
                             </Box>
 
