@@ -4,7 +4,7 @@ import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import { getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
-import { useLocation, useMatch, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function HomeSearch() {
   const dispatch = useDispatch();
@@ -16,9 +16,13 @@ export default function HomeSearch() {
   const query = new URLSearchParams(form).get("query");
 
   useEffect(() => {
+    setPage(1)
+    setSearchToShow([])
+  }, [query]);
+
+  useEffect(() => {
     dispatch(getSearchByQuery(query, page));
-    console.log(query);
-  }, [page]);
+  }, [page, query]);
 
   useEffect(() => {
     setSearchToShow((prev) => prev.concat(search));
