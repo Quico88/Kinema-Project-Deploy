@@ -7,10 +7,10 @@ const { YOUR_API_KEY_1 } = process.env
 
 
 
-const getMovies = async () => {
+const getMovies = async (page) => {
 
-    const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${YOUR_API_KEY_1}&language=en-US&page=1`)
-
+    const { data: { results } } = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${YOUR_API_KEY_1}&language=en-US&page=${page}`)
+    
     const movieData = results.map(m => {
         return {
             id: m.id,

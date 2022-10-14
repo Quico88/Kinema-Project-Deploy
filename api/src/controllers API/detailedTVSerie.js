@@ -1,11 +1,16 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
+const Serie = require('../Db/Schema/serie.js');
 
 const api_general_route = 'https://api.themoviedb.org/3';
 
 // Get TVSeries from API by ID with first season:
 const getTVSeriesByIdApi = async (id) => {
+  let dataSerie = await Serie.findOne({'id': id});
+
+  if(!dataSerie) return 'Serie not found';
+
   const image_route = 'https://image.tmdb.org/t/p/original';
 
   const options = {
@@ -72,7 +77,7 @@ const getTrailerSerie = async (id) => {
 
   const trailer = apiResponse.data.results[0]
     ? `https://www.youtube.com/watch?v=${apiResponse.data.results[0].key}`
-    : 'Movie not yet released.';
+    : null;
 
   return trailer;
 };

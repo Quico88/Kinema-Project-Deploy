@@ -1,35 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
-import MovieCard from "./Chakra UI Components/MovieCard";
-import { Wrap } from '@chakra-ui/react'
 import Footer from "./Chakra UI Components/Footer";
+import { getMovies } from "../../Redux/actions";
+import DataList from "../DataList/DataList";
 
-export default function HomeMovies(){
+export default function HomeMovies() {
+  const dispatch = useDispatch();
+  const movies = useSelector((state) => state.movies);
+  const [page, setPage] = useState(1);
+  const [moviesToShow, setMoviesToShow] = useState([]);
 
-    //fake test con iron man 3
-    const testUrl = 'https://www.cinemascomics.com/wp-content/uploads/2019/07/copia-poster-iron-man-3-marvel.jpg.webp';
-    const testId = 68721;
+  useEffect(() => {
+    dispatch(getMovies(page));
+  }, [page]);
 
-    const renderTestCards = () => {
-        let tc = [];
-        for (let i = 1; i <= 20; i++) {
-            tc.push(    
-                <MovieCard
-                    posterUrl = {testUrl}
-                    testId = {testId}/>
-                );
-        }
-        return tc;
-      };
-      
+  useEffect(() => {
+    setMoviesToShow((prev) => prev.concat(movies));
+  }, [movies]);
 
-    return (
-        <div>
-            <NavBar/>
-            <Wrap justify='center' my='10'>
-                {renderTestCards()}
-            </Wrap>
-            <Footer/>
-        </div>
-    )
+  return (
+    <div>
+      <NavBar />
+      <DataList data={moviesToShow} next={setPage} />
+      <Footer />
+    </div>
+  );
 }

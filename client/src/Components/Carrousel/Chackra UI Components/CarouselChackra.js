@@ -83,8 +83,8 @@ export default function Carousel({ movies, videoSerie }) {
                                 key={index}
                                 height={'6xl'}
                             >
-                                <Link to={`/home/tv_show/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster_path} />
+                                <Link to={`/home/tv_show_details/${m.id}`}>
+                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title} />
                                 </Link>
                             </Box>
 
@@ -122,8 +122,8 @@ export default function Carousel({ movies, videoSerie }) {
                                 key={index}
                                 height={'6xl'}
                             >
-                                <Link to={`/home/movie/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster_path} />
+                                <Link to={`/home/movie_details/${m.id}`}>
+                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title}/>
                                 </Link>
                             </Box>
 

@@ -1,11 +1,15 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
+const Serie = require('../Db/Schema/serie.js');
 
 // Get TVSeries season and episodes by ID and season number:
 const getSeasonDetails = async (id, season_number) => {
   const image_route = 'https://image.tmdb.org/t/p/w400';
-
+  
+  let dataSerie = await Serie.findOne({'id': id});
+  if(!dataSerie) return 'Serie not found';
+  
   const api_general_route = 'https://api.themoviedb.org/3';
 
   const options = {

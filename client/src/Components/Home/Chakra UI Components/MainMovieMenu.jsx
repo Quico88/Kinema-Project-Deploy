@@ -6,14 +6,16 @@ import {
     VStack,
     useBreakpointValue,
   } from '@chakra-ui/react';
+
+  import { Link } from 'react-router-dom';
   
-  export default function MainMovieMenu() {
+  export default function MainMovieMenu(props) {
     return (
       <Flex
         w={'full'}
         h={'50vh'}
         backgroundImage={
-          'url(https://as01.epimg.net/meristation/imagenes/2022/05/23/reportajes/1653297680_702523_1653300885_noticia_normal.jpg)'
+          props.poster
         }
         backgroundSize={'cover'}
         backgroundPosition={'center center'}>
@@ -28,23 +30,27 @@ import {
               fontWeight={700}
               lineHeight={1.2}
               fontSize={useBreakpointValue({ base: '3xl', md: '4xl' })}>
-              Top Gun: Maverick
+              {props.title}
             </Text>
             <Stack direction={'row'}>
-              <Button
-                bg={'blue.400'}
-                rounded={'full'}
-                color={'white'}
-                _hover={{ bg: 'blue.500' }}>
-                Watch
-              </Button> 
-              <Button
-                bg={'whiteAlpha.300'}
-                rounded={'full'}
-                color={'white'}
-                _hover={{ bg: 'whiteAlpha.500' }}>
-                More information
-              </Button>
+              <Link to={`/home/movie_details/${props.id}`}>
+                <Button
+                  bg={'blue.400'}
+                  rounded={'full'}
+                  color={'white'}
+                  _hover={{ bg: 'blue.500' }}>
+                  Watch
+                </Button>
+              </Link>
+              <Link to={`/home/movie_details/${props.id}`}>
+                <Button
+                  bg={'whiteAlpha.300'}
+                  rounded={'full'}
+                  color={'white'}
+                  _hover={{ bg: 'whiteAlpha.500' }}>
+                  More information
+                </Button>
+              </Link> 
             </Stack>
           </Stack>
         </VStack>

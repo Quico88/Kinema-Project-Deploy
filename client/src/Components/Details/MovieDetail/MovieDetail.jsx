@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -6,7 +7,7 @@ import { clearMovieDetail, getMovieDetail } from "../../../Redux/actions";
 import { Box , Flex, Heading, Text, Container, Button } from "@chakra-ui/react"
 import { Icon } from '@chakra-ui/react'
 import { MdPlayArrow } from 'react-icons/md'
-import Simple from "../../NavBar/NavBar";
+import NavBar from "../../NavBar/NavBar";
 import Footer from "../../Home/Chakra UI Components/Footer";
 
 export default function MovieDetail(props) {
@@ -62,3 +63,4 @@ export default function MovieDetail(props) {
 		</div>
     )
 }
+
