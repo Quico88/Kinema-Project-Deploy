@@ -41,8 +41,8 @@ const getTrailerMovie = async (id) => {
   const apiResponse = await axios.get(
     `${api_general_route}/movie/${id}/videos?api_key=${YOUR_API_KEY_1}`
   );
-
-  const trailer = `https://www.youtube.com/watch?v=${apiResponse.data.results[0].key}`;
+  const officialTrailer = apiResponse.data.results.find(t => t.name === 'Official Trailer')
+  const trailer = `https://www.youtube.com/watch?v=${officialTrailer.key}`;
 
   return trailer;
 };

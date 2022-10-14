@@ -8,10 +8,14 @@ import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
 import Footer from '../../Home/Chakra UI Components/Footer.jsx';
 import NavBar from '../../NavBar/NavBar.jsx';
-
-export default function MovieDetail(props) {
+import { useState } from 'react';
+import './MovieDetail.css'
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer'
+export default function MovieDetail() {
+  
   const dispatch = useDispatch();
   let { id } = useParams();
+  const [playTrailer, setPlayerTrailer] = useState(false)
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -19,9 +23,21 @@ export default function MovieDetail(props) {
   }, [dispatch]);
 
   const myMovie = useSelector((state) => state.movieDetail);
-  return (
-    <div>
-      <NavBar/>
+
+  const renderTrailer = () => {
+    const idTrailer = myMovie.trailer.slice(32)
+    return (      
+        <>
+          <NavBarPlayer/>
+          <iframe height={"100%"} width={"100%"} src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`} frameborder="0" allowFullScreen className='youtube' auto></iframe>
+        </>    
+    )
+  }
+  
+  const renderPage = () => {
+    return (
+      <div>
+      <NavBar />
       {myMovie.title ? (
         <Flex
           w={'full'}
@@ -32,6 +48,7 @@ export default function MovieDetail(props) {
           boxShadow="240px 0px 128px 64px black inset"
           justify="left"
         >
+          
           <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
             <Heading
               m="2vh"
@@ -67,9 +84,9 @@ export default function MovieDetail(props) {
                 {myMovie.genres?.map((el) => el + ' ')}
               </Text>
             </Box>
-            <Box textAlign="left" mt="3vh">
-              <a href={myMovie.trailer}>
+            <Box textAlign="left" mt="3vh">      
                 <Button
+                onClick = {() => setPlayerTrailer(true)}
                   borderRadius="3vh"
                   rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
                   mr="1.5vh"
@@ -81,8 +98,7 @@ export default function MovieDetail(props) {
                   }}
                 >
                   <Text mb="0.25vh">WATCH</Text>
-                </Button>
-              </a>
+                </Button>           
               <Button borderRadius="3vh" bg="#354f52" color="white">
                 MY LIST
               </Button>
@@ -101,8 +117,14 @@ export default function MovieDetail(props) {
         </Flex>
       ) : (
         <h1>Loading</h1>
-      )}
+      )} 
       <Footer />
+    </div>
+    )
+  }
+  return (
+    <div>
+      {playTrailer ? renderTrailer() : renderPage()}     
     </div>
   );
 }

@@ -6,7 +6,6 @@ import HomeSearch from './Components/Home/HomeSearch.jsx';
 import AuthProvider from './Components/AuthContext/AuthContext.jsx';
 import LandingPage from './Components/LandingPage/LandingPage';
 import MovieDetail from './Components/Details/MovieDetail/MovieDetail';
-
 // Import style:
 import './App.css';
 import { ProtectedRoute } from './Components/AuthContext/ProtectedRoute.js';
