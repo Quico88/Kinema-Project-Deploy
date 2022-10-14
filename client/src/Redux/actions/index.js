@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 
 // Import variables of actions:
@@ -10,11 +11,15 @@ import {
   GET_SEARCH,
   GET_HOME_ALL,
   START_LOADING,
+  GET_SERIE_DETAIL,
+  CLEAR_SERIE_DETAIL,
+  GET_SEASON_DETAIL
 } from './const';
 
 
 // Actions functions
 // Get movie detail:
+
 export function getMovieDetail(id) {
   return async function (dispatch) {
     try {
@@ -81,6 +86,7 @@ export function getTvShows(page) {
   };
 }
 
+
 //Get searchQuery
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
@@ -93,5 +99,40 @@ export function getSearchByQuery(name, page) {
     } catch (error) {
       console.log(error);
     }
+    }
+    }
+
+// TVShowDetail Actions:
+export function getSerieDetail(id) {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("http://localhost:3001/tv/" + id);
+      return dispatch({
+        type: GET_SERIE_DETAIL,
+
+        payload: json.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
+
+export const clearSerieDetail = () => ({ type: CLEAR_SERIE_DETAIL })
+
+// TVShowSeasonDetail Actions:
+export function getSeasonDetail(id, season_number) {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`http://localhost:3001/season/${id}/${season_number}`);
+      return dispatch({
+        type: GET_SEASON_DETAIL,
+        payload: json.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+
