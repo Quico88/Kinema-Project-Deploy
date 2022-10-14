@@ -5,7 +5,6 @@
     const closeMenu = document.querySelector(".close")
 
 export function openAndCloseMenu(){
-    console.log(menu)
     openButton?.addEventListener("click", ()=>{
         menu.classList.add("list--show");
     });
