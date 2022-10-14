@@ -22,7 +22,6 @@ export default function AuthProvider({children}){
     const signup = async (userEmail, password, displayName) => {
         let infoUser = await createUserWithEmailAndPassword(auth, userEmail, password, displayName)
                                 .then(userFirebase => userFirebase)
-        console.log(infoUser)
         const docRef =  doc(firestore, `/users/${infoUser.user.uid}`)
         setDoc(docRef, { username: displayName, email: userEmail, admin: false, subscription: 1, subscriptionDate: Timestamp.fromDate(new Date()).toDate(), watchList: [], avatar: "https://banner2.cleanpng.com/20180920/yko/kisspng-computer-icons-portable-network-graphics-avatar-ic-5ba3c66df14d32.3051789815374598219884.jpg", active: true, rented: []   })
     }

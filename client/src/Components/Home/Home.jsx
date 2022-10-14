@@ -10,13 +10,13 @@ import { getHomeAll } from "../../Redux/actions";
 export default function Home(){
 
     const dispatch = useDispatch();
-    const { movies, loading } = useSelector( state => state)
+    const { carrousels_home, loading } = useSelector( state => state)
         
-    useEffect( () =>{ if (!movies.allCarruselsMovies) dispatch(getHomeAll()) } , [] );
+    useEffect( () =>{ if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll()) } , [] );
 
     if(!loading){
-        var movieCarrousel = movies.allCarruselsMovies;
-        var SeriesCarrousel = movies.allCarruselsSeries;
+        var movieCarrousel = carrousels_home.allCarruselsMovies;
+        var SeriesCarrousel = carrousels_home.allCarruselsSeries;
 
         if(movieCarrousel){
             var topTrendingMovie = movieCarrousel.trending[0];
@@ -28,7 +28,7 @@ export default function Home(){
         
         <div>
             <NavBar/>
-            { loading || !movies.allCarruselsMovies  ? "Loading" :
+            { loading || !carrousels_home.allCarruselsMovies  ? "Loading" :
             <div>
             <MainMovieMenu
                 title={topTrendingMovie.title}

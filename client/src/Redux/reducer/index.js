@@ -6,6 +6,7 @@ import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_HOM
 
 
 const initialState = {
+  carrousels_home: [],
   movies: [],
   series: [],
   movieDetail: [],
@@ -46,10 +47,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         seasonDetail: action.payload
+      }
     case GET_HOME_ALL:
       return {
         ...state,
-        movies: action.payload,
+        carrousels_home: action.payload,
         loading: false
       }
     case START_LOADING:
