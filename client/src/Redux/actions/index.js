@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 // Import variables of actions:
@@ -14,10 +13,7 @@ import {
   GET_SERIE_DETAIL,
   CLEAR_SERIE_DETAIL,
   GET_SEASON_DETAIL,
-  GET_SEARCH
-
 } from './const';
-
 
 // Actions functions
 // Get movie detail:
@@ -88,53 +84,54 @@ export function getTvShows(page) {
   };
 }
 
-
 //Get searchQuery
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/home/search/?page=" + page + "&name=" + name);
+      const json = await axios.get(
+        'http://localhost:3001/home/search/?page=' + page + '&name=' + name
+      );
       return dispatch({
         type: GET_SEARCH,
-        payload: json.data
-      })
+        payload: json.data,
+      });
     } catch (error) {
       console.log(error);
     }
-    }
-    }
+  };
+}
 
 // TVShowDetail Actions:
 export function getSerieDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/tv/" + id);
+      var json = await axios.get('http://localhost:3001/tv/' + id);
       return dispatch({
         type: GET_SERIE_DETAIL,
 
-        payload: json.data
-      })
+        payload: json.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
-export const clearSerieDetail = () => ({ type: CLEAR_SERIE_DETAIL })
+export const clearSerieDetail = () => ({ type: CLEAR_SERIE_DETAIL });
 
 // TVShowSeasonDetail Actions:
 export function getSeasonDetail(id, season_number) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`http://localhost:3001/season/${id}/${season_number}`);
+      var json = await axios.get(
+        `http://localhost:3001/season/${id}/${season_number}`
+      );
       return dispatch({
         type: GET_SEASON_DETAIL,
-        payload: json.data
-      })
+        payload: json.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
-
-
