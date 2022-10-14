@@ -6,6 +6,8 @@ import { clearMovieDetail, getMovieDetail } from "../../../Redux/actions";
 import { Box , Flex, Heading, Text, Container, Button } from "@chakra-ui/react"
 import { Icon } from '@chakra-ui/react'
 import { MdPlayArrow } from 'react-icons/md'
+import Simple from "../../NavBar/NavBar";
+import Footer from "../../Home/Chakra UI Components/Footer";
 
 export default function MovieDetail(props) {
     const dispatch = useDispatch();
@@ -17,9 +19,10 @@ export default function MovieDetail(props) {
     }, [dispatch])
     
     const myMovie = useSelector(state => state.movieDetail);
-    console.log(myMovie);
+    
 	return (
-	<div>
+		<div>
+			<Simple/>
 		{
 			myMovie.title ?
 			<Flex
@@ -30,7 +33,7 @@ export default function MovieDetail(props) {
 				}
 				backgroundSize={'cover'}
 				backgroundPosition={'center center'}
-				boxShadow='240px 0px 128px 64px black inset'
+				boxShadow='320px 0px 128px 64px black inset'
 				justify="left">
 					<Container maxW='900px' ms="none" ml="10vh" mt="10vh" >
 						<Heading m="2vh" size='3xl' textAlign="left" noOfLines={2} color="white" fontWeight="bold">{myMovie.title}</Heading>
@@ -55,6 +58,7 @@ export default function MovieDetail(props) {
 			</Container>
 				</Flex> : <h1>Loading</h1>
 			}	
+			<Footer/>
 		</div>
     )
 }

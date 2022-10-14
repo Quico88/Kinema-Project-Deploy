@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import { Box, IconButton, useBreakpointValue, Text, Image } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 // And react-slick as our Carousel Lib
@@ -11,13 +11,13 @@ const settings = {
     dots: true,
     arrows: false,
     fade: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 8,
     slidesToScroll: 4,
 };
 
-export default function Carousel({ movies }) {
+export default function Carousel({ movies, videoSerie }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = React.useState(null);
@@ -33,7 +33,7 @@ export default function Carousel({ movies }) {
     return (
         <Box
             position={'relative'}
-            height={'400px'}
+            height={'500px'}
             width={'full'}
             overflow={'hidden'}>
             {/* CSS files for react-slick */}
@@ -87,6 +87,33 @@ export default function Carousel({ movies }) {
                                     <img src={"https://image.tmdb.org/t/p/w300" + m.poster_path} />
                                 </Link>
                             </Box>
+
+                        )
+                    } else if (m.episode_number) {
+                        return (
+                            <a href={videoSerie}>
+                            <Box
+                                key={index}
+                                height={'6xl'}
+                                maxH="400px"
+                                maxW="300px"
+                                position="relative"
+                                bgPosition="center"
+                                bgSize="cover"
+                                bgRepeat="no-repeat"
+                                mr={"2vh"}
+                                mt="1vh"
+                            >
+                                    <Image src={m.image}></Image>
+
+                                    {m.duration ? <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name} ({m.duration} min) </Text>
+                                        : <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name}</Text>}
+                                    
+                                    <Text color={"white"} noOfLines={3} fontSize="1.2vh">{m.overview}</Text>
+                                    
+                                
+                                </Box>
+                            </a>
 
                         )
                     } else {
