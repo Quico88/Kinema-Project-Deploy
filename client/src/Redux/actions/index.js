@@ -14,6 +14,8 @@ import {
   CLEAR_SERIE_DETAIL,
   GET_SEASON_DETAIL,
   CLEAR_SEARCH,
+  CLEAR_MOVIES,
+  CLEAR_SERIES
 } from './const';
 
 // Actions functions
@@ -68,6 +70,12 @@ export function getMovies(page) {
   };
 }
 
+export function clearMovies() {
+  return {
+    type: CLEAR_MOVIES
+  }
+}
+
 // Get tvShows:
 export function getTvShows(page) {
   return async function (dispatch) {
@@ -83,6 +91,12 @@ export function getTvShows(page) {
       console.log(error);
     }
   };
+}
+
+export function clearTvShows() {
+  return {
+    type: CLEAR_SERIES
+  }
 }
 
 //searchQuery Actions:
