@@ -20,6 +20,8 @@ import {Link as RouteLink } from "react-router-dom";
 
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
+import SearchBar from './SearchBar.jsx';
+
 const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
 
 
@@ -68,9 +70,9 @@ const NavLink2 = () => (
     </Link>
   );
 
-  const color = {
-    kinemaBg: "#1d1d1d"
-  }
+const color = {
+  kinemaBg: '#1d1d1d',
+};
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -104,13 +106,15 @@ export default function Simple() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            <SearchBar />
             <Menu>
               <MenuButton
                 as={Button}
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
+                minW={0}
+              >
                 <Avatar
                   size={'sm'}
                   src={

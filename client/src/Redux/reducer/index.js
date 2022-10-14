@@ -1,13 +1,28 @@
-import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_HOME_ALL, START_LOADING  } from "../actions/const";
+// Import of actions:
+import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_HOME_ALL, START_LOADING  } from "../actions/const";
+
+// Initial state of global store:
+
 const initialState = {
   movies: [],
+  series: [],
   movieDetail: [],
   loading: false,
 };
 
+// Reducer:
 const rootReducer = (state = initialState, action) => {
-  switch (action.type)
-  {
+  switch (action.type) {
+    case GET_MOVIES:
+      return {
+        ...state,
+        movies: action.payload
+      }
+    case GET_TV_SHOWS:
+      return {
+        ...state,
+        series: action.payload
+      }
     case GET_MOVIE_DETAIL:
       return {
         ...state,
@@ -31,7 +46,6 @@ const rootReducer = (state = initialState, action) => {
       }
     default: return state;
   }
-  
 };
 
 export default rootReducer;
