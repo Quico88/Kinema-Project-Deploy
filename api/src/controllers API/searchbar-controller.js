@@ -5,8 +5,10 @@ const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
 const { YOUR_API_KEY_1 } = process.env
 
-const getSearchSeriesDB = async (name) => {
-	let dataSeries = await Serie.find({name: new RegExp(name , 'i')})
+const getSearchSeriesDB = async (name, page) => {
+  let skip = (page - 1) * 20;
+  let limit = skip + 20;
+	let dataSeries = await Serie.find({name: new RegExp(name , 'i')}).sort({ vote_average : -1 }).skip(skip).limit(limit)
   const search = dataSeries.map(e => {
     return {
       id: e.id,

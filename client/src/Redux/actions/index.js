@@ -2,17 +2,20 @@
 import axios from 'axios';
 
 // Import variables of actions:
+
 import {
   GET_MOVIE_DETAIL,
   CLEAR_MOVIE_DETAIL,
   GET_MOVIES,
   GET_TV_SHOWS,
+  GET_SEARCH,
   GET_HOME_ALL,
   START_LOADING,
   GET_SERIE_DETAIL,
   CLEAR_SERIE_DETAIL,
   GET_SEASON_DETAIL
 } from './const';
+
 
 // Actions functions
 // Get movie detail:
@@ -83,6 +86,22 @@ export function getTvShows(page) {
   };
 }
 
+
+//Get searchQuery
+export function getSearchByQuery(name, page) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3001/home/search/?page=" + page + "&name=" + name);
+      return dispatch({
+        type: GET_SEARCH,
+        payload: json.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+    }
+    }
+
 // TVShowDetail Actions:
 export function getSerieDetail(id) {
   return async function (dispatch) {
@@ -90,6 +109,7 @@ export function getSerieDetail(id) {
       var json = await axios.get("http://localhost:3001/tv/" + id);
       return dispatch({
         type: GET_SERIE_DETAIL,
+
         payload: json.data
       })
     } catch (error) {
@@ -97,6 +117,7 @@ export function getSerieDetail(id) {
     }
   }
 }
+
 export const clearSerieDetail = () => ({ type: CLEAR_SERIE_DETAIL })
 
 // TVShowSeasonDetail Actions:
@@ -113,4 +134,5 @@ export function getSeasonDetail(id, season_number) {
     }
   }
 }
+
 
