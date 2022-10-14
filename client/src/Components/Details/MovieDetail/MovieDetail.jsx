@@ -6,7 +6,6 @@ import { clearMovieDetail, getMovieDetail } from '../../../Redux/actions';
 import { Box, Flex, Heading, Text, Container, Button } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
-import YouTube from 'react-youtube'
 import Footer from '../../Home/Chakra UI Components/Footer.jsx';
 import NavBar from '../../NavBar/NavBar.jsx';
 import { useState } from 'react';
