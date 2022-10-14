@@ -13,10 +13,12 @@ import TVShowDetail from './Components/Details/TVShowDetail/TVShowDetail.jsx';
 import HomeMovies from './Components/Home/HomeMovies.jsx';
 import HomeTVShows from './Components/Home/HomeTVShows.jsx';
 import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCheckoutRent.jsx';
+import HomeSearch from './Components/Home/HomeSearch.jsx';
 
 // Import style:
 import './App.css';
 import './Components/global.css';
+
 
 
 
@@ -33,6 +35,7 @@ function App() {
           <Route path='/profile' element={<UserProfile/>}/>
           <Route path='/home/movies' element={<HomeMovies/>}/>
           <Route path='/home/tv_shows' element={<HomeTVShows/>}/>
+          <Route path='/home/search' element={<HomeSearch/>}/>
           <Route path='/home/movie_details/:id' element={<MovieDetail/>}/>
           <Route path='/home/tv_show_details/:id' element={<TVShowDetail/>}/>
       </Routes>      

@@ -2,30 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
-import { getTvShows } from "../../Redux/actions";
+import { getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
+import { useLocation, useMatch, useParams } from "react-router-dom";
 
 export default function HomeSearch() {
   const dispatch = useDispatch();
-  const series = useSelector((state) => state.series);
+  const search = useSelector((state) => state.search);
   const [page, setPage] = useState(1);
   const [searchToShow, setSearchToShow] = useState([]);
 
-  let { search } = useParams();
+  const form = useLocation().search;
+  const query = new URLSearchParams(form).get("query");
 
   useEffect(() => {
-    dispatch(getTvShows(page));
+    dispatch(getSearchByQuery(query, page));
+    console.log(query);
   }, [page]);
 
   useEffect(() => {
-    setSeriesToShow((prev) => prev.concat(series));
-  }, [series]);
+    setSearchToShow((prev) => prev.concat(search));
+  }, [search]);
 
   return (
     <div>
-        <NavBar />
-        <DataList data={seriesToShow} next={setPage} />
-        <Footer />
+      <NavBar />
+      <DataList data={searchToShow} next={setPage} />
+      <Footer />
     </div>
   );
 }

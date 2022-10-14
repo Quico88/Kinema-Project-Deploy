@@ -1,10 +1,11 @@
 // Import of actions:
-import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS  } from "../actions/const";
+import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_SEARCH  } from "../actions/const";
 
 // Initial state of global store:
 const initialState = {
   movies: [],
   series: [],
+  search: [],
   movieDetail: [],
 };
 
@@ -20,6 +21,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         series: action.payload
+      }
+    case GET_SEARCH:
+      return {
+        ...state,
+        search: action.payload
       }
     case GET_MOVIE_DETAIL:
       return {
