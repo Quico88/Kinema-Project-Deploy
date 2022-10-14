@@ -1,23 +1,33 @@
-
-import {Box, Stack, Heading, Text, Container, Input, Button, SimpleGrid, Center, Link, Checkbox, FormControl,} from "@chakra-ui/react";
-import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
-import { useAuth } from "../../AuthContext/AuthContext";
-import { useNavigate } from "react-router-dom";
-
+import {
+  Box,
+  Stack,
+  Heading,
+  Text,
+  Container,
+  Input,
+  Button,
+  SimpleGrid,
+  Center,
+  Link,
+  Checkbox,
+  FormControl,
+} from '@chakra-ui/react';
+import { FcGoogle } from 'react-icons/fc';
+import { useState } from 'react';
+import { useAuth } from '../../AuthContext/AuthContext';
+import { useNavigate, Link as LinkRouter } from 'react-router-dom';
 
 export default function Register() {
-
   const navigate = useNavigate();
-  const [error, setError] = useState()
+  const [error, setError] = useState();
 
   const [user, setUser] = useState({
-    displayName: "",
-    email: "",
-    password: "",
+    displayName: '',
+    email: '',
+    password: '',
   });
 
-  const {signup, loginWithGoogle} = useAuth()
+  const { signup, loginWithGoogle } = useAuth();
 
   function handleChange(e) {
     e.preventDefault();
@@ -27,59 +37,58 @@ export default function Register() {
     });
   }
 
-
-  async function handleSubmit(e){
-    e.preventDefault()
+  async function handleSubmit(e) {
+    e.preventDefault();
     try {
-      await signup(user.email, user.password, user.displayName)
-    navigate("/profile")
-      
+      await signup(user.email, user.password, user.displayName);
+      navigate('/profile');
     } catch (error) {
-      setError(error.message)
+      setError(error.message);
     }
   }
 
-  async function handleGoogleSignin(){
-    await loginWithGoogle()
-    navigate("/profile")
+  async function handleGoogleSignin() {
+    await loginWithGoogle();
+    navigate('/profile');
   }
 
   return (
     <Box
-      position={"relative"}
-      height={"100vh"}
-      backgroundColor={"#1D1D1D"}
-      backgroundImage={"linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url(https://www.lavanguardia.com/files/og_thumbnail/uploads/2020/12/14/5fd73c24bebce.jpeg)"}
-      backgroundRepeat={"no-repeat"}
-      backgroundSize={"cover"}
+      position={'relative'}
+      height={'100vh'}
+      backgroundColor={'#1D1D1D'}
+      backgroundImage={
+        'linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url(https://www.lavanguardia.com/files/og_thumbnail/uploads/2020/12/14/5fd73c24bebce.jpeg)'
+      }
+      backgroundRepeat={'no-repeat'}
+      backgroundSize={'cover'}
     >
       <Container
         as={SimpleGrid}
-        maxW={"7xl"}
+        maxW={'7xl'}
         columns={{ base: 1, md: 2 }}
         spacing={{ base: 10, lg: 32 }}
         py={{ base: 10, sm: 20, lg: 32 }}
       >
-        <Stack spacing={{ base: 10, md: 20 }}> 
-        </Stack>
+        <Stack spacing={{ base: 10, md: 20 }}></Stack>
         <Stack
-          bg={"rgba(17, 173, 152, 0.3)"}
-          backdropFilter={"blur(10px)"}
+          bg={'rgba(17, 173, 152, 0.3)'}
+          backdropFilter={'blur(10px)'}
           /*  opacity={".9"} */
-          rounded={"xl"}
+          rounded={'xl'}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
-          maxW={{ lg: "lg" }}
+          maxW={{ lg: 'lg' }}
         >
           <Stack spacing={4}>
             <Heading
-              color={"white"}
+              color={'white'}
               lineHeight={1.1}
-              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+              fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
             >
               Sign up
               <Text
-                as={"span"}
+                as={'span'}
                 bgGradient="linear(to-r, red.400,pink.400)"
                 bgClip="text"
               >
@@ -87,11 +96,11 @@ export default function Register() {
               </Text>
             </Heading>
           </Stack>
-          <Box as={"form"} mt={10}>
-            <Stack spacing={4} >
+          <Box as={'form'} mt={10}>
+            <Stack spacing={4}>
               <Input
                 placeholder="Username"
-                bg={"gray.100"}
+                bg={'gray.100'}
                 border={0}
                 name="displayName"
                 type="text"
@@ -99,70 +108,70 @@ export default function Register() {
                 onChange={(e) => {
                   handleChange(e);
                 }}
-                color={"gray.500"}
+                color={'gray.500'}
                 _placeholder={{
-                  color: "gray.500",
+                  color: 'gray.500',
                 }}
               />
               <FormControl>
-              <Input
-                placeholder="example@email.com"
-                bg={"gray.100"}
-                border={0}
-                name="email"
-                id={1}
-                type="email"
-                value={user.email}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-              <Input
-                placeholder="Password"
-                type="password"
-                bg={"gray.100"}
-                border={0}
-                id={3}
-                autoComplete={"none"}
-                marginTop={"20px"}
-                name="password"
-                value={user.password}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-            <Button
-              fontFamily={"heading"}
-              mt={8}
-              w={"full"}
-              bgGradient="linear(to-r, blue.400,cyan.400)"
-              color={"white"}
-              onClick={handleSubmit}
-              _hover={{
-                bgGradient: "linear(to-r, blue.600,cyan.600)",
-                boxShadow: "xl",
-              }}
-            >
-              Sign Up
-            </Button>
+                <Input
+                  placeholder="example@email.com"
+                  bg={'gray.100'}
+                  border={0}
+                  name="email"
+                  id={1}
+                  type="email"
+                  value={user.email}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  bg={'gray.100'}
+                  border={0}
+                  id={3}
+                  autoComplete={'none'}
+                  marginTop={'20px'}
+                  name="password"
+                  value={user.password}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+                <Button
+                  fontFamily={'heading'}
+                  mt={8}
+                  w={'full'}
+                  bgGradient="linear(to-r, blue.400,cyan.400)"
+                  color={'white'}
+                  onClick={handleSubmit}
+                  _hover={{
+                    bgGradient: 'linear(to-r, blue.600,cyan.600)',
+                    boxShadow: 'xl',
+                  }}
+                >
+                  Sign Up
+                </Button>
 
-            <Center>{error && <p>{error}</p> } </Center>
+                <Center>{error && <p>{error}</p>} </Center>
               </FormControl>
             </Stack>
             <Button
-              w={"full"}
-              maxW={"md"}
-              variant={"outline"}
-              backgroundColor={"white"}
-              marginTop={"30px"}
+              w={'full'}
+              maxW={'md'}
+              variant={'outline'}
+              backgroundColor={'white'}
+              marginTop={'30px'}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
@@ -172,26 +181,26 @@ export default function Register() {
             </Button>
           </Box>
           <Stack
-            direction={{ base: "flex", sm: "row" }}
-            align={"start"}
-            justify={"space-evenly"}
+            direction={{ base: 'flex', sm: 'row' }}
+            align={'start'}
+            justify={'space-evenly'}
           >
-            <Checkbox color={"white"}>Remember me</Checkbox>
-            <Link color={"gray"}>Forgot password?</Link>
+            <Checkbox color={'white'}>Remember me</Checkbox>
+            <Link color={'gray'}>Forgot password?</Link>
           </Stack>
           form
           <Stack
-            direction={{ base: "flex", sm: "row" }}
+            direction={{ base: 'flex', sm: 'row' }}
             gap={1}
-            justifyContent={"center"}
+            justifyContent={'center'}
           >
-            <Text color={"white"}>¿First Time in KINEMA? </Text>
-            <Link color={"gray"}>Sign up</Link>
+            <Text color={'white'}>You are already registered. </Text>
+            <LinkRouter to={'/login'}>
+              <Link color={'gray'}>Log in</Link>
+            </LinkRouter>
           </Stack>
         </Stack>
       </Container>
     </Box>
   );
 }
-
-
