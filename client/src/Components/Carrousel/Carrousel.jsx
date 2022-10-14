@@ -1,7 +1,6 @@
 import React from "react";
 import Carousel from "./Chackra UI Components/CarouselChackra";
 import { Link } from "react-router-dom";
-import styles from "./Carrousel.module.css";
 
 const breakPoints = [
         { width: 1, itemsToShow: 1 },
