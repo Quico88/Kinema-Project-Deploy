@@ -1,7 +1,21 @@
-
 // Import actions:
-import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_HOME_ALL, START_LOADING, GET_SERIE_DETAIL, CLEAR_SERIE_DETAIL, GET_SEASON_DETAIL, GET_SEARCH, CLEAR_SEARCH, CLEAR_MOVIES, CLEAR_SERIES  } from "../actions/const";
-
+import {
+  CLEAR_MOVIE_DETAIL,
+  GET_MOVIE_DETAIL,
+  GET_MOVIES,
+  GET_TV_SHOWS,
+  GET_HOME_ALL,
+  START_LOADING,
+  GET_SERIE_DETAIL,
+  CLEAR_SERIE_DETAIL,
+  GET_SEASON_DETAIL,
+  GET_SEARCH,
+  CLEAR_SEARCH,
+  CLEAR_MOVIES,
+  CLEAR_SERIES,
+  GET_ALL_GENRES,
+  GET_ALL_MOVIES
+} from "../actions/const";
 
 // Initial state of global store:
 const initialState = {
@@ -13,6 +27,8 @@ const initialState = {
   serieDetail: [],
   seasonDetail: [],
   loading: false,
+  allgenres: [],
+  allmovies : []
 };
 
 // Reducer:
@@ -21,65 +37,78 @@ const rootReducer = (state = initialState, action) => {
     case GET_MOVIES:
       return {
         ...state,
-        movies: action.payload
-      }
+        movies: action.payload,
+      };
     case CLEAR_MOVIES:
       return {
         ...state,
-        movies: []
-      }
+        movies: [],
+      };
     case GET_TV_SHOWS:
       return {
         ...state,
-        series: action.payload
-      }
+        series: action.payload,
+      };
     case CLEAR_SERIES:
       return {
         ...state,
-        series: []
-      }
+        series: [],
+      };
     case GET_SEARCH:
       return {
         ...state,
-        search: action.payload
-      }
-    case CLEAR_SEARCH: 
+        search: action.payload,
+      };
+    case CLEAR_SEARCH:
       return {
         ...state,
-        search: []
-      }
+        search: [],
+      };
     case GET_MOVIE_DETAIL:
       return {
         ...state,
-        movieDetail: action.payload
-      }
+        movieDetail: action.payload,
+      };
     case CLEAR_MOVIE_DETAIL:
       return {
         ...state,
-        movieDetail: []
-      }
+        movieDetail: [],
+      };
     case GET_SERIE_DETAIL:
       return {
         ...state,
-        serieDetail: action.payload
-      }
+        serieDetail: action.payload,
+      };
     case GET_SEASON_DETAIL:
       return {
         ...state,
-        seasonDetail: action.payload
-      }
+        seasonDetail: action.payload,
+      };
     case GET_HOME_ALL:
       return {
         ...state,
         carrousels_home: action.payload,
-        loading: false
-      }
+        loading: false,
+      };
     case START_LOADING:
       return {
         ...state,
-        loading: true
-      }
-    default: return state;
+        loading: true,
+      };
+ 
+    case GET_ALL_GENRES:
+      return {
+        ...state,
+        allgenres: action.payload,
+      };
+      case GET_ALL_MOVIES:
+        return {
+          ...state,
+          allmovies: action.payload,
+        };
+
+    default:
+      return state;
   }
 };
 

@@ -1,4 +1,5 @@
-import axios from 'axios';
+
+import axios from "axios";
 
 // Import variables of actions:
 
@@ -15,8 +16,10 @@ import {
   GET_SEASON_DETAIL,
   CLEAR_SEARCH,
   CLEAR_MOVIES,
-  CLEAR_SERIES
-} from './const';
+  CLEAR_SERIES,
+  GET_ALL_GENRES,
+  GET_ALL_MOVIES
+} from "./const";
 
 // Actions functions
 // Get movie detail:
@@ -24,7 +27,7 @@ import {
 export function getMovieDetail(id) {
   return async function (dispatch) {
     try {
-      const json = await axios.get('http://localhost:3001/movies/' + id);
+      const json = await axios.get("http://localhost:3001/movies/" + id);
       return dispatch({
         type: GET_MOVIE_DETAIL,
         payload: json.data,
@@ -41,7 +44,7 @@ export function getHomeAll() {
   return async function (dispatch) {
     dispatch({ type: START_LOADING });
     try {
-      var json = await axios.get('http://localhost:3001/home');
+      var json = await axios.get("http://localhost:3001/home");
       return dispatch({
         type: GET_HOME_ALL,
         payload: json.data,
@@ -57,7 +60,7 @@ export function getMovies(page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        'http://localhost:3001/home/movies/?page=' + page
+        "http://localhost:3001/home/movies/?page=" + page
       );
       return dispatch({
         type: GET_MOVIES,
@@ -72,8 +75,8 @@ export function getMovies(page) {
 
 export function clearMovies() {
   return {
-    type: CLEAR_MOVIES
-  }
+    type: CLEAR_MOVIES,
+  };
 }
 
 // Get tvShows:
@@ -81,7 +84,7 @@ export function getTvShows(page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        'http://localhost:3001/home/series/?page=' + page
+        "http://localhost:3001/home/series/?page=" + page
       );
       return dispatch({
         type: GET_TV_SHOWS,
@@ -95,8 +98,8 @@ export function getTvShows(page) {
 
 export function clearTvShows() {
   return {
-    type: CLEAR_SERIES
-  }
+    type: CLEAR_SERIES,
+  };
 }
 
 //searchQuery Actions:
@@ -104,7 +107,7 @@ export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        'http://localhost:3001/home/search/?page=' + page + '&name=' + name
+        "http://localhost:3001/home/search/?page=" + page + "&name=" + name
       );
       return dispatch({
         type: GET_SEARCH,
@@ -118,15 +121,15 @@ export function getSearchByQuery(name, page) {
 
 export function clearSearchByQuery() {
   return {
-    type: CLEAR_SEARCH
-  }
+    type: CLEAR_SEARCH,
+  };
 }
 
 // TVShowDetail Actions:
 export function getSerieDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get('http://localhost:3001/tv/' + id);
+      var json = await axios.get("http://localhost:3001/tv/" + id);
       return dispatch({
         type: GET_SERIE_DETAIL,
 
@@ -156,3 +159,32 @@ export function getSeasonDetail(id, season_number) {
     }
   };
 }
+
+export const getAllGenres = () => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("http://localhost:3001/home/genres");
+      return dispatch({
+        type: GET_ALL_GENRES,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+
+export const getAllMovies = () => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("");
+      return dispatch({
+        type: GET_ALL_MOVIES,
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

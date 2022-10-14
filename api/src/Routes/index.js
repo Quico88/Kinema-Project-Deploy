@@ -12,6 +12,8 @@ const {
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
 
+const { getAllGenresDB } = require('../controllers DB/getGenres.js');
+
 const { getMovies } = require('../controllers API/only-movies');
 
 const {
@@ -185,5 +187,16 @@ router.get('/home/series', async (req, res) => {
     res.status(400).json({Error: error.message});
   }
 })
+
+
+// Get genres from DB:
+router.get('/home/genres', async (req, res) => {
+  try {
+    const genres = await getAllGenresDB();
+    res.send(genres);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 module.exports = router;
