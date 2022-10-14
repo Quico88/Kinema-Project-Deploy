@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
-import { getTvShows } from "../../Redux/actions";
+import { clearTvShows, getTvShows } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 
 export default function HomeTVShows() {
@@ -13,6 +13,7 @@ export default function HomeTVShows() {
 
   useEffect(() => {
     dispatch(getTvShows(page));
+    return () => dispatch(clearTvShows())
   }, [page]);
 
   useEffect(() => {

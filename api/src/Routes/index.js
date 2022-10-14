@@ -178,7 +178,7 @@ router.get('/home/series', async (req, res) => {
   const { page } = req.query;
   try {
     let skip = (page - 1) * 20;
-    let limit = skip + 20;
+    let limit = 20;
     let data = await getAllSeriesDB(skip, limit);
     res.json(data);
   } catch (error) {

@@ -74,7 +74,7 @@ const color = {
   kinemaBg: '#1d1d1d',
 };
 
-export default function Simple() {
+export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

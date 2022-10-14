@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -33,6 +33,7 @@ export default function MovieDetail() {
         </>    
     )
   }
+  
   const renderPage = () => {
     return (
       <div>

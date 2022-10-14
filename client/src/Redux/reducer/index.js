@@ -1,12 +1,17 @@
-// Import of actions:
-import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_HOME_ALL, START_LOADING  } from "../actions/const";
+
+// Import actions:
+import { CLEAR_MOVIE_DETAIL, GET_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS, GET_HOME_ALL, START_LOADING, GET_SERIE_DETAIL, CLEAR_SERIE_DETAIL, GET_SEASON_DETAIL, GET_SEARCH, CLEAR_SEARCH, CLEAR_MOVIES, CLEAR_SERIES  } from "../actions/const";
+
 
 // Initial state of global store:
-
 const initialState = {
+  carrousels_home: [],
   movies: [],
   series: [],
+  search: [],
   movieDetail: [],
+  serieDetail: [],
+  seasonDetail: [],
   loading: false,
 };
 
@@ -18,10 +23,30 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         movies: action.payload
       }
+    case CLEAR_MOVIES:
+      return {
+        ...state,
+        movies: []
+      }
     case GET_TV_SHOWS:
       return {
         ...state,
         series: action.payload
+      }
+    case CLEAR_SERIES:
+      return {
+        ...state,
+        series: []
+      }
+    case GET_SEARCH:
+      return {
+        ...state,
+        search: action.payload
+      }
+    case CLEAR_SEARCH: 
+      return {
+        ...state,
+        search: []
       }
     case GET_MOVIE_DETAIL:
       return {
@@ -33,10 +58,20 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         movieDetail: []
       }
+    case GET_SERIE_DETAIL:
+      return {
+        ...state,
+        serieDetail: action.payload
+      }
+    case GET_SEASON_DETAIL:
+      return {
+        ...state,
+        seasonDetail: action.payload
+      }
     case GET_HOME_ALL:
       return {
         ...state,
-        movies: action.payload,
+        carrousels_home: action.payload,
         loading: false
       }
     case START_LOADING:

@@ -1,7 +1,6 @@
 import React from "react";
 import Carousel from "./Chackra UI Components/CarouselChackra";
 import { Link } from "react-router-dom";
-import styles from "./Carrousel.module.css";
 
 const breakPoints = [
         { width: 1, itemsToShow: 1 },
@@ -11,9 +10,9 @@ const breakPoints = [
         { width: 1600, itemsToShow: 5 },
       ];
 
-export default function Carrousel({movies}) {
+export default function Carrousel({movies, videoSerie}) {
     
   return (
-    <Carousel movies={movies}></Carousel>
+    <Carousel movies={movies} videoSerie={videoSerie}></Carousel>
   );
 }

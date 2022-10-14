@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
-import { getMovies } from "../../Redux/actions";
+import { clearMovies, getMovies } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 
 export default function HomeMovies() {
@@ -13,6 +13,7 @@ export default function HomeMovies() {
 
   useEffect(() => {
     dispatch(getMovies(page));
+    return () => dispatch(clearMovies())
   }, [page]);
 
   useEffect(() => {
