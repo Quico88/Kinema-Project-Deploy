@@ -26,11 +26,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render( 
   <ChakraProvider>
     <Provider store={store}>
-    <React.StrictMode>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-  </React.StrictMode>
     </Provider>
   </ChakraProvider>
 )
