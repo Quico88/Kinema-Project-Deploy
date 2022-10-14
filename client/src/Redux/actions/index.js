@@ -1,5 +1,8 @@
 import axios from "axios";
 
+import { GET_MOVIE_DETAIL, CLEAR_MOVIE_DETAIL, GET_HOME_ALL, START_LOADING } from "./const";
+
+
 // Import variables of actions:
 import { GET_MOVIE_DETAIL, CLEAR_MOVIE_DETAIL, GET_MOVIES, GET_TV_SHOWS } from "./const";
 
@@ -18,7 +21,18 @@ export function getMovieDetail(id) {
     }
   }
 }
+
+
 export const clearMovieDetail = () => ({type: CLEAR_MOVIE_DETAIL })
+
+export function getHomeAll(){
+  return async function (dispatch) {
+    dispatch({ type: START_LOADING});
+    try {
+      var json = await axios.get("http://localhost:3001/home");
+      return dispatch({
+        type: GET_HOME_ALL,
+
 
 // Get movies:
 export function getMovies(page) {
@@ -27,6 +41,7 @@ export function getMovies(page) {
       const json = await axios.get("http://localhost:3001/home/movies/?page=" + page);
       return dispatch({
         type: GET_MOVIES,
+
         payload: json.data
       })
     } catch (error) {
@@ -34,6 +49,7 @@ export function getMovies(page) {
     }
   }
 }
+
 
 // Get tvShows:
 export function getTvShows(page) {
@@ -49,3 +65,4 @@ export function getTvShows(page) {
     }
   }
 }
+
