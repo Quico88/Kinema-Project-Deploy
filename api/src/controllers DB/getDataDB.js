@@ -39,6 +39,7 @@ const getAllSeriesDB = async (omi, lim) => {
 	let listSeries = [];
 	for(let i = 0; i < dataSeries.length; i++) {
 		let serie = {
+			serie: true,
 			id: dataSeries[i].id,
 			name: dataSeries[i].name,
 			popularity: dataSeries[i].popularity,
