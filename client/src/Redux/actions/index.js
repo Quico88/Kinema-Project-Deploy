@@ -13,6 +13,7 @@ import {
   GET_SERIE_DETAIL,
   CLEAR_SERIE_DETAIL,
   GET_SEASON_DETAIL,
+  CLEAR_SEARCH,
 } from './const';
 
 // Actions functions
@@ -84,7 +85,7 @@ export function getTvShows(page) {
   };
 }
 
-//Get searchQuery
+//searchQuery Actions:
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
@@ -99,6 +100,12 @@ export function getSearchByQuery(name, page) {
       console.log(error);
     }
   };
+}
+
+export function clearSearchByQuery() {
+  return {
+    type: CLEAR_SEARCH
+  }
 }
 
 // TVShowDetail Actions:

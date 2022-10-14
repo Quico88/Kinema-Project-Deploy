@@ -11,3 +11,4 @@ export const START_LOADING = "START_LOADING";
 export const GET_MOVIES = "GET_MOVIES"
 export const GET_TV_SHOWS = "GET_TV_SHOWS"
 export const GET_SEARCH = "GET_SEARCH"
+export const CLEAR_SEARCH = "CLEAR_SEARCH"

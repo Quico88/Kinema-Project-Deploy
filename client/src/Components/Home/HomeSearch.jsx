@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
-import { getSearchByQuery } from "../../Redux/actions";
+import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 import { useLocation } from "react-router-dom";
 
@@ -18,6 +18,7 @@ export default function HomeSearch() {
   useEffect(() => {
     setPage(1)
     setSearchToShow([])
+    return () => dispatch(clearSearchByQuery())
   }, [query]);
 
   useEffect(() => {
