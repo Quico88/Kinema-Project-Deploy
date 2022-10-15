@@ -18,7 +18,7 @@ import {
   CLEAR_MOVIES,
   CLEAR_SERIES,
   GET_ALL_GENRES,
-  GET_ALL_MOVIES
+  GET_MOVIE_GENRE_BY_ID
 } from "./const";
 
 // Actions functions
@@ -163,7 +163,7 @@ export function getSeasonDetail(id, season_number) {
 export const getAllGenres = () => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/home/genres");
+      var json = await axios.get("http://localhost:3001/home/genres/movies");
       return dispatch({
         type: GET_ALL_GENRES,
         payload: json.data,
@@ -175,12 +175,12 @@ export const getAllGenres = () => {
 };
 
 
-export const getAllMovies = () => {
+export const getMovieGenreByID = (id,page) => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("");
+      var json = await axios.get(`http://localhost:3001/home/genres/movies/id?page=${page}&id=${id}`);
       return dispatch({
-        type: GET_ALL_MOVIES,
+        type: GET_MOVIE_GENRE_BY_ID,
         payload: json.data,
       });
     } catch (error) {
@@ -188,3 +188,5 @@ export const getAllMovies = () => {
     }
   };
 };
+
+
