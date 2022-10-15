@@ -18,8 +18,6 @@ const {
 const {getGenresFromAPI}
  = require("../controllers API/genresMovies.js")
 
-const { getAllGenresDB } = require('../controllers DB/getGenres.js');
-
 const { getMovies } = require('../controllers API/only-movies');
 
 const {
