@@ -6,7 +6,7 @@ import { getSerieDetail, clearSerieDetail, getSeasonDetail } from "../../../Redu
 import { Box , Flex, Heading, Text, Container, Button, Menu, MenuItem, MenuButton,  MenuList, Select} from "@chakra-ui/react"
 import { Icon } from '@chakra-ui/react'
 import { MdPlayArrow } from 'react-icons/md'
-import Simple from "../../NavBar/NavBar";
+import NavBar from "../../NavBar/NavBar";
 import Footer from "../../Home/Chakra UI Components/Footer";
 import CarouselTvShow from "../../Carrousel/Chackra UI Components/CarouselTVShowDetail";
 
@@ -35,14 +35,16 @@ export default function TVShowDetail() {
       totalSeasons.push("Season " + [i]);
     }
   }
-  console.log(mySeason);
 
     return (
-        <div>
-        <Simple/>
+      <Flex direction="column">
+        <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+        </Flex>
     {
         mySerie.title ?
-        <Flex
+        <Flex as="main" 
+            mt={16}
             w={'100%'}
             h={'85vh'}
             backgroundImage={
@@ -90,7 +92,7 @@ export default function TVShowDetail() {
         }	
         
         <Footer/>
-    </div>
+      </Flex>
 )
     
 }
