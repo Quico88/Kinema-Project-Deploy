@@ -38,10 +38,7 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="form-background">
-      {' '}
       <FormControl
-        // onSubmit={() => handleSubmit()}
-        // backgroundImage={img2}
         display="flex"
         height={'100vh'}
         width={'100vw'}
