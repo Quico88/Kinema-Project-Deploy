@@ -6,8 +6,6 @@ import {Link as RouteLink } from "react-router-dom";
 import axios from "axios"
 import img from "../../../Assets/premiumiconkine.png"
 import img2 from "../../../Assets/fondopayment2.jpg"
-//TODO: CAMBIAR BOOTSTRAP POR CHAKRAUI
-import "bootswatch/dist/lux/bootstrap.min.css"
 
 const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
 
@@ -29,7 +27,6 @@ const CheckoutForm = () => {
     amount: 5000
     })
     }
-    
     }
 
     return (
@@ -67,7 +64,6 @@ const CheckoutForm = () => {
           </FormControl>
           </form>
     )
-
 }
 
 export default function PaymentCheckout() {
