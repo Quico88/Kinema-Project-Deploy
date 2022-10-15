@@ -7,10 +7,16 @@ const stripe = new Stripe(process.env.STRIPE_KEY)
 // const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
+
+const {getMoviesGenreById} = require("../controllers API/genresMovies")
+
 const {
   getMoviesByIdApi,
   getTrailerMovie,
 } = require('../controllers API/detailedMovie.js');
+
+const {getGenresFromAPI}
+ = require("../controllers API/genresMovies.js")
 
 const { getMovies } = require('../controllers API/only-movies');
 
@@ -185,5 +191,27 @@ router.get('/home/series', async (req, res) => {
     res.status(400).json({Error: error.message});
   }
 })
+
+
+// Get genres from DB:
+router.get('/home/genres/movies', async (req, res) => {
+  try {
+    const genres = await getGenresFromAPI()
+    res.send(genres);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Get movies by genre and page:
+router.get('/movies_by_genre', async (req, res) => {
+  const {id,page} = req.query
+  try {
+    const genres = await getMoviesGenreById(id,page)
+    res.send(genres);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 module.exports = router;
