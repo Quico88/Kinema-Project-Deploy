@@ -11,13 +11,13 @@ const settings = {
     dots: true,
     arrows: false,
     fade: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 8,
     slidesToScroll: 4,
 };
 
-export default function Carousel({ movies, videoSerie }) {
+export default function CarouselHome({ movies, videoSerie }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = React.useState(null);
@@ -33,8 +33,9 @@ export default function Carousel({ movies, videoSerie }) {
     return (
         <Box
             position={'relative'}
-            height={'500px'}
+            height={'350px'}
             width={'full'}
+            mb="5vh"
             overflow={'hidden'}>
             {/* CSS files for react-slick */}
             <link
@@ -82,48 +83,32 @@ export default function Carousel({ movies, videoSerie }) {
                             <Box
                                 key={index}
                                 height={'6xl'}
+                                _hover={{
+                                    transform: 'scale(1.05)',
+                                    transition: '0.7s',
+                                  }} 
                             >
                                 <Link to={`/home/tv_show_details/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title} />
+                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title} />
                                 </Link>
                             </Box>
 
                         )
-                    } else if (m.episode_number) {
-                        return (
-                            <a href={videoSerie}>
-                            <Box
-                                key={index}
-                                height={'6xl'}
-                                maxH="400px"
-                                maxW="300px"
-                                position="relative"
-                                bgPosition="center"
-                                bgSize="cover"
-                                bgRepeat="no-repeat"
-                                mr={"2vh"}
-                                mt="1vh"
-                            >
-                                    <Image src={m.image}></Image>
-
-                                    {m.duration ? <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name} ({m.duration} min) </Text>
-                                        : <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name}</Text>}
-                                    
-                                    <Text color={"white"} noOfLines={3} fontSize="1.2vh">{m.overview}</Text>
-                                    
-                                
-                                </Box>
-                            </a>
-
-                        )
-                    } else {
+                    }  else {
                         return (
                             <Box
                                 key={index}
                                 height={'6xl'}
+                                zIndex={20}
+                              
                             >
-                                <Link to={`/home/movie_details/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title}/>
+                                <Link to={`/home/movie_details/${m.id}`} >
+                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster}  transition='0.4s' _hover={{
+                                    transform: 'scale(1.10)',
+                                    transition: '0.7s',
+                                    shadow: "dark-lg",
+                                    transitionTimingFunction: "ease-in-out"
+                                  }}  alt={m.title}/>
                                 </Link>
                             </Box>
 
