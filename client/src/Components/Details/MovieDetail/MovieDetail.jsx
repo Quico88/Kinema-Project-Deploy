@@ -38,6 +38,7 @@ export default function MovieDetail() {
           allowFullScreen
           className="youtube"
           auto
+          title="trailer"
         ></iframe>
       </>
     );
@@ -73,9 +74,13 @@ export default function MovieDetail() {
                 {myMovie.title}
               </Heading>
               <Text fontSize="2vh" textAlign="left" color="white">
-                {' '}
-                {myMovie.description}{' '}
+                {myMovie.description}
               </Text>
+              <br />
+              <Text fontSize="2vh" textAlign="left" color="white">
+                Released: {myMovie.release_date}
+              </Text>
+
               <Box mt="3.5vh" mb="3vh">
                 <Text
                   justify="left"
