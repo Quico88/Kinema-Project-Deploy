@@ -178,7 +178,7 @@ export const getAllGenres = () => {
 export const getMovieGenreByID = (id,page) => {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`http://localhost:3001/home/genres/movies/id?page=${page}&id=${id}`);
+      var json = await axios.get(`http://localhost:3001/movies_by_genre?page=${page}&id=${id}`);
       return dispatch({
         type: GET_MOVIE_GENRE_BY_ID,
         payload: json.data,
