@@ -4,6 +4,7 @@ import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import { clearTvShows, getTvShows } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
+import { Flex } from "@chakra-ui/react";
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ export default function HomeTVShows() {
 
   return (
     <div>
-        <NavBar />
+        <Flex as="header" position="fixed" w="100%" zIndex={200}>
+          <NavBar/>
+        </Flex>
         <DataList data={seriesToShow} next={setPage} />
         <Footer />
     </div>

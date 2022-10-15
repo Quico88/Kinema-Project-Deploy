@@ -5,6 +5,7 @@ import MainMovieMenu from "./Chakra UI Components/MainMovieMenu";
 import Carrousel from "../Carrousel/Carrousel.jsx"
 import { useDispatch, useSelector } from "react-redux";
 import { getHomeAll } from "../../Redux/actions";
+import { Flex, Stack } from "@chakra-ui/react";
 
 
 export default function Home(){
@@ -26,10 +27,13 @@ export default function Home(){
 
     return (
         
-        <div>
-            <NavBar/>
+        <Flex
+            direction="column">
+            <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+            </Flex>
             { loading || !carrousels_home.allCarruselsMovies  ? "Loading" :
-            <div>
+            <Stack>
             <MainMovieMenu
                 title={topTrendingMovie.title}
                 id={topTrendingMovie.id}
@@ -41,9 +45,9 @@ export default function Home(){
             <Carrousel movies={movieCarrousel.upComing}/>
             <Carrousel movies={SeriesCarrousel.topRatedSeries}/>
             <Carrousel movies={SeriesCarrousel.latestSeries}/>
-            </div>
+            </Stack>
             }
             <Footer/>
-        </div>
+        </Flex>
     )
 }

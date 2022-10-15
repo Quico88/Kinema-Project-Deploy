@@ -5,6 +5,7 @@ import Footer from "./Chakra UI Components/Footer";
 import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 import { useLocation } from "react-router-dom";
+import { Flex } from "@chakra-ui/react";
 
 export default function HomeSearch() {
   const dispatch = useDispatch();
@@ -31,7 +32,9 @@ export default function HomeSearch() {
 
   return (
     <div>
-      <NavBar />
+      <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+      </Flex>
       <DataList data={searchToShow} next={setPage} />
       <Footer />
     </div>

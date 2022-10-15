@@ -21,7 +21,9 @@ export default function MovieDetail(props) {
   const myMovie = useSelector((state) => state.movieDetail);
   return (
     <div>
-      <NavBar/>
+      <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+      </Flex>
       {myMovie.title ? (
         <Flex
           w={'full'}

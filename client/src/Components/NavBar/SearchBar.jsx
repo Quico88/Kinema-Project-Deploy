@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
-import { Box, Flex, Spacer } from '@chakra-ui/layout';
+import { Box, Flex } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 

@@ -4,6 +4,7 @@ import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import { clearMovies, getMovies } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
+import { Flex } from "@chakra-ui/react";
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ export default function HomeMovies() {
 
   return (
     <div>
-      <NavBar />
+      <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+      </Flex>
       <DataList data={moviesToShow} next={setPage} />
       <Footer />
     </div>
