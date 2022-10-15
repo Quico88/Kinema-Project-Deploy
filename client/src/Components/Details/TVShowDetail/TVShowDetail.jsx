@@ -89,6 +89,16 @@ export default function TVShowDetail() {
               {' '}
               {mySerie.description}{' '}
             </Text>
+            <br />
+            <Text
+              fontSize="2vh"
+              textAlign="left"
+              color="white"
+              maxW="80vh"
+              noOfLines={4}
+            >
+              Released: {mySerie.release_date_first_episode}
+            </Text>
             <Box mt="3.5vh" mb="3vh">
               <Text
                 justify="left"
