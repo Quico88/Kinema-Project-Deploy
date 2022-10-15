@@ -130,7 +130,9 @@ export default function NavBar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Profile</MenuItem>
+                <RouteLink to='/profile'>
+                  <MenuItem>Profile</MenuItem>
+                </RouteLink>
                 <MenuItem>Watchlist</MenuItem>
                 <MenuDivider />
                 <MenuItem>Sign out</MenuItem>
