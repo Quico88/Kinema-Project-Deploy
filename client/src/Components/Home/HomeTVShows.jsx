@@ -22,12 +22,13 @@ export default function HomeTVShows() {
   }, [series]);
 
   return (
-    <div>
+    <Flex direction="column">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
           <NavBar/>
         </Flex>
-        <DataList data={seriesToShow} next={setPage} />
-        <Footer />
-    </div>
+        <Flex as="main" mt={16} w="100%" direction='column'></Flex>
+          <DataList data={seriesToShow} next={setPage} />
+          <Footer />
+    </Flex>
   );
 }

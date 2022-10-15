@@ -31,12 +31,14 @@ export default function HomeSearch() {
   }, [search]);
 
   return (
-    <div>
+    <Flex direction="column">
       <Flex as="header" position="fixed" w="100%" zIndex={200}>
-                <NavBar/>
+        <NavBar/>
       </Flex>
-      <DataList data={searchToShow} next={setPage} />
-      <Footer />
-    </div>
+      <Flex as="main" mt={16} w="100%" direction='column'>
+        <DataList data={searchToShow} next={setPage} />
+        <Footer />
+      </Flex>
+    </Flex>
   );
 }

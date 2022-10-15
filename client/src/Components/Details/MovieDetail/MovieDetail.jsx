@@ -20,12 +20,14 @@ export default function MovieDetail(props) {
 
   const myMovie = useSelector((state) => state.movieDetail);
   return (
-    <div>
+    <Flex
+        direction="column">
       <Flex as="header" position="fixed" w="100%" zIndex={200}>
                 <NavBar/>
       </Flex>
       {myMovie.title ? (
-        <Flex
+        <Flex as="main" 
+          mt={16}
           w={'full'}
           h={'85vh'}
           backgroundImage={myMovie.back_poster}
@@ -105,6 +107,6 @@ export default function MovieDetail(props) {
         <h1>Loading</h1>
       )}
       <Footer />
-    </div>
+    </Flex>
   );
 }

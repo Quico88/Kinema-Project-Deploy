@@ -38,13 +38,14 @@ export default function TVShowDetail() {
   console.log(mySeason);
 
     return (
-        <div>
+      <Flex direction="column">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
                 <NavBar/>
         </Flex>
     {
         mySerie.title ?
-        <Flex
+        <Flex as="main" 
+            mt={16}
             w={'full'}
             h={'85vh'}
             backgroundImage={
@@ -92,7 +93,7 @@ export default function TVShowDetail() {
         }	
         
         <Footer/>
-    </div>
+      </Flex>
 )
     
 }
