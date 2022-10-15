@@ -35,7 +35,8 @@ export default function CarouselHome({ movies, videoSerie }) {
             position={'relative'}
             height={'350px'}
             width={'full'}
-            mb="5vh"
+            mt="5vh"
+            mb="3vh"
             overflow={'hidden'}>
             {/* CSS files for react-slick */}
             <link
@@ -100,10 +101,10 @@ export default function CarouselHome({ movies, videoSerie }) {
                                 key={index}
                                 height={'6xl'}
                                 zIndex={20}
-                              
+                          
                             >
                                 <Link to={`/home/movie_details/${m.id}`} >
-                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster}  transition='0.4s' _hover={{
+                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster}  transition='0.4s'     _hover={{
                                     transform: 'scale(1.10)',
                                     transition: '0.7s',
                                     shadow: "dark-lg",

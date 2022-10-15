@@ -12,7 +12,7 @@ const settings = {
     fade: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 4,
 };
 
@@ -24,7 +24,7 @@ export default function CarouselTvShow({ movies, videoSerie }) {
     // These are the breakpoints which changes the position of the
     // buttons as the screen size changes
     const top = useBreakpointValue({ base: '90%', md: '35%' });
-    const side = useBreakpointValue({ base: '30%', md: '10px' });
+    const side = useBreakpointValue({ base: '30%', md: '0px' });
 
     // These are the images used in the slide
     const cards = movies;
@@ -33,7 +33,8 @@ export default function CarouselTvShow({ movies, videoSerie }) {
         <Box
             position={'relative'}
             height={'270px'}
-            width={'full'}
+            width={'105%'}
+        
             overflow={'hidden'}>
             {/* CSS files for react-slick */}
             <link
@@ -49,7 +50,8 @@ export default function CarouselTvShow({ movies, videoSerie }) {
             />
             {/* Left Icon */}
             <IconButton
-                aria-label="left-arrow"
+          aria-label="left-arrow"
+
                 colorScheme="messenger"
                 borderRadius="full"
                 position="absolute"
@@ -83,7 +85,7 @@ export default function CarouselTvShow({ movies, videoSerie }) {
                                
                                 maxW={"260px"}
                                 key={index}
-                                mr={"3vh"}
+                                m={"5vh"}
                                 mt="1vh"
                                 transition='0.4s'
                                _hover={{
