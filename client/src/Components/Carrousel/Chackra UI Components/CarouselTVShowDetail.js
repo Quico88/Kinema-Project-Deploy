@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, IconButton, useBreakpointValue, Text, Image } from '@chakra-ui/react';
+import { Box, IconButton, useBreakpointValue, Text, Image, Link } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
 
 // Settings for the slider
 const settings = {
@@ -13,19 +12,19 @@ const settings = {
     fade: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 8,
+    slidesToShow: 5,
     slidesToScroll: 4,
 };
 
-export default function Carousel({ movies, videoSerie }) {
+export default function CarouselTvShow({ movies, videoSerie }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = React.useState(null);
 
     // These are the breakpoints which changes the position of the
     // buttons as the screen size changes
-    const top = useBreakpointValue({ base: '90%', md: '50%' });
-    const side = useBreakpointValue({ base: '30%', md: '10px' });
+    const top = useBreakpointValue({ base: '90%', md: '35%' });
+    const side = useBreakpointValue({ base: '30%', md: '0px' });
 
     // These are the images used in the slide
     const cards = movies;
@@ -33,8 +32,9 @@ export default function Carousel({ movies, videoSerie }) {
     return (
         <Box
             position={'relative'}
-            height={'500px'}
-            width={'full'}
+            height={'270px'}
+            width={'105%'}
+        
             overflow={'hidden'}>
             {/* CSS files for react-slick */}
             <link
@@ -50,7 +50,8 @@ export default function Carousel({ movies, videoSerie }) {
             />
             {/* Left Icon */}
             <IconButton
-                aria-label="left-arrow"
+          aria-label="left-arrow"
+
                 colorScheme="messenger"
                 borderRadius="full"
                 position="absolute"
@@ -75,60 +76,34 @@ export default function Carousel({ movies, videoSerie }) {
                 <BiRightArrowAlt />
             </IconButton>
             {/* Slider */}
-            <Slider {...settings} ref={(slider) => setSlider(slider)}>
+            <Slider {...settings} ref={(slider) => setSlider(slider)} >
                 {cards.map((m, index) => {
-                    if (m.serie) {
+                  if (m.episode_number) {
                         return (
-                            <Box
+                          
+                          <Box
+                               
+                                maxW={"260px"}
                                 key={index}
-                                height={'6xl'}
-                            >
-                                <Link to={`/home/tv_show_details/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title} />
-                                </Link>
-                            </Box>
-
-                        )
-                    } else if (m.episode_number) {
-                        return (
-                            <a href={videoSerie}>
-                            <Box
-                                key={index}
-                                height={'6xl'}
-                                maxH="400px"
-                                maxW="300px"
-                                position="relative"
-                                bgPosition="center"
-                                bgSize="cover"
-                                bgRepeat="no-repeat"
-                                mr={"2vh"}
+                                m={"5vh"}
                                 mt="1vh"
-                            >
-                                    <Image src={m.image}></Image>
+                                transition='0.4s'
+                               _hover={{
+                                 transform: 'scale(1.07)',
+                                 transition: '0.8s',
+                            }}>
+                            <Link href={videoSerie} position="relative" w={"250px"}>
+                                    <Image src={m.image} borderRadius='0.5vh' ></Image>
 
                                     {m.duration ? <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name} ({m.duration} min) </Text>
                                         : <Text color={"white"} fontWeight="600"> {m.episode_number}.{m.name}</Text>}
                                     
                                     <Text color={"white"} noOfLines={3} fontSize="1.2vh">{m.overview}</Text>
                                     
-                                
+                                    </Link> 
                                 </Box>
-                            </a>
-
                         )
-                    } else {
-                        return (
-                            <Box
-                                key={index}
-                                height={'6xl'}
-                            >
-                                <Link to={`/home/movie_details/${m.id}`}>
-                                    <img src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title}/>
-                                </Link>
-                            </Box>
-
-                        )
-                    }
+                    } 
                 })
                 }
 

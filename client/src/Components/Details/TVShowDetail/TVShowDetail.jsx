@@ -8,7 +8,7 @@ import { Icon } from '@chakra-ui/react'
 import { MdPlayArrow } from 'react-icons/md'
 import Simple from "../../NavBar/NavBar";
 import Footer from "../../Home/Chakra UI Components/Footer";
-import Carrousel from "../../Carrousel/Carrousel";
+import CarouselTvShow from "../../Carrousel/Chackra UI Components/CarouselTVShowDetail";
 
 
 
@@ -17,7 +17,7 @@ export default function TVShowDetail() {
     let { id } = useParams();
     
     useEffect(() => {
-        dispatch(clearSerieDetail());
+      dispatch(clearSerieDetail());
       dispatch(getSerieDetail(id));
       dispatch(getSeasonDetail(id, 1));
     }, [dispatch])
@@ -43,7 +43,7 @@ export default function TVShowDetail() {
     {
         mySerie.title ?
         <Flex
-            w={'full'}
+            w={'100%'}
             h={'85vh'}
             backgroundImage={
                 mySerie.back_poster
@@ -52,8 +52,8 @@ export default function TVShowDetail() {
             backgroundPosition={'center center'}
             boxShadow='320px 0px 128px 64px black inset'
             justify="left">
-                <Container maxW='full' ms="none" ml="10vh" mt="3vh" >
-                    <Heading m="2vh" size='3xl' textAlign="left" noOfLines={2} color="white" fontWeight="bold">{mySerie.title}</Heading>
+                <Container maxW='90%' ms="none" ml="10vh" mt="3vh" >
+                    <Heading mb="1.5vh" size='3xl' textAlign="left" noOfLines={2} color="white" fontWeight="bold">{mySerie.title}</Heading>
                     <Text fontSize='2vh' textAlign="left" color="white" maxW="80vh" noOfLines={4}> {mySerie.description} </Text>
                     <Box mt="3.5vh" mb="3vh">
                         <Text justify="left" textAlign="left" fontWeight="bold" fontSize="2.5vh" color="#d90429">Genres</Text>
@@ -70,7 +70,7 @@ export default function TVShowDetail() {
                             </Button>
                         </a>
                     <Button borderRadius='3vh' bg="#354f52" color="white" mr="1.5vh">MY LIST</Button>
-                    <Select borderRadius='1.5vh' onChange={e=> handleSeason(e)} bg="#233d4d" w="15vh" color="white" mt="2vh">
+                    <Select  borderRadius='0vh' focusBorderColor="#233d4d" onChange={e=> handleSeason(e)} bg="#233d4d" w="15vh" color="white" mt="2vh">
                       {
                         totalSeasons?.map((el, index) => {
                           return (
@@ -83,7 +83,7 @@ export default function TVShowDetail() {
             </Box>
                 <Text textAlign="left" fontWeight="500" fontSize="2.3vh" color="#ffd000" mt="2.5vh">Rating: {Math.round(mySerie.rating * 100) / 100} || User reviews: {mySerie.user_reviews} </Text>
                 {
-          mySeason.id? <Carrousel movies={mySeason.episodes} videoSerie={mySerie.trailer}></Carrousel> : null
+          mySeason.id? <CarouselTvShow movies={mySeason.episodes} videoSerie={mySerie.trailer} ></CarouselTvShow> : null
         }
         </Container>
             </Flex> : <h1>Loading</h1>
