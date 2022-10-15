@@ -203,7 +203,8 @@ router.get('/home/genres/movies', async (req, res) => {
   }
 });
 
-router.get('/home/genres/movies/id', async (req, res) => {
+// Get movies by genre and page:
+router.get('/movies_by_genre', async (req, res) => {
   const {id,page} = req.query
   try {
     const genres = await getMoviesGenreById(id,page)
