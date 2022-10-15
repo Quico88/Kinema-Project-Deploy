@@ -63,6 +63,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         serieDetail: action.payload
       }
+    case CLEAR_SERIE_DETAIL:
+      return {
+        ...state,
+        serieDetail: []
+      }
     case GET_SEASON_DETAIL:
       return {
         ...state,
