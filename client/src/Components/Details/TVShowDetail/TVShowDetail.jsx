@@ -35,7 +35,6 @@ export default function TVShowDetail() {
       totalSeasons.push("Season " + [i]);
     }
   }
-  console.log(mySeason);
 
     return (
       <Flex direction="column">
