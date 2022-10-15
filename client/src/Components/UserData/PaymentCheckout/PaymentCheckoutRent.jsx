@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Image, FormControl, Text, Link } from '@chakra-ui/react';
+import { Box, Button, Image, FormControl, Text } from '@chakra-ui/react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -9,11 +9,8 @@ import {
 } from '@stripe/react-stripe-js';
 import { Link as RouteLink } from 'react-router-dom';
 import axios from 'axios';
-// import img from '../../../Assets/logo3.png';
-// import img2 from '../../../Assets/fondopayment2.jpg';
-
-// TODO: CAMBIAR BOOTSTRAP POR CHAKRAUI
-import 'bootswatch/dist/lux/bootstrap.min.css';
+import img from '../../../Assets/logo3.png';
+import "./PaymentCheckout.css"
 
 const stripePromise = loadStripe(
   'pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL'
@@ -40,16 +37,12 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {' '}
+    <form onSubmit={handleSubmit} className="form-background">
       <FormControl
-        // onSubmit={() => handleSubmit()}
-        // backgroundImage={img2}
         display="flex"
         height={'100vh'}
         width={'100vw'}
       >
-        <button>PROBANDO</button>
         <Box
           marginTop={'20px'}
           justifyContent={'center'}
@@ -87,7 +80,7 @@ const CheckoutForm = () => {
               <Image
                 paddingTop={'15px'}
                 align={'center'}
-                // src={img}
+                src={img}
                 objectFit="cover"
                 borderRadius="full"
                 boxSize="300px"
@@ -115,10 +108,9 @@ const CheckoutForm = () => {
               <CardElement />
             </Box>
             <Box align={'center'} paddingTop={'10px'}>
-              <Button align={'center'} background={'#0af1c5'} size="md">
+              <button className='btn-submit'>
                 RENT
-              </Button>
-              <button>hola</button>
+              </button>
             </Box>
           </Box>
         </Box>
