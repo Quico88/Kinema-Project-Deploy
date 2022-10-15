@@ -78,6 +78,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         serieDetail: action.payload,
       };
+    case CLEAR_SERIE_DETAIL:
+      return {
+        ...state,
+        serieDetail: [],
+      };
     case GET_SEASON_DETAIL:
       return {
         ...state,
@@ -94,7 +99,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
- 
     case GET_ALL_GENRES:
       return {
         ...state,
@@ -105,7 +109,6 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           movies: action.payload,
         };
-
     default:
       return state;
   }

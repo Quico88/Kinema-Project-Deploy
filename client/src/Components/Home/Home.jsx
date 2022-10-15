@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import MainMovieMenu from "./Chakra UI Components/MainMovieMenu";
-import Carrousel from "../Carrousel/Carrousel.jsx"
+import CarouselHome from "../Carrousel/Chackra UI Components/CarouselHome";
 import { useDispatch, useSelector } from "react-redux";
 import { getHomeAll } from "../../Redux/actions";
+import { Container, Flex, Stack } from "@chakra-ui/react";
 
 
 export default function Home(){
@@ -23,27 +24,30 @@ export default function Home(){
         }
     }
 
-
-    return (
-        
-        <div>
-            <NavBar/>
-            { loading || !carrousels_home.allCarruselsMovies  ? "Loading" :
-            <div>
-            <MainMovieMenu
-                title={topTrendingMovie.title}
-                id={topTrendingMovie.id}
-                poster={topTrendingMovie.back_poster}/>
-            <Carrousel movies={movieCarrousel.trending}/>
-            <Carrousel movies={movieCarrousel.on_theaters}/>
-            <Carrousel movies={movieCarrousel.populars}/>
-            <Carrousel movies={movieCarrousel.topRated}/>
-            <Carrousel movies={movieCarrousel.upComing}/>
-            <Carrousel movies={SeriesCarrousel.topRatedSeries}/>
-            <Carrousel movies={SeriesCarrousel.latestSeries}/>
-            </div>
+    return (       
+          <Flex direction="column">
+            <Flex as="header" position="fixed" w="100%" zIndex={200}>
+                <NavBar/>
+            </Flex>
+            <Flex as="main" mt={16} w="100%" direction='column'>
+              { loading || !carrousels_home.allCarruselsMovies  ? "Loading" :
+              <Stack>
+              <MainMovieMenu
+                  title={topTrendingMovie.title}
+                  id={topTrendingMovie.id}
+                  poster={topTrendingMovie.back_poster}/>
+              <CarouselHome movies={movieCarrousel.trending}/>
+              <CarouselHome movies={movieCarrousel.on_theaters}/>
+              <CarouselHome movies={movieCarrousel.populars}/>
+              <CarouselHome movies={movieCarrousel.topRated}/>
+              <CarouselHome movies={movieCarrousel.upComing}/>
+              <CarouselHome movies={SeriesCarrousel.topRatedSeries}/>
+              <CarouselHome movies={SeriesCarrousel.latestSeries}/>
+              </Stack>
             }
             <Footer/>
-        </div>
+           </Flex>
+        </Flex>
+
     )
 }

@@ -5,6 +5,7 @@ import {
   HStack,
   Link,
   IconButton,
+  Image,
   Button,
   Menu,
   MenuButton,
@@ -21,6 +22,8 @@ import {Link as RouteLink } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 import SearchBar from './SearchBar.jsx';
+import logo from '../../Assets/logo.png';
+import { color } from '../globalStyles';
 
 const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
 
@@ -30,10 +33,11 @@ const NavLink1 = () => (
       px={2}
       py={1}
       rounded={'md'}
-      color='gray.400'
+      fontWeight='300'
+      color={color.textLinkUnselected}
       _hover={{
         textDecoration: 'none',
-        color: 'white',
+        color: color.textLinkSelected,
       }}
     >
         {Links[0]}
@@ -45,10 +49,11 @@ const NavLink2 = () => (
       px={2}
       py={1}
       rounded={'md'}
-      color='gray.400'
+      color={color.textLinkUnselected}
+      fontWeight='300'
       _hover={{
         textDecoration: 'none',
-        color: 'white',
+        color: color.textLinkSelected,
       }}
       >
           {Links[1]}
@@ -60,26 +65,23 @@ const NavLink2 = () => (
       px={2}
       py={1}
       rounded={'md'}
-      color='gray.400'
+      color={color.textLinkUnselected}
+      fontWeight='300'
       _hover={{
         textDecoration: 'none',
-        color: 'white',
+        color: color.textLinkSelected,
       }}
      >
           {Links[2]}
     </Link>
   );
 
-const color = {
-  kinemaBg: '#1d1d1d',
-};
-
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Box bg={color.kinemaBg} px={4}>
+      <Box bg={color.kinemaBg} px={4} w='100%'>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -89,7 +91,12 @@ export default function NavBar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            <Box><Image 
+              boxSize='100px'
+              objectFit='cover'
+              src={logo} 
+              alt='Logo-kinema'/>
+            </Box>
             <HStack
               as={'nav'}
               spacing={4}

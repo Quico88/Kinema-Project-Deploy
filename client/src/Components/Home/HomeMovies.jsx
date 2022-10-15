@@ -4,14 +4,13 @@ import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import { clearMovies, getMovies, getAllGenres, getMovieGenreByID } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
+import { Flex } from "@chakra-ui/react";
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
   const allGenres = useSelector((state) => state.allgenres)
   const [genero, setGenero] = useState("All")
-
-
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
 
@@ -21,7 +20,6 @@ export default function HomeMovies() {
     }
     else if (page !== 1) {
       dispatch(getMovieGenreByID(genero, page))
-
     };
   }, [page])
 
@@ -40,12 +38,9 @@ export default function HomeMovies() {
     return () => dispatch(clearMovies())
   }, [genero]);
 
-
   useEffect(() => {
     setMoviesToShow((prev) => prev.concat(movies));
   }, [movies]);
-
-
 
   function handleGenres(e) {
     e.preventDefault()
@@ -59,22 +54,22 @@ export default function HomeMovies() {
     setGenero(variable)
   }
 
-
   return (
-    <div>
-      <NavBar />
-      <select onChange={(e) => handleGenres(e)}>
-        <option>All</option>
-        {
-
-          allGenres.map((g) => (
-            <option value={g.name} key={g.id}>{g.name}</option>
-
-          ))}
-      </select>
-
-      <DataList data={moviesToShow} next={setPage} />
-      <Footer />
-    </div>
+    <Flex direction="column">
+      <Flex as="header" position="fixed" w="100%" zIndex={200}>
+        <NavBar/>
+      </Flex>
+       <Flex as="main" mt={16} w="100%" direction='column'>
+        <select onChange={(e) => handleGenres(e)}>
+          <option>All</option>
+          {
+           allGenres.map((g) => (
+             <option value={g.name} key={g.id}>{g.name}</option>
+           ))}
+        </select>
+       <DataList data={moviesToShow} next={setPage} />
+       <Footer />       
+      </Flex>
+    </Flex>
   );
 }
