@@ -120,7 +120,7 @@ export default function MovieDetail() {
         <h1>Loading</h1>
       )} 
       <Footer />
-    </Flex>
+    </div>
     )
   }
   return (
