@@ -36,96 +36,98 @@ export default function MovieDetail() {
   
   const renderPage = () => {
     return (
-      <div>
-      <NavBar />
-      {myMovie.title ? (
-        <Flex as="main" 
-          mt={16}
-          w={'full'}
-          h={'85vh'}
-          backgroundImage={myMovie.back_poster}
-          backgroundSize={'cover'}
-          backgroundPosition={'center center'}
-          boxShadow="240px 0px 128px 64px black inset"
-          justify="left"
-        >
-          
-          <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
-            <Heading
-              m="2vh"
-              size="3xl"
-              textAlign="left"
-              noOfLines={2}
-              color="white"
-              fontWeight="bold"
-            >
-              {myMovie.title}
-            </Heading>
-            <Text fontSize="2vh" textAlign="left" color="white">
-              {' '}
-              {myMovie.description}{' '}
-            </Text>
-            <Box mt="3.5vh" mb="3vh">
-              <Text
-                justify="left"
+      <Flex direction="column">
+        <Flex as="header" position="fixed" w="100%" zIndex={200}>
+          <NavBar/>
+        </Flex>
+        {myMovie.title ? (
+          <Flex as="main" 
+            mt={16}
+            w={'full'}
+            h={'85vh'}
+            backgroundImage={myMovie.back_poster}
+            backgroundSize={'cover'}
+            backgroundPosition={'center center'}
+            boxShadow="240px 0px 128px 64px black inset"
+            justify="left"
+          >
+            
+            <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
+              <Heading
+                m="2vh"
+                size="3xl"
                 textAlign="left"
+                noOfLines={2}
+                color="white"
                 fontWeight="bold"
-                fontSize="2.5vh"
-                color="#d90429"
               >
-                Genres
+                {myMovie.title}
+              </Heading>
+              <Text fontSize="2vh" textAlign="left" color="white">
+                {' '}
+                {myMovie.description}{' '}
               </Text>
+              <Box mt="3.5vh" mb="3vh">
+                <Text
+                  justify="left"
+                  textAlign="left"
+                  fontWeight="bold"
+                  fontSize="2.5vh"
+                  color="#d90429"
+                >
+                  Genres
+                </Text>
+                <Text
+                  justify="left"
+                  textAlign="left"
+                  fontWeight="500"
+                  fontSize="2.3vh"
+                  color="white"
+                >
+                  {myMovie.genres?.map((el) => el + ' ')}
+                </Text>
+              </Box>
+              <Box textAlign="left" mt="3vh">      
+                  <Button
+                  onClick = {() => setPlayerTrailer(true)}
+                    borderRadius="3vh"
+                    rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                    mr="1.5vh"
+                    bg="#7209b7"
+                    color="white"
+                    _hover={{
+                      background: '#5e60ce',
+                      color: 'white',
+                    }}
+                  >
+                    <Text mb="0.25vh">WATCH</Text>
+                  </Button>           
+                <Button borderRadius="3vh" bg="#354f52" color="white">
+                  MY LIST
+                </Button>
+              </Box>
               <Text
-                justify="left"
                 textAlign="left"
                 fontWeight="500"
                 fontSize="2.3vh"
-                color="white"
+                color="#ffd000"
+                mt="3.5vh"
               >
-                {myMovie.genres?.map((el) => el + ' ')}
+                Rating: {Math.round(myMovie.rating * 100) / 100} || User reviews:{' '}
+                {myMovie.user_reviews}{' '}
               </Text>
-            </Box>
-            <Box textAlign="left" mt="3vh">      
-                <Button
-                onClick = {() => setPlayerTrailer(true)}
-                  borderRadius="3vh"
-                  rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                  mr="1.5vh"
-                  bg="#7209b7"
-                  color="white"
-                  _hover={{
-                    background: '#5e60ce',
-                    color: 'white',
-                  }}
-                >
-                  <Text mb="0.25vh">WATCH</Text>
-                </Button>           
-              <Button borderRadius="3vh" bg="#354f52" color="white">
-                MY LIST
-              </Button>
-            </Box>
-            <Text
-              textAlign="left"
-              fontWeight="500"
-              fontSize="2.3vh"
-              color="#ffd000"
-              mt="3.5vh"
-            >
-              Rating: {Math.round(myMovie.rating * 100) / 100} || User reviews:{' '}
-              {myMovie.user_reviews}{' '}
-            </Text>
-          </Container>
-        </Flex>
-      ) : (
-        <h1>Loading</h1>
-      )} 
-      <Footer />
-    </div>
+            </Container>
+          </Flex>
+        ) : (
+          <h1>Loading</h1>
+        )} 
+        <Footer />
+      </Flex>
     )
   }
   return (
-    <div>
+    <Flex direction="column">
       {playTrailer ? renderTrailer() : renderPage()}     
-    </div>
+    </Flex>
   );
 }
