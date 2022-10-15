@@ -12,9 +12,6 @@ import axios from 'axios';
 import img from '../../../Assets/logo3.png';
 import "./PaymentCheckout.css"
 
-// TODO: CAMBIAR BOOTSTRAP POR CHAKRAUI
-import 'bootswatch/dist/lux/bootstrap.min.css';
-
 const stripePromise = loadStripe(
   'pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL'
 );
