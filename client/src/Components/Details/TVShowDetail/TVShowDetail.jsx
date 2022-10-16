@@ -180,7 +180,6 @@ export default function TVShowDetail() {
         ) : (
           <Loader />
         )}
-
         <Footer />
       </Flex>
     );
