@@ -1,76 +1,65 @@
-import React, { useRef } from "react";
-import styles from "./LandingPage.module.css";
-import logo from "../../Assets/logo.png";
-//import menu from "../../Assets/menu.png";
-//import close from "../../Assets/close.png";
-import { Link } from "react-router-dom";
-//import { openAndCloseMenu } from "../menuFunction";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getHomeAll } from "../../Redux/actions";
+import React, { useRef } from 'react';
+import styles from './LandingPage.module.css';
+import logo from '../../Assets/logo.png';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getHomeAll } from '../../Redux/actions';
 
 export default function LandingPage() {
-
   const dispatch = useDispatch();
-  const { movies } = useSelector( state => state)
-  useEffect( () =>{ dispatch(getHomeAll()) } , [dispatch] );
-  
 
-    let refMenuBtn = useRef() 
-    let list = useRef()
-    /* let background = useRef() */
-    let refCloseBtn = useRef()
+  useEffect(() => {
+    dispatch(getHomeAll());
+  }, [dispatch]);
 
-    /* let [open, setOpen] = useState(false)
+  let refMenuBtn = useRef();
+  let list = useRef();
+  let refCloseBtn = useRef();
 
-    function handleClick(){
-        setOpen(!open)
-    } */
-
-    const handleToggleMenu = (e) =>{
-
-            /* if(refMenuBtn.current.id){
-
-                console.log(refMenuBtn.current.id)
-            } */
-            
-
-            if(refMenuBtn.current.id == 5){
-                refMenuBtn.current.id = refCloseBtn.current.id
-                list.current.style.display = "flex"
-            } else{
-                refMenuBtn.current.id = 5
-                list.current.style.display = "none"
-                
-            }
-        
+  const handleToggleMenu = (e) => {
+    if (refMenuBtn.current.id === 5) {
+      refMenuBtn.current.id = refCloseBtn.current.id;
+      list.current.style.display = 'flex';
+    } else {
+      refMenuBtn.current.id = 5;
+      list.current.style.display = 'none';
     }
-
+  };
   return (
-    <div className={styles.background} /* ref={background} */>
-        
+    <div className={styles.background}>
       <nav className={styles.nav}>
         <img className={styles.logo} src={logo} alt="logo" />
-        
-            {/* <img className={styles.close} onClick={handleClick}  src={open ? close : menu} alt="menu" /> */}
-          <ul className={styles.list} ref={list}>
-          {/* <img className={styles.close} ref={refCloseBtn} value="hola" onClick={handleToggleMenu} alt="gsa" /> */}
-            {/* <p className={styles.close} ref={refCloseBtn}  onClick={handleToggleMenu}  >Close</p> */}
-            <div className={styles.nav__close}>
-            <p className={styles.close} ref={refCloseBtn} id={6}  onClick={handleToggleMenu}>Close </p>
-
-            </div>
-            <Link to={"/register"}><p className={styles.sign}>REGISTRARSE</p></Link>
-            <Link to={"/login"}><p className={styles.sign}>INICIAR SESION</p></Link>
-          </ul>
-          <div className={styles.nav__toggle}>
-          {/* <img className={styles.menu} src={menu} id={5} onClick={handleToggleMenu} alt="menu" /> */}
-          <p className={styles.menu} ref={refMenuBtn} id={5}  onClick={handleToggleMenu}> Menu</p>
+        <ul className={styles.list} ref={list}>
+          <div className={styles.nav__close}>
+            <p
+              className={styles.close}
+              ref={refCloseBtn}
+              id={6}
+              onClick={handleToggleMenu}
+            >
+              Close
+            </p>
           </div>
-        
+          <Link to={'/register'}>
+            <p className={styles.sign}>REGISTER</p>
+          </Link>
+          <Link to={'/login'}>
+            <p className={styles.sign}>LOG IN</p>
+          </Link>
+        </ul>
+        <div className={styles.nav__toggle}>
+          <p
+            className={styles.menu}
+            ref={refMenuBtn}
+            id={5}
+            onClick={handleToggleMenu}
+          >
+            Menu
+          </p>
+        </div>
       </nav>
-
-      <ul className={styles.movies} >
+      <ul className={styles.movies}>
         <div className={styles.top_blur}></div>
         <li className={styles.movie_list}></li>
         <li className={styles.movie_list2}></li>
@@ -87,28 +76,20 @@ export default function LandingPage() {
       <div className={styles.container_landing}>
         <div className={styles.container_white}>
           <h1 className={styles.main_text}>
-            Las mejores peliculas, en un mismo lugar.
+            All Movies and TV Shows one click ahead!
           </h1>
+          <h3 style={{ textAlign: 'center' }}>Sit, relax and enjoy.</h3>
           <div className={styles.container_button}>
             <Link to="/home">
-              <button className={styles.button_detail}>COMENZAR</button>
+              <button className={styles.button_detail}>Get Started!</button>
             </Link>
           </div>
-          <div className="redes">
-            {/* <ul>
-     <a href="https://github.com/PedroMtz8" target="_Blank" rel="noreferrer"><img className='social' src="https://elfreneticoinformatico.com/wp-content/uploads/2017/10/GitHubLogo.png" alt="github" /></a>
-     <a href="https://www.linkedin.com/in/pedro-martinez-a7a615239/" target="_blank" rel="noreferrer"><img className='social' src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/2560px-LinkedIn_Logo.svg.png" alt="linkedin" /></a>
- </ul> */}
-          </div>
-
-          
-
+          <div className="redes"></div>
         </div>
       </div>
-          <div className={styles.enjoy}>
-            <h3>hola</h3>
-          </div>
+      <div className={styles.enjoy}>
+        <h3>Hey</h3>
+      </div>
     </div>
-    
   );
 }
