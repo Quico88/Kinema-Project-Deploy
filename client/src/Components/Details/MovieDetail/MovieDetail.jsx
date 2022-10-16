@@ -27,11 +27,13 @@ export default function MovieDetail() {
 
   const myMovie = useSelector((state) => state.movieDetail);
 
+  const closePlayer = () => setPlayerTrailer(false);
+
   const renderTrailer = () => {
     const idTrailer = myMovie.trailer.slice(32);
     return (
       <>
-        <NavBarPlayer />
+        <NavBarPlayer closePlayer={closePlayer}/>
         <iframe
           height={'100%'}
           width={'100%'}
