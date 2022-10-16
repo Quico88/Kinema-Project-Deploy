@@ -1,4 +1,4 @@
-import { Image, Box, WrapItem } from "@chakra-ui/react";
+import { Image, Box, WrapItem } from '@chakra-ui/react';
 
 export default function Card({ posterUrl, id }) {
   return (
