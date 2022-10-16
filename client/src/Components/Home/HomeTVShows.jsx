@@ -65,8 +65,6 @@ export default function HomeTVShows() {
               {g}
             </option>
           ))}
-
-
         </select>
         {seriesToShow.length === 0 ? (
           <Loader />
@@ -77,4 +75,5 @@ export default function HomeTVShows() {
       </Flex>
     </Flex>
   );
+  }
 }
