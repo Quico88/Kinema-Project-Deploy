@@ -80,7 +80,10 @@ export default function MovieDetail() {
               <Text fontSize="2vh" textAlign="left" color="white">
                 Released: {myMovie.release_date}
               </Text>
-
+              <br />
+              <Text fontSize="2vh" textAlign="left" color="white">
+                Duration: {myMovie.duration}
+              </Text>
               <Box mt="3.5vh" mb="3vh">
                 <Text
                   justify="left"
