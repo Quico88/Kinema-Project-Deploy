@@ -11,6 +11,7 @@ import {
 import DataList from '../DataList/DataList';
 import { Flex } from '@chakra-ui/react';
 import Loader from '../Loader/LoaderCards';
+import Error from '../Error/Error';
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function HomeMovies() {
   const [genero, setGenero] = useState('All');
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
     if (genero === 'All' && page !== 1) {
@@ -58,27 +60,31 @@ export default function HomeMovies() {
     setGenero(variable);
   }
 
-  return (
-    <Flex direction="column">
-      <Flex as="header" position="fixed" w="100%" zIndex={200}>
-        <NavBar />
+  if (error) {
+    return <Error />;
+  } else {
+    return (
+      <Flex direction="column">
+        <Flex as="header" position="fixed" w="100%" zIndex={200}>
+          <NavBar />
+        </Flex>
+        <Flex as="main" mt={16} w="100%" direction="column">
+          <select onChange={(e) => handleGenres(e)}>
+            <option>All</option>
+            {allGenres.map((g) => (
+              <option value={g.name} key={g.id}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+          {moviesToShow.length === 0 ? (
+            <Loader />
+          ) : (
+            <DataList data={moviesToShow} next={setPage} />
+          )}
+          <Footer />
+        </Flex>
       </Flex>
-      <Flex as="main" mt={16} w="100%" direction="column">
-        <select onChange={(e) => handleGenres(e)}>
-          <option>All</option>
-          {allGenres.map((g) => (
-            <option value={g.name} key={g.id}>
-              {g.name}
-            </option>
-          ))}
-        </select>
-        {moviesToShow.length === 0 ? (
-          <Loader />
-        ) : (
-          <DataList data={moviesToShow} next={setPage} />
-        )}
-        <Footer />
-      </Flex>
-    </Flex>
-  );
+    );
+  }
 }
