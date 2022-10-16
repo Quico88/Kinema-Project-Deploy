@@ -12,11 +12,13 @@ import { useState } from 'react';
 import './MovieDetail.css';
 import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
   let { id } = useParams();
   const [playTrailer, setPlayerTrailer] = useState(false);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -139,9 +141,14 @@ export default function MovieDetail() {
       </Flex>
     );
   };
-  return (
-    <Flex direction="column">
-      {playTrailer ? renderTrailer() : renderPage()}
-    </Flex>
-  );
+
+  if (error) {
+    return <Error />;
+  } else {
+    return (
+      <Flex direction="column">
+        {playTrailer ? renderTrailer() : renderPage()}
+      </Flex>
+    );
+  }
 }

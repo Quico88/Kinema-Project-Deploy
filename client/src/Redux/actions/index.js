@@ -1,5 +1,4 @@
-
-import axios from "axios";
+import axios from 'axios';
 
 // Import variables of actions:
 
@@ -21,7 +20,7 @@ import {
   GET_MOVIE_GENRE_BY_ID,
   ERROR_FOUND,
   ERROR_CLEAN,
-} from "./const";
+} from './const';
 
 // Actions functions
 // Get movie detail:
@@ -29,20 +28,20 @@ import {
 export function getMovieDetail(id) {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/movies/" + id);
-      if(json.status === 204){
+      const json = await axios.get('http://localhost:3001/movies/' + id);
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
       }
       return dispatch({
-          type: GET_MOVIE_DETAIL,
-          payload: json.data,
+        type: GET_MOVIE_DETAIL,
+        payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
+      return dispatch({
+        type: ERROR_FOUND,
+      });
     }
   };
 }
@@ -53,8 +52,8 @@ export function getHomeAll() {
   return async function (dispatch) {
     dispatch({ type: START_LOADING });
     try {
-      var json = await axios.get("http://localhost:3001/home");
-      if(json.status === 204){
+      var json = await axios.get('http://localhost:3001/home');
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -64,9 +63,9 @@ export function getHomeAll() {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
+      return dispatch({
+        type: ERROR_FOUND,
+      });
     }
   };
 }
@@ -76,9 +75,9 @@ export function getMovies(page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        "http://localhost:3001/home/movies/?page=" + page
+        'http://localhost:3001/home/movies/?page=' + page
       );
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -88,9 +87,9 @@ export function getMovies(page) {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
+      return dispatch({
+        type: ERROR_FOUND,
+      });
     }
   };
 }
@@ -106,9 +105,9 @@ export function getTvShows(page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        "http://localhost:3001/home/series/?page=" + page
+        'http://localhost:3001/home/series/?page=' + page
       );
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -118,9 +117,9 @@ export function getTvShows(page) {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
+      return dispatch({
+        type: ERROR_FOUND,
+      });
     }
   };
 }
@@ -136,9 +135,9 @@ export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
       const json = await axios.get(
-        "http://localhost:3001/home/search/?page=" + page + "&name=" + name
+        'http://localhost:3001/home/search/?page=' + page + '&name=' + name
       );
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -148,9 +147,9 @@ export function getSearchByQuery(name, page) {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
+      return dispatch({
+        type: ERROR_FOUND,
+      });
     }
   };
 }
@@ -165,8 +164,8 @@ export function clearSearchByQuery() {
 export function getSerieDetail(id) {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/tv/" + id);
-      if(json.status === 204){
+      var json = await axios.get('http://localhost:3001/tv/' + id);
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -176,10 +175,10 @@ export function getSerieDetail(id) {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-  }
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 }
 
@@ -192,7 +191,7 @@ export function getSeasonDetail(id, season_number) {
       var json = await axios.get(
         `http://localhost:3001/season/${id}/${season_number}`
       );
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -202,18 +201,18 @@ export function getSeasonDetail(id, season_number) {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-      } 
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 }
 
 export const getAllGenres = () => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/home/genres/movies");
-      if(json.status === 204){
+      var json = await axios.get('http://localhost:3001/home/genres/movies');
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -223,19 +222,26 @@ export const getAllGenres = () => {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-    } 
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 };
 
+export default function cleanError() {
+  return {
+    type: ERROR_CLEAN,
+  };
+}
 
-export const getMovieGenreByID = (id,page) => {
+export const getMovieGenreByID = (id, page) => {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`http://localhost:3001/movies_by_genre?page=${page}&id=${id}`);
-      if(json.status === 204){
+      var json = await axios.get(
+        `http://localhost:3001/movies_by_genre?page=${page}&id=${id}`
+      );
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -245,11 +251,9 @@ export const getMovieGenreByID = (id,page) => {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-  } 
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 };
-
-
