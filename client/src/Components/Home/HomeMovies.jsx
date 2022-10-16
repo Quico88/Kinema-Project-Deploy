@@ -12,6 +12,7 @@ import DataList from '../DataList/DataList';
 import { Flex } from '@chakra-ui/react';
 import Loader from '../Loader/LoaderCards';
 import Error from '../Error/Error';
+import { color } from '../globalStyles'
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function HomeMovies() {
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
   const error = useSelector((state) => state.error);
+  
 
   useEffect(() => {
     if (genero === 'All' && page !== 1) {

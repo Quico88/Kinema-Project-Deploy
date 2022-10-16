@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
 // Import app component and store:
 import App from './App';
@@ -23,8 +23,18 @@ axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3000';
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
 
+const theme = extendTheme({
+  styles: {
+    global: () => ({
+      body: {
+        bg: "",
+      },
+    }),
+  },
+});
+
 root.render( 
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>
         <App />
