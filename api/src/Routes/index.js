@@ -8,6 +8,8 @@ const stripe = new Stripe(process.env.STRIPE_KEY)
 
 // Import functions from controllers:
 
+const { getGenresFromDB } = require('../controllers DB/getGenres.js');
+
 const {getMoviesGenreById} = require("../controllers API/genresMovies")
 
 const {
@@ -213,5 +215,27 @@ router.get('/movies_by_genre', async (req, res) => {
       return res.status(204).send({Error: error.message})
   }
 });
+
+router.get('/genres', async (req, res) => {
+  try {
+    const genres = await getGenresFromDB();
+    res.send(genres);
+  } catch (error) {
+    return res.status(204).send({ Error: error.message });
+  }
+});
+
+router.get('/home/series_by_genre', async (req, res) => {
+  const {genre, page} = req.query
+  try {
+    let skip = (page - 1) * 20;
+    let limit = 20;
+    let data = await getSeriesByGenre(genre, skip, limit);
+    res.send(data);
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+});
+
 
 module.exports = router;

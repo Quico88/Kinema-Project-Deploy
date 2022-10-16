@@ -21,6 +21,8 @@ import {
   GET_MOVIE_GENRE_BY_ID,
   ERROR_FOUND,
   ERROR_CLEAN,
+  GET_TV_SHOW_GENRES,
+  GET_SERIES_BY_GENRE
 } from "./const";
 
 // Actions functions
@@ -251,5 +253,52 @@ export const getMovieGenreByID = (id,page) => {
   } 
   };
 };
+
+
+
+export const getTVShowGenres = () => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("http://localhost:3001/genres");
+      if(json.status === 204){
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+      }
+      return dispatch({
+        type: GET_TV_SHOW_GENRES,
+        payload: json.data,
+      });
+    } catch (error) {
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+    } 
+  };
+};
+
+
+export const getSeriesByGenre = (genre, page) => {
+  
+  return async function (dispatch) {
+    try {
+      var json = await axios.get("http://localhost:3001/home/series_by_genre/?page=" + page + "&genre=" + genre);
+      if(json.status === 204){
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+      }
+      return dispatch({
+        type: GET_SERIES_BY_GENRE,
+        payload: json.data,
+      });
+    } catch (error) {
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+    } 
+  };
+};
+
 
 
