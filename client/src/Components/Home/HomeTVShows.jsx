@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NavBar from '../NavBar/NavBar';
-import Footer from './Chakra UI Components/Footer';
-import { clearTvShows, getTvShows, getTVShowGenres,getSeriesByGenre } from '../../Redux/actions';
-import DataList from '../DataList/DataList';
-import { Flex } from '@chakra-ui/react';
-import Loader from '../Loader/LoaderCards.jsx';
-import Error from '../Error/Error';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import NavBar from "../NavBar/NavBar";
+import Footer from "./Chakra UI Components/Footer";
+import {
+  clearTvShows,
+  getTvShows,
+  getTVShowGenres,
+  getSeriesByGenre,
+} from "../../Redux/actions";
+import DataList from "../DataList/DataList";
+import { Box, Flex, Select, Text, Center, Divider } from "@chakra-ui/react";
+import Loader from "../Loader/LoaderCards.jsx";
+import Error from "../Error/Error";
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -14,12 +19,12 @@ export default function HomeTVShows() {
   const [page, setPage] = useState(1);
   const [seriesToShow, setSeriesToShow] = useState([]);
   const allGenres = useSelector((state) => state.allgenres);
-  const [genero, setGenero] = useState('All');
+  const [genero, setGenero] = useState("All");
 
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    if (genero === 'All' && page !== 1) {
+    if (genero === "All" && page !== 1) {
       dispatch(getTvShows(page));
     } else if (page !== 1) {
       dispatch(getSeriesByGenre(genero, page));
@@ -27,12 +32,12 @@ export default function HomeTVShows() {
   }, [page]);
 
   useEffect(() => {
-    dispatch(getTVShowGenres())
+    dispatch(getTVShowGenres());
   }, []);
 
   useEffect(() => {
     setSeriesToShow([]);
-    if (genero === 'All') {
+    if (genero === "All") {
       dispatch(getTvShows(page));
     } else {
       dispatch(getSeriesByGenre(genero, page));
@@ -46,34 +51,63 @@ export default function HomeTVShows() {
 
   function handleGenres(e) {
     e.preventDefault();
-    setGenero(e.target.value)
+    setGenero(e.target.value);
     setPage(1);
   }
   if (error) {
     return <Error />;
   } else {
-  return (
-    <Flex direction="column">
-      <Flex as="header" position="fixed" w="100%" zIndex={200}>
-        <NavBar />
+    return (
+      <Flex direction="column">
+        <Flex as="header" position="fixed" w="100%" zIndex={200}>
+          <NavBar />
+        </Flex>
+        <Flex as="main" mt={16} w="100%" direction="column">
+          {seriesToShow.length === 0 ? (
+            <Loader />
+          ) : (
+            <Box>
+              <Flex
+                direction="row"
+                mt={10}
+                mb={10}
+                justify="space-around"
+                alignItems="center"
+              >
+                <Text fontSize={40} fontWeight="600">
+                  Tv Shows
+                </Text>
+                <Select
+                  onChange={(e) => handleGenres(e)}
+                  w="15%"
+                  fontSize={25}
+                  textAlign="center"
+                  fontWeight="500"
+                >
+                  <option selected="selected" disabled>
+                    Genres
+                  </option>
+                  <option>All</option>
+                  {allGenres.map((g) => (
+                    <option value={g}>{g}</option>
+                  ))}
+                </Select>
+              </Flex>
+              <Center>
+                <Divider
+                  borderColor="black"
+                  borderWidth="1px"
+                  width="30%"
+                  border="1px"
+                  opacity="1"
+                />
+              </Center>
+              <DataList data={seriesToShow} next={setPage} />
+            </Box>
+          )}
+          <Footer />
+        </Flex>
       </Flex>
-      <Flex as="main" mt={16} w="100%" direction="column">
-        <select onChange={(e) => handleGenres(e)}>
-          <option>All</option>
-          {allGenres.map((g) => (
-            <option value={g}>
-              {g}
-            </option>
-          ))}
-        </select>
-        {seriesToShow.length === 0 ? (
-          <Loader />
-        ) : (
-          <DataList data={seriesToShow} next={setPage} />
-        )}
-        <Footer />
-      </Flex>
-    </Flex>
-  );
+    );
   }
 }
