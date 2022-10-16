@@ -18,6 +18,7 @@ const getSearchSeriesDB = async (name, page) => {
       name: e.name,
       poster: e.poster,
       vote_average: e.vote_average,
+      serie: true,
     };
   });
   return search;

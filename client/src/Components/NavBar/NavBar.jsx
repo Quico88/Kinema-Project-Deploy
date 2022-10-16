@@ -16,11 +16,10 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
-
-import {Link as RouteLink } from "react-router-dom";
-
+import { useAuth } from '../AuthContext/AuthContext';
+import {Link as RouteLink, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-
+import { useEffect, useState } from 'react';
 import SearchBar from './SearchBar.jsx';
 import logo from '../../Assets/logo.png';
 import { color } from '../globalStyles';
@@ -78,6 +77,25 @@ const NavLink2 = () => (
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {user, logout, loadingUser, read} = useAuth()
+  const [image, setImage] = useState()
+  const navigate = useNavigate()
+
+
+  async function logOut(){
+    await logout()
+     navigate("/")
+ }
+
+
+
+ useEffect(()=>{
+  async function exe(){
+      let dataUser = await read(user.uid)
+      setImage(dataUser.avatar)
+  }
+   exe()
+})
 
   return (
     <>
@@ -124,16 +142,16 @@ export default function NavBar() {
               >
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+                  src={image}
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Profile</MenuItem>
+                <RouteLink to='/profile'>
+                  <MenuItem>Profile</MenuItem>
+                </RouteLink>
                 <MenuItem>Watchlist</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
+                <MenuItem onClick={logOut} >Log out</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

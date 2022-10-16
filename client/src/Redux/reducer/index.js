@@ -14,7 +14,9 @@ import {
   CLEAR_MOVIES,
   CLEAR_SERIES,
   GET_ALL_GENRES,
-  GET_MOVIE_GENRE_BY_ID
+  GET_MOVIE_GENRE_BY_ID,
+  ERROR_FOUND,
+  ERROR_CLEAN,
 } from "../actions/const";
 
 // Initial state of global store:
@@ -28,6 +30,7 @@ const initialState = {
   seasonDetail: [],
   loading: false,
   allgenres : [],
+  error: false,
 };
 
 // Reducer:
@@ -108,6 +111,16 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           movies: action.payload,
+        };
+      case ERROR_FOUND:
+        return {
+          ...state,
+          error: true,
+        };
+      case ERROR_CLEAN:
+        return {
+          ...state,
+          error: false,
         };
     default:
       return state;

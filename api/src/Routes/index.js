@@ -48,7 +48,7 @@ router.get('/season/:id/:season', async (req, res) => {
     if(typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
     res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
   } catch (error) {
-    return res.status(404).send(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -65,7 +65,7 @@ router.get('/movies/:id', async (req, res) => {
     };
     res.send(movieDetail);
   } catch (error) {
-    return res.status(404).send(error);
+      return res.status(204).send({Error: error.message});
   }
 });
 
@@ -83,7 +83,7 @@ router.get('/tv/:id', async (req, res) => {
     };
     res.send(TVSeriesDetail);
   } catch (error) {
-    return res.status(404).send({Error: error.message});
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -94,7 +94,7 @@ router.get('/home/movies', async (req, res) => {
     let movies = await getMovies(page);
     res.send(movies);
   } catch (error) {
-    res.status(400).json(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -117,7 +117,7 @@ router.get('/home/search', async (req, res) => {
   })
     res.send(seriesAndMovies);
   } catch (error) {
-    res.status(400).json(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -164,7 +164,7 @@ router.get('/home', async (req, res) => {
       allCarruselsSeries,
     });
   } catch (error) {
-    res.status(400).json(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -175,7 +175,7 @@ router.get('/home/series/:id', async (req, res) => {
     let data = await getSeriesByGenre(id);
     res.send(data);
   } catch (error) {
-    res.status(400).json({Error: error.message});
+      return res.status(204).json({Error: error.message});
   }
 });
 
@@ -188,7 +188,7 @@ router.get('/home/series', async (req, res) => {
     let data = await getAllSeriesDB(skip, limit);
     res.json(data);
   } catch (error) {
-    res.status(400).json({Error: error.message});
+      return res.status(204).json({Error: error.message});
   }
 })
 
@@ -199,7 +199,7 @@ router.get('/home/genres/movies', async (req, res) => {
     const genres = await getGenresFromAPI()
     res.send(genres);
   } catch (error) {
-    res.status(400).json(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 
@@ -210,7 +210,7 @@ router.get('/movies_by_genre', async (req, res) => {
     const genres = await getMoviesGenreById(id,page)
     res.send(genres);
   } catch (error) {
-    res.status(400).json(error);
+      return res.status(204).send({Error: error.message})
   }
 });
 

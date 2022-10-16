@@ -1,3 +1,4 @@
+
 import React from "react";
 import Card from "./Card";
 import { Wrap, Flex } from "@chakra-ui/react";
@@ -24,7 +25,7 @@ export default function DataList({ data, next }) {
             return (
               <Link to={`/home/tv_show_details/${m.id}`} >
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   key={m.id}
                 />
@@ -34,7 +35,7 @@ export default function DataList({ data, next }) {
             return (
               <Link to={`/home/movie_details/${m.id}`}>
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   title={m.title}
                   key={m.id}

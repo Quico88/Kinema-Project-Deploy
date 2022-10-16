@@ -12,10 +12,12 @@ import {
   Checkbox,
   FormControl,
 } from '@chakra-ui/react';
+import Pricing from './Pricing';
+import Footer from '../../Home/Chakra UI Components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { useAuth } from '../../AuthContext/AuthContext';
-import { useNavigate, Link as LinkRouter } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ export default function Register() {
     password: '',
   });
 
-  const { signup, loginWithGoogle } = useAuth();
+  const { signup, signupWithGoogle } = useAuth();
 
   function handleChange(e) {
     e.preventDefault();
@@ -48,11 +50,12 @@ export default function Register() {
   }
 
   async function handleGoogleSignin() {
-    await loginWithGoogle();
+    await signupWithGoogle();
     navigate('/profile');
   }
 
   return (
+    <div>
     <Box
       position={'relative'}
       height={'100vh'}
@@ -70,11 +73,24 @@ export default function Register() {
         spacing={{ base: 10, lg: 32 }}
         py={{ base: 10, sm: 20, lg: 32 }}
       >
-        <Stack spacing={{ base: 10, md: 20 }}></Stack>
+        <Stack direction={{ base: 'flex', sm: 'row' }}>
+          <Pricing 
+            planType={"Basic"}
+            price={0}
+            firstFeature={"Rent any Movie or TV Serie"}
+            secondFeature={"All features"}
+           />
+          <Pricing 
+            planType={"Premium"} 
+            price={15}
+            firstFeature={"Play any Movie or TV Serie"}
+            secondFeature={"Create Your Watch List"}
+            thirdFeature={"All features"}
+           />
+        </Stack>
         <Stack
           bg={'rgba(17, 173, 152, 0.3)'}
           backdropFilter={'blur(10px)'}
-          /*  opacity={".9"} */
           rounded={'xl'}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
@@ -195,12 +211,12 @@ export default function Register() {
             justifyContent={'center'}
           >
             <Text color={'white'}>You are already registered. </Text>
-            <LinkRouter to={'/login'}>
-              <Link color={'gray'}>Log in</Link>
-            </LinkRouter>
+              <Link  href='/login'  color={'gray'}>Log in</Link>
           </Stack>
         </Stack>
       </Container>
     </Box>
+      <Footer/>
+    </div>
   );
 }
