@@ -15,27 +15,29 @@ import {
     useColorModeValue,
     Stack,
   } from '@chakra-ui/react';
-  
+
+  import { useAuth } from '../AuthContext/AuthContext';  
   import './NavBarPlayer.module.css'
-  import {Link as RouteLink } from "react-router-dom";
-  
+  import {Link as RouteLink, useNavigate} from "react-router-dom";
+  import { useEffect, useState } from 'react';
   import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+  import { color } from '../globalStyles';
   
   const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
-  
-  
+
   const NavLink1 = () => (
     <Link
-        px={2}
-        py={1}
-        rounded={'md'}
-        color='gray.400'
-        _hover={{
-          textDecoration: 'none',
-          color: 'white',
-        }}
-      >
-          {Links[0]}
+      px={2}
+      py={1}
+      rounded={'md'}
+      fontWeight='300'
+      color={color.textLinkUnselected}
+      _hover={{
+        textDecoration: 'none',
+        color: color.textLinkSelected,
+      }}
+    >
+        {Links[0]}
     </Link>
   );
   
@@ -44,10 +46,11 @@ import {
         px={2}
         py={1}
         rounded={'md'}
-        color='gray.400'
+        color={color.textLinkUnselected}
+        fontWeight='300'
         _hover={{
           textDecoration: 'none',
-          color: 'white',
+          color: color.textLinkSelected,
         }}
         >
             {Links[1]}
@@ -59,25 +62,39 @@ import {
         px={2}
         py={1}
         rounded={'md'}
-        color='gray.400'
+        color={color.textLinkUnselected}
+        fontWeight='300'
         _hover={{
           textDecoration: 'none',
-          color: 'white',
+          color: color.textLinkSelected,
         }}
-       >
+        >
             {Links[2]}
       </Link>
     );
   
-  const color = {
-    kinemaBg: '#1d1d1d',
-  };
-  
-  export default function Simple() {
+  export default function Simple(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    function refreshPage(){
-        window.location.reload();
-    } 
+    const {user, logout, loadingUser, read} = useAuth();
+    const [image, setImage] = useState();
+    const navigate = useNavigate();
+
+    const {closePlayer} = props;
+
+    async function logOut(){
+      await logout()
+       navigate("/")
+    }
+  
+    useEffect(()=>{
+      async function exe(){
+          let dataUser = await read(user.uid)
+          setImage(dataUser.avatar)
+      }
+       exe()
+    })
+
+    
     return (
       <>
         <Box bg={color.kinemaBg} px={4}>
@@ -90,7 +107,7 @@ import {
               onClick={isOpen ? onClose : onOpen}
             />
             <HStack spacing={8} alignItems={'center'}>
-              <Button onClick={() => refreshPage()}>BACK</Button>
+                <Button onClick={()=> closePlayer()}>BACK</Button>
               <HStack
                 as={'nav'}
                 spacing={4}
@@ -119,16 +136,16 @@ import {
                 >
                   <Avatar
                     size={'sm'}
-                    src={
-                      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                    }
+                    src={image}
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Profile</MenuItem>
+                  <RouteLink to='/profile'>
+                    <MenuItem>Profile</MenuItem>
+                  </RouteLink>
                   <MenuItem>Watchlist</MenuItem>
                   <MenuDivider />
-                  <MenuItem>Sign out</MenuItem>
+                  <MenuItem onClick={logOut} >Log out</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

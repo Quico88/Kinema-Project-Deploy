@@ -1,9 +1,9 @@
-import React from "react";
-import Card from "./Card";
-import { Wrap, Center } from "@chakra-ui/react";
-import { DotWave } from "@uiball/loaders";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Card from './Card';
+import { Wrap, Center } from '@chakra-ui/react';
+import { DotWave } from '@uiball/loaders';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
 
 export default function DataList({ data, next }) {
   return (
@@ -23,7 +23,7 @@ export default function DataList({ data, next }) {
             return (
               <Link to={`/home/tv_show_details/${m.id}`}>
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   key={m.id}
                 />
@@ -33,7 +33,7 @@ export default function DataList({ data, next }) {
             return (
               <Link to={`/home/movie_details/${m.id}`}>
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   key={m.id}
                 />

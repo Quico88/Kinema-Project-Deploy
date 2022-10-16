@@ -12,11 +12,13 @@ import { useState } from 'react';
 import './MovieDetail.css';
 import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
   let { id } = useParams();
   const [playTrailer, setPlayerTrailer] = useState(false);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -25,11 +27,13 @@ export default function MovieDetail() {
 
   const myMovie = useSelector((state) => state.movieDetail);
 
+  const closePlayer = () => setPlayerTrailer(false);
+
   const renderTrailer = () => {
     const idTrailer = myMovie.trailer.slice(32);
     return (
       <>
-        <NavBarPlayer />
+        <NavBarPlayer closePlayer={closePlayer}/>
         <iframe
           height={'100%'}
           width={'100%'}
@@ -80,7 +84,10 @@ export default function MovieDetail() {
               <Text fontSize="2vh" textAlign="left" color="white">
                 Released: {myMovie.release_date}
               </Text>
-
+              <br />
+              <Text fontSize="2vh" textAlign="left" color="white">
+                Duration: {myMovie.duration}
+              </Text>
               <Box mt="3.5vh" mb="3vh">
                 <Text
                   justify="left"
@@ -139,9 +146,14 @@ export default function MovieDetail() {
       </Flex>
     );
   };
-  return (
-    <Flex direction="column">
-      {playTrailer ? renderTrailer() : renderPage()}
-    </Flex>
-  );
+
+  if (error) {
+    return <Error />;
+  } else {
+    return (
+      <Flex direction="column">
+        {playTrailer ? renderTrailer() : renderPage()}
+      </Flex>
+    );
+  }
 }

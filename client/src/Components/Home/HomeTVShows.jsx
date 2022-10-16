@@ -6,6 +6,7 @@ import { clearTvShows, getTvShows, getTVShowGenres,getSeriesByGenre } from '../.
 import DataList from '../DataList/DataList';
 import { Flex } from '@chakra-ui/react';
 import Loader from '../Loader/LoaderCards.jsx';
+import Error from '../Error/Error';
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function HomeTVShows() {
   const allGenres = useSelector((state) => state.allgenres);
   const [genero, setGenero] = useState('All');
 
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
     if (genero === 'All' && page !== 1) {
@@ -47,8 +49,9 @@ export default function HomeTVShows() {
     setGenero(e.target.value)
     setPage(1);
   }
-
-
+  if (error) {
+    return <Error />;
+  } else {
   return (
     <Flex direction="column">
       <Flex as="header" position="fixed" w="100%" zIndex={200}>
