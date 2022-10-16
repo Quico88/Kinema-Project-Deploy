@@ -8,13 +8,13 @@ import {
   Button,
   SimpleGrid,
   Center,
-  Link,
   FormControl,
+  Link,
   Checkbox,
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
-import { useNavigate, Link as LinkRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext/AuthContext';
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(user.email, user.password);
-      navigate('/profile');
+      navigate('/home');
     } catch (error) {
       setError(error.message);
     }
@@ -48,7 +48,7 @@ export default function Login() {
 
   async function handleGoogleSignin() {
     await loginWithGoogle();
-    navigate('/profile');
+    navigate('/home');
   }
 
   return (
@@ -102,6 +102,7 @@ export default function Login() {
                   border={0}
                   name="email"
                   type="email"
+                  id={1}
                   value={user.email}
                   onChange={(e) => {
                     handleChange(e);
@@ -117,6 +118,8 @@ export default function Login() {
                   bg={'gray.100'}
                   border={0}
                   marginTop={'30px'}
+                  id={2}
+                  autoComplete={'none'}
                   name="password"
                   value={user.password}
                   onChange={(e) => {
@@ -165,7 +168,7 @@ export default function Login() {
             justify={'space-evenly'}
           >
             <Checkbox color={'white'}>Remember me</Checkbox>
-            <Link color={'gray'}>Forgot password?</Link>
+            <Text color={'gray'}>Forgot password?</Text>
           </Stack>
           form
           <Stack
@@ -174,9 +177,7 @@ export default function Login() {
             justifyContent={'center'}
           >
             <Text color={'white'}>¿First Time in KINEMA? </Text>
-            <LinkRouter to={'/register'}>
-              <Link color={'gray'}>Sign up</Link>
-            </LinkRouter>
+            <Link  href='/register'  color={'gray'}>Sign up</Link>
           </Stack>
         </Stack>
       </Container>
