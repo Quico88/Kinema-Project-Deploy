@@ -18,7 +18,7 @@ import {
 
   import { useAuth } from '../AuthContext/AuthContext';  
   import './NavBarPlayer.module.css'
-  import {Link as RouteLink, useNavigate} from "react-router-dom";
+  import {Link as RouteLink} from "react-router-dom";
   import { useEffect, useState } from 'react';
   import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
   import { color } from '../globalStyles';
