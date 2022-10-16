@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   getSerieDetail,
@@ -23,14 +23,17 @@ import {
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
 import NavBar from '../../NavBar/NavBar';
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer'
 import Footer from '../../Home/Chakra UI Components/Footer';
 import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
 import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 
+
 export default function TVShowDetail() {
   const dispatch = useDispatch();
   let { id } = useParams();
+  const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
@@ -52,10 +55,29 @@ export default function TVShowDetail() {
       totalSeasons.push('Season ' + [i]);
     }
   }
+  
+  const closePlayer = () => setPlayerTrailer(false);
 
-  if (error) {
-    return <Error />;
-  } else {
+  const renderTrailer = () => {
+    const idTrailer = mySerie.trailer.slice(32);
+    return (
+      <>
+        <NavBarPlayer closePlayer={closePlayer}/>
+        <iframe
+          height={'100%'}
+          width={'100%'}
+          src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
+          frameborder="0"
+          allowFullScreen
+          className="youtube"
+          auto
+          title="trailer"
+        ></iframe>
+      </>
+    );
+  }
+
+  const renderPage = () => {
     return (
       <Flex direction="column">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
@@ -114,8 +136,8 @@ export default function TVShowDetail() {
                 </Text>
               </Box>
               <Box textAlign="left" mt="3vh">
-                <a href={mySerie.trailer}>
                   <Button
+                    onClick={() => setPlayerTrailer(true)}
                     borderRadius="3vh"
                     rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
                     mr="1.5vh"
@@ -128,7 +150,6 @@ export default function TVShowDetail() {
                   >
                     <Text mb="0.25vh">WATCH</Text>
                   </Button>
-                </a>
                 <Button
                   borderRadius="3vh"
                   bg="#354f52"
@@ -184,4 +205,16 @@ export default function TVShowDetail() {
       </Flex>
     );
   }
-}
+
+  if (error) {
+    return <Error />;
+  } else {
+    return (
+      <Flex direction="column">
+        {playTrailer ? renderTrailer() : renderPage()}
+      </Flex>
+    );
+  }
+  
+  }
+
