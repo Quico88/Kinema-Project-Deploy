@@ -109,6 +109,7 @@ export default function HomeMovies() {
                   borderWidth="1px"
                   width="30%"
                   border="1px"
+                  opacity="1"
                 />
               </Center>
               <DataList data={moviesToShow} next={setPage} />
