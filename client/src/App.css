@@ -1,13 +1,12 @@
 .App {
   text-align: center;
 }
-body{
+body {
   background-color: black;
 }
-a{
+a {
   text-decoration: none;
   color: inherit;
-  
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -26,5 +25,3 @@ a{
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-
