@@ -12,6 +12,7 @@ import DataList from "../DataList/DataList";
 import { Box, Flex, Select, Text, Center, Divider } from "@chakra-ui/react";
 import Loader from "../Loader/LoaderCards.jsx";
 import Error from "../Error/Error";
+import "@fontsource/raleway"
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function HomeTVShows() {
   const [seriesToShow, setSeriesToShow] = useState([]);
   const allGenres = useSelector((state) => state.allgenres);
   const [genero, setGenero] = useState("All");
+  const [titulo, setTitulo] = useState("TV Shows")
 
   const error = useSelector((state) => state.error);
 
@@ -53,6 +55,11 @@ export default function HomeTVShows() {
     e.preventDefault();
     setGenero(e.target.value);
     setPage(1);
+    if(e.target.value === "All"){
+      setTitulo("TV Shows")
+    }else {
+      setTitulo(e.target.value + " TV Shows")
+    }
   }
   if (error) {
     return <Error />;
@@ -60,7 +67,7 @@ export default function HomeTVShows() {
     return (
       <Flex direction="column">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
-          <NavBar />
+          <NavBar ruta={"Series"} />
         </Flex>
         <Flex as="main" mt={16} w="100%" direction="column">
           {seriesToShow.length === 0 ? (
@@ -70,12 +77,13 @@ export default function HomeTVShows() {
               <Flex
                 direction="row"
                 mt={10}
-                mb={10}
+                mb={5}
                 justify="space-around"
                 alignItems="center"
+                color="white"
               >
-                <Text fontSize={40} fontWeight="600">
-                  Tv Shows
+                <Text fontSize={40} fontWeight="600" fontFamily="Raleway">
+                  {titulo}
                 </Text>
                 <Select
                   onChange={(e) => handleGenres(e)}
@@ -87,15 +95,15 @@ export default function HomeTVShows() {
                   <option selected="selected" disabled>
                     Genres
                   </option>
-                  <option>All</option>
+                  <option className="options">All</option>
                   {allGenres.map((g) => (
-                    <option value={g}>{g}</option>
+                    <option value={g} className="options">{g}</option>
                   ))}
                 </Select>
               </Flex>
               <Center>
                 <Divider
-                  borderColor="black"
+                  borderColor="white"
                   borderWidth="1px"
                   width="30%"
                   border="1px"

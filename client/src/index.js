@@ -13,6 +13,10 @@ import { store } from './Redux/store/index.js';
 // Import style:
 import './index.css';
 
+//Import fonts:
+import "@fontsource/nunito"
+import "@fontsource/raleway"
+
 // Deploy:
 import axios from 'axios';
 
@@ -31,9 +35,13 @@ const theme = extendTheme({
       },
     }),
   },
+  fonts: {
+    heading: "Raleway",
+    body: "Nunito"
+  }
 });
 
-root.render( 
+root.render(
   <ChakraProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>

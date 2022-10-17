@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NavBar from '../NavBar/NavBar';
-import Footer from './Chakra UI Components/Footer';
-import { clearSearchByQuery, getSearchByQuery } from '../../Redux/actions';
-import DataList from '../DataList/DataList';
-import { useLocation } from 'react-router-dom';
-import { Flex } from '@chakra-ui/react';
-import Loader from '../Loader/LoaderCards';
-import Error from '../Error/Error';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import NavBar from "../NavBar/NavBar";
+import Footer from "./Chakra UI Components/Footer";
+import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
+import DataList from "../DataList/DataList";
+import { useLocation } from "react-router-dom";
+import { Flex, Divider, Center } from "@chakra-ui/react";
+import Loader from "../Loader/LoaderCards";
+import Error from "../Error/Error";
+import "@fontsource/raleway";
 
 export default function HomeSearch() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export default function HomeSearch() {
   const error = useSelector((state) => state.error);
 
   const form = useLocation().search;
-  const query = new URLSearchParams(form).get('query');
+  const query = new URLSearchParams(form).get("query");
 
   useEffect(() => {
     setPage(1);
@@ -42,6 +43,28 @@ export default function HomeSearch() {
           <NavBar />
         </Flex>
         <Flex as="main" mt={16} w="100%" direction="column">
+          <Flex
+            direction="row"
+            mt={10}
+            mb={5}
+            justify="space-around"
+            alignItems="center"
+            color="white"
+            fontSize={40}
+            fontWeight="400"
+            fontFamily="Raleway"
+          >
+            Results for "{query}"
+          </Flex>
+          <Center>
+            <Divider
+              borderColor="white"
+              borderWidth="1px"
+              width="30%"
+              border="1px"
+              opacity="1"
+            />
+          </Center>
           {searchToShow.length === 0 ? (
             <Loader />
           ) : (
