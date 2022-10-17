@@ -257,7 +257,7 @@ export const getMovieGenreByID = (id, page) => {
 export const getTVShowGenres = () => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/genres");
+      var json = await axios.get("/genres");
       if(json.status === 204){
         return dispatch({
           type: ERROR_FOUND,
@@ -280,7 +280,7 @@ export const getSeriesByGenre = (genre, page) => {
   
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/home/series_by_genre/?page=" + page + "&genre=" + genre);
+      var json = await axios.get("/home/series_by_genre/?page=" + page + "&genre=" + genre);
       if(json.status === 204){
         return dispatch({
           type: ERROR_FOUND,
