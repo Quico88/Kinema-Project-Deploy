@@ -8,16 +8,16 @@ import { Link } from 'react-router-dom';
 
 // Settings for the slider
 const settings = {
-    dots: true,
+    dots: false,
     arrows: false,
     fade: false,
     infinite: true,
-    speed: 500,
+    speed: 1500,
     slidesToShow: 8,
     slidesToScroll: 4,
 };
 
-export default function CarouselHome({ movies, videoSerie }) {
+export default function CarouselHome({ movies }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = React.useState(null);
@@ -35,9 +35,10 @@ export default function CarouselHome({ movies, videoSerie }) {
             position={'relative'}
             height={'350px'}
             width={'full'}
-            mt="5vh"
-            mb="3vh"
-            overflow={'hidden'}>
+            mt={20}
+            mb={20}
+        >
+           
             {/* CSS files for react-slick */}
             <link
                 rel="stylesheet"
@@ -87,7 +88,8 @@ export default function CarouselHome({ movies, videoSerie }) {
                                 _hover={{
                                     transform: 'scale(1.05)',
                                     transition: '0.7s',
-                                  }} 
+                                    shadow: "5px 5px 50px black",
+                                }}
                             >
                                 <Link to={`/home/tv_show_details/${m.id}`}>
                                     <Image src={"https://image.tmdb.org/t/p/w300" + m.poster} alt={m.title} />
@@ -95,21 +97,21 @@ export default function CarouselHome({ movies, videoSerie }) {
                             </Box>
 
                         )
-                    }  else {
+                    } else {
                         return (
                             <Box
                                 key={index}
                                 height={'6xl'}
                                 zIndex={20}
-                          
+
                             >
                                 <Link to={`/home/movie_details/${m.id}`} >
-                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster}  transition='0.4s'     _hover={{
-                                    transform: 'scale(1.10)',
-                                    transition: '0.7s',
-                                    shadow: "dark-lg",
-                                    transitionTimingFunction: "ease-in-out"
-                                  }}  alt={m.title}/>
+                                    <Image src={"https://image.tmdb.org/t/p/w300" + m.poster} transition='0.4s' _hover={{
+                                        transform: 'scale(1.10)',
+                                        transition: '0.7s',
+                                        shadow: "5px 5px 50px black",
+                                        zIndex:"400"
+                                    }} alt={m.title} />
                                 </Link>
                             </Box>
 
