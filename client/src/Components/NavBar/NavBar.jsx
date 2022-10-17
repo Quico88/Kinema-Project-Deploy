@@ -24,58 +24,65 @@ import SearchBar from './SearchBar.jsx';
 import logo from '../../Assets/logo.png';
 import { color } from '../globalStyles';
 
-const Links = ['ALL', 'MOVIES', 'TV SHOWS'];
+const Links = ['Home', 'Movies', 'TV Shows'];
 
 
-const NavLink1 = () => (
+const NavLink1 = ({ruta}) =>{
+  return (
   <Link
       px={2}
       py={1}
       rounded={'md'}
-      fontWeight='300'
-      color={color.textLinkUnselected}
+      fontWeight='500'
+      textShadow={ ruta === "Home" ? color.shadowTextLinkSelected : color.shadowTextLinkUnselected }
+      color={ ruta === "Home" ? color.textLinkSelected : color.textLinkUnselected }
       _hover={{
         textDecoration: 'none',
         color: color.textLinkSelected,
+        textShadow: '0px 0px 20px white'
       }}
     >
         {Links[0]}
   </Link>
-);
+)};
 
-const NavLink2 = () => (
+const NavLink2 = ({ruta}) => (
     <Link
       px={2}
       py={1}
       rounded={'md'}
-      color={color.textLinkUnselected}
-      fontWeight='300'
+      color={ ruta === "Movies" ? color.textLinkSelected : color.textLinkUnselected }
+      fontWeight='500'
+      textShadow={ ruta === "Movies" ? color.shadowTextLinkSelected : color.shadowTextLinkUnselected }
       _hover={{
         textDecoration: 'none',
         color: color.textLinkSelected,
+        textShadow: '0px 0px 20px white'
       }}
       >
           {Links[1]}
     </Link>
   );
 
-  const NavLink3 = () => (
+  const NavLink3 = ({ruta}) => (
     <Link
       px={2}
       py={1}
       rounded={'md'}
-      color={color.textLinkUnselected}
-      fontWeight='300'
+      color={ ruta === "Series" ? color.textLinkSelected : color.textLinkUnselected }
+      fontWeight='500'
+      textShadow={ ruta === "Series" ? color.shadowTextLinkSelected : color.shadowTextLinkUnselected }
       _hover={{
         textDecoration: 'none',
         color: color.textLinkSelected,
+        textShadow: '0px 0px 20px white'
       }}
      >
           {Links[2]}
     </Link>
   );
 
-export default function NavBar() {
+export default function NavBar({ruta}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {user, logout, loadingUser, read} = useAuth()
   const [image, setImage] = useState()
@@ -99,7 +106,7 @@ export default function NavBar() {
 
   return (
     <>
-      <Box bg={color.kinemaBg} px={4} w='100%'>
+      <Box bg={color.kinemaBg} px={4} w='100%' shadow="0px 0.5px 8px #444444">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -120,13 +127,13 @@ export default function NavBar() {
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
               <RouteLink to='/home'>
-                  <NavLink1/>
+                  <NavLink1 ruta={ruta}/>
               </RouteLink>
               <RouteLink to='/home/movies'>
-                  <NavLink2/>
+                  <NavLink2 ruta={ruta}/>
               </RouteLink>
               <RouteLink to='/home/tv_shows'>
-                  <NavLink3/>
+                  <NavLink3 ruta={ruta}/>
               </RouteLink>
             </HStack>
           </HStack>
