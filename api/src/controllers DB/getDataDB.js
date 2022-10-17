@@ -6,9 +6,9 @@ const nameGenre = async (id) => {
 	return data.name;
 };
 
-const getSeriesByGenre = async (id) => {
-	let genre = await Genre.findById(id);
-	let dataSeries = await Serie.find({'genre': genre._id}).skip(1).limit(2)
+const getSeriesByGenre = async (genero, omi, lim) => {
+	let genre = await Genre.findOne({$and: [{type : "tv"},{name : genero}]});
+	let dataSeries = await Serie.find({'genre': genre._id}).skip(omi).limit(lim)
 
 	let listSeries = [];
 	for(let i = 0; i < dataSeries.length; i++) {
