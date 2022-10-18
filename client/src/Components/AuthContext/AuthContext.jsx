@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc, Timestamp, updateDoc  } from "firebase/firestore";
 import { auth, firestore} from "./firebase";
+import welcomeEmail from "./welcomeEmail";
 
 export const authContext = createContext()
 
@@ -24,6 +25,8 @@ export default function AuthProvider({children}){
                                 .then(userFirebase => userFirebase)
         const docRef =  doc(firestore, `/users/${infoUser.user.uid}`)
         setDoc(docRef, { username: displayName, email: userEmail, admin: false, subscription: 1, subscriptionDate: Timestamp.fromDate(new Date()).toDate(), watchList: [], avatar: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", active: true, rented: []   })
+
+        welcomeEmail(userEmail, displayName);
     }
 
     const login = async(email, password) => {
@@ -37,6 +40,9 @@ const signupWithGoogle = async () =>{
                             .then(userFirebase => userFirebase)
     const googleRef = doc(firestore, `/users/${infoUser.user.uid}` )
     setDoc(googleRef, { username: infoUser.user.displayName,  email: infoUser.user.email, admin: false, subscription: 1, subscriptionDate: Timestamp.fromDate(new Date()).toDate(), watchList: [], avatar: infoUser.user.photoURL, active: true, rented: []  } )
+
+    welcomeEmail(infoUser.user.email, infoUser.user.displayName);
+
 }
 
     const loginWithGoogle = async () =>{
