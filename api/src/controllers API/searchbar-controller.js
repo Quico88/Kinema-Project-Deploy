@@ -62,40 +62,26 @@ const getSearchMovies = async (search, page) => {
     };
   });
 
-  const validate = (m) => {
+  const validate = async (m) => {
     const moviesVal = [];
-    m.map((n) => {
-      if (
-        !n.title ||
-        n.title.length < 1 ||
-        !n.description ||
-        n.description.length < 1 ||
-        !n.backPoster ||
-        n.backPoster.length < 1 ||
-        !n.id ||
-        !n.poster ||
-        n.poster.length < 1 ||
-        !fetchMovie(n.id)
-      ) {
-        return null;
-      } else {
-        moviesVal.push(n);
-      }
-    });
+    for( let n of m) {
+      let trailer = await fetchMovie(n.id);
+      if ((!!n.title || n.title.length > 1)
+        && (!!n.description || n.description.length > 1)
+        && (!!n.backPoster || n.backPoster.length > 1)
+        && (!!n.id)
+        && (!!n.poster || n.poster.length > 1)
+        && (!!trailer)
+      ) moviesVal.push(n)
+    }
+
     return moviesVal;
   };
 
   const fetchMovie = async (id) => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}`,
-      {
-        params: {
-          api_key: YOUR_API_KEY_1,
-          append_to_response: 'videos',
-        },
-      }
-    );
-    if (data.key) return true;
+    const data = await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`).then( d => d.data);
+    if (!!data.results.length) return true;
+    return false;
   };
   return validate(movieData);
 };
