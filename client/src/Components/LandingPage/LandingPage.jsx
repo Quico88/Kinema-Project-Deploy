@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getHomeAll } from '../../Redux/actions';
+import { Box, Button, color, Flex, Image, Text } from '@chakra-ui/react';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -27,69 +28,83 @@ export default function LandingPage() {
     }
   };
   return (
-    <div className={styles.background}>
-      <nav className={styles.nav}>
-        <img className={styles.logo} src={logo} alt="logo" />
-        <ul className={styles.list} ref={list}>
-          <div className={styles.nav__close}>
-            <p
+    <Box className={styles.background}>
+      <Flex className={styles.nav}>
+        <Image className={styles.logo} src={logo} alt="logo" />
+        <Box className={styles.list} ref={list}>
+          <Box className={styles.nav__close}>
+            <Text
               className={styles.close}
               ref={refCloseBtn}
               id={6}
               onClick={handleToggleMenu}
             >
               Close
-            </p>
-          </div>
+            </Text>
+          </Box>
           <Link to={'/register'}>
-            <p className={styles.sign}>REGISTER</p>
+            <Text className={styles.sign}>Register</Text>
           </Link>
           <Link to={'/login'}>
-            <p className={styles.sign}>LOG IN</p>
+            <Text className={styles.sign}>Log In</Text>
           </Link>
-        </ul>
-        <div className={styles.nav__toggle}>
-          <p
+        </Box>
+        <Box className={styles.nav__toggle}>
+          <Text
             className={styles.menu}
             ref={refMenuBtn}
             id={5}
             onClick={handleToggleMenu}
           >
             Menu
-          </p>
-        </div>
-      </nav>
-      <ul className={styles.movies}>
-        <div className={styles.top_blur}></div>
-        <li className={styles.movie_list}></li>
-        <li className={styles.movie_list2}></li>
-        <li className={styles.movie_list3}></li>
-        <li className={styles.movie_list4}></li>
-        <li className={styles.movie_list5}></li>
-        <li className={styles.movie_list6}></li>
-        <li className={styles.movie_list7}></li>
-        <li className={styles.movie_list8}></li>
-        <li className={styles.movie_list_collage}></li>
-        <div className={styles.bottom_blur}> </div>
-      </ul>
+          </Text>
+        </Box>
+      </Flex>
+      <Box className={styles.movies}>
+        <Box className={styles.top_blur}></Box>
+        <Box className={styles.movie_list}></Box>
+        <Box className={styles.movie_list2}></Box>
+        <Box className={styles.movie_list3}></Box>
+        <Box className={styles.movie_list4}></Box>
+        <Box className={styles.movie_list5}></Box>
+        <Box className={styles.movie_list6}></Box>
+        <Box className={styles.movie_list7}></Box>
+        <Box className={styles.movie_list8}></Box>
+        <Box className={styles.movie_list_collage}></Box>
+        <Box className={styles.bottom_blur}> </Box>
+      </Box>
 
-      <div className={styles.container_landing}>
-        <div className={styles.container_white}>
-          <h1 className={styles.main_text}>
+      <Box className={styles.container_landing}>
+        <Box className={styles.container_white}>
+          <Text className={styles.main_text}>
             All Movies and TV Shows one click ahead!
-          </h1>
-          <h3 style={{ textAlign: 'center' }}>Sit, relax and enjoy.</h3>
-          <div className={styles.container_button}>
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+            }}
+          >
+            Sit, relax and enjoy.
+          </Text>
+          <Box className={styles.container_button}>
             <Link to="/home">
-              <button className={styles.button_detail}>Get Started!</button>
+              <Button
+                className={styles.button_detail}
+                style={{
+                  backgroundColor: '#1cdaff',
+                }}
+              >
+                Explore!
+              </Button>
             </Link>
-          </div>
-          <div className="redes"></div>
-        </div>
-      </div>
-      <div className={styles.enjoy}>
-        <h3>Hey</h3>
-      </div>
-    </div>
+          </Box>
+          <Box className="redes"></Box>
+        </Box>
+      </Box>
+      <Box className={styles.enjoy}>
+        <Text>Hey</Text>
+      </Box>
+    </Box>
   );
 }
