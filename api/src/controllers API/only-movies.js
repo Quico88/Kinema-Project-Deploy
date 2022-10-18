@@ -41,11 +41,11 @@ const getMovies = async (page) => {
     const moviesVal = [];
     for( let n of m) {
       let trailer = await fetchMovie(n.id);
-      if ((!!n.title || n.title.length > 1)
-        && (!!n.description || n.description.length > 1)
-        && (!!n.backPoster || n.backPoster.length > 1)
+      if ((!!n.title)
+        && (!!n.description)
+        && (!!n.backPoster)
         && (!!n.id)
-        && (!!n.poster || n.poster.length > 1)
+        && (!!n.poster)
         && (!!trailer)
       ) moviesVal.push(n)
     }

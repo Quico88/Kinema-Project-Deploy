@@ -5,7 +5,7 @@ const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
 const { YOUR_API_KEY_1 } = process.env;
 
-const getSearchSeriesDB = async (name, page) => {
+const getSearchSeriesDB = async (page, name) => {
   let skip = (page - 1) * 20;
   let limit = 20;
   let dataSeries = await Serie.find({ name: new RegExp(name, 'i') })
@@ -24,12 +24,13 @@ const getSearchSeriesDB = async (name, page) => {
   return search;
 };
 
-const getSearchMovies = async (search, page) => {
+const getSearchMovies = async (page, name) => {
   const {
     data: { results },
   } = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${search}&page=${page}&include_adult=false`
+    `https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`
   );
+  if(results.length === 0) return [];
   const movieData = results.map((m) => {
     return {
       id: m.id,
@@ -66,11 +67,11 @@ const getSearchMovies = async (search, page) => {
     const moviesVal = [];
     for( let n of m) {
       let trailer = await fetchMovie(n.id);
-      if ((!!n.title || n.title.length > 1)
-        && (!!n.description || n.description.length > 1)
-        && (!!n.backPoster || n.backPoster.length > 1)
+      if ((!!n.title)
+        && (!!n.description)
+        && (!!n.backPoster)
         && (!!n.id)
-        && (!!n.poster || n.poster.length > 1)
+        && (!!n.poster)
         && (!!trailer)
       ) moviesVal.push(n)
     }
@@ -83,10 +84,19 @@ const getSearchMovies = async (search, page) => {
     if (!!data.results.length) return true;
     return false;
   };
-  return validate(movieData);
+  let movies = await validate(movieData);
+  return movies;
 };
+
+const getAllSearch = async (page, name) => {
+  let allSeries = await getSearchSeriesDB(page, name);
+  let allMovies = await getSearchMovies(page, name);
+  let all = [...allSeries, ...allMovies];
+  return all;
+}
 
 module.exports = {
   getSearchSeriesDB,
   getSearchMovies,
+  getAllSearch
 };
