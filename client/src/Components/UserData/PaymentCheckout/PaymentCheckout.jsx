@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Image, FormControl, Text } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import {Link as RouteLink } from "react-router-dom";
+import {Link as RouteLink, useNavigate } from "react-router-dom";
 import axios from "axios"
 import img from "../../../Assets/premiumiconkine.png"
 import img2 from "../../../Assets/fondopayment2.jpg"
@@ -12,6 +12,11 @@ const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBc
 const CheckoutForm = () => {
     const stripe = useStripe()
     const elements = useElements()
+    const navigate = useNavigate();
+    
+    function handleBack() {
+        navigate(-1);
+    }
       
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -37,9 +42,9 @@ const CheckoutForm = () => {
           <Box spacing={4} background={"#1a1a24"}height={"600px"} w={[300, 400, 500]} borderColor={"#a56317"} alignContent={"center"}
             borderWidth='2px' >
 
-            <RouteLink to={'/register/plan'}>
-                <Button background={"#a56317"} size='md' marginTop={"10px"} >BACK</Button>
-            </RouteLink>
+            
+                <Button onClick={handleBack} background={"#a56317"} size='md' marginTop={"10px"} >BACK</Button>
+           
             <Text fontSize='3xl' color={"#a56317"} align={"center"}>BE PREMIUM</Text>
             <Box align={"center"}>
             <Image align={"center"} src={img} objectFit='cover' borderRadius='full' boxSize='350px' alt='Kinema Premium' />
