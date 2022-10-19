@@ -9,6 +9,8 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 // Import app component and store:
 import App from './App';
 import { store } from './Redux/store/index.js';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 // Import style:
 import './index.css';
@@ -28,6 +30,7 @@ axios.defaults.baseURL =
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);
+let persistor = persistStore(store)
 
 const theme = extendTheme({
   styles: {
@@ -47,7 +50,9 @@ root.render(
   <ChakraProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
       </BrowserRouter>
     </Provider>
   </ChakraProvider>
