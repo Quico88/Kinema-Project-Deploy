@@ -6,6 +6,7 @@ import {Link as RouteLink, useNavigate } from "react-router-dom";
 import axios from "axios"
 import img from "../../../Assets/premiumiconkine.png"
 import img2 from "../../../Assets/fondopayment2.jpg"
+import { useSelector } from "react-redux";
 
 const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
 
@@ -13,6 +14,8 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
     const stripe = useStripe()
     const elements = useElements()
+
+    const { username, email } = useSelector(state => state.user);
       
     const handleSubmit = async (e) => {
         try {
@@ -23,7 +26,7 @@ const CheckoutForm = () => {
             })
             if(!error){
                 const {id} = paymentMethod
-                const {data} = await axios.post("http://localhost:3001/payment/premium",{id, amount: 799 })
+                const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
                 if(data.success){
                     alert(data.message);
                     navigate('/home'); 

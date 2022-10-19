@@ -21,6 +21,7 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
+  RENT_VIDEO,
 } from "../actions/const";
 
 // Initial state of global store:
@@ -147,6 +148,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: false,
+      }
+    case RENT_VIDEO:
+      return {
+        ...state,
+        user: {...state.user, rented: [...state.user.rented, action.payload] },
       }
     default:
       return state;

@@ -7,26 +7,44 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useLocation, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import img from '../../../Assets/logo3.png';
 import "./PaymentCheckout.css"
-
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { rentVideo } from '../../../Redux/actions';
 
 const stripePromise = loadStripe(
   'pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL'
 );
 
-const CheckoutForm = (props) => {
+const CheckoutForm = () => {
 
-  const { title, serie, MovieId, image} = props;
+    const { username, email } = useSelector(state => state.user)
 
-  const stripe = useStripe();
-  const elements = useElements();
-  const navigate = useNavigate();
+    const stripe = useStripe();
+    const elements = useElements();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  
+    const { pathname } = useLocation();
+    const params = useParams();
+    
+    const now = new Date();
+    const rentDuration = 3600 * 24 * 4 * 1000; // 4 days 
+
+    const type = pathname.split('/')[3];
+
+    
+    
+    const rentedMovie = {
+        id: Number(params.id),
+        serie: type === 'tv_show' ? true : false,
+        expirationDate: now.getTime() + rentDuration
+    }
+
+    console.log(rentedMovie);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -35,10 +53,12 @@ const CheckoutForm = (props) => {
         });
         if (!error) {
             const { id } = paymentMethod;
-            const { data } = await axios.post('http://localhost:3001/payment/rent', { id, amount: 199 });
+            const { data } = await axios.post('http://localhost:3001/payment/rent', { id, username, email });
             
             if(data.success){
                 alert(data.message);
+                dispatch(rentVideo(rentedMovie));  
+                // post en el back
                 navigate(-1); 
             }
             else { alert(data.message) };
