@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Image, FormControl, Text } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import {Link as RouteLink } from "react-router-dom";
+import {Link as RouteLink, useNavigate } from "react-router-dom";
 import axios from "axios"
 import img from "../../../Assets/premiumiconkine.png"
 import img2 from "../../../Assets/fondopayment2.jpg"
@@ -10,23 +10,29 @@ import img2 from "../../../Assets/fondopayment2.jpg"
 const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
 
 const CheckoutForm = () => {
+    const navigate = useNavigate();
     const stripe = useStripe()
     const elements = useElements()
       
     const handleSubmit = async (e) => {
-        e.preventDefault()
-   
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement)
-        })
-    if(!error){
+        try {
+            e.preventDefault()
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: "card",
+                card: elements.getElement(CardElement)
+            })
+            if(!error){
+                const {id} = paymentMethod
+                const {data} = await axios.post("http://localhost:3001/payment/premium",{id, amount: 799 })
+                if(data.success){
+                    alert(data.message);
+                    navigate('/home'); 
+                }
+                else { alert(data.message) }
+            }
+        }
+        catch (e){ alert("We were not able to proceed your payment. Please try again") }
         
-        const {id} = paymentMethod
-        const {data} = await axios.post("http://localhost:3001/payment/premium",{id,
-    amount: 5000
-    })
-    }
     }
 
     return (

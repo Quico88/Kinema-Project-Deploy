@@ -27,7 +27,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/payment" element={<PaymentCheckout />} />
-        <Route path="/payment/rent" element={<PaymentCheckoutRent />} />
+        <Route path="/payment/rent/" element={<PaymentCheckoutRent />} />
         <Route
           path="/profile"
           element={
