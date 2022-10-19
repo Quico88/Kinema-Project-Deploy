@@ -14,10 +14,7 @@ import {
   Text,
   Container,
   Button,
-  Menu,
-  MenuItem,
-  MenuButton,
-  MenuList,
+  Link,
   Select,
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
@@ -35,6 +32,7 @@ export default function TVShowDetail() {
   let { id } = useParams();
   const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(clearSerieDetail());
@@ -92,7 +90,7 @@ export default function TVShowDetail() {
             backgroundImage={mySerie.back_poster}
             backgroundSize={'cover'}
             backgroundPosition={'center center'}
-            boxShadow="320px 0px 128px 64px black inset"
+            boxShadow="70vh 0px 128px 64px black inset"
             justify="left"
           >
             <Container maxW="90%" ms="none" ml="10vh" mt="3vh">
@@ -135,50 +133,149 @@ export default function TVShowDetail() {
                   {mySerie.genres?.map((el) => el + ' ')}
                 </Text>
               </Box>
+              {//  USER PREMIUM CASE:
+                user.subscription == 2 ?
               <Box textAlign="left" mt="3vh">
-                  <Button
-                    onClick={() => setPlayerTrailer(true)}
-                    borderRadius="3vh"
-                    rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                    mr="1.5vh"
-                    bg="#7209b7"
-                    color="white"
-                    _hover={{
-                      background: '#5e60ce',
-                      color: 'white',
-                    }}
+              <Button
+                onClick={() => setPlayerTrailer(true)}
+                borderRadius="3vh"
+                rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                mr="1.5vh"
+                bg="#7209b7"
+                color="white"
+                _hover={{
+                  background: '#5e60ce',
+                  color: 'white',
+                }}
+              >
+                <Text mb="0.25vh">WATCH</Text>
+              </Button>
+            <Button
+              borderRadius="3vh"
+              bg="#354f52"
+              color="white"
+              mr="1.5vh"
+            >
+              MY LIST
+            </Button>
+            <Select
+              borderRadius="3vh"
+              focusBorderColor="#233d4d"
+              onChange={(e) => handleSeason(e)}
+              bg="#233d4d"
+              w="15vh"
+              display={"inline-block"}
+              color="white"
+              mt="2vh"
+            >
+              {totalSeasons?.map((el, index) => {
+                return (
+                  <option
+                    value={index + 1}
+                    style={{ backgroundColor: '#233d4d' }}
                   >
-                    <Text mb="0.25vh">WATCH</Text>
-                  </Button>
-                <Button
+                    {el}
+                  </option>
+                );
+              })}
+            </Select>
+                  </Box> : null}
+               {//  USER FREE CASE:
+                user.subscription == 1 ?
+               <Box textAlign="left" mt="3vh">
+                   <Button
+                 
                   borderRadius="3vh"
-                  bg="#354f52"
-                  color="white"
                   mr="1.5vh"
-                >
-                  MY LIST
-                </Button>
-                <Select
-                  borderRadius="0vh"
-                  focusBorderColor="#233d4d"
-                  onChange={(e) => handleSeason(e)}
-                  bg="#233d4d"
-                  w="15vh"
+                  bg="#7209b7"
                   color="white"
-                  mt="2vh"
-                >
-                  {totalSeasons?.map((el, index) => {
-                    return (
-                      <option
-                        value={index + 1}
-                        style={{ backgroundColor: '#233d4d' }}
-                      >
-                        {el}
-                      </option>
-                    );
-                  })}
-                </Select>
-              </Box>
+                  _hover={{
+                    background: '#5e60ce',
+                    color: 'white',
+                  }}
+                    >
+                      <Link href={`/payment/rent/tv_show/${id}`}>
+                  <Text mb="0.25vh">RENT</Text>
+                      </Link>
+                  </Button> 
+              <Button
+                borderRadius="3vh"
+                bg="#354f52"
+                color="white"
+                mr="1.5vh"
+              >
+                MY LIST
+              </Button>
+              <Select
+                borderRadius="3vh"
+                focusBorderColor="#233d4d"
+                onChange={(e) => handleSeason(e)}
+                bg="#233d4d"
+                      maxW="15vh"
+                      display={"inline-block"}
+                color="white"
+                      mt="2vh"
+                      mr="1vh"
+              >
+                {totalSeasons?.map((el, index) => {
+                  return (
+                    <option
+                      value={index + 1}
+                      style={{ backgroundColor: '#233d4d' }}
+                    >
+                      {el}
+                    </option>
+                  );
+                })}
+                    </Select>
+                    <Text mt="2vh"
+                      fontSize="2.3vh"
+                      color={"white"}> You can <Link
+                      href="/payment"
+                      color={"#72efdd"}><b>upgrade</b>
+                    </Link>  your plan for watch any content.</Text>
+                  </Box> : null}
+               {//  USER FREE CASE:
+                user.subscription == null ?
+                <Box textAlign="left" mt="1vh">
+                  
+               <Select
+                 borderRadius="3vh"
+                 focusBorderColor="#233d4d"
+                 onChange={(e) => handleSeason(e)}
+                 bg="#233d4d"
+                       maxW="15vh"
+                       display={"inline-block"}
+                 color="white"
+                       mt="0vh"
+                       mr="1vh"
+               >
+                 {totalSeasons?.map((el, index) => {
+                   return (
+                     <option
+                       value={index + 1}
+                       style={{ backgroundColor: '#233d4d' }}
+                     >
+                       {el}
+                     </option>
+                   );
+                 })}
+                    </Select>
+                    <Text
+                      fontSize="2.3vh"
+                      color={"white"}
+                      mt="2vh">
+                      <Link
+                        href="/login"
+                        color={"#72efdd"}><b>Log In</b>
+                      </Link> or <Link
+                        href="/register"
+                        color={"#64dfdf"}>
+                        <b>Register</b>
+                      </Link> for watch this serie.</Text>
+                   </Box> : null}
+              
+             
               <Text
                 textAlign="left"
                 fontWeight="500"
