@@ -17,13 +17,13 @@ const settings = {
   dots: false,
   arrows: false,
   fade: false,
-  infinite: true,
+  infinite: false,
   speed: 1500,
   slidesToShow: 8,
   slidesToScroll: 4,
 };
 
-export default function CarouselHome({ movies }) {
+export default function CarouselWatchList({ movies }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState(null);
@@ -34,13 +34,14 @@ export default function CarouselHome({ movies }) {
   const side = useBreakpointValue({ base: '30%', md: '10px' });
 
   // These are the images used in the slide
+
   const cards = movies;
 
   return (
     <Box
-      position={'relative'}
-      height={'350px'}
-      width={'full'}
+      position={cards.length > 8 ? 'relative' : 'static'}
+      height={'390px'}
+      width={cards.length < 8 ? `${cards.length * 12.5}%` : 'full'}
       mt={20}
       mb={20}
       overflow={'hidden'}
@@ -58,6 +59,13 @@ export default function CarouselHome({ movies }) {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       {/* Left Icon */}
+      <Text
+        fontSize={{ base: '1xl', md: '3xl' }}
+        fontWeight={'bold'}
+        color={'white'}
+      >
+        Rented :
+      </Text>
       <IconButton
         aria-label="left-arrow"
         colorScheme="messenger"
@@ -86,14 +94,18 @@ export default function CarouselHome({ movies }) {
         <BiRightArrowAlt />
       </IconButton>
       {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
+      <Slider
+        {...settings}
+        ref={(slider) => setSlider(slider)}
+        slidesToShow={cards.length < 8 ? cards.length : 8}
+      >
         {cards.map((m, index) => {
           if (m.serie) {
             return (
               <Box key={index} height={'6xl'}>
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
-                    src={'https://image.tmdb.org/t/p/w300' + m.poster}
+                    src={m.posterImg}
                     alt={m.title}
                     _hover={{
                       transform: 'scale(1.10)',
@@ -110,7 +122,7 @@ export default function CarouselHome({ movies }) {
               <Box key={index} height={'6xl'} zIndex={20}>
                 <Link to={`/home/movie_details/${m.id}`}>
                   <Image
-                    src={'https://image.tmdb.org/t/p/w300' + m.poster}
+                    src={m.posterImg}
                     transition="0.4s"
                     _hover={{
                       transform: 'scale(1.10)',

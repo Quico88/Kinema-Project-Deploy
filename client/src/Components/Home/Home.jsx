@@ -3,6 +3,8 @@ import NavBar from '../NavBar/NavBar';
 import Footer from './Chakra UI Components/Footer';
 import MainMovieMenu from './Chakra UI Components/MainMovieMenu';
 import CarouselHome from '../Carrousel/Chackra UI Components/CarouselHome';
+import CarouselWatchList from '../Carrousel/Chackra UI Components/CarouselWatchList';
+import CarouselRented from '../Carrousel/Chackra UI Components/CarouselRented';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHomeAll } from '../../Redux/actions';
 import { Container, Flex, Stack, Box, Text } from '@chakra-ui/react';
@@ -16,6 +18,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { carrousels_home, loading } = useSelector((state) => state);
   const error = useSelector((state) => state.error);
+  const userData = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
@@ -49,6 +52,15 @@ export default function Home() {
                 id={topTrendingMovie.id}
                 poster={topTrendingMovie.back_poster}
               />
+              {userData && userData.watchList.length > 0 ? (
+                <CarouselWatchList
+                  title="Watchlist"
+                  movies={userData.watchList}
+                />
+              ) : null}
+              {userData && userData.rented.length > 0 ? (
+                <CarouselRented title="Rented" movies={userData.rented} />
+              ) : null}
               <CarouselHome
                 movies={movieCarrousel.trending}
                 title="Trending:"
