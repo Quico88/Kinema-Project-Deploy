@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar.jsx";
 import logo from "../../Assets/logo.png";
 import { color } from "../globalStyles";
+import { useSelector } from "react-redux";
 
 const Links = ["Home", "Movies", "TV Shows"];
 
@@ -103,7 +104,8 @@ const NavLink3 = ({ ruta }) => (
 
 export default function NavBar({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout, loadingUser, read } = useAuth();
+  const { logout } = useAuth()
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [dataUser, setDataUser] = useState();
 
@@ -111,14 +113,6 @@ export default function NavBar({ ruta }) {
     await logout();
     navigate("/");
   }
-
-  useEffect(() => {
-    async function exe() {
-      const infoUser = await read(user.uid);
-      setDataUser(infoUser);
-    }
-    exe();
-  }, []);
 
   return (
     <>
@@ -158,7 +152,7 @@ export default function NavBar({ ruta }) {
           </HStack>
           <Flex alignItems={"center"}>
             <SearchBar />
-            {dataUser ? (
+            {user ? (
               <Menu>
                 <MenuButton
                   as={Button}
@@ -167,10 +161,10 @@ export default function NavBar({ ruta }) {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar size={"sm"} src={dataUser.avatar} />
+                  <Avatar size={"sm"} src={user.avatar} />
                 </MenuButton>
                 <MenuList>
-                  <MenuGroup fontSize={20} title={dataUser.username}>
+                  <MenuGroup fontSize={20} title={user.username}>
                     <MenuDivider />
                     <RouteLink to="/profile">
                       <MenuItem>Profile</MenuItem>
