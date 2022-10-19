@@ -233,7 +233,7 @@ export default function TVShowDetail() {
                       color={"white"}> You can <Link
                       href="/payment"
                       color={"#72efdd"}><b>upgrade</b>
-                    </Link>  your plan for watch any content.</Text>
+                    </Link>  your plan to watch any content.</Text>
                   </Box> : null}
                {//  USER FREE CASE:
                 user.subscription == null ?
@@ -272,7 +272,7 @@ export default function TVShowDetail() {
                         href="/register"
                         color={"#64dfdf"}>
                         <b>Register</b>
-                      </Link> for watch this serie.</Text>
+                      </Link> to watch this serie.</Text>
                    </Box> : null}
               
              

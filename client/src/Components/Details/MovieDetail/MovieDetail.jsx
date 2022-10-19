@@ -158,7 +158,7 @@ export default function MovieDetail() {
                       color={"white"}> You can <Link
                       href="/payment"
                       color={"#72efdd"}><b>upgrade</b>
-                    </Link>  your plan for watch any content.</Text>
+                    </Link>  your plan to watch any content.</Text>
                   </Box> : null
               }
               {
@@ -175,7 +175,7 @@ export default function MovieDetail() {
                         href="/register"
                         color={"#64dfdf"}>
                         <b>Register</b>
-                      </Link> for watch this movie.</Text>
+                      </Link> to watch this movie.</Text>
                   </Box> : null
                 }
               <Text
