@@ -48,7 +48,7 @@ export default function MainMovieMenu(props) {
                 </Button>
               </Link>
             ) : userData.subscription === 2 ? (
-              <Link to={`/payment/rent`}>
+              <Link to={`/payment/rent/movie/${props.id}`}>
                 <Button
                   bg={'blue.400'}
                   rounded={'full'}
