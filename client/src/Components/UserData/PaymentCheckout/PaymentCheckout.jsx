@@ -37,7 +37,7 @@ const CheckoutForm = () => {
           <Box spacing={4} background={"#1a1a24"}height={"600px"} w={[300, 400, 500]} borderColor={"#a56317"} alignContent={"center"}
             borderWidth='2px' >
 
-            <RouteLink to={'/home'}>
+            <RouteLink to={'/register/plan'}>
                 <Button background={"#a56317"} size='md' marginTop={"10px"} >BACK</Button>
             </RouteLink>
             <Text fontSize='3xl' color={"#a56317"} align={"center"}>BE PREMIUM</Text>
@@ -57,7 +57,10 @@ const CheckoutForm = () => {
                 />         
             </Box>
             <Box align={"center"} paddingTop={"10px"}>
-            <button className="btn-premium">CONFIRM</button>
+            <RouteLink to={'/home'}>
+                            <button className="btn-premium">CONFIRM</button>
+            </RouteLink>
+            
             </Box>
           </Box>
           </Box>
