@@ -1,7 +1,6 @@
 // Actions constants:
 export const GET_MOVIE_DETAIL = "GET_MOVIE_DETAIL";
 export const CLEAR_MOVIE_DETAIL = "CLEAR_MOVIE_DETAIL";
-
 export const GET_SERIE_DETAIL = "GET_SERIE_DETAIL";
 export const CLEAR_SERIE_DETAIL = "CLEAR_SERIE_DETAIL";
 export const GET_SEASON_DETAIL = "GET_SEASON_DETAIL";
@@ -21,3 +20,6 @@ export const ERROR_FOUND = "ERROR_FOUND";
 export const ERROR_CLEAN = "ERROR_CLEAN";
 export const GET_TV_SHOW_GENRES = "GET_TV_SHOW_GENRES"
 export const GET_SERIES_BY_GENRE = "GET_SERIES_BY_GENRE"
+
+export const LOG_IN = "LOG_IN"
+export const LOG_OUT = "LOG_OUT"
