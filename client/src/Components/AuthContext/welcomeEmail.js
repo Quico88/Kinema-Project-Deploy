@@ -1,11 +1,8 @@
-import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { useAuth } from './AuthContext';
 
 const YOUR_SERVICE_ID = "service_px53msi";
 const YOUR_TEMPLATE_ID = "template_h7ggtip";
 const YOUR_PUBLIC_KEY = "bGSqopmNF1TmerpdF"
-
 
 export default function welcomeEmail (email, username) {
 
@@ -21,5 +18,4 @@ export default function welcomeEmail (email, username) {
       }, (error) => {
           console.log(error.text);
       });
-
 };
