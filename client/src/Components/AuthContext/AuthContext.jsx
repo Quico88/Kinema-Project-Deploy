@@ -11,6 +11,7 @@ import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { auth, firestore } from "./firebase";
 import { useDispatch } from "react-redux";
 import { loadUserData, logOutUser } from "../../Redux/actions";
+import welcomeEmail from "./welcomeEmail";
 
 export const authContext = createContext();
 
@@ -46,6 +47,7 @@ export default function AuthProvider({ children }) {
       active: true,
       rented: [],
     });
+    welcomeEmail(userEmail, displayName);
     dispatch(loadUserData(infoUser.user.uid));
   };
 
@@ -76,6 +78,7 @@ export default function AuthProvider({ children }) {
       active: true,
       rented: [],
     });
+    welcomeEmail(infoUser.user.email, infoUser.user.displayName);
     dispatch(loadUserData(infoUser.user.uid));
   };
 
