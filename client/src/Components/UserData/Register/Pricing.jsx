@@ -7,8 +7,10 @@ import {
     ListItem,
     ListIcon,
     Button,
+    Link,
     useColorModeValue,
-  } from '@chakra-ui/react';
+} from '@chakra-ui/react';
+  
   import { CheckIcon } from '@chakra-ui/icons';
   
   export default function Pricing({planType, price, firstFeature, secondFeature, thirdFeature}) {
@@ -20,7 +22,8 @@ import {
           bg={useColorModeValue('white', 'gray.800')}
           boxShadow={'2xl'}
           rounded={'md'}
-          overflow={'hidden'}>
+          overflow={'hidden'} >
+          
           <Stack
             textAlign={'center'}
             p={6}
@@ -45,8 +48,8 @@ import {
             </Stack>
           </Stack>
   
-          <Box bg={useColorModeValue('gray.50', 'gray.900')} px={6} py={10}>
-            <List spacing={3}>
+          <Box bg={useColorModeValue('gray.50', 'gray.900')} px={6} py={5} >
+            <List spacing={3} >
               <ListItem key={1} >
                 <ListIcon as={CheckIcon} color="green.400" />
                 {firstFeature}
@@ -63,13 +66,17 @@ import {
               thirdFeature ? <ListItem key={4} >
 
               <ListIcon as={CheckIcon} color="green.400" />
-                    { thirdFeature}
-              </ListItem>  : null
+                  {thirdFeature}
+                  
+                </ListItem>
+                  : null
               }
-              
             </List>
-          </Box>
+            {planType == "Premium" ? <Link  href='/payment'><Button ml="1.5vh" mt="2vh">Subscribe to premium</Button></Link>  :  <Link href='/home'><Button ml="2.7vh" mt="2vh">Subscribe to basic</Button> </Link>}
         </Box>
+            
+          </Box>
+              
       </Center>
     );
   }
