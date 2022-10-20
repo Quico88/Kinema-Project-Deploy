@@ -80,7 +80,7 @@ export default function Home() {
                 fontSize={{ base: '1xl', md: '3xl' }}
                 mb={0}
               >
-                On Theaters: :
+                On Theaters:
               </Text>
               <CarouselHome
                 movies={movieCarrousel.on_theaters}
