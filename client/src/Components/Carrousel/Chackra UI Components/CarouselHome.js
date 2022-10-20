@@ -41,7 +41,6 @@ export default function CarouselHome({ movies }) {
       position={'relative'}
       height={'350px'}
       width={'full'}
-      mt={20}
       mb={20}
       overflow={'hidden'}
     >

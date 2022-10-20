@@ -52,36 +52,96 @@ export default function Home() {
                 id={topTrendingMovie.id}
                 poster={topTrendingMovie.back_poster}
               />
-              {userData && userData.watchList.length > 0 ? (
+              {userData &&
+              userData.subscription === 1 &&
+              userData.watchList.length > 0 ? (
                 <CarouselWatchList
                   title="Watchlist"
                   movies={userData.watchList}
                 />
               ) : null}
-              {userData && userData.rented.length > 0 ? (
+              {userData &&
+              userData.subscription === 2 &&
+              userData.rented.length > 0 ? (
                 <CarouselRented title="Rented" movies={userData.rented} />
               ) : null}
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Trending :
+              </Text>
               <CarouselHome
                 movies={movieCarrousel.trending}
                 title="Trending:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                On Theaters: :
+              </Text>
               <CarouselHome
                 movies={movieCarrousel.on_theaters}
                 title="On Theaters:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Popular :
+              </Text>
               <CarouselHome movies={movieCarrousel.populars} title="Popular:" />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Top rated Movies :
+              </Text>
               <CarouselHome
                 movies={movieCarrousel.topRated}
                 title="Top rated Movies:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Up Coming :
+              </Text>
               <CarouselHome
                 movies={movieCarrousel.upComing}
                 title="Up Coming:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Top rated TV Shows :
+              </Text>
               <CarouselHome
                 movies={SeriesCarrousel.topRatedSeries}
                 title="Top rated TV Shows:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Latests TV Shows :
+              </Text>
               <CarouselHome
                 movies={SeriesCarrousel.latestSeries}
                 title="Latests TV Shows:"
