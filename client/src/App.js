@@ -29,7 +29,8 @@ export default function App() {
         <Route path="/register/plan" element={<Plan />} />
         <Route path="/home" element={<Home />} />
         <Route path="/payment" element={<PaymentCheckout />} />
-        <Route path="/payment/rent" element={<PaymentCheckoutRent />} />
+        <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
+        <Route path="/payment/rent/tv_show/:id" element={<PaymentCheckoutRent />} />
         <Route
           path="/profile"
           element={

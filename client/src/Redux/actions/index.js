@@ -27,7 +27,8 @@ import {
   GET_TV_SHOW_GENRES,
   GET_SERIES_BY_GENRE,
   LOG_IN,
-  LOG_OUT
+  LOG_OUT,
+  RENT_VIDEO
 } from "./const";
 
 // Actions functions
@@ -331,3 +332,5 @@ export const logOutUser = () => {
     type: LOG_OUT,
   }
 };
+
+export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
