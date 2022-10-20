@@ -1,14 +1,24 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
+const { getDetailJSON } = require('../controllers local/getDataJSON.js');
 
 const api_general_route = 'https://api.themoviedb.org/3';
 
 // Get movie from API by ID:
 const getMoviesByIdApi = async (id) => {
-  const apiResponse = await axios.get(
-    `${api_general_route}/movie/${id}?api_key=${YOUR_API_KEY_1}`
-  );
+  const apiResponse = 
+    await axios.get(`${api_general_route}/movie/${id}?api_key=${YOUR_API_KEY_1}`)
+    .then( d => d)
+    .catch( e => undefined)
+
+  if(apiResponse === undefined){
+    let data = getDetailJSON(id);
+    return {
+      data: data,
+      json: true
+    }
+  }
 
   const image_route = 'https://image.tmdb.org/t/p/original';
 

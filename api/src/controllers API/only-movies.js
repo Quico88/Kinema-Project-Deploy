@@ -10,8 +10,8 @@ const getMovies = async (page) => {
     .catch(e => undefined)
   
   if( results === undefined) {
-    let data = await getDataJSON(page)
-    return data
+    let data = getDataJSON(page);
+    return data;
   }
 
   const movieData = results.map(m => {

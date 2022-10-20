@@ -32,8 +32,7 @@ const getSearchMovies = async (page, name) => {
     .catch( e => undefined)
 
   if( results === undefined) {
-    await console.log("entro al if")
-    let data = await getDataSearchJSON(page, name);
+    let data = getDataSearchJSON(page, name);
     return data;
   }
 
