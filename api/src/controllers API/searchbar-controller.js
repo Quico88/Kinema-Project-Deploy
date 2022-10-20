@@ -3,6 +3,7 @@ const e = require('express');
 const Genre = require('../Db/Schema/genre.js');
 const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
+const { getDataSearchJSON } = require('../controllers local/getDataJSON.js');
 const { YOUR_API_KEY_1 } = process.env;
 
 const getSearchSeriesDB = async (page, name) => {
@@ -25,11 +26,17 @@ const getSearchSeriesDB = async (page, name) => {
 };
 
 const getSearchMovies = async (page, name) => {
-  const {
-    data: { results },
-  } = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`
-  );
+  const results = 
+    await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`)
+    .then( d => d.data.results)
+    .catch( e => undefined)
+
+  if( results === undefined) {
+    await console.log("entro al if")
+    let data = await getDataSearchJSON(page, name);
+    return data;
+  }
+
   if(results.length === 0) return [];
   const movieData = results.map((m) => {
     return {
