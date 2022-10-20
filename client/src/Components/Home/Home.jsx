@@ -52,17 +52,14 @@ export default function Home() {
                 id={topTrendingMovie.id}
                 poster={topTrendingMovie.back_poster}
               />
-              {userData &&
-              userData.subscription === 1 &&
-              userData.watchList.length > 0 ? (
+              <Container maxW="container.xl" mt={10} />
+              {userData.subscription === 1 && userData.watchList.length > 0 ? (
                 <CarouselWatchList
                   title="Watchlist"
                   movies={userData.watchList}
                 />
               ) : null}
-              {userData &&
-              userData.subscription === 2 &&
-              userData.rented.length > 0 ? (
+              {userData.subscription === 2 && userData.rented.length > 0 ? (
                 <CarouselRented title="Rented" movies={userData.rented} />
               ) : null}
               <Text
