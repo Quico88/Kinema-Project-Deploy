@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { clearMovieDetail, getMovieDetail } from '../../../Redux/actions';
-import { Box, Flex, Heading, Text, Container, Button } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Container, Button, Link } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
 import Footer from '../../Home/Chakra UI Components/Footer.jsx';
@@ -19,6 +19,7 @@ export default function MovieDetail() {
   let { id } = useParams();
   const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -63,7 +64,7 @@ export default function MovieDetail() {
             backgroundImage={myMovie.back_poster}
             backgroundSize={'cover'}
             backgroundPosition={'center center'}
-            boxShadow="240px 0px 128px 64px black inset"
+            boxShadow="80vh 0px 128px 64px black inset"
             justify="left"
           >
             <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
@@ -77,7 +78,7 @@ export default function MovieDetail() {
               >
                 {myMovie.title}
               </Heading>
-              <Text fontSize="2vh" textAlign="left" color="white">
+              <Text fontSize="2vh" textAlign="left" color="white" maxW={"80vh"}>
                 {myMovie.description}
               </Text>
               <br />
@@ -108,8 +109,11 @@ export default function MovieDetail() {
                   {myMovie.genres?.map((el) => el + ' ')}
                 </Text>
               </Box>
-              <Box textAlign="left" mt="3vh">
-                <Button
+              {
+                  // USER PREMIUM CASE: 
+                  user.subscription == 2 ?
+                  <Box textAlign="left" mt="3vh">
+                   <Button
                   onClick={() => setPlayerTrailer(true)}
                   borderRadius="3vh"
                   rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
@@ -122,11 +126,58 @@ export default function MovieDetail() {
                   }}
                 >
                   <Text mb="0.25vh">WATCH</Text>
-                </Button>
-                <Button borderRadius="3vh" bg="#354f52" color="white">
+                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
                   MY LIST
-                </Button>
-              </Box>
+                  </Button>
+                  </Box> : null
+              }
+                  {
+                  // USER FREE CASE: 
+                  user.subscription == 1 ?
+                  <Box textAlign="left" mt="3vh">
+                   <Button
+                 
+                  borderRadius="3vh"
+                  mr="1.5vh"
+                  bg="#7209b7"
+                  color="white"
+                  _hover={{
+                    background: '#5e60ce',
+                    color: 'white',
+                  }}
+                    >
+                 
+                      <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                      <Text mb="0.25vh">RENT</Text>
+                      </Link>
+                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
+                  MY LIST
+                    </Button>
+                    <Text mt="2vh"
+                      fontSize="2.3vh"
+                      color={"white"}> You can <Link
+                      href="/payment"
+                      color={"#72efdd"}><b>upgrade</b>
+                    </Link>  your plan to watch any content.</Text>
+                  </Box> : null
+              }
+              {
+                  // USER GUEST CASE: 
+                  user.subscription == null ?
+                  <Box textAlign="left" mt="3vh">
+                    <Text
+                      fontSize="2.3vh"
+                      color={"white"}>
+                      <Link
+                        href="/login"
+                        color={"#72efdd"}><b>Log In</b>
+                      </Link> or <Link
+                        href="/register"
+                        color={"#64dfdf"}>
+                        <b>Register</b>
+                      </Link> to watch this movie.</Text>
+                  </Box> : null
+                }
               <Text
                 textAlign="left"
                 fontWeight="500"
