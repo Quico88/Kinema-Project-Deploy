@@ -7,9 +7,12 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export default function MainMovieMenu(props) {
+  const userData = useSelector((state) => state.user);
+
   return (
     <Flex
       w={'full'}
@@ -34,16 +37,41 @@ export default function MainMovieMenu(props) {
             {props.title}
           </Text>
           <Stack direction={'row'}>
-            <Link to={`/home/movie_details/${props.id}`}>
-              <Button
-                bg={'blue.400'}
-                rounded={'full'}
-                color={'white'}
-                _hover={{ bg: 'blue.500' }}
-              >
-                Watch
-              </Button>
-            </Link>
+            {userData.subscription === 1 ? (
+              <Link to={`/home/movie_details/${props.id}`}>
+                <Button
+                  bg={'blue.400'}
+                  rounded={'full'}
+                  color={'white'}
+                  _hover={{ bg: 'blue.500' }}
+                >
+                  Watch
+                </Button>
+              </Link>
+            ) : userData.subscription === 2 ? (
+              <Link to={`/payment/rent/movie/${props.id}`}>
+                <Button
+                  bg={'blue.400'}
+                  rounded={'full'}
+                  color={'white'}
+                  _hover={{ bg: 'blue.500' }}
+                >
+                  Rent
+                </Button>
+              </Link>
+            ) : (
+              <Link to={`/login`}>
+                <Button
+                  bg={'blue.400'}
+                  rounded={'full'}
+                  color={'white'}
+                  _hover={{ bg: 'blue.500' }}
+                >
+                  Log In to Watch
+                </Button>
+              </Link>
+            )}
+
             <Link to={`/home/movie_details/${props.id}`}>
               <Button
                 bg={'whiteAlpha.300'}
@@ -51,7 +79,9 @@ export default function MainMovieMenu(props) {
                 color={'white'}
                 _hover={{ bg: 'whiteAlpha.500' }}
               >
-                More information
+
+                More Information
+
               </Button>
             </Link>
           </Stack>
