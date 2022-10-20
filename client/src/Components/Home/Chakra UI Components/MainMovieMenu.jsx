@@ -37,7 +37,7 @@ export default function MainMovieMenu(props) {
             {props.title}
           </Text>
           <Stack direction={'row'}>
-            {userData.subscription === 1 ? (
+            {userData.subscription === 2 ? (
               <Link to={`/home/movie_details/${props.id}`}>
                 <Button
                   bg={'blue.400'}
@@ -48,7 +48,7 @@ export default function MainMovieMenu(props) {
                   Watch
                 </Button>
               </Link>
-            ) : userData.subscription === 2 ? (
+            ) : userData.subscription === 1 ? (
               <Link to={`/payment/rent/movie/${props.id}`}>
                 <Button
                   bg={'blue.400'}
