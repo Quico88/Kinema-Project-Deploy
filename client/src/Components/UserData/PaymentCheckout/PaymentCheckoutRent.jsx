@@ -22,20 +22,29 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
 
-    const { username, email, uid, rented } = useSelector(state => state.user)
-
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const { username, email, uid, rented } = useSelector(state => state.user)
+    const { movieDetail } = useSelector(state => state);
+    const { serieDetail } = useSelector(state => state);
+
     const { pathname } = useLocation();
     const params = useParams();
-    
-    const now = new Date();
-    const rentDuration = 3600 * 24 * 4 * 1000; // 4 days 
 
     const type = pathname.split('/')[3];
+
+    if ( type === 'tv_show' ){
+        var { title, poster } = serieDetail;
+    }
+    else{
+        var { title, poster } = movieDetail;
+    }
+        
+    const now = new Date();
+    const rentDuration = 3600 * 24 * 4 * 1000; // 4 days 
 
     const updateRented = async (payload) => {
         const userRef = doc(firestore, 'users', uid);
@@ -43,13 +52,14 @@ const CheckoutForm = () => {
             rented: [...rented, payload ]
         })
     }
-    
+  
     const rentedMovie = {
         id: Number(params.id),
+        title,
+        posterImg: poster,
         serie: type === 'tv_show' ? true : false,
         expirationDate: now.getTime() + rentDuration
     }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
