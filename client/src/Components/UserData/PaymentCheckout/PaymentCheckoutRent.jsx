@@ -43,7 +43,6 @@ const CheckoutForm = () => {
         expirationDate: now.getTime() + rentDuration
     }
 
-    console.log(rentedMovie);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
