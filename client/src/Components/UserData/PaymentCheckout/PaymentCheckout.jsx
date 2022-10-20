@@ -2,31 +2,42 @@ import React from "react";
 import { Box, Button, Image, FormControl, Text } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import {Link as RouteLink } from "react-router-dom";
+import {Link as RouteLink, useNavigate } from "react-router-dom";
 import axios from "axios"
 import img from "../../../Assets/premiumiconkine.png"
 import img2 from "../../../Assets/fondopayment2.jpg"
+import { useSelector } from "react-redux";
 
 const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
 
 const CheckoutForm = () => {
+    const navigate = useNavigate();
     const stripe = useStripe()
     const elements = useElements()
+    const { username, email } = useSelector(state => state.user);
+    
+    function handleBack() {
+        navigate(-1);
+    }
       
     const handleSubmit = async (e) => {
-        e.preventDefault()
-   
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement)
-        })
-    if(!error){
-        
-        const {id} = paymentMethod
-        const {data} = await axios.post("http://localhost:3001/payment/premium",{id,
-    amount: 5000
-    })
-    }
+        try {
+            e.preventDefault()
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: "card",
+                card: elements.getElement(CardElement)
+            })
+            if(!error){
+                const {id} = paymentMethod
+                const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
+                if(data.success){
+                    alert(data.message);
+                    navigate('/home'); 
+                }
+                else { alert(data.message) }
+            }
+        }
+        catch (e){ alert("We were not able to proceed your payment. Please try again") }    
     }
 
     return (
@@ -37,9 +48,9 @@ const CheckoutForm = () => {
           <Box spacing={4} background={"#1a1a24"}height={"600px"} w={[300, 400, 500]} borderColor={"#a56317"} alignContent={"center"}
             borderWidth='2px' >
 
-            <RouteLink to={'/home'}>
-                <Button background={"#a56317"} size='md' marginTop={"10px"} >BACK</Button>
-            </RouteLink>
+            
+                <Button onClick={handleBack} background={"#a56317"} size='md' marginTop={"10px"} >Back</Button>
+           
             <Text fontSize='3xl' color={"#a56317"} align={"center"}>BE PREMIUM</Text>
             <Box align={"center"}>
             <Image align={"center"} src={img} objectFit='cover' borderRadius='full' boxSize='350px' alt='Kinema Premium' />
@@ -57,7 +68,10 @@ const CheckoutForm = () => {
                 />         
             </Box>
             <Box align={"center"} paddingTop={"10px"}>
-            <button className="btn-premium">CONFIRM</button>
+            <RouteLink to={'/home'}>
+                            <button className="btn-premium">CONFIRM</button>
+            </RouteLink>
+            
             </Box>
           </Box>
           </Box>

@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+import { useAuth } from "../../Components/AuthContext/AuthContext";
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { auth, firestore } from "../../Components/AuthContext/firebase.js";
+
 // Import variables of actions:
 
 import {
@@ -21,7 +25,10 @@ import {
   ERROR_FOUND,
   ERROR_CLEAN,
   GET_TV_SHOW_GENRES,
-  GET_SERIES_BY_GENRE
+  GET_SERIES_BY_GENRE,
+  LOG_IN,
+  LOG_OUT,
+  RENT_VIDEO
 } from "./const";
 
 // Actions functions
@@ -76,7 +83,7 @@ export function getHomeAll() {
 export function getMovies(page) {
   return async function (dispatch) {
     try {
-            const json = await axios.get(
+      const json = await axios.get(
         '/home/movies/?page=' + page
       );
       if (json.status === 204) {
@@ -134,7 +141,7 @@ export function clearTvShows() {
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
-        const json = await axios.get('/home/search/?page=' + page + '&name=' + name);
+      const json = await axios.get('/home/search/?page=' + page + '&name=' + name);
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -258,7 +265,7 @@ export const getTVShowGenres = () => {
   return async function (dispatch) {
     try {
       var json = await axios.get("/genres");
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -268,20 +275,20 @@ export const getTVShowGenres = () => {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-    } 
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 };
 
 
 export const getSeriesByGenre = (genre, page) => {
-  
+
   return async function (dispatch) {
     try {
       var json = await axios.get("/home/series_by_genre/?page=" + page + "&genre=" + genre);
-      if(json.status === 204){
+      if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
         });
@@ -291,12 +298,39 @@ export const getSeriesByGenre = (genre, page) => {
         payload: json.data,
       });
     } catch (error) {
-        return dispatch({
-          type: ERROR_FOUND,
-        });
-    } 
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
   };
 };
 
 
 
+export const loadUserData = (id) => {
+  return async function (dispatch) {
+    try {
+      const docRef = doc(firestore, `/users/${id}`);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        let data = docSnap.data();
+        return dispatch({
+          type: LOG_IN,
+          payload: data
+        });
+      }
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  }
+}
+
+export const logOutUser = () => {
+  return {
+    type: LOG_OUT,
+  }
+};
+
+export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });

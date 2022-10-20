@@ -3,9 +3,8 @@ const router = Router();
 const {
   getSearchSeriesDB,
   getSearchMovies,
+  getAllSearch
 } = require('../controllers API/searchbar-controller');
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_KEY);
 
 // const { Movies, Genres } = require('../db.js');
 
@@ -14,7 +13,6 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
 const {getMoviesGenreById} = require("../controllers API/genresMovies")
-
 
 const {
   getMoviesByIdApi,
@@ -42,6 +40,9 @@ const {
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
+const paymenRoutes = require('./paymentRoutes');
+
+router.use("/payment", paymenRoutes);
 
 // ROUTES:
 
@@ -107,11 +108,11 @@ router.get('/home/movies', async (req, res) => {
 router.get('/home/search', async (req, res) => {
   try {
     const { page, name } = req.query;
-    let allSeries = await getSearchSeriesDB(name, page);
-    let allMovies = await getSearchMovies(name, page);
-    let seriesAndMovies = allSeries.concat(allMovies);
+    let data = await getAllSearch(page, name);
 
-    seriesAndMovies.sort((a, b) => {
+    if(data.length === 0) return res.status(204).send({ Error: "Not found" })
+
+    data.sort((a, b) => {
       if (a.vote_average < b.vote_average) {
         return 1;
       }
@@ -120,42 +121,9 @@ router.get('/home/search', async (req, res) => {
       }
       return 0;
     });
-    res.send(seriesAndMovies);
+    return res.send(data);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
-  }
-});
-
-// Stripe:
-router.post('/payment/premium', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Plan Premium',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Congratulations for your Premium Plan' });
-  } catch (error) {
-    res.json({ message: error.row.message });
-  }
-});
-
-router.post('/payment/rent', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Movie rent',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Enjoy your movie' });
-  } catch (error) {
-    res.json({ message: error.row.message });
   }
 });
 
@@ -238,6 +206,7 @@ router.get('/home/series_by_genre', async (req, res) => {
       return res.status(204).json({Error: error.message});
   }
 });
+
 
 
 module.exports = router;
