@@ -27,6 +27,7 @@ const SearchBar = () => {
             <Input
               type="text"
               placeholder="Search..."
+              color={"gray"}
               bg={"transparent"}
               onChange={(e) => setSearch(e.target.value)}
               mr={4}
