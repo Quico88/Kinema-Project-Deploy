@@ -13,6 +13,8 @@ import img from '../../../Assets/logo3.png';
 import "./PaymentCheckout.css"
 import { useDispatch, useSelector } from "react-redux";
 import { rentVideo } from '../../../Redux/actions';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../AuthContext/firebase';
 
 const stripePromise = loadStripe(
   'pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL'
@@ -20,7 +22,7 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
 
-    const { username, email } = useSelector(state => state.user)
+    const { username, email, uid, rented } = useSelector(state => state.user)
 
     const stripe = useStripe();
     const elements = useElements();
@@ -35,7 +37,12 @@ const CheckoutForm = () => {
 
     const type = pathname.split('/')[3];
 
-    
+    const updateRented = async (payload) => {
+        const userRef = doc(firestore, 'users', uid);
+        await updateDoc(userRef, {
+            rented: [...rented, payload ]
+        })
+    }
     
     const rentedMovie = {
         id: Number(params.id),
@@ -57,7 +64,7 @@ const CheckoutForm = () => {
             if(data.success){
                 alert(data.message);
                 dispatch(rentVideo(rentedMovie));  
-                // post en el back
+                await updateRented(rentedMovie);
                 navigate(-1); 
             }
             else { alert(data.message) };
