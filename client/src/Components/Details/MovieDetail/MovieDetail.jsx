@@ -2,7 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { clearMovieDetail, getCommentsData, getMovieDetail, postNewComment } from "../../../Redux/actions";
+import {
+  clearMovieDetail,
+  getCommentsData,
+  getMovieDetail,
+  postNewComment,
+} from "../../../Redux/actions";
 import {
   Box,
   Flex,
@@ -24,46 +29,51 @@ import "./MovieDetail.css";
 import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
 import Loader from "../../Loader/LoaderDetails.jsx";
 import Error from "../../Error/Error.jsx";
-import {color} from '../../globalStyles'
-
+import { color } from "../../globalStyles";
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
   let { id } = useParams();
-  const [ playTrailer, setPlayerTrailer ] = useState(false);
+  const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
   const user = useSelector((state) => state.user);
-  const [ commentArea, setCommentArea ] = useState('');
-  const [ errorCommentArea, setErrorCommentArea ] = useState(false)
-
+  const comments = useSelector((state) => state.comments);
+  const [commentArea, setCommentArea] = useState("");
+  const [errorCommentArea, setErrorCommentArea] = useState(false);
 
   useEffect(() => {
     dispatch(clearMovieDetail());
     dispatch(getMovieDetail(id));
+    dispatch(getCommentsData(id))
   }, [dispatch]);
 
   const myMovie = useSelector((state) => state.movieDetail);
 
   const handleTextArea = (e) => {
-    e.preventDefault()
-    setCommentArea(e.target.value)
-    setErrorCommentArea(validate(e.target.value))
-  }
+    e.preventDefault();
+    setCommentArea(e.target.value);
+    setErrorCommentArea(validate(e.target.value));
+  };
 
   const handleSubmitComment = (e) => {
-    e.preventDefault()
-    if(!commentArea){
-      setErrorCommentArea(true)
+    e.preventDefault();
+    if (!commentArea) {
+      setErrorCommentArea(true);
     } else {
-      /* dispatch(postNewComment(user.uid)) */
+      const date = new Date();
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      let currentDate = `${day}-${month}-${year}`;
+      dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
     }
-  }
+  };
 
   const validate = (str) => {
-    if(str.length<5){
-      return true
-    } else return false
-  }
+    if (str.length < 5) {
+      return true;
+    } else return false;
+  };
 
   const closePlayer = () => setPlayerTrailer(false);
 
@@ -149,75 +159,79 @@ export default function MovieDetail() {
                 </Box>
 
                 {
-                  // USER PREMIUM CASE: 
-                  user.subscription == 2 ?
-                  <Box textAlign="left" mt="3vh">
-                   <Button
-                  onClick={() => setPlayerTrailer(true)}
-                  borderRadius="3vh"
-                  rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                  mr="1.5vh"
-                  bg="#7209b7"
-                  color="white"
-                  _hover={{
-                    background: '#5e60ce',
-                    color: 'white',
-                  }}
-                >
-                  <Text mb="0.25vh">WATCH</Text>
-                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
-                  MY LIST
-                  </Button>
-                  </Box> : null
-              }
-                  {
-                  // USER FREE CASE: 
-                  user.subscription == 1 ?
-                  <Box textAlign="left" mt="3vh">
-                   <Button
-                 
-                  borderRadius="3vh"
-                  mr="1.5vh"
-                  bg="#7209b7"
-                  color="white"
-                  _hover={{
-                    background: '#5e60ce',
-                    color: 'white',
-                  }}
-                    >
-                 
-                      <Link href={`/payment/rent/movie/${myMovie.id}`}>
-                      <Text mb="0.25vh">RENT</Text>
-                      </Link>
-                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
-                  MY LIST
-                    </Button>
-                    <Text mt="2vh"
-                      fontSize="2.3vh"
-                      color={"white"}> You can <Link
-                      href="/payment"
-                      color={"#72efdd"}><b>upgrade</b>
-                    </Link>  your plan to watch any content.</Text>
-                  </Box> : null
-              }
-              {
-                  // USER GUEST CASE: 
-                  user.subscription == null ?
-                  <Box textAlign="left" mt="3vh">
-                    <Text
-                      fontSize="2.3vh"
-                      color={"white"}>
-                      <Link
-                        href="/login"
-                        color={"#72efdd"}><b>Log In</b>
-                      </Link> or <Link
-                        href="/register"
-                        color={"#64dfdf"}>
-                        <b>Register</b>
-                      </Link> to watch this movie.</Text>
-                  </Box> : null
+                  // USER PREMIUM CASE:
+                  user.subscription == 2 ? (
+                    <Box textAlign="left" mt="3vh">
+                      <Button
+                        onClick={() => setPlayerTrailer(true)}
+                        borderRadius="3vh"
+                        rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                        mr="1.5vh"
+                        bg="#7209b7"
+                        color="white"
+                        _hover={{
+                          background: "#5e60ce",
+                          color: "white",
+                        }}
+                      >
+                        <Text mb="0.25vh">WATCH</Text>
+                      </Button>{" "}
+                      <Button borderRadius="3vh" bg="#354f52" color="white">
+                        MY LIST
+                      </Button>
+                    </Box>
+                  ) : null
                 }
-                
+                {
+                  // USER FREE CASE:
+                  user.subscription == 1 ? (
+                    <Box textAlign="left" mt="3vh">
+                      <Button
+                        borderRadius="3vh"
+                        mr="1.5vh"
+                        bg="#7209b7"
+                        color="white"
+                        _hover={{
+                          background: "#5e60ce",
+                          color: "white",
+                        }}
+                      >
+                        <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                          <Text mb="0.25vh">RENT</Text>
+                        </Link>
+                      </Button>{" "}
+                      <Button borderRadius="3vh" bg="#354f52" color="white">
+                        MY LIST
+                      </Button>
+                      <Text mt="2vh" fontSize="2.3vh" color={"white"}>
+                        {" "}
+                        You can{" "}
+                        <Link href="/payment" color={"#72efdd"}>
+                          <b>upgrade</b>
+                        </Link>{" "}
+                        your plan to watch any content.
+                      </Text>
+                    </Box>
+                  ) : null
+                }
+                {
+                  // USER GUEST CASE:
+                  user.subscription == null ? (
+                    <Box textAlign="left" mt="3vh">
+                      <Text fontSize="2.3vh" color={"white"}>
+                        <Link href="/login" color={"#72efdd"}>
+                          <b>Log In</b>
+                        </Link>{" "}
+                        or{" "}
+                        <Link href="/register" color={"#64dfdf"}>
+                          <b>Register</b>
+                        </Link>{" "}
+                        to watch this movie.
+                      </Text>
+                    </Box>
+                  ) : null
+                }
+
                 <Text
                   textAlign="left"
                   fontWeight="500"
@@ -230,10 +244,12 @@ export default function MovieDetail() {
                 </Text>
               </Container>
             </Flex>
-   
+
             <Flex flexDirection="column" mt={100} mb={50}>
               <Box w="50%" borderBottom="1px" borderColor="gray.800" mb={5}>
-                <Text color="gray.200" fontSize={30}>Comments</Text>
+                <Text color="gray.200" fontSize={30}>
+                  Comments
+                </Text>
               </Box>
 
               <Flex
@@ -243,22 +259,19 @@ export default function MovieDetail() {
                 alignItems="center"
                 w="50%"
                 css={{
-                  '&::-webkit-scrollbar': {
+                  "&::-webkit-scrollbar": {
                     backgroundColor: "black",
-                    width: '10px',
+                    width: "10px",
                   },
-                  '&::-webkit-scrollbar-track': {
-                    width: '1px',
+                  "&::-webkit-scrollbar-track": {
+                    width: "1px",
                   },
-                  '&::-webkit-scrollbar-thumb': {
+                  "&::-webkit-scrollbar-thumb": {
                     background: color.kinemaBg,
-                    borderRadius: '24px',
+                    borderRadius: "24px",
                   },
                 }}
-              >
-
-              </Flex>
-              
+              ></Flex>
 
               <Box
                 border="1px"
@@ -284,7 +297,13 @@ export default function MovieDetail() {
                   />
                 </Center>
                 <Flex justifyContent="flex-end">
-                  {errorCommentArea ? <Text mr={5} color="red" >You must write at least 5 letters</Text> : <></>}
+                  {errorCommentArea ? (
+                    <Text mr={5} color="red">
+                      You must write at least 5 letters
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
                   <Button
                     mr="5%"
                     mb={5}
@@ -299,7 +318,6 @@ export default function MovieDetail() {
                 </Flex>
               </Box>
             </Flex>
-            
           </Box>
         ) : (
           <Loader />

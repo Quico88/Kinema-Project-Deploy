@@ -38,6 +38,7 @@ const initialState = {
   allgenres: [],
   error: false,
   user: false,
+  comments:[]
 };
 
 // Reducer:
@@ -153,7 +154,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_COMMENTS_DATA:
       return {
         ...state,
-        users: action.payload
+        comments: action.payload
       }
     case RENT_VIDEO:
       return {
