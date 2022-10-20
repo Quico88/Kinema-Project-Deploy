@@ -5,8 +5,6 @@ const {
   getSearchMovies,
   getAllSearch
 } = require('../controllers API/searchbar-controller');
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_KEY);
 
 // const { Movies, Genres } = require('../db.js');
 
@@ -16,7 +14,6 @@ const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
 const {getMoviesGenreById} = require("../controllers API/genresMovies")
 const Comment = require('../Db/Schema/comment.js');
-
 
 const {
   getMoviesByIdApi,
@@ -44,7 +41,13 @@ const {
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
+
 const { getDataComments } = require('../controllers DB/comments');
+
+const paymenRoutes = require('./paymentRoutes');
+
+router.use("/payment", paymenRoutes);
+
 
 // ROUTES:
 
@@ -126,39 +129,6 @@ router.get('/home/search', async (req, res) => {
     return res.send(data);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
-  }
-});
-
-// Stripe:
-router.post('/payment/premium', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Plan Premium',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Congratulations for your Premium Plan' });
-  } catch (error) {
-    res.json({ message: error.row.message });
-  }
-});
-
-router.post('/payment/rent', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Movie rent',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Enjoy your movie' });
-  } catch (error) {
-    res.json({ message: error.row.message });
   }
 });
 
@@ -261,6 +231,7 @@ router.get('/comments/:id', async (req, res) => {
       return res.status(204).json({Error: error.message});
   }
 })
+
 
 
 module.exports = router;

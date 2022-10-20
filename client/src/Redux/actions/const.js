@@ -18,11 +18,13 @@ export const GET_ALL_MOVIES = "GET_ALL_MOVIES";
 export const GET_MOVIE_GENRE_BY_ID = "GET_MOVIE_GENRE_BY_ID";
 export const ERROR_FOUND = "ERROR_FOUND";
 export const ERROR_CLEAN = "ERROR_CLEAN";
-export const GET_TV_SHOW_GENRES = "GET_TV_SHOW_GENRES"
-export const GET_SERIES_BY_GENRE = "GET_SERIES_BY_GENRE"
+export const GET_TV_SHOW_GENRES = "GET_TV_SHOW_GENRES";
+export const GET_SERIES_BY_GENRE = "GET_SERIES_BY_GENRE";
+export const RENT_VIDEO = "RENT_VIDEO";
 
 export const LOG_IN = "LOG_IN"
 export const LOG_OUT = "LOG_OUT"
 
 export const GET_COMMENTS_DATA = "GET_COMMENTS_DATA"
 export const POST_COMMENT = "POST_COMMENT"
+

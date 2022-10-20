@@ -29,7 +29,8 @@ import {
   LOG_IN,
   LOG_OUT,
   GET_COMMENTS_DATA,
-  POST_COMMENT
+  POST_COMMENT,
+  RENT_VIDEO,
 } from "./const";
 
 // Actions functions
@@ -315,6 +316,7 @@ export const loadUserData = (id) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         let data = docSnap.data();
+        data.uid = id;
         return dispatch({
           type: LOG_IN,
           payload: data
@@ -370,3 +372,6 @@ export const postNewComment = (userId, content, date, idReference) => {
     }
   }
 }
+
+export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
+

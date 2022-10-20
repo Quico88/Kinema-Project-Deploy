@@ -43,7 +43,7 @@ export default function Register() {
     e.preventDefault();
     try {
       await signup(user.email, user.password, user.displayName);
-      navigate('/profile');
+      navigate('/register/plan');
     } catch (error) {
       setError(error.message);
     }
@@ -51,7 +51,7 @@ export default function Register() {
 
   async function handleGoogleSignin() {
     await signupWithGoogle();
-    navigate('/profile');
+    navigate('/register/plan');
   }
 
   return (
@@ -65,29 +65,18 @@ export default function Register() {
       }
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
-    >
+      >
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
         columns={{ base: 1, md: 2 }}
         spacing={{ base: 10, lg: 32 }}
-        py={{ base: 10, sm: 20, lg: 32 }}
+          py={{ base: 10, sm: 20, lg: 32 }}
+          display="flex"
+          alignItems={"center"}
+        justifyContent="center"  
       >
-        <Stack direction={{ base: 'flex', sm: 'row' }}>
-          <Pricing 
-            planType={"Basic"}
-            price={0}
-            firstFeature={"Rent any Movie or TV Serie"}
-            secondFeature={"All features"}
-           />
-          <Pricing 
-            planType={"Premium"} 
-            price={15}
-            firstFeature={"Play any Movie or TV Serie"}
-            secondFeature={"Create Your Watch List"}
-            thirdFeature={"All features"}
-           />
-        </Stack>
+       
         <Stack
           bg={'rgba(17, 173, 152, 0.3)'}
           backdropFilter={'blur(10px)'}

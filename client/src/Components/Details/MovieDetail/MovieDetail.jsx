@@ -13,6 +13,7 @@ import {
   Center,
   Textarea,
   Divider,
+  Link,
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/react";
 import { MdPlayArrow } from "react-icons/md";
@@ -25,6 +26,7 @@ import Loader from "../../Loader/LoaderDetails.jsx";
 import Error from "../../Error/Error.jsx";
 import {color} from '../../globalStyles'
 
+
 export default function MovieDetail() {
   const dispatch = useDispatch();
   let { id } = useParams();
@@ -33,6 +35,7 @@ export default function MovieDetail() {
   const user = useSelector((state) => state.user);
   const [ commentArea, setCommentArea ] = useState('');
   const [ errorCommentArea, setErrorCommentArea ] = useState(false)
+
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -144,25 +147,77 @@ export default function MovieDetail() {
                     {myMovie.genres?.map((el) => el + " ")}
                   </Text>
                 </Box>
-                <Box textAlign="left" mt="3vh">
-                  <Button
-                    onClick={() => setPlayerTrailer(true)}
-                    borderRadius="3vh"
-                    rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                    mr="1.5vh"
-                    bg="#7209b7"
-                    color="white"
-                    _hover={{
-                      background: "#5e60ce",
-                      color: "white",
-                    }}
-                  >
-                    <Text mb="0.25vh">WATCH</Text>
+
+                {
+                  // USER PREMIUM CASE: 
+                  user.subscription == 2 ?
+                  <Box textAlign="left" mt="3vh">
+                   <Button
+                  onClick={() => setPlayerTrailer(true)}
+                  borderRadius="3vh"
+                  rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                  mr="1.5vh"
+                  bg="#7209b7"
+                  color="white"
+                  _hover={{
+                    background: '#5e60ce',
+                    color: 'white',
+                  }}
+                >
+                  <Text mb="0.25vh">WATCH</Text>
+                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
+                  MY LIST
                   </Button>
-                  <Button borderRadius="3vh" bg="#354f52" color="white">
-                    MY LIST
-                  </Button>
-                </Box>
+                  </Box> : null
+              }
+                  {
+                  // USER FREE CASE: 
+                  user.subscription == 1 ?
+                  <Box textAlign="left" mt="3vh">
+                   <Button
+                 
+                  borderRadius="3vh"
+                  mr="1.5vh"
+                  bg="#7209b7"
+                  color="white"
+                  _hover={{
+                    background: '#5e60ce',
+                    color: 'white',
+                  }}
+                    >
+                 
+                      <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                      <Text mb="0.25vh">RENT</Text>
+                      </Link>
+                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
+                  MY LIST
+                    </Button>
+                    <Text mt="2vh"
+                      fontSize="2.3vh"
+                      color={"white"}> You can <Link
+                      href="/payment"
+                      color={"#72efdd"}><b>upgrade</b>
+                    </Link>  your plan to watch any content.</Text>
+                  </Box> : null
+              }
+              {
+                  // USER GUEST CASE: 
+                  user.subscription == null ?
+                  <Box textAlign="left" mt="3vh">
+                    <Text
+                      fontSize="2.3vh"
+                      color={"white"}>
+                      <Link
+                        href="/login"
+                        color={"#72efdd"}><b>Log In</b>
+                      </Link> or <Link
+                        href="/register"
+                        color={"#64dfdf"}>
+                        <b>Register</b>
+                      </Link> to watch this movie.</Text>
+                  </Box> : null
+                }
+                
                 <Text
                   textAlign="left"
                   fontWeight="500"
@@ -180,6 +235,7 @@ export default function MovieDetail() {
               <Box w="50%" borderBottom="1px" borderColor="gray.800" mb={5}>
                 <Text color="gray.200" fontSize={30}>Comments</Text>
               </Box>
+
               <Flex
                 maxH={500}
                 overflow="auto"
@@ -200,8 +256,9 @@ export default function MovieDetail() {
                   },
                 }}
               >
-                
+
               </Flex>
+              
 
               <Box
                 border="1px"
