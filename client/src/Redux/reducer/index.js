@@ -143,7 +143,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
-      }
+      };
     case LOG_OUT:
       return {
         ...state,

@@ -14,8 +14,11 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
     const stripe = useStripe()
     const elements = useElements()
-
     const { username, email } = useSelector(state => state.user);
+    
+    function handleBack() {
+        navigate(-1);
+    }
       
     const handleSubmit = async (e) => {
         try {
@@ -34,8 +37,7 @@ const CheckoutForm = () => {
                 else { alert(data.message) }
             }
         }
-        catch (e){ alert("We were not able to proceed your payment. Please try again") }
-        
+        catch (e){ alert("We were not able to proceed your payment. Please try again") }    
     }
 
     return (
@@ -46,9 +48,9 @@ const CheckoutForm = () => {
           <Box spacing={4} background={"#1a1a24"}height={"600px"} w={[300, 400, 500]} borderColor={"#a56317"} alignContent={"center"}
             borderWidth='2px' >
 
-            <RouteLink to={'/home'}>
-                <Button background={"#a56317"} size='md' marginTop={"10px"} >BACK</Button>
-            </RouteLink>
+            
+                <Button onClick={handleBack} background={"#a56317"} size='md' marginTop={"10px"} >Back</Button>
+           
             <Text fontSize='3xl' color={"#a56317"} align={"center"}>BE PREMIUM</Text>
             <Box align={"center"}>
             <Image align={"center"} src={img} objectFit='cover' borderRadius='full' boxSize='350px' alt='Kinema Premium' />
@@ -66,7 +68,10 @@ const CheckoutForm = () => {
                 />         
             </Box>
             <Box align={"center"} paddingTop={"10px"}>
-            <button className="btn-premium">CONFIRM</button>
+            <RouteLink to={'/home'}>
+                            <button className="btn-premium">CONFIRM</button>
+            </RouteLink>
+            
             </Box>
           </Box>
           </Box>

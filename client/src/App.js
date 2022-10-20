@@ -16,6 +16,7 @@ import Register from './Components/UserData/Register/Register.jsx';
 import Home from './Components/Home/Home';
 import PaymentCheckout from './Components/UserData/PaymentCheckout/PaymentCheckout.jsx';
 import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCheckoutRent.jsx';
+import Plan from './Components/UserData/Register/Plan.jsx';
 
 // Create App component:
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register/plan" element={<Plan />} />
         <Route path="/home" element={<Home />} />
         <Route path="/payment" element={<PaymentCheckout />} />
         <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
