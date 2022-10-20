@@ -7,7 +7,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
-import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
@@ -68,7 +68,7 @@ export default function CarouselHome({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickPrev()}
       >
-        <BiLeftArrowAlt />
+        <IoIosArrowBack />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -82,7 +82,7 @@ export default function CarouselHome({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickNext()}
       >
-        <BiRightArrowAlt />
+        <IoIosArrowForward />
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
