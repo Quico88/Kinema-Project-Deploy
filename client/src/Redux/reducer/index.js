@@ -21,6 +21,7 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
+  GET_COMMENTS_DATA,
 } from "../actions/const";
 
 // Initial state of global store:
@@ -147,6 +148,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: false,
+      }
+    case GET_COMMENTS_DATA:
+      return {
+        ...state,
+        users: action.payload
       }
     default:
       return state;

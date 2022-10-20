@@ -15,6 +15,7 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
 const {getMoviesGenreById} = require("../controllers API/genresMovies")
+const Comment = require('../Db/Schema/comment.js');
 
 
 const {
@@ -43,6 +44,7 @@ const {
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
+const { getDataComments } = require('../controllers DB/comments');
 
 // ROUTES:
 
@@ -239,6 +241,26 @@ router.get('/home/series_by_genre', async (req, res) => {
       return res.status(204).json({Error: error.message});
   }
 });
+
+router.post('/comments', async (req, res) => {
+  const {userId, content, date, idReference} = req.body
+  try {
+    Comment.create({userId, content, date, idReference})
+    res.status(201).json("creado!")
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+});
+
+router.get('/comments/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    let info = await getDataComments(id)
+    res.status(200).send(info)
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+})
 
 
 module.exports = router;

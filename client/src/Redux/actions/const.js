@@ -23,3 +23,6 @@ export const GET_SERIES_BY_GENRE = "GET_SERIES_BY_GENRE"
 
 export const LOG_IN = "LOG_IN"
 export const LOG_OUT = "LOG_OUT"
+
+export const GET_COMMENTS_DATA = "GET_COMMENTS_DATA"
+export const POST_COMMENT = "POST_COMMENT"

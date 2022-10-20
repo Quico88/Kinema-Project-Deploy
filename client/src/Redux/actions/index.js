@@ -27,7 +27,9 @@ import {
   GET_TV_SHOW_GENRES,
   GET_SERIES_BY_GENRE,
   LOG_IN,
-  LOG_OUT
+  LOG_OUT,
+  GET_COMMENTS_DATA,
+  POST_COMMENT
 } from "./const";
 
 // Actions functions
@@ -331,3 +333,40 @@ export const logOutUser = () => {
     type: LOG_OUT,
   }
 };
+
+export const getCommentsData = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/comments/${id}`);
+      if (json.status === 204) {
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+      }
+      return dispatch({
+        type: GET_COMMENTS_DATA,
+        payload: json.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const postNewComment = (userId, content, date, idReference) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/comments`, {userId, content, date, idReference});
+      return dispatch({
+        type: POST_COMMENT,
+        payload: json.data,
+      })
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  }
+}
