@@ -107,13 +107,13 @@ export default function Admin(){
 
 <TableContainer>
   <Table variant='simple'>
-    <TableCaption>Imperial to metric conversion factors</TableCaption>
     <Thead>
       <Tr>
         <Th color={"black"} fontSize={"14px"} >Email</Th>
         <Th color={"black"} fontSize={"14px"} >Username</Th>
         <Th color={"black"} fontSize={"14px"} >Subscription Date</Th>
         <Th color={"black"} fontSize={"14px"} >Subscription</Th>
+        <Th color={"black"} fontSize={"14px"} >Total Rented</Th>
         <Th color={"black"} fontSize={"14px"} >Edit</Th>
         <Th color={"black"} fontSize={"14px"} >Delete</Th>
       </Tr>
@@ -129,6 +129,7 @@ export default function Admin(){
             <Td fontSize={"14px"} key={user.subscriptionDate} >{user.subscriptionDate.toDate().toLocaleDateString('en-US',
             options)}</Td>
             <Td fontSize={"14px"} >{user.subscription === 1 ? "Basic" : "Premium" }</Td>
+            <Td fontSize={"14px"} >{user.rented.length}</Td>
             <Td  key={i+1} ><button style={{"paddingLeft": "10px"}} ><img src={edit} alt="" /></button></Td>
             <Td  ><button style={{"paddingLeft": "15px"}} ><img src={deleted} alt="" /></button></Td>
         </Tr>
