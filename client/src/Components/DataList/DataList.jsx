@@ -6,12 +6,14 @@ import { DotSpinner } from "@uiball/loaders";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
-export default function DataList({ data, next }) {
+export default function DataList({ data, next, hasMore }) {
   
+  console.log("DATAAAAAA---",data);
+
   return (
     <InfiniteScroll
       dataLength={data.length}
-      hasMore={true}
+      hasMore={hasMore}
       next={() => next((prev) => prev + 1)}
       loader={
         <Flex alignItems="center" justify="center" minH={500}>

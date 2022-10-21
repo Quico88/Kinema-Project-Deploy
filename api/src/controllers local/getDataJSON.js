@@ -6,7 +6,8 @@ const genres_json = require('../backup/genres_movies.json');
 const getDataJSON = (page) => {
 	let omit = (page - 1) * 20;
 	let limit = omit + 20;
-	return data.slice(omit, limit);
+	let totalResults = data.length;
+	return {data: data.slice(omit, limit), totalResults};
 };
 
 // Para obtener los datos del search

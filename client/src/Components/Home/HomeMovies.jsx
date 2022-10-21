@@ -50,8 +50,8 @@ export default function HomeMovies() {
   }, [genero]);
 
   useEffect(() => {
-    setMoviesToShow((prev) => prev.concat(movies));
-  }, [movies]);
+    setMoviesToShow((prev) => prev.concat(movies.data));
+  }, [movies.data]);
 
   function handleGenres(e) {
     e.preventDefault();
@@ -138,7 +138,9 @@ export default function HomeMovies() {
                   opacity="1"
                 />
               </Center>
-              <DataList data={moviesToShow} next={setPage} />
+              <DataList 
+                hasMore={!(moviesToShow.length >= movies.totalResults)}
+                data={moviesToShow} next={setPage} />
             </Box>
           )}
           <Footer />
