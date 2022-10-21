@@ -106,8 +106,7 @@ const getSearchMovies = async (page, name) => {
 };
 
 const getAllSearch = async (page, name) => {
-  //let allSeries = await getSearchSeriesDB(page, name);
-  let allSeries = [];
+  let allSeries = await getSearchSeriesDB(page, name);
   let allMovies = await getSearchMovies(page, name);
   let all = [...allSeries, ...allMovies];
   return all;
