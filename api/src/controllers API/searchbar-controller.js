@@ -4,25 +4,29 @@ const Genre = require('../Db/Schema/genre.js');
 const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
 const { getDataSearchJSON } = require('../controllers local/getDataJSON.js');
+const {
+  getDataSearchTVJSON,
+} = require('../controllers local/getDataJSONSeries.js');
 const { YOUR_API_KEY_1 } = process.env;
 
 const getSearchSeriesDB = async (page, name) => {
-  let skip = (page - 1) * 20;
-  let limit = 20;
-  let dataSeries = await Serie.find({ name: new RegExp(name, 'i') })
-    .sort({ vote_average: -1 })
-    .skip(skip)
-    .limit(limit);
-  const search = dataSeries.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      poster: e.poster,
-      vote_average: e.vote_average,
-      serie: true,
-    };
-  });
-  return search;
+  // let skip = (page - 1) * 20;
+  // let limit = 20;
+  // let dataSeries = await Serie.find({ name: new RegExp(name, 'i') })
+  //   .sort({ vote_average: -1 })
+  //   .skip(skip)
+  //   .limit(limit);
+  // const search = dataSeries.map((e) => {
+  //   return {
+  //     id: e.id,
+  //     name: e.name,
+  //     poster: e.poster,
+  //     vote_average: e.vote_average,
+  //     serie: true,
+  //   };
+  // });
+
+  return getDataSearchTVJSON(page, name);
 };
 
 const getSearchMovies = async (page, name) => {
@@ -31,12 +35,12 @@ const getSearchMovies = async (page, name) => {
     // .then( d => d.data.results)
     // .catch( e => undefined)
 
-  if( results === undefined) {
+  if (results === undefined) {
     let data = getDataSearchJSON(page, name);
     return data;
   }
 
-  if(results.length === 0) return [];
+  if (results.length === 0) return [];
   const movieData = results.map((m) => {
     return {
       id: m.id,
@@ -71,22 +75,24 @@ const getSearchMovies = async (page, name) => {
 
   const validate = async (m) => {
     const moviesVal = [];
-    for( let n of m) {
+    for (let n of m) {
       let trailer = await fetchMovie(n.id);
-      if(Array.isArray(trailer)){
-        return trailer
+      if (Array.isArray(trailer)) {
+        return trailer;
       }
-      if ((!!n.title)
-        && (!!n.description)
-        && (!!n.backPoster)
-        && (!!n.id)
-        && (!!n.poster)
-        && (!!trailer)
-      ) moviesVal.push(n)
+      if (
+        !!n.title &&
+        !!n.description &&
+        !!n.backPoster &&
+        !!n.id &&
+        !!n.poster &&
+        !!trailer
+      )
+        moviesVal.push(n);
     }
 
     return moviesVal;
-  }
+  };
 
   const fetchMovie = async (id) => {
     const data = undefined;
@@ -94,15 +100,14 @@ const getSearchMovies = async (page, name) => {
       // .then( d => d.data)
       // .catch( e => undefined)
     if(data === undefined) {
-      console.log("entre al if de la validacion de video en fecthMovie - searchbar controller")
       let data = getDataSearchJSON(page, name)
       return data;
     }
     if (!!data.results.length) return true;
     return false;
-  }
+  };
 
-  return validate(movieData)
+  return validate(movieData);
 };
 
 const getAllSearch = async (page, name) => {
@@ -110,10 +115,10 @@ const getAllSearch = async (page, name) => {
   let allMovies = await getSearchMovies(page, name);
   let all = [...allSeries, ...allMovies];
   return all;
-}
+};
 
 module.exports = {
   getSearchSeriesDB,
   getSearchMovies,
-  getAllSearch
+  getAllSearch,
 };

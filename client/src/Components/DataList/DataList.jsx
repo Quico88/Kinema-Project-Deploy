@@ -24,22 +24,22 @@ export default function DataList({ data, next, hasMore }) {
         {data?.map((m) => {
           if (m.serie) {
             return (
-              <Link to={`/home/tv_show_details/${m.id}`} >
+              <Link key={m.id} to={`/home/tv_show_details/${m.id}`} >
                 <Card
                   posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
-                  key={m.id}
+                  
                 />
               </Link>
             );
           } else {
             return (
-              <Link to={`/home/movie_details/${m.id}`}>
+              <Link key={m.id} to={`/home/movie_details/${m.id}`}>
                 <Card
                   posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   title={m.title}
-                  key={m.id}
+                  
                 />
               </Link>
             );

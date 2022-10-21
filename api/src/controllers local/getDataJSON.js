@@ -2,38 +2,40 @@ const axios = require('axios');
 const data = require('../backup/movies.json');
 const genres_json = require('../backup/genres_movies.json');
 
-// Para obtener los datos del home
+// Get movies for home:
 const getDataJSON = (page) => {
+
 	let omit = (page - 1) * 20;
 	let limit = omit + 20;
 	//let totalResults = data.length;
 	return data.slice(omit, limit);
 	//return {data: data.slice(omit, limit), totalResults};
+
 };
 
-// Para obtener los datos del search
+// Get movies by search:
 const getDataSearchJSON = (page, name) => {
-	let omit = (page - 1) * 20;
-	let limit = omit + 20;
-	let regExp = new RegExp(name, 'i');
-	let dataFiltered = data.filter( n => regExp.test(n.title));
-	return dataFiltered.slice(omit, limit);
+  let omit = (page - 1) * 20;
+  let limit = omit + 20;
+  let regExp = new RegExp(name, 'i');
+  let dataFiltered = data.filter((n) => regExp.test(n.title));
+  return dataFiltered.slice(omit, limit);
 };
 
-// Para obtener el detalle de una movie
+// Get detail of movies:
 const getDetailJSON = (id) => {
-	let detail = data.find( movie => movie.id == id);
-	return detail;
+  let detail = data.find((movie) => movie.id == id);
+  return detail;
 };
 
-// Para obtener el nombre de los generos y su id
+// Get genres name and id for movies:
 const getGenresJSON = () => {
-	return genres_json;
-}
+  const genres = genres_json.map((genre) => genre.name);
+  return genres;
+};
 
-// Para obtener el nombre del genero por su id
 const getGenreIdJSON = (id) => {
-	if (id == 27) return 'Horror';
+  if (id == 27) return 'Horror';
   if (id == 28) return 'Action';
   if (id == 12) return 'Adventure';
   if (id == 16) return 'Animation';
@@ -52,27 +54,28 @@ const getGenreIdJSON = (id) => {
   if (id == 53) return 'Thriller';
   if (id == 10752) return 'War';
   if (id == 37) return 'Western';
-}
+};
 
-// Para obtener las movies segun su genero
+// Get movies by genre:
 const getMoviesByGenreJSON = (id, page) => {
-	let omit = (page - 1) * 20;
-	let limit = omit + 20;
-	let genre = getGenreIdJSON(id);
-	let dataFiltered = data.filter( movie => movie.genres.includes(genre));
-	return dataFiltered.slice(omit, limit);
+  let omit = (page - 1) * 20;
+  let limit = omit + 20;
+  let genre = getGenreIdJSON(id);
+  let dataFiltered = data.filter((movie) => movie.genres.includes(genre));
+  return dataFiltered.slice(omit, limit);
 };
 
 const getVideoJSON = (id) => {
-	let filtered = data.find(movie => movie.id == id)
-	return filtered.trailer
-}
+  let filtered = data.find((movie) => movie.id == id);
+  return filtered.trailer;
+};
+
 module.exports = {
-	getDataJSON,
-	getDataSearchJSON,
-	getDetailJSON,
-	getMoviesByGenreJSON,
-	getGenreIdJSON,
-	getGenresJSON,
-	getVideoJSON
-}
+  getDataJSON,
+  getDataSearchJSON,
+  getDetailJSON,
+  getMoviesByGenreJSON,
+  getGenreIdJSON,
+  getGenresJSON,
+  getVideoJSON,
+};
