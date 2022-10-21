@@ -113,8 +113,9 @@ export default function HomeMovies() {
                   textAlign="center"
                   fontWeight="500"
                   color="white"
+                  defaultValue="Genres"
                 >
-                  <option selected disabled>
+                  <option disabled>
                     Genres
                   </option>
                   <option value="All" className="options">

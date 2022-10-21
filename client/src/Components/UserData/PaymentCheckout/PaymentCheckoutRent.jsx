@@ -13,6 +13,7 @@ import img from '../../../Assets/logo3.png';
 import "./PaymentCheckout.css"
 import { useDispatch, useSelector } from "react-redux";
 import { rentVideo } from '../../../Redux/actions';
+
 import { useState } from 'react';
 import { useEffect } from 'react';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
@@ -20,6 +21,8 @@ import logo from "../../../Assets/logo.png"
 import { getMovieDetail } from '../../../Redux/actions';
 import { getSerieDetail } from '../../../Redux/actions';
 
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../AuthContext/firebase';
 
 
 const stripePromise = loadStripe(
@@ -28,18 +31,17 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
 
-    const { username, email } = useSelector(state => state.user)
-
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const { username, email, uid, rented } = useSelector(state => state.user)
+    const { movieDetail } = useSelector(state => state);
+    const { serieDetail } = useSelector(state => state);
+
     const { pathname } = useLocation();
     const params = useParams();
-    
-    const now = new Date();
-    const rentDuration = 3600 * 24 * 4 * 1000; // 4 days 
 
     const type = pathname.split('/')[3];
     
@@ -98,16 +100,33 @@ const CheckoutForm = () => {
       };
     
 
-    
-    
+    if ( type === 'tv_show' ){
+        var { title, poster } = serieDetail;
+    }
+    else{
+        var { title, poster } = movieDetail;
+    }
+        
+    const now = new Date();
+    const rentDuration = 3600 * 24 * 4 * 1000; // 4 days 
+
+    const updateRented = async (payload) => {
+        const userRef = doc(firestore, 'users', uid);
+        await updateDoc(userRef, {
+            rented: [...rented, payload ]
+        })
+    }
+  
     const rentedMovie = {
         id: Number(params.id),
+        title,
+        posterImg: poster,
         serie: type === 'tv_show' ? true : false,
         expirationDate: now.getTime() + rentDuration
     }
 
-
     const handleSubmit = async (e) => {
+
         if (errors.name || errors.surname) {
             e.preventDefault()
             alert("Please complete the form correctly")
@@ -125,10 +144,11 @@ const CheckoutForm = () => {
                 if(data.success){
                     alert(data.message);
                     dispatch(rentVideo(rentedMovie));  
-                    // post en el back
+                    await updateRented(rentedMovie);
                     navigate(-1); 
                 }
                 else { alert(data.message) };
+
             }
         }
         

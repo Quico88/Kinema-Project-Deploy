@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 
 
 export function ProtectedRoute({children}) {
-    const {user, loading} = useAuth()
+    const {user, loadingUser} = useAuth()
     
-    if(loading) return <h1>loading</h1>
+    if(loadingUser) return null
     if(!user) return <Navigate  to={"/"} />
 
 

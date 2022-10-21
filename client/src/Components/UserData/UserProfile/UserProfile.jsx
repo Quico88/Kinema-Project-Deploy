@@ -37,6 +37,7 @@ import {
 import { Link as RouteLink } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
+import { useSelector } from 'react-redux';
 
 const settings = {
   dots: true,
@@ -51,6 +52,7 @@ const settings = {
 export default function UserProfile() {
   const navigate = useNavigate();
   const { user, logout, loadingUser, read } = useAuth();
+  const userData = useSelector(state => state.user)
   const [username1, setUsername1] = useState();
   const [mail, setMail] = useState();
   const [image, setImage] = useState();
@@ -135,7 +137,6 @@ export default function UserProfile() {
   useEffect(() => {
     async function exe() {
       let dataUser = await read(user.uid);
-      console.log(dataUser);
       setUsername1(dataUser.username);
       setMail(dataUser.email);
       setImage(dataUser.avatar);
@@ -216,7 +217,7 @@ export default function UserProfile() {
               <TabPanel>
                 <Avatar
                   size={'xl'}
-                  src={image}
+                  src={userData.avatar}
                   alt={'Avatar Alt'}
                   mb={4}
                   pos={'relative'}
@@ -226,7 +227,7 @@ export default function UserProfile() {
                   marginBottom={'2vh'}
                   color={'#99a3a4'}
                 >
-                  Hello! {username1}
+                  Hello! {userData.username}
                 </Box>
                 <Box>
                   {typeSub === 1 ? (
@@ -325,6 +326,20 @@ export default function UserProfile() {
                       ) : (
                         <Box>
                           <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>No rented Movies or Tv Shows</Text>
+                          {
+                            userData.admin 
+                            ? 
+                            <Button 
+                            background={"var(--chakra-colors-blue-600)"} 
+                            _hover={{
+                              background: "var(--chakra-colors-blue-700)"
+                            }} 
+                            >
+                            <RouteLink to={"/admin"}>Admin Panel</RouteLink>  
+                            </Button>
+                            :
+                            null
+                          }
                           <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>Go to <Button variant={"link"} color={' #2ecc71 '}><RouteLink to='/home'>EXPLORE</RouteLink></Button></Text>
                         </Box>
                       )}
@@ -449,7 +464,7 @@ export default function UserProfile() {
                     Username
                   </Text>
                   <Text fontSize={{ base: '14px', md: '16px', lg: '20px' }} color={'#99a3a4'}>
-                        {username1}
+                        {userData.username}
                   </Text>
                 </Box>
                 <Box
@@ -590,7 +605,7 @@ export default function UserProfile() {
               <TabPanel>
                 <Avatar
                   size={'xl'}
-                  src={image}
+                  src={userData.avatar}
                   alt={'Avatar Alt'}
                   mb={4}
                   pos={'relative'}
@@ -614,7 +629,7 @@ export default function UserProfile() {
                     fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                     color={'#99a3a4'}
                   >
-                    {username1}
+                    {userData.username}
                   </Text>
                 </Box>
                 <Box
@@ -678,7 +693,7 @@ export default function UserProfile() {
                             <PopoverHeader>
                               <Text color={'#424949'}>
                                 Are you sure you want to update? From{' '}
-                                {username1} to
+                                {userData.username} to {" "}
                                 {input.username}?
                               </Text>
                             </PopoverHeader>

@@ -315,6 +315,7 @@ export const loadUserData = (id) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         let data = docSnap.data();
+        data.uid = id;
         return dispatch({
           type: LOG_IN,
           payload: {...data, uid: id} 
