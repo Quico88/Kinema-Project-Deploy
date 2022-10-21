@@ -61,7 +61,7 @@ export default function MovieDetail() {
             mt={16}
             w={'full'}
             h={'85vh'}
-            backgroundImage={myMovie.back_poster}
+            backgroundImage={myMovie.back_poster.includes('https://image.tmdb.org') ? myMovie.back_poster : 'https://image.tmdb.org/t/p/original/'+myMovie.back_poster}
             backgroundSize={'cover'}
             backgroundPosition={'center center'}
             boxShadow="80vh 0px 128px 64px black inset"

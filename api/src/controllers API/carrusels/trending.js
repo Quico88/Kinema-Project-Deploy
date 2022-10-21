@@ -5,10 +5,10 @@ const api_general_route = 'https://api.themoviedb.org/3';
 const { trendingData } = require('../../controllers local/getDataCarruselsJSON.js');
 
 const trendingFunction = async () => {
-  const trending = 
-    await axios.get(`${api_general_route}/trending/movie/day?api_key=${YOUR_API_KEY_1}`)
-    .then( d => d.data.results)
-    .catch( e => undefined)
+  const trending = undefined
+    // await axios.get(`${api_general_route}/trending/movie/day?api_key=${YOUR_API_KEY_1}`)
+    // .then( d => d.data.results)
+    // .catch( e => undefined)
   if(trending === undefined) {
     let data = trendingData();
     return data;

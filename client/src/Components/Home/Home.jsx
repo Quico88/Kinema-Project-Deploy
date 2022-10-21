@@ -12,6 +12,7 @@ import Loader from '../Loader/LoaderCarrusels';
 import Error from '../Error/Error.jsx';
 import { useAuth } from '../AuthContext/AuthContext';
 import '@fontsource/raleway';
+import { ERROR_CLEAN } from '../../Redux/actions/const';
 
 export default function Home() {
   const { user, logout, loadingUser, read } = useAuth();
@@ -21,6 +22,7 @@ export default function Home() {
   const userData = useSelector((state) => state.user);
 
   useEffect(() => {
+    dispatch({type: ERROR_CLEAN});
     if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
   }, []);
 
@@ -119,7 +121,7 @@ export default function Home() {
                 movies={movieCarrousel.upComing}
                 title="Up Coming:"
               />
-              <Text
+              {/* <Text
                 fontWeight={'bold'}
                 color={'white'}
                 fontSize={{ base: '1xl', md: '3xl' }}
@@ -142,7 +144,7 @@ export default function Home() {
               <CarouselHome
                 movies={SeriesCarrousel.latestSeries}
                 title="Latests TV Shows:"
-              />
+              /> */}
             </Box>
           )}
           <Footer />

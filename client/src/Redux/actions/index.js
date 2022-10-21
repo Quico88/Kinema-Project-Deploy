@@ -60,6 +60,7 @@ export const clearMovieDetail = () => ({ type: CLEAR_MOVIE_DETAIL });
 export function getHomeAll() {
   return async function (dispatch) {
     dispatch({ type: START_LOADING });
+    dispatch({ type: ERROR_CLEAN });
     try {
       var json = await axios.get('/home');
       if (json.status === 204) {

@@ -4,10 +4,10 @@ const { YOUR_API_KEY_1 } = process.env;
 const { getMoviesByGenreJSON, getGenresJSON } = require('../controllers local/getDataJSON.js');
 
 const  getGenresFromAPI = async () => {
-    const genres = 
-      await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`)
-      .then( d => d.data.genres)
-      .catch( e => undefined)
+    const genres = undefined;
+      // await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      // .then( d => d.data.genres)
+      // .catch( e => undefined)
 
     if(genres === undefined) {
       let data = getGenresJSON();
@@ -19,10 +19,10 @@ const  getGenresFromAPI = async () => {
 
 
 const getMoviesGenreById = async (id, page) => {
-  const results = 
-    await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`)
-    .then( d => d.data.results)
-    .catch( e => undefined)
+  const results = undefined;
+    // await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`)
+    // .then( d => d.data.results)
+    // .catch( e => undefined)
   let idgenre = id
   if( results === undefined) {
     let data = getMoviesByGenreJSON(id, page);
@@ -81,12 +81,12 @@ const getMoviesGenreById = async (id, page) => {
   }
 
   const fetchMovie = async (id) => {
-    const data = 
-      await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
-      .then( d => d.data)
-      .catch( e => undefined)
+    const data = undefined;
+      // await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      // .then( d => d.data)
+      // .catch( e => undefined)
     if(data === undefined) {
-      console.log("entre al if de la validacion de video")
+      console.log("entre al if de la validacion de video en fecth movie en genres movies")
       let data = getMoviesByGenreJSON(idgenre, page);
       return data;
     }
