@@ -97,9 +97,10 @@ export default function HomeTVShows() {
                   fontWeight="500"
                   defaultValue="Genres"
                 >
-                  <option disabled>Genres</option>
+                  <option disabled>
+                    Genres
+                  </option>
                   <option className="options">All</option>
-                  {console.log(allGenres)}
                   {allGenres.map((g, i) => (
                     <option name={g} key={i} value={g} className="options">
                       {g}
