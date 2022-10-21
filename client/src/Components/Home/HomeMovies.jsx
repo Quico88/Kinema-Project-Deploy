@@ -74,6 +74,8 @@ export default function HomeMovies() {
     }
   }
 
+  console.log("MOVIES TO SHOW!!! ",moviesToShow);
+
   if (error) {
     return <Error />;
   } else {
@@ -149,7 +151,8 @@ export default function HomeMovies() {
                   opacity="1"
                 />
               </Center>
-              <DataList data={moviesToShow} next={setPage} />
+              <DataList 
+                data={moviesToShow} next={setPage} />
             </Box>
           )}
           <Footer />

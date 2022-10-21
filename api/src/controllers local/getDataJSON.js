@@ -4,9 +4,13 @@ const genres_json = require('../backup/genres_movies.json');
 
 // Get movies for home:
 const getDataJSON = (page) => {
-  let omit = (page - 1) * 20;
-  let limit = omit + 20;
-  return data.slice(omit, limit);
+
+	let omit = (page - 1) * 20;
+	let limit = omit + 20;
+	//let totalResults = data.length;
+	return data.slice(omit, limit);
+	//return {data: data.slice(omit, limit), totalResults};
+
 };
 
 // Get movies by search:

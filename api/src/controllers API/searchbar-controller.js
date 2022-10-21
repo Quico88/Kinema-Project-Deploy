@@ -30,12 +30,10 @@ const getSearchSeriesDB = async (page, name) => {
 };
 
 const getSearchMovies = async (page, name) => {
-  const results = undefined; /* await axios
-    .get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`
-    )
-    .then((d) => d.data.results)
-    .catch((e) => undefined); */
+  const results = undefined;
+    // await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`)
+    // .then( d => d.data.results)
+    // .catch( e => undefined)
 
   if (results === undefined) {
     let data = getDataSearchJSON(page, name);
@@ -97,14 +95,12 @@ const getSearchMovies = async (page, name) => {
   };
 
   const fetchMovie = async (id) => {
-    const data = await axios(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`
-    )
-      .then((d) => d.data)
-      .catch((e) => undefined);
-    if (data === undefined) {
-      console.log('entre al if de la validacion de video');
-      let data = getDataSearchJSON(page, name);
+    const data = undefined;
+      // await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      // .then( d => d.data)
+      // .catch( e => undefined)
+    if(data === undefined) {
+      let data = getDataSearchJSON(page, name)
       return data;
     }
     if (!!data.results.length) return true;

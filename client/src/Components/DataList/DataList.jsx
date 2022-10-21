@@ -6,8 +6,9 @@ import { DotSpinner } from "@uiball/loaders";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
-export default function DataList({ data, next }) {
+export default function DataList({ data, next, hasMore }) {
   
+
   return (
     <InfiniteScroll
       dataLength={data.length}
