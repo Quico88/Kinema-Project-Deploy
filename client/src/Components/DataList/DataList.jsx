@@ -8,12 +8,11 @@ import { Link } from "react-router-dom";
 
 export default function DataList({ data, next, hasMore }) {
   
-  console.log("DATAAAAAA---",data);
 
   return (
     <InfiniteScroll
       dataLength={data.length}
-      hasMore={hasMore}
+      hasMore={true}
       next={() => next((prev) => prev + 1)}
       loader={
         <Flex alignItems="center" justify="center" minH={500}>
