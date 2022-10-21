@@ -61,11 +61,16 @@ const getMoviesByGenreJSON = (id, page) => {
 	return dataFiltered.slice(omit, limit);
 };
 
+const getVideoJSON = (id) => {
+	let filtered = data.find(movie => movie.id == id)
+	return filtered.trailer
+}
 module.exports = {
 	getDataJSON,
 	getDataSearchJSON,
 	getDetailJSON,
 	getMoviesByGenreJSON,
 	getGenreIdJSON,
-	getGenresJSON
+	getGenresJSON,
+	getVideoJSON
 }

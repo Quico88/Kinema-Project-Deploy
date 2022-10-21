@@ -1,7 +1,7 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
-const { getDetailJSON } = require('../controllers local/getDataJSON.js');
+const { getDetailJSON, getVideoJSON } = require('../controllers local/getDataJSON.js');
 
 const api_general_route = 'https://api.themoviedb.org/3';
 
@@ -13,6 +13,7 @@ const getMoviesByIdApi = async (id) => {
     .catch( e => undefined)
 
   if(apiResponse === undefined){
+    console.log("if del datail")
     let data = getDetailJSON(id);
     return {
       data: data,
@@ -48,9 +49,16 @@ const getMoviesByIdApi = async (id) => {
 
 // Get trailer from API by ID:
 const getTrailerMovie = async (id) => {
-  const apiResponse = await axios.get(
-    `${api_general_route}/movie/${id}/videos?api_key=${YOUR_API_KEY_1}`
-  );
+  const apiResponse = 
+    await axios.get(`${api_general_route}/movie/${id}/videos?api_key=${YOUR_API_KEY_1}`)
+    .then(d => d)
+    .catch(e => undefined)
+
+    if(apiResponse === undefined){
+      console.log("entre al if video de detail")
+      let data = getVideoJSON(id)
+      return data
+    }
   /* if official trailer exist then official trailer, otherwise officialTrailer equal a first of videos on array: */
 
   const videos = apiResponse.data.results;
