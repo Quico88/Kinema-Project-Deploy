@@ -16,16 +16,17 @@ export default function MainMovieMenu(props) {
   return (
     <Flex
       w={'full'}
-      h={'50vh'}
+      h={'65vh'}
       backgroundImage={props.poster}
       backgroundSize={'cover'}
       backgroundPosition={'center center'}
+     
     >
       <VStack
         w={'full'}
         justify={'center'}
         px={useBreakpointValue({ base: 4, md: 8 })}
-        bgGradient={'linear(to-r, blackAlpha.600, transparent)'}
+        bgGradient={'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'}
       >
         <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
           <Text

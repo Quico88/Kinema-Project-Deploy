@@ -28,7 +28,8 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
-  RENT_VIDEO
+  RENT_VIDEO,
+  UPGRADE_PLAN
 } from "./const";
 
 // Actions functions
@@ -316,7 +317,7 @@ export const loadUserData = (id) => {
         let data = docSnap.data();
         return dispatch({
           type: LOG_IN,
-          payload: data
+          payload: {...data, uid: id} 
         });
       }
     } catch (error) {
@@ -334,3 +335,9 @@ export const logOutUser = () => {
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
+
+export const upgradePlan = () => {
+  return {
+    type: UPGRADE_PLAN
+  }
+}

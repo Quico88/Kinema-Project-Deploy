@@ -13,6 +13,7 @@ import Error from '../Error/Error.jsx';
 import { useAuth } from '../AuthContext/AuthContext';
 import '@fontsource/raleway';
 
+
 export default function Home() {
   const { user, logout, loadingUser, read } = useAuth();
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ export default function Home() {
 
   useEffect(() => {
     if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
+    
+    
   }, []);
 
   if (!loading) {
@@ -38,11 +41,11 @@ export default function Home() {
     return <Error />;
   } else {
     return (
-      <Flex direction="column" bgGradient="linear(to-b, #222222, #333333)">
+      <Flex direction="column" bg="#222222">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
           <NavBar ruta={'Home'} />
         </Flex>
-        <Flex as="main" mt={16} w="100%" direction="column">
+        <Flex as="main"  w="100%" direction="column">
           {loading || !carrousels_home.allCarruselsMovies ? (
             <Loader />
           ) : (

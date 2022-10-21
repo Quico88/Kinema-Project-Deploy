@@ -116,7 +116,7 @@ export default function NavBar({ ruta }) {
 
   return (
     <>
-      <Box bg={color.kinemaBg} px={4} w="100%" shadow="0px 0.5px 8px #444444">
+      <Box bgGradient='linear(to-b, rgba(0,0,0,0.639093137254902) 35%, rgba(0,0,0,0) 100%)' px={4} w="100%" >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}

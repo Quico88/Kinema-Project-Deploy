@@ -21,6 +21,7 @@ export const ERROR_CLEAN = "ERROR_CLEAN";
 export const GET_TV_SHOW_GENRES = "GET_TV_SHOW_GENRES";
 export const GET_SERIES_BY_GENRE = "GET_SERIES_BY_GENRE";
 export const RENT_VIDEO = "RENT_VIDEO";
+export const UPGRADE_PLAN = "UPGRADE_PLAN";
 
 export const LOG_IN = "LOG_IN";
 export const LOG_OUT = "LOG_OUT";
