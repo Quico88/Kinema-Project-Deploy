@@ -91,8 +91,9 @@ export default function HomeTVShows() {
                   fontSize={25}
                   textAlign="center"
                   fontWeight="500"
+                  defaultValue="Genres"
                 >
-                  <option selected="selected" disabled>
+                  <option disabled>
                     Genres
                   </option>
                   <option className="options">All</option>
