@@ -3,6 +3,7 @@ const e = require('express');
 const Genre = require('../Db/Schema/genre.js');
 const Serie = require('../Db/Schema/serie.js');
 require('dotenv').config();
+const { getDataSearchJSON } = require('../controllers local/getDataJSON.js');
 const { YOUR_API_KEY_1 } = process.env;
 
 const getSearchSeriesDB = async (page, name) => {
@@ -25,11 +26,16 @@ const getSearchSeriesDB = async (page, name) => {
 };
 
 const getSearchMovies = async (page, name) => {
-  const {
-    data: { results },
-  } = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`
-  );
+  const results = 
+    await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${YOUR_API_KEY_1}&language=en-US&query=${name}&page=${page}&include_adult=false`)
+    .then( d => d.data.results)
+    .catch( e => undefined)
+
+  if( results === undefined) {
+    let data = getDataSearchJSON(page, name);
+    return data;
+  }
+
   if(results.length === 0) return [];
   const movieData = results.map((m) => {
     return {
@@ -67,6 +73,9 @@ const getSearchMovies = async (page, name) => {
     const moviesVal = [];
     for( let n of m) {
       let trailer = await fetchMovie(n.id);
+      if(Array.isArray(trailer)){
+        return trailer
+      }
       if ((!!n.title)
         && (!!n.description)
         && (!!n.backPoster)
@@ -77,15 +86,23 @@ const getSearchMovies = async (page, name) => {
     }
 
     return moviesVal;
-  };
+  }
 
   const fetchMovie = async (id) => {
-    const data = await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`).then( d => d.data);
+    const data = 
+      await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      .then( d => d.data)
+      .catch( e => undefined)
+    if(data === undefined) {
+      console.log("entre al if de la validacion de video")
+      let data = getDataSearchJSON(page, name)
+      return data;
+    }
     if (!!data.results.length) return true;
     return false;
-  };
-  let movies = await validate(movieData);
-  return movies;
+  }
+
+  return validate(movieData)
 };
 
 const getAllSearch = async (page, name) => {
