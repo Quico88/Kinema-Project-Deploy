@@ -2,14 +2,15 @@ require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
 const Serie = require('../Db/Schema/serie.js');
+const { getDataJSON } = require('../controllers local/getDataJSONSeries.js');
 
 const api_general_route = 'https://api.themoviedb.org/3';
 
 // Get TVSeries from API by ID with first season:
 const getTVSeriesByIdApi = async (id) => {
-  let dataSerie = await Serie.findOne({'id': id});
+  let dataSerie = await Serie.findOne({ id: id });
 
-  if(!dataSerie) return 'Serie not found';
+  if (!dataSerie) return 'Serie not found';
 
   const image_route = 'https://image.tmdb.org/t/p/original';
 
@@ -19,9 +20,16 @@ const getTVSeriesByIdApi = async (id) => {
     day: 'numeric',
   };
 
-  const apiResponse = await axios.get(
-    `${api_general_route}/tv/${id}?api_key=${YOUR_API_KEY_1}`
-  );
+  const apiResponse = await axios
+    .get(`${api_general_route}/tv/${id}?api_key=${YOUR_API_KEY_1}`)
+    .then((d) => d.data.results)
+    .catch((e) => undefined);
+
+  if (apiResponse === undefined) {
+    console.log('entro al if');
+    let data = getDataJSON(page);
+    return data;
+  }
 
   const TVSerie = {
     id: apiResponse.data.id,

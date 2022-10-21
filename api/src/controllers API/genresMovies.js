@@ -1,30 +1,34 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
-const { getMoviesByGenreJSON, getGenresJSON } = require('../controllers local/getDataJSON.js');
+const {
+  getMoviesByGenreJSON,
+  getGenresJSON,
+} = require('../controllers local/getDataJSON.js');
 
-const  getGenresFromAPI = async () => {
-    const genres = 
-      await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`)
+const getGenresFromAPI = async () => {
+  const genres = undefined;
+  /* await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`)
       .then( d => d.data.genres)
-      .catch( e => undefined)
+      .catch( e => undefined) */
 
-    if(genres === undefined) {
-      let data = getGenresJSON();
-      return data;
-    }
+  if (genres === undefined) {
+    let data = getGenresJSON();
+    return data;
+  }
 
-    return genres;
-}
-
+  return genres;
+};
 
 const getMoviesGenreById = async (id, page) => {
-  const results = 
-    await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`)
-    .then( d => d.data.results)
-    .catch( e => undefined)
-  let idgenre = id
-  if( results === undefined) {
+  const results = await axios
+    .get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`
+    )
+    .then((d) => d.data.results)
+    .catch((e) => undefined);
+  let idgenre = id;
+  if (results === undefined) {
     let data = getMoviesByGenreJSON(id, page);
     return data;
   }
@@ -63,42 +67,44 @@ const getMoviesGenreById = async (id, page) => {
 
   const validate = async (m) => {
     const moviesVal = [];
-    for( let n of m) {
+    for (let n of m) {
       let trailer = await fetchMovie(n.id);
-      if(Array.isArray(trailer)){
-        return trailer
+      if (Array.isArray(trailer)) {
+        return trailer;
       }
-      if ((!!n.title)
-        && (!!n.description)
-        && (!!n.backPoster)
-        && (!!n.id)
-        && (!!n.poster)
-        && (!!trailer)
-      ) moviesVal.push(n)
+      if (
+        !!n.title &&
+        !!n.description &&
+        !!n.backPoster &&
+        !!n.id &&
+        !!n.poster &&
+        !!trailer
+      )
+        moviesVal.push(n);
     }
 
     return moviesVal;
-  }
+  };
 
   const fetchMovie = async (id) => {
-    const data = 
-      await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
-      .then( d => d.data)
-      .catch( e => undefined)
-    if(data === undefined) {
-      console.log("entre al if de la validacion de video")
+    const data = await axios(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`
+    )
+      .then((d) => d.data)
+      .catch((e) => undefined);
+    if (data === undefined) {
+      console.log('entre al if de la validacion de video');
       let data = getMoviesByGenreJSON(idgenre, page);
       return data;
     }
     if (!!data.results.length) return true;
     return false;
-  }
+  };
 
-  return validate(movieData)
+  return validate(movieData);
 };
 
-
 module.exports = {
-    getGenresFromAPI,
-    getMoviesGenreById,
-} 
+  getGenresFromAPI,
+  getMoviesGenreById,
+};

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import { useAuth } from "../../Components/AuthContext/AuthContext";
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { auth, firestore } from "../../Components/AuthContext/firebase.js";
+import { useAuth } from '../../Components/AuthContext/AuthContext';
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { auth, firestore } from '../../Components/AuthContext/firebase.js';
 
 // Import variables of actions:
 
@@ -28,8 +28,9 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
-  RENT_VIDEO
-} from "./const";
+  RENT_VIDEO,
+  CLEAR_GENRES,
+} from './const';
 
 // Actions functions
 // Get movie detail:
@@ -83,9 +84,7 @@ export function getHomeAll() {
 export function getMovies(page) {
   return async function (dispatch) {
     try {
-      const json = await axios.get(
-        '/home/movies/?page=' + page
-      );
+      const json = await axios.get('/home/movies/?page=' + page);
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -141,7 +140,9 @@ export function clearTvShows() {
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
-      const json = await axios.get('/home/search/?page=' + page + '&name=' + name);
+      const json = await axios.get(
+        '/home/search/?page=' + page + '&name=' + name
+      );
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -238,6 +239,12 @@ export default function cleanError() {
   };
 }
 
+export function clearGenres() {
+  return {
+    type: CLEAR_GENRES,
+  };
+}
+
 export const getMovieGenreByID = (id, page) => {
   return async function (dispatch) {
     try {
@@ -259,12 +266,10 @@ export const getMovieGenreByID = (id, page) => {
   };
 };
 
-
-
 export const getTVShowGenres = () => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("/genres");
+      var json = await axios.get('/genres');
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -282,12 +287,12 @@ export const getTVShowGenres = () => {
   };
 };
 
-
 export const getSeriesByGenre = (genre, page) => {
-
   return async function (dispatch) {
     try {
-      var json = await axios.get("/home/series_by_genre/?page=" + page + "&genre=" + genre);
+      var json = await axios.get(
+        '/home/series_by_genre?genre=' + genre + '&page=' + page
+      );
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -305,8 +310,6 @@ export const getSeriesByGenre = (genre, page) => {
   };
 };
 
-
-
 export const loadUserData = (id) => {
   return async function (dispatch) {
     try {
@@ -317,7 +320,7 @@ export const loadUserData = (id) => {
         data.uid = id;
         return dispatch({
           type: LOG_IN,
-          payload: data
+          payload: data,
         });
       }
     } catch (error) {
@@ -325,13 +328,13 @@ export const loadUserData = (id) => {
         type: ERROR_FOUND,
       });
     }
-  }
-}
+  };
+};
 
 export const logOutUser = () => {
   return {
     type: LOG_OUT,
-  }
+  };
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
