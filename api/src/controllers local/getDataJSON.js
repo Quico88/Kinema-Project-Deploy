@@ -26,7 +26,8 @@ const getDetailJSON = (id) => {
 
 // Get genres name and id for movies:
 const getGenresJSON = () => {
-  return genres_json;
+  const genres = genres_json.map((genre) => genre.name);
+  return genres;
 };
 
 const getGenreIdJSON = (id) => {

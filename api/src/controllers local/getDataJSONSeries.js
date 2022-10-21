@@ -124,9 +124,8 @@ const getGenreIdJSON = (id) => {
 const getSeriesByGenreJSON = (id, page) => {
   let omit = (page - 1) * 20;
   let limit = omit + 20;
-  let genre = getGenreIdJSON(id);
 
-  let dataFiltered = data.filter((serie) => serie.genres.includes(genre));
+  let dataFiltered = data.filter((serie) => serie.genres.includes(id));
   return dataFiltered.slice(omit, limit);
 };
 
