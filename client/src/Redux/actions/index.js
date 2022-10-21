@@ -31,6 +31,7 @@ import {
   GET_COMMENTS_DATA,
   POST_COMMENT,
   RENT_VIDEO,
+  DELETE_COMMENT
 } from "./const";
 
 // Actions functions
@@ -364,6 +365,21 @@ export const postNewComment = (userId, content, date, idReference) => {
       return dispatch({
         type: POST_COMMENT,
         payload: json.data,
+      })
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  }
+}
+
+export const deleteComment = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.delete(`/comments/${id}`);
+      return dispatch({
+        type: DELETE_COMMENT,
       })
     } catch (error) {
       return dispatch({

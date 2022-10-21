@@ -27,4 +27,5 @@ export const LOG_OUT = "LOG_OUT"
 
 export const GET_COMMENTS_DATA = "GET_COMMENTS_DATA"
 export const POST_COMMENT = "POST_COMMENT"
+export const DELETE_COMMENT = "DELETE_COMMENT"
 

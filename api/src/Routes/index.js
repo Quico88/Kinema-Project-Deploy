@@ -232,6 +232,16 @@ router.get('/comments/:id', async (req, res) => {
   }
 })
 
+router.delete('/comments/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    let json = await Comment.deleteOne({ _id : id })
+    res.status(200).json(json)
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+})
+
 
 
 module.exports = router;

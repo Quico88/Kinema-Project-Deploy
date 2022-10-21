@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   clearMovieDetail,
   getCommentsData,
@@ -27,12 +27,14 @@ import NavBar from "../../NavBar/NavBar.jsx";
 import { useState } from "react";
 import "./MovieDetail.css";
 import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
+import Comment from "../Comment/Comment";
 import Loader from "../../Loader/LoaderDetails.jsx";
 import Error from "../../Error/Error.jsx";
 import { color } from "../../globalStyles";
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   let { id } = useParams();
   const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
@@ -40,12 +42,16 @@ export default function MovieDetail() {
   const comments = useSelector((state) => state.comments);
   const [commentArea, setCommentArea] = useState("");
   const [errorCommentArea, setErrorCommentArea] = useState(false);
+  const [random, refresh] = useState("");
 
   useEffect(() => {
     dispatch(clearMovieDetail());
     dispatch(getMovieDetail(id));
-    dispatch(getCommentsData(id))
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getCommentsData(id));
+  }, [random]);
 
   const myMovie = useSelector((state) => state.movieDetail);
 
@@ -66,6 +72,7 @@ export default function MovieDetail() {
       let year = date.getFullYear();
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
+      refresh(Math.random());
     }
   };
 
@@ -245,7 +252,7 @@ export default function MovieDetail() {
               </Container>
             </Flex>
 
-            <Flex flexDirection="column" mt={100} mb={50}>
+            <Flex flexDirection="column" ml="10vh" mt={100} mb={50}>
               <Box w="50%" borderBottom="1px" borderColor="gray.800" mb={5}>
                 <Text color="gray.200" fontSize={30}>
                   Comments
@@ -271,13 +278,40 @@ export default function MovieDetail() {
                     borderRadius: "24px",
                   },
                 }}
-              ></Flex>
+              >
+                {comments.length ? (
+                  comments.map((comment) => {
+                    return (
+                      <Comment
+                        username={comment.username}
+                        text={comment.content}
+                        avatar={comment.avatar}
+                        date={comment.date}
+                        userId={comment.userId}
+                        id={comment._id}
+                        refresh={refresh}
+                      ></Comment>
+                    );
+                  })
+                ) : (
+                  <Center
+                    border="2px"
+                    borderColor="gray.800"
+                    backgroundColor={color.kinemaBg}
+                    color="gray.100"
+                    w="100%"
+                    borderRadius={0}
+                  >
+                    <Text mt="2vh" mb="2vh" fontSize="2vh" >No comments yet. Be the first one!</Text>
+                  </Center>
+                )}
+              </Flex>
 
               <Box
-                border="1px"
+                border="2px"
                 borderColor="gray.800"
                 backgroundColor={color.kinemaBg}
-                color="gray.200"
+                color="gray.100"
                 w="50%"
                 borderRadius={0}
               >
@@ -285,37 +319,47 @@ export default function MovieDetail() {
                   Leave your comment!
                 </Text>
                 <Divider mt={4} mb={4} />
-                <Center>
-                  <Textarea
-                    value={commentArea}
-                    placeholder="Type something here..."
-                    w="90%"
-                    border="2px"
-                    borderColor="gray.300"
-                    mb={5}
-                    onChange={handleTextArea}
-                  />
-                </Center>
-                <Flex justifyContent="flex-end">
-                  {errorCommentArea ? (
-                    <Text mr={5} color="red">
-                      You must write at least 5 letters
-                    </Text>
-                  ) : (
-                    <></>
-                  )}
-                  <Button
-                    mr="5%"
-                    mb={5}
-                    backgroundColor={color.kinemaBg}
-                    borderRadius={0}
-                    _hover={{ backgroundColor: "gray.600" }}
-                    onClick={handleSubmitComment}
-                    disabled={errorCommentArea}
-                  >
-                    Submit
-                  </Button>
-                </Flex>
+                {user ? (
+                  <>
+                    <Center>
+                      <Textarea
+                        value={commentArea}
+                        placeholder="Type something here..."
+                        w="90%"
+                        border="2px"
+                        borderColor="gray.300"
+                        mb={5}
+                        onChange={handleTextArea}
+                      />
+                    </Center>
+                    <Flex justifyContent="flex-end">
+                      {errorCommentArea ? (
+                        <Text mr={5} color="red">
+                          You must write at least 5 letters
+                        </Text>
+                      ) : (
+                        <></>
+                      )}
+                      <Button
+                        mr="5%"
+                        mb={5}
+                        backgroundColor={color.kinemaBg}
+                        borderRadius={0}
+                        _hover={{ backgroundColor: "gray.600" }}
+                        onClick={handleSubmitComment}
+                        disabled={errorCommentArea}
+                      >
+                        Submit
+                      </Button>
+                    </Flex>
+                  </>
+                ) : (
+                  <Center fontSize={15} mb={10} mt={10}>
+                    <Button onClick={()=>{navigate('/login')}} fontSize={20} backgroundColor={color.kinemaBg} mr={5} _hover={{backgroundColor: "gray.600"}}>Log In</Button>
+                    <Text>Or</Text>
+                    <Button onClick={()=>{navigate('/register')}} fontSize={20} backgroundColor={color.kinemaBg} ml={5} _hover={{backgroundColor: "gray.600"}}>Register</Button>
+                  </Center>
+                )}
               </Box>
             </Flex>
           </Box>

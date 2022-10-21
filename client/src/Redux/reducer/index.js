@@ -23,6 +23,7 @@ import {
   LOG_OUT,
   GET_COMMENTS_DATA,
   RENT_VIDEO,
+  DELETE_COMMENT,
 } from "../actions/const";
 
 // Initial state of global store:
@@ -160,8 +161,9 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
-
       }
+    case DELETE_COMMENT:
+      return state
     default:
       return state;
   }
