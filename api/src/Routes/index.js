@@ -68,6 +68,11 @@ router.get('/movies/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let movieDetail = await getMoviesByIdApi(id);
+    
+    if(movieDetail.hasOwnProperty('json')) {
+      return res.json(movieDetail.data)
+    }
+
     const trailer = await getTrailerMovie(id);
 
     movieDetail = {

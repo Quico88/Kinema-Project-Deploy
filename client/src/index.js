@@ -24,7 +24,9 @@ import axios from 'axios';
 
 // import dotenv from 'dotenv';
 // dotenv.config();
-axios.defaults.baseURL = 'http://localhost:3001' || 'https://kinema-project-deploy-production.up.railway.app/';
+
+axios.defaults.baseURL = 'http://localhost:3001' ||
+  'https://kinema-project-deploy-production.up.railway.app/'
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement);

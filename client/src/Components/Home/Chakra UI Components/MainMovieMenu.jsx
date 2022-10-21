@@ -7,11 +7,17 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getMovieDetail } from "../../../Redux/actions"
 
 export default function MainMovieMenu(props) {
   const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleClick =  () => {
+    dispatch(getMovieDetail(props.id));
+  }
 
   return (
     <Flex
@@ -51,6 +57,7 @@ export default function MainMovieMenu(props) {
             ) : userData.subscription === 1 ? (
               <Link to={`/payment/rent/movie/${props.id}`}>
                 <Button
+                  onClick={()=> handleClick()}
                   bg={'blue.400'}
                   rounded={'full'}
                   color={'white'}

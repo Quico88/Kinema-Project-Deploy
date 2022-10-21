@@ -136,7 +136,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allgenres: action.payload,
       };
-
     case GET_SERIES_BY_GENRE:
       return {
         ...state,
