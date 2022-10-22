@@ -13,6 +13,7 @@ import {
   CLEAR_SEARCH,
   CLEAR_MOVIES,
   CLEAR_SERIES,
+  CLEAR_GENRES,
   GET_ALL_GENRES,
   GET_MOVIE_GENRE_BY_ID,
   ERROR_FOUND,
@@ -21,8 +22,12 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
+  GET_COMMENTS_DATA,
   RENT_VIDEO,
-} from "../actions/const";
+  ADD_TO_WATCHLIST, // TODO: CHEQUEAR ESTO
+  UPGRADE_PLAN,
+  DELETE_COMMENT,
+} from '../actions/const';
 
 // Initial state of global store:
 const initialState = {
@@ -37,6 +42,7 @@ const initialState = {
   allgenres: [],
   error: false,
   user: false,
+  comments: [],
 };
 
 // Reducer:
@@ -61,6 +67,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         series: [],
+      };
+    case CLEAR_GENRES:
+      return {
+        ...state,
+        allgenres: [],
       };
     case GET_SEARCH:
       return {
@@ -147,12 +158,31 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: false,
-      }
+      };
+    case GET_COMMENTS_DATA:
+      return {
+        ...state,
+        comments: action.payload,
+      };
     case RENT_VIDEO:
       return {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
-      }
+      };
+    // TODO: CHEQUEAR
+    case ADD_TO_WATCHLIST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          watchList: action.payload,
+        },
+      };
+    case UPGRADE_PLAN:
+      return {
+        ...state,
+        user: { ...state.user, subscription: 2 },
+      };
     default:
       return state;
   }

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import { useAuth } from "../../Components/AuthContext/AuthContext";
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { auth, firestore } from "../../Components/AuthContext/firebase.js";
+import { useAuth } from '../../Components/AuthContext/AuthContext';
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
+import { auth, firestore } from '../../Components/AuthContext/firebase.js';
 
 // Import variables of actions:
 
@@ -28,12 +28,41 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
-  RENT_VIDEO
-} from "./const";
+  GET_COMMENTS_DATA,
+  POST_COMMENT,
+  RENT_VIDEO,
+  DELETE_COMMENT,
+  UPGRADE_PLAN,
+  CLEAR_GENRES,
+  ADD_TO_WATCHLIST,
+} from './const';
 
 // Actions functions
-// Get movie detail:
+export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
+  try {
+    const watchListMovieAdded = {
+      id: toBeAdd.id,
+      posterImg: `https://image.tmdb.org/t/p/original${toBeAdd.poster}`,
+      title: toBeAdd.title,
+      ...(toBeAdd.serie && { serie: true }),
+    };
 
+    const userRef = doc(firestore, 'users', user.uid);
+    await updateDoc(userRef, {
+      watchList: [...user.watchList, watchListMovieAdded],
+    });
+    dispatch({
+      type: ADD_TO_WATCHLIST,
+      payload: [...user.watchList, watchListMovieAdded],
+    });
+  } catch (error) {
+    return dispatch({
+      type: ERROR_FOUND,
+    });
+  }
+};
+
+// Get movie detail:
 export function getMovieDetail(id) {
   return async function (dispatch) {
     try {
@@ -60,6 +89,7 @@ export const clearMovieDetail = () => ({ type: CLEAR_MOVIE_DETAIL });
 export function getHomeAll() {
   return async function (dispatch) {
     dispatch({ type: START_LOADING });
+    dispatch({ type: ERROR_CLEAN });
     try {
       var json = await axios.get('/home');
       if (json.status === 204) {
@@ -83,9 +113,7 @@ export function getHomeAll() {
 export function getMovies(page) {
   return async function (dispatch) {
     try {
-      const json = await axios.get(
-        '/home/movies/?page=' + page
-      );
+      const json = await axios.get('/home/movies/?page=' + page);
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -141,7 +169,9 @@ export function clearTvShows() {
 export function getSearchByQuery(name, page) {
   return async function (dispatch) {
     try {
-      const json = await axios.get('/home/search/?page=' + page + '&name=' + name);
+      const json = await axios.get(
+        '/home/search/?page=' + page + '&name=' + name
+      );
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -238,6 +268,12 @@ export default function cleanError() {
   };
 }
 
+export function clearGenres() {
+  return {
+    type: CLEAR_GENRES,
+  };
+}
+
 export const getMovieGenreByID = (id, page) => {
   return async function (dispatch) {
     try {
@@ -259,12 +295,10 @@ export const getMovieGenreByID = (id, page) => {
   };
 };
 
-
-
 export const getTVShowGenres = () => {
   return async function (dispatch) {
     try {
-      var json = await axios.get("/genres");
+      var json = await axios.get('/genres');
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -282,12 +316,13 @@ export const getTVShowGenres = () => {
   };
 };
 
-
 export const getSeriesByGenre = (genre, page) => {
-
   return async function (dispatch) {
     try {
-      var json = await axios.get("/home/series_by_genre/?page=" + page + "&genre=" + genre);
+      var json = await axios.get(
+        // '/home/series_by_genre?genre=' + genre + '&page=' + page
+        `/home/series_by_genre?genre=${genre}&page=${page}`
+      );
       if (json.status === 204) {
         return dispatch({
           type: ERROR_FOUND,
@@ -305,8 +340,6 @@ export const getSeriesByGenre = (genre, page) => {
   };
 };
 
-
-
 export const loadUserData = (id) => {
   return async function (dispatch) {
     try {
@@ -317,7 +350,7 @@ export const loadUserData = (id) => {
         data.uid = id;
         return dispatch({
           type: LOG_IN,
-          payload: data
+          payload: data,
         });
       }
     } catch (error) {
@@ -325,13 +358,76 @@ export const loadUserData = (id) => {
         type: ERROR_FOUND,
       });
     }
-  }
-}
+  };
+};
 
 export const logOutUser = () => {
   return {
     type: LOG_OUT,
-  }
+  };
+};
+
+export const upgradePlan = () => {
+  return {
+    type: UPGRADE_PLAN,
+  };
+};
+
+export const getCommentsData = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/comments/${id}`);
+      if (json.status === 204) {
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+      }
+      return dispatch({
+        type: GET_COMMENTS_DATA,
+        payload: json.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+};
+
+export const postNewComment = (userId, content, date, idReference) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/comments`, {
+        userId,
+        content,
+        date,
+        idReference,
+      });
+      return dispatch({
+        type: POST_COMMENT,
+        payload: json.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+};
+
+export const deleteComment = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.delete(`/comments/${id}`);
+      return dispatch({
+        type: DELETE_COMMENT,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });

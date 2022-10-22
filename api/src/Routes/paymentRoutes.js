@@ -6,7 +6,6 @@ const paymenRoutes = Router();
 
 // Stripe:
 paymenRoutes.post('/premium', async (req, res) => {
-    const stripe = require('stripe')('sk_test_51LrrgZJF8OdpthZQmRCBHcWJZrbLDBgEcF7C5ksGVw7TkpiVNT1S8vZscsYD0magRQMrXuiTAWkcQRJ8aEn7Iil000AckGToF5');
     try {   
         const { id, username, email } = req.body;
         let clientId = '';
@@ -25,7 +24,7 @@ paymenRoutes.post('/premium', async (req, res) => {
             description: 'Kinema Premium',
             customer: clientId,
             items: [
-                {price: 'price_1LuOxpJF8OdpthZQ2wD8lX9b'},
+                {price: 'price_1LvYP5FFC0gF7yTenRItnb4g'},
             ],
         });
 
@@ -38,7 +37,7 @@ paymenRoutes.post('/premium', async (req, res) => {
   
 paymenRoutes.post('/rent', async (req, res) => {
     try {
-        const { id, username, email  } = req.body;
+        const { id, username, email, title  } = req.body;
         let clientId = '';
 
         const existingCustomer = await stripe.customers.list({
@@ -60,7 +59,7 @@ paymenRoutes.post('/rent', async (req, res) => {
         const payment = await stripe.paymentIntents.create({
             amount: '199',
             currency: 'usd',
-            description: 'Kinema Rent',
+            description: 'Kinema Rent - ' + title,
             payment_method: id,
             confirm: true,
             customer: clientId,
