@@ -49,6 +49,7 @@ const {
   getSeriesByGenreJSON,
 } = require('../controllers local/getDataJSONSeries');
 
+const { detailSeasonJSON } = require('../controllers local/detailedSeasonsSeriesJSON.js');
 const { getDataComments } = require('../controllers DB/comments');
 
 
@@ -63,9 +64,12 @@ router.use('/payment', paymenRoutes);
 router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
-    const season_detail = await getSeasonDetails(id, season);
-    if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
-    res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
+    // const season_detail = await getSeasonDetails(id, season);
+    // if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
+    // res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
+
+    const data = detailSeasonJSON(id, season);
+    res.json(data);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
   }

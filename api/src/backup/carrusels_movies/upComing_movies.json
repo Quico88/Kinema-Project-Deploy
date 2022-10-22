@@ -115,18 +115,6 @@
 		]
 	},
 	{
-		"id": 936074,
-		"title": "Tenor",
-		"poster": "/14195Sv9rUHXJAuWbjFDtRQMUCf.jpg",
-		"back_poster": "/7IW5xt241RUAufYiFBoAPx5n52V.jpg",
-		"rating": 7.3,
-		"release_date": "May 3, 2022",
-		"genres": [
-			"Comedy",
-			"Drama"
-		]
-	},
-	{
 		"id": 848058,
 		"title": "Piggy",
 		"poster": "/pIFeu5gF7ofAxI9NqrWbJAjjKn6.jpg",
@@ -236,18 +224,6 @@
 		"back_poster": "/AhkirfgU32n0D1uxpaGYJEKy2Hu.jpg",
 		"rating": 7.6,
 		"release_date": "July 14, 2022",
-		"genres": [
-			"Comedy",
-			"Drama"
-		]
-	},
-	{
-		"id": 757999,
-		"title": "Beautiful Minds",
-		"poster": "/7BRRlZ5XWz9EC4pjPy66zKgQwCk.jpg",
-		"back_poster": "/siEKPoFqIctmu1c29Ggj4ZWQFv6.jpg",
-		"rating": 7.6,
-		"release_date": "January 18, 2022",
 		"genres": [
 			"Comedy",
 			"Drama"

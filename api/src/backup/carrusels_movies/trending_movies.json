@@ -79,18 +79,6 @@
 		]
 	},
 	{
-		"id": 614939,
-		"title": "Bros",
-		"poster": "/4CArWLRroMPXwKJeO3HSYiyKyHD.jpg",
-		"back_poster": "/h63I6A7tzHtOu7GG7LW2dIg5Ta6.jpg",
-		"rating": 6.5,
-		"release_date": "September 29, 2022",
-		"genres": [
-			"Comedy",
-			"Romance"
-		]
-	},
-	{
 		"id": 361743,
 		"title": "Top Gun: Maverick",
 		"poster": "/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
@@ -230,18 +218,6 @@
 		"genres": [
 			"Drama",
 			"Comedy"
-		]
-	},
-	{
-		"id": 732459,
-		"title": "Blade of the 47 Ronin",
-		"poster": "/kjFDIlUCJkcpFxYKtE6OsGcAfQQ.jpg",
-		"back_poster": "/ud7YbMdxZsPf0H0UVbeDNsaKRcT.jpg",
-		"rating": 0,
-		"release_date": "October 24, 2022",
-		"genres": [
-			"Action",
-			"Fantasy"
 		]
 	},
 	{
