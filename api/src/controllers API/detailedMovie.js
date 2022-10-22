@@ -7,10 +7,10 @@ const api_general_route = 'https://api.themoviedb.org/3';
 
 // Get movie from API by ID:
 const getMoviesByIdApi = async (id) => {
-  const apiResponse = 
-    await axios.get(`${api_general_route}/movie/${id}?api_key=${YOUR_API_KEY_1}`)
-    .then( d => d)
-    .catch( e => undefined)
+  const apiResponse = undefined
+    // await axios.get(`${api_general_route}/movie/${id}?api_key=${YOUR_API_KEY_1}`)
+    // .then( d => d)
+    // .catch( e => undefined)
 
   if(apiResponse === undefined){
     console.log("if del datail")

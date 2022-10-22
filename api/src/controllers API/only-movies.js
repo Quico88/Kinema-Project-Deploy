@@ -4,10 +4,10 @@ const { YOUR_API_KEY_1 } = process.env
 const { getDataJSON } = require('../controllers local/getDataJSON.js')
 
 const getMovies = async (page) => {
-  const results = 
-    await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${YOUR_API_KEY_1}&language=en-US&page=${page}`)
-    .then(d => d.data.results)
-    .catch(e => undefined)
+  const results = undefined;
+    // await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${YOUR_API_KEY_1}&language=en-US&page=${page}`)
+    // .then(d => d.data.results)
+    // .catch(e => undefined)
     
   if( results === undefined) {
     console.log("entro al if")
@@ -67,12 +67,12 @@ const getMovies = async (page) => {
     }
 
     const fetchMovie = async (id) => {
-      const data = 
-        await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
-        .then( d => d.data)
-        .catch( e => undefined)
+      const data = undefined;
+        // await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
+        // .then( d => d.data)
+        // .catch( e => undefined)
       if(data === undefined) {
-        console.log("entre al if de la validacion de video")
+        console.log("entre al if de la validacion de video en fecthmovie - only-movies")
         let data = getDataJSON(page);
         return data;
       }

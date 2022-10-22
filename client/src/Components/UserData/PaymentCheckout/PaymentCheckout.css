@@ -12,9 +12,18 @@
 }
 
 .btn-premium{
-    background-color: #a56317;
+    background-color: #56cfe1;
     height: 40px;
     width: 100px;
     border-radius: 5px;
     font-weight: 600;
+}
+
+.btn-premium:hover{
+    background-color: #64dfdf;
+}
+
+.pcard {
+    background-color: white;
+
 }
