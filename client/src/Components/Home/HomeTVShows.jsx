@@ -117,7 +117,7 @@ export default function HomeTVShows() {
                   opacity="1"
                 />
               </Center>
-              <DataList data={seriesToShow} next={setPage} />
+              <DataList data={seriesToShow} next={setPage} hasMore={ series.length > 19 } />
             </Box>
           )}
           <Footer />
