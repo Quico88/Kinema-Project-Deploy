@@ -77,6 +77,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
+        display={cards.length < 8 ? 'none' : 'inline-flex'}
       >
         <IoIosArrowBack />
       </IconButton>
@@ -91,6 +92,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
+        display={cards.length < 8 ? 'none' : 'inline-flex'}
       >
         <IoIosArrowForward />
       </IconButton>
@@ -106,7 +108,11 @@ export default function CarouselWatchList({ movies }) {
               <Box key={index} height={'6xl'}>
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
-                    src={m.posterImg.includes('https://image.tmdb.org/') ? m.posterImg : 'https://image.tmdb.org/t/p/w300'+m.posterImg}
+                    src={
+                      m.posterImg.includes('https://image.tmdb.org/')
+                        ? m.posterImg
+                        : 'https://image.tmdb.org/t/p/w300' + m.posterImg
+                    }
                     alt={m.title}
                     _hover={{
                       transform: 'scale(1.10)',
@@ -123,7 +129,11 @@ export default function CarouselWatchList({ movies }) {
               <Box key={index} height={'6xl'} zIndex={20}>
                 <Link to={`/home/movie_details/${m.id}`}>
                   <Image
-                    src={m.posterImg.includes('https://image.tmdb.org/') ? m.posterImg : 'https://image.tmdb.org/t/p/w300'+m.posterImg}
+                    src={
+                      m.posterImg.includes('https://image.tmdb.org/')
+                        ? m.posterImg
+                        : 'https://image.tmdb.org/t/p/w300' + m.posterImg
+                    }
                     transition="0.4s"
                     _hover={{
                       transform: 'scale(1.10)',
