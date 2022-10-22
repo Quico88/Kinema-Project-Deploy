@@ -167,7 +167,7 @@ const rootReducer = (state = initialState, action) => {
     case RENT_VIDEO:
       return {
         ...state,
-        user: action.payload,
+        user: {...state.user, rented: [...state.user.rented, action.payload] },
       };
     // TODO: CHEQUEAR
     case ADD_TO_WATCHLIST:
