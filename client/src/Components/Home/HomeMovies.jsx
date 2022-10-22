@@ -1,40 +1,118 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NavBar from '../NavBar/NavBar';
-import Footer from './Chakra UI Components/Footer';
-import './Home.css';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import NavBar from "../NavBar/NavBar";
+import Footer from "./Chakra UI Components/Footer";
+import "./Home.css";
 
 import {
   clearMovies,
   getMovies,
   getAllGenres,
   getMovieGenreByID,
-  clearGenres,
-} from '../../Redux/actions';
-import DataList from '../DataList/DataList';
-import { Box, Center, Divider, Flex, Select, Text } from '@chakra-ui/react';
-import Loader from '../Loader/LoaderCards';
-import Error from '../Error/Error';
-import { color } from '../globalStyles';
-import '@fontsource/raleway';
+} from "../../Redux/actions";
+import DataList from "../DataList/DataList";
+import { Box, Center, Divider, Flex, Select, Text } from "@chakra-ui/react";
+import Loader from "../Loader/LoaderCards";
+import Error from "../Error/Error";
+import { color } from "../globalStyles";
+import "@fontsource/raleway";
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
-  const allGenres = useSelector((state) => state.allgenres);
-  const [genre2, setGenre2] = useState('All');
+  //const allGenres = useSelector((state) => state.allgenres);
+  const [genero, setGenero] = useState("All");
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
   const error = useSelector((state) => state.error);
-  const [titulo, setTitulo] = useState('Movies');
+  const [titulo, setTitulo] = useState("Movies")
 
-  useEffect(() => {
-    if (genre2 === 'All' && page !== 1) {
+  const allGenres = [
+    {
+        "id": 28,
+        "name": "Action"
+    },
+    {
+        "id": 12,
+        "name": "Adventure"
+    },
+    {
+        "id": 16,
+        "name": "Animation"
+    },
+    {
+        "id": 35,
+        "name": "Comedy"
+    },
+    {
+        "id": 80,
+        "name": "Crime"
+    },
+    {
+        "id": 99,
+        "name": "Documentary"
+    },
+    {
+        "id": 18,
+        "name": "Drama"
+    },
+    {
+        "id": 10751,
+        "name": "Family"
+    },
+    {
+        "id": 14,
+        "name": "Fantasy"
+    },
+    {
+        "id": 36,
+        "name": "History"
+    },
+    {
+        "id": 27,
+        "name": "Horror"
+    },
+    {
+        "id": 10402,
+        "name": "Music"
+    },
+    {
+        "id": 9648,
+        "name": "Mystery"
+    },
+    {
+        "id": 10749,
+        "name": "Romance"
+    },
+    {
+        "id": 878,
+        "name": "Science Fiction"
+    },
+    {
+        "id": 10770,
+        "name": "TV Movie"
+    },
+    {
+        "id": 53,
+        "name": "Thriller"
+    },
+    {
+        "id": 10752,
+        "name": "War"
+    },
+    {
+        "id": 37,
+        "name": "Western"
+    }
+]
+
+ useEffect(() => {
+    if (genero === "All" && page !== 1) {
       dispatch(getMovies(page));
     } else if (page !== 1) {
-      dispatch(getMovieGenreByID(genre2, page));
+      dispatch(getMovieGenreByID(genero, page));
     }
-  }, [page]);
+  }, [page]); 
 
   useEffect(() => {
     dispatch(getAllGenres());
@@ -42,16 +120,13 @@ export default function HomeMovies() {
 
   useEffect(() => {
     setMoviesToShow([]);
-    if (genre2 === 'All') {
+    if (genero === "All") {
       dispatch(getMovies(page));
     } else {
-      dispatch(getMovieGenreByID(genre2, page));
+      dispatch(getMovieGenreByID(genero, page));
     }
-    return () => {
-      dispatch(clearMovies());
-      dispatch(clearGenres());
-    };
-  }, [genre2]);
+    return () => dispatch(clearMovies());
+  }, [genero]);
 
   useEffect(() => {
     setMoviesToShow((prev) => prev.concat(movies));
@@ -59,22 +134,21 @@ export default function HomeMovies() {
 
   function handleGenres(e) {
     e.preventDefault();
-    let variable = '';
+    let variable = "";
     for (let i = 0; i < allGenres.length; i++) {
       if (allGenres[i].name === e.target.value) {
         variable = allGenres[i].id;
       }
     }
     setPage(1);
-    setGenre2(variable);
-    if (e.target.value === 'All') {
-      setTitulo('Movies');
-    } else {
-      setTitulo(e.target.value + ' Movies');
+    setGenero(variable);
+    if(e.target.value === "All"){
+      setGenero('All')
+      setTitulo("Movies")
+    }else {
+      setTitulo(e.target.value + " Movies")
     }
   }
-
-  console.log("MOVIES TO SHOW!!! ",moviesToShow);
 
   if (error) {
     return <Error />;
@@ -82,7 +156,7 @@ export default function HomeMovies() {
     return (
       <Flex direction="column" bgGradient="linear(to-b, #222222, #333333)">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
-          <NavBar ruta={'Movies'} />
+          <NavBar ruta={"Movies"} />
         </Flex>
 
         <Flex as="main" mt={16} w="100%" direction="column">
@@ -96,27 +170,22 @@ export default function HomeMovies() {
                 mb={5}
                 justify="space-around"
                 alignItems="center"
+              >{genero === "All" ? (<Text
+                fontSize={40}
+                fontWeight="600"
+                color="white"
+                fontFamily="Raleway"
               >
-                {genre2 === 'All' ? (
-                  <Text
-                    fontSize={40}
-                    fontWeight="600"
-                    color="white"
-                    fontFamily="Raleway"
-                  >
-                    Movies
-                  </Text>
-                ) : (
-                  <Text
-                    fontSize={40}
-                    fontWeight="600"
-                    color="white"
-                    fontFamily="Raleway"
-                  >
-                    {titulo}
-                  </Text>
-                )}
-
+                Movies
+              </Text>) : (<Text
+                  fontSize={40}
+                  fontWeight="600"
+                  color="white"
+                  fontFamily="Raleway"
+                >
+                  {titulo}
+                </Text>)}
+                
                 <Select
                   onChange={(e) => handleGenres(e)}
                   w="15%"
@@ -132,13 +201,12 @@ export default function HomeMovies() {
                   <option value="All" className="options">
                     All
                   </option>
-                  {/* {console.log(allGenres)} */}
                   {allGenres.map((g) => {
-                    return (
-                      <option value={g} key={g} className="options">
-                        {g}
-                      </option>
-                    );
+                      return (
+                        <option value={g.name} key={g.id} className="options">
+                          {g.name}
+                        </option>
+                      );
                   })}
                 </Select>
               </Flex>
@@ -151,6 +219,7 @@ export default function HomeMovies() {
                   opacity="1"
                 />
               </Center>
+
               <DataList data={moviesToShow} next={setPage} hasMore={ movies.length > 19 } />
             </Box>
           )}
@@ -160,3 +229,4 @@ export default function HomeMovies() {
     );
   }
 }
+
