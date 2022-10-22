@@ -292,7 +292,8 @@ export const getSeriesByGenre = (genre, page) => {
   return async function (dispatch) {
     try {
       var json = await axios.get(
-        '/home/series_by_genre?genre=' + genre + '&page=' + page
+        // '/home/series_by_genre?genre=' + genre + '&page=' + page
+        `/home/series_by_genre?genre=${genre}&page=${page}`
       );
       if (json.status === 204) {
         return dispatch({

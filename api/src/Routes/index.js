@@ -219,6 +219,8 @@ router.get('/home/series_by_genre', async (req, res) => {
     // let limit = 20;
     // let data = await getSeriesByGenre(genre, skip, limit);
     const data = await getSeriesByGenreJSON(genre, page);
+    console.log(genre);
+    console.log(data);
     res.send(data);
   } catch (error) {
     return res.status(204).json({ Error: error.message });

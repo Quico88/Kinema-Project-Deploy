@@ -16,7 +16,8 @@ const getDataTVJSON = (page) => {
       genres: serie.genres,
       name: serie.title,
       description: serie.description,
-      poster: `/${serie.poster.split('/')[6]}`,
+      // poster: `/${serie.poster.split('/')[6]}`,
+      poster: serie.poster,
       backPoster: serie.back_poster,
       vote_average: serie.rating,
       vote_count: serie.user_reviews,
@@ -93,7 +94,8 @@ const getDataSearchTVJSON = (page, name) => {
     return {
       id: e.id,
       name: e.title,
-      poster: `/${e.poster.split('/')[6]}`,
+      // poster: `/${e.poster.split('/')[6]}`,
+      poster: e.poster,
       vote_average: e.rating,
       serie: true,
     };
@@ -102,7 +104,7 @@ const getDataSearchTVJSON = (page, name) => {
 };
 
 const getGenreIdJSON = (id) => {
-  if (id == 10759) return 'Action & Adventure';
+  if (id == 10759) return 'Action and Adventure';
   if (id == 16) return 'Animation';
   if (id == 35) return 'Comedy';
   if (id == 80) return 'Crime';
@@ -113,10 +115,10 @@ const getGenreIdJSON = (id) => {
   if (id == 9648) return 'Mystery';
   if (id == 10763) return 'News';
   if (id == 10764) return 'Reality';
-  if (id == 10765) return 'Sci-Fi & Fantasy';
+  if (id == 10765) return 'Sci-Fi and Fantasy';
   if (id == 10766) return 'Soap';
   if (id == 10767) return 'Talk';
-  if (id == 10768) return 'War & Politics';
+  if (id == 10768) return 'War and Politics';
   if (id == 37) return 'Western';
 };
 
@@ -125,8 +127,15 @@ const getSeriesByGenreJSON = (id, page) => {
   let omit = (page - 1) * 20;
   let limit = omit + 20;
 
-  let dataFiltered = data.filter((serie) => serie.genres.includes(id));
-  return dataFiltered.slice(omit, limit);
+  return data
+    .filter((serie) => serie.genres.includes(id))
+    .slice(omit, limit)
+    .map((serie) => {
+      return {
+        ...serie,
+        serie: true,
+      };
+    });
 };
 
 module.exports = {
