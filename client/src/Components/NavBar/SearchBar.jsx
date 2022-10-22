@@ -97,8 +97,8 @@ const SearchBar = () => {
 
   return (
     <Box>
-     {/* {isPageWide &&  */}<form onSubmit={handleSearch}>
-        <Flex className={style.searchbar} >
+    <form onSubmit={handleSearch} className={style.searchbar} >
+        <Flex >
           <InputGroup>
           <InputLeftElement
             children={<SearchIcon/>}
@@ -117,7 +117,7 @@ const SearchBar = () => {
             />
           </InputGroup>
         </Flex>
-      </form>{/* } */}
+      </form>
 
 
       <form onSubmit={handleSearch2}>
@@ -128,7 +128,7 @@ const SearchBar = () => {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 hover={showSearchInput}
-                className={style.searchbar2}
+                className={"searchbar2"}
                 
                 >
                 <InputSearch

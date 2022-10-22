@@ -27,6 +27,7 @@ import {
   ADD_TO_WATCHLIST, // TODO: CHEQUEAR ESTO
   UPGRADE_PLAN,
   DELETE_COMMENT,
+  CHANGE_NAME,
 } from '../actions/const';
 
 // Initial state of global store:
@@ -168,6 +169,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
+      };
+    case CHANGE_NAME:
+      return {
+        ...state,
+        user: {...state.user, username: action.payload },
       };
     // TODO: CHEQUEAR
     case ADD_TO_WATCHLIST:

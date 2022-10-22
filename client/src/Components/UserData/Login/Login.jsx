@@ -26,7 +26,7 @@ export default function Login() {
     password: '',
   });
 
-  const { login, loginWithGoogle } = useAuth();
+  const { login, signupWithGoogle } = useAuth();
 
   function handleChange(e) {
     e.preventDefault();
@@ -47,7 +47,7 @@ export default function Login() {
   }
 
   async function handleGoogleSignin() {
-    await loginWithGoogle();
+    await signupWithGoogle();
     setTimeout(()=> navigate('/home'), 500)
   }
 

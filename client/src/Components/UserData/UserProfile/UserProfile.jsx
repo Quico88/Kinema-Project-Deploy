@@ -32,7 +32,8 @@ import {
 import { Link as RouteLink } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeNameUser } from '../../../Redux/actions';
 
 const settings = {
   dots: true,
@@ -63,6 +64,8 @@ export default function UserProfile() {
   const [changeUserName, setChangeUserName] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [slider, setSlider] = useState(null);
+  const dispatch = useDispatch()
+
 
   async function logOut() {
     await logout();
@@ -85,6 +88,7 @@ export default function UserProfile() {
         username: input.username,
       });
       setUsername1(input.username);
+      dispatch(changeNameUser(input.username))
       setInput({
         username: '',
       });

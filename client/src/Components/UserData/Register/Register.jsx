@@ -203,7 +203,7 @@ export default function Register() {
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
-              Sign in with Google
+              Sign up with Google
             </Button>
           </Box>
           <Stack
@@ -220,7 +220,7 @@ export default function Register() {
             gap={1}
             justifyContent={'center'}
           >
-            <Text color={'white'}>You are already registered. </Text>
+            <Text color={'white'}>Are you already registered? </Text>
               <Link  href='/login'  color={'gray'}>Log in</Link>
           </Stack>
         </Stack>

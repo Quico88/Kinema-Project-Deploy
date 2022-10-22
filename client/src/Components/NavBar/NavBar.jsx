@@ -105,12 +105,9 @@ const NavLink3 = ({ ruta }) => (
 
 export default function NavBar({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { logout, read, user } = useAuth()
-/*   const user = useSelector((state) => state.user); */
+  const { logout } = useAuth()
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [dataUser, setDataUser] = useState();
-  const [image, setImage] = useState()
-  const [username1, setUsername1] = useState()
 
   async function logOut() {
     await logout();
@@ -164,10 +161,10 @@ export default function NavBar({ ruta }) {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar size={"sm"} src={image} />
+                  <Avatar size={"sm"} src={user.avatar} />
                 </MenuButton>
                 <MenuList>
-                  <MenuGroup fontSize={20} title={username1}>
+                  <MenuGroup fontSize={20} title={user.username}>
                     <MenuDivider />
                     <RouteLink to="/profile">
                       <MenuItem>Profile</MenuItem>
