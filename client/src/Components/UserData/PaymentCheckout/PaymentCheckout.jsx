@@ -71,7 +71,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     if (errors.name || errors.surname) {
       e.preventDefault()
-      alert("Please complete the form correctly")
+      alert("The form is not properly complete.")
     }
     else {
       try {
