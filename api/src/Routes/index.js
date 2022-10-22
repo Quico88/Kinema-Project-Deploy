@@ -5,7 +5,6 @@ const {
   // getSearchMovies,
   getAllSearch,
 } = require('../controllers API/searchbar-controller');
-
 // Import functions from controllers:
 
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
@@ -29,7 +28,7 @@ const {
 
 const {
   // getTVSeriesByIdApi,
-  // getTrailerSerie,
+  getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
 
 const {
@@ -103,13 +102,11 @@ router.get('/tv/:id', async (req, res) => {
     const { id } = req.params;
     // let TVSeriesDetail = await getTVSeriesByIdApi(id);
     // if (typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail);
-    let TVSeriesDetail = await getDetailTVJSON(id);
-    // const trailer = await getTrailerSerie(id);
+    let detail = await getDetailTVJSON(id);
+    let trailer = await getTrailerSerie(detail.title);
 
-    let trailer = `https://www.youtube.com/watch?v=SRA_XcsYu3k`;
-
-    TVSeriesDetail = {
-      ...TVSeriesDetail,
+    let TVSeriesDetail = {
+      ...detail,
       trailer,
     };
     res.send(TVSeriesDetail);
