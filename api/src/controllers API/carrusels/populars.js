@@ -5,10 +5,10 @@ const api_general_route = 'https://api.themoviedb.org/3';
 const { popularsData } = require('../../controllers local/getDataCarruselsJSON.js');
 
 const popularsFunction = async () => {
-  const populars = 
-    await axios.get(`${api_general_route}/movie/popular?api_key=${YOUR_API_KEY_1}`)
-    .then( d => d.data.results)
-    .catch( e => undefined)
+  const populars = undefined;
+    // await axios.get(`${api_general_route}/movie/popular?api_key=${YOUR_API_KEY_1}`)
+    // .then( d => d.data.results)
+    // .catch( e => undefined)
   if(populars === undefined) {
     let data = popularsData();
     return data;

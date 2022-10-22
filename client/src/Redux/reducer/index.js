@@ -13,6 +13,7 @@ import {
   CLEAR_SEARCH,
   CLEAR_MOVIES,
   CLEAR_SERIES,
+  CLEAR_GENRES,
   GET_ALL_GENRES,
   GET_MOVIE_GENRE_BY_ID,
   ERROR_FOUND,
@@ -24,6 +25,7 @@ import {
   RENT_VIDEO,
   UPGRADE_PLAN,
 } from "../actions/const";
+
 
 // Initial state of global store:
 const initialState = {
@@ -62,6 +64,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         series: [],
+      };
+    case CLEAR_GENRES:
+      return {
+        ...state,
+        allgenres: [],
       };
     case GET_SEARCH:
       return {
@@ -148,7 +155,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: false,
-      }
+      };
     case RENT_VIDEO:
       return {
         ...state,

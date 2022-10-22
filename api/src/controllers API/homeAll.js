@@ -30,8 +30,8 @@ const getAllCarrusels = async () => {
       return {
         id: movie.id,
         title: movie.title,
-        poster: image_route + movie.poster_path,
-        back_poster: image_route + movie.backdrop_path,
+        poster: movie.poster_path ? image_route + movie.poster_path : image_route + movie.poster,
+        back_poster: movie.backdrop_path ? image_route + movie.backdrop_path : image_route + movie.back_poster,
         rating: movie.vote_average,
         release_date: new Date(movie.release_date).toLocaleDateString(
           'en-US',
