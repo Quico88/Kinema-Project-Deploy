@@ -68,7 +68,7 @@ export default function HomeSearch() {
           {searchToShow.length === 0 ? (
             <Loader />
           ) : (
-            <DataList data={searchToShow} next={setPage} />
+            <DataList data={ searchToShow } next={ setPage } hasMore={ search.length > 19 } />
           )}
           <Footer />
         </Flex>
