@@ -14,7 +14,9 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const IconSearch = styled(SearchIcon)`
     z-index: 10;
-    color: gray;
+    width: 25px;
+    height: 25px;
+    color: white;
 `
 
 const ArrowRigth = styled(ArrowForwardIcon)`
@@ -41,7 +43,7 @@ const Container = styled.div`
         ${({hover}) => hover && css`
             width: 100px;
         `}
-        @media (min-width: 400px){    
+        @media (min-width: 420px){    
           display: none
       }
     `;
@@ -55,7 +57,7 @@ const Container = styled.div`
     outline: 0;
     border: 1px solid gray;
     border-radius: 12px;
-    color: gray;
+    color: white;
     padding: 0 10px;
     margin-right: 50px;
     -moz-appearance: none;
@@ -102,14 +104,15 @@ const SearchBar = () => {
           <InputGroup>
           <InputLeftElement
             children={<SearchIcon/>}
-            color={"gray"}
+            color={"white"}
             cursor={"pointer"}
             onClick={handleSearch}
           />
             <Input
               type="text"
               placeholder="Search..."
-              color={"gray"}
+              _placeholder={{ color: 'white' }}
+              color={"white"}
               bg={"transparent"}
               onChange={(e) => setSearch(e.target.value)}
               mr={4}

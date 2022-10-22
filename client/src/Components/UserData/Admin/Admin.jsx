@@ -43,6 +43,7 @@ export default function Admin() {
   const userData = useSelector((state) => state.user);
   const [ready, setReady] = useState(false);
   const { user, loadingUser } = useAuth();
+  const [byDate, setByDate] = useState()
 
   async function allUsers() {
     let allUsers = [];
@@ -105,6 +106,16 @@ export default function Admin() {
       setOrder(results)
     }
     
+    function sortByDate(){
+      results.sort((a,b) => {
+        if(a.subscriptionDate < b.subscriptionDate) return 1 
+        if(a.subscriptionDate > b.subscriptionDate) return -1 
+      })
+      
+      setByDate(results)
+    }
+
+
   const options = {
     year: "numeric",
     month: "long",
@@ -112,7 +123,6 @@ export default function Admin() {
   };
 
   const accDelete = async (e) => {
-   /*  const userRef = doc(firestore, `/users/${user.uid}`); */
    let arrUsers = []
     let snap = await getDocs(collection(firestore, "users"))
     snap.forEach((doc) => {
@@ -131,10 +141,6 @@ export default function Admin() {
 
   }
 
-  
-  
-  
-  /*    */
   };
 
   useEffect(() => {
@@ -160,10 +166,8 @@ export default function Admin() {
       <Box display={"flex"} flexDirection={"flex-end"}>
         <Input value={search} onChange={searcher} placeholder="Search...." />
       </Box>
-      {/* <Select><option value='option1'>Users Per Page</option></Select> */}
     <Center margin={"20px"}>
       <Button onClick={prevPage} >Prev</Button>
-        {/* {totalPages ? totalPages.map((n) => <Button onClick={()=>pageNumber(n)} >{n}</Button> ): null} */}
         <label style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button>{page}</Button> de {totalPaginas}</label>
       <Button onClick={nextPage} >Next</Button>
       </Center>
@@ -179,13 +183,13 @@ export default function Admin() {
                 Username
               </Th>
               <Th color={"black"} fontSize={"14px"}>
-                Subscription Date
+                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
               </Th>
               <Th color={"black"} fontSize={"14px"}>
                 Subscription
               </Th>
               <Th color={"black"} fontSize={"14px"}>
-                Rented <button onClick={sortRented }>{/* <img src={options2} alt="options" /> */}Sort</button> {/* <Switch size='sm' onClick={sortRented} /> */}
+                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortRented }>Sort</Button>
               </Th>
               <Th color={"black"} fontSize={"14px"}>
                 Status

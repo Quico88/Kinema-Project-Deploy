@@ -139,7 +139,7 @@ export default function Register() {
                   color: 'gray.500',
                 }}
               />
-              <Center>{/* {error && <p>{error}</p>}  */}{!validName && <p>You need to add a username</p>} </Center>
+              <Center>{/* {error && <p>{error}</p>}  */}{!validName && <Text color={"#cd6155"} fontWeight={"600"} >You need to add a username</Text>} </Center>
               <FormControl>
                 <Input
                   placeholder="example@email.com"
@@ -190,8 +190,8 @@ export default function Register() {
                   Sign Up
                 </Button>
 
-                <Center>{!errorEm && <p>Email already in use</p>} </Center>
-                <Center>{!error && <p>Should have at least 6 characters</p>}</Center>
+                <Center>{!errorEm && <Text color={"#cd6155"} fontWeight={"600"} >Email already in use</Text>} </Center>
+                <Center>{!error && <Text color={"#cd6155"} fontWeight={"600"} >Should have at least 6 characters</Text>}</Center>
               </FormControl>
             </Stack>
             <Button
