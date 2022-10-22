@@ -16,7 +16,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Box>
+    <Box _focus={{backgroundColor: "white"}}>
       <form onSubmit={handleSearch}>
         <Flex>
           <InputGroup>
@@ -27,11 +27,12 @@ const SearchBar = () => {
             <Input
               type="text"
               placeholder="Search..."
-              color={"gray"}
+              color={"black"}
               bg={"transparent"}
               onChange={(e) => setSearch(e.target.value)}
               mr={4}
               h={9}
+              _focus={{backgroundColor:"rgba(195, 194, 195, 0.7)"}}
             />
           </InputGroup>
         </Flex>

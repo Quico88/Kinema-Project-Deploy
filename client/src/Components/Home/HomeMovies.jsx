@@ -210,7 +210,7 @@ export default function HomeMovies() {
                 })}
               </Select>
             </Flex>
-            <Center>
+            {/* <Center>
               <Divider
                 borderColor="white"
                 borderWidth="1px"
@@ -218,7 +218,7 @@ export default function HomeMovies() {
                 border="1px"
                 opacity="1"
               />
-            </Center>
+            </Center> */}
 
             {moviesToShow.length ? (
               <DataList
