@@ -117,15 +117,6 @@ export default function NavBar({ ruta }) {
     navigate("/");
   }
 
-  useEffect(() => {
-    async function exe() {
-      let dataUser = await read(user.uid);
-      setUsername1(dataUser.username);
-      setImage(dataUser.avatar);
-    }
-    exe();
-  }, [user.uid]);
-
   return (
     <>
       <Box bgGradient='linear(to-b, rgba(0,0,0,0.639093137254902) 35%, rgba(0,0,0,0) 100%)' px={4} w="100%" >
