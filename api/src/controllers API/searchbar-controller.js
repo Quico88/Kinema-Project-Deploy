@@ -113,7 +113,17 @@ const getSearchMovies = async (page, name) => {
 const getAllSearch = async (page, name) => {
   let allSeries = await getSearchSeriesDB(page, name);
   let allMovies = await getSearchMovies(page, name);
-  let all = [...allSeries, ...allMovies];
+  let largoMax = allSeries.length > allMovies.length ? allSeries.length : allMovies.length
+  let all = [];
+  for (let i = 0; i < largoMax; i++) {
+    if(allMovies[i]){
+      all.push(allMovies[i])
+    }
+    if(allSeries[i]){
+      all.push(allSeries[i])
+    }
+    
+  }
   return all;
 };
 

@@ -219,7 +219,8 @@ export default function HomeMovies() {
                   opacity="1"
                 />
               </Center>
-              <DataList data={moviesToShow} next={setPage} />
+
+              <DataList data={moviesToShow} next={setPage} hasMore={ movies.length > 19 } />
             </Box>
           )}
           <Footer />
