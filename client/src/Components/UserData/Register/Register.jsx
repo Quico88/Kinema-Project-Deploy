@@ -21,7 +21,9 @@ import { useNavigate} from 'react-router-dom';
 
 export default function Register() {
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [error, setError] = useState(true);
+  const [errorEm, setErrorEm] = useState(true);
+  const [validName, setValidName] = useState(true)
 
   const [user, setUser] = useState({
     displayName: '',
@@ -39,13 +41,32 @@ export default function Register() {
     });
   }
 
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      if(!user.displayName || user.displayName.trim() === "" ) {
+        setValidName(false)
+        return
+      }else{
+        setValidName(true)
+      }
       await signup(user.email, user.password, user.displayName);
       navigate('/register/plan');
     } catch (error) {
-      setError(error.message);
+      /* console.log(error.message.includes("already") ? true: false) */
+      if(error.message.includes("already")){
+        let errorEm = error.message
+        setErrorEm(false)
+      }else{
+        setErrorEm(true)
+      }
+      if(error.message.includes("Password")){
+        let errorEm = error.message
+        setError(false);
+      }else{
+        setError(true)
+      }
     }
   }
 
@@ -118,6 +139,7 @@ export default function Register() {
                   color: 'gray.500',
                 }}
               />
+              <Center>{/* {error && <p>{error}</p>}  */}{!validName && <p>You need to add a username</p>} </Center>
               <FormControl>
                 <Input
                   placeholder="example@email.com"
@@ -168,7 +190,8 @@ export default function Register() {
                   Sign Up
                 </Button>
 
-                <Center>{error && <p>{error}</p>} </Center>
+                <Center>{!errorEm && <p>Email already in use</p>} </Center>
+                <Center>{!error && <p>Should have at least 6 characters</p>}</Center>
               </FormControl>
             </Stack>
             <Button
@@ -180,9 +203,7 @@ export default function Register() {
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
-              <Center>
-                <Text>Sign in with Google</Text>
-              </Center>
+              Sign in with Google
             </Button>
           </Box>
           <Stack

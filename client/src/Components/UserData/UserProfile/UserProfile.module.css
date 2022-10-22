@@ -1,0 +1,12 @@
+.tabla_user{
+    height: 75vh;
+    width: 450px;
+}
+
+
+@media (max-width: 400px){
+    .tabla_user{
+        height: 55vh;
+        width: 300px;
+    }
+}

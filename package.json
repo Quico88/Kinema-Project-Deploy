@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "styled-components": "^5.3.6",
+    "toastify-js": "^1.12.0"
+  }
+}

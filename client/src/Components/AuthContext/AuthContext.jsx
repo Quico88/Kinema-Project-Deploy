@@ -45,6 +45,7 @@ export default function AuthProvider({ children }) {
       avatar:
         "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
       active: true,
+      banned: false,
       rented: [],
     });
     welcomeEmail(userEmail, displayName);
@@ -76,6 +77,7 @@ export default function AuthProvider({ children }) {
       watchList: [],
       avatar: infoUser.user.photoURL,
       active: true,
+      banned: false,
       rented: [],
     });
     welcomeEmail(infoUser.user.email, infoUser.user.displayName);

@@ -25,6 +25,7 @@ import SearchBar from "./SearchBar.jsx";
 import logo from "../../Assets/logo.png";
 import { color } from "../globalStyles";
 import { useSelector } from "react-redux";
+import style from "./NavBar.module.css"
 
 const Links = ["Home", "Movies", "TV Shows"];
 
@@ -104,15 +105,26 @@ const NavLink3 = ({ ruta }) => (
 
 export default function NavBar({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { logout } = useAuth()
-  const user = useSelector((state) => state.user);
+  const { logout, read, user } = useAuth()
+/*   const user = useSelector((state) => state.user); */
   const navigate = useNavigate();
   const [dataUser, setDataUser] = useState();
+  const [image, setImage] = useState()
+  const [username1, setUsername1] = useState()
 
   async function logOut() {
     await logout();
     navigate("/");
   }
+
+  useEffect(() => {
+    async function exe() {
+      let dataUser = await read(user.uid);
+      setUsername1(dataUser.username);
+      setImage(dataUser.avatar);
+    }
+    exe();
+  }, [user.uid]);
 
   return (
     <>
@@ -126,7 +138,7 @@ export default function NavBar({ ruta }) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>
+            <Box className={style.logo_nav}  >
               <Image
                 boxSize="100px"
                 objectFit="cover"
@@ -161,10 +173,10 @@ export default function NavBar({ ruta }) {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar size={"sm"} src={user.avatar} />
+                  <Avatar size={"sm"} src={image} />
                 </MenuButton>
                 <MenuList>
-                  <MenuGroup fontSize={20} title={user.username}>
+                  <MenuGroup fontSize={20} title={username1}>
                     <MenuDivider />
                     <RouteLink to="/profile">
                       <MenuItem>Profile</MenuItem>

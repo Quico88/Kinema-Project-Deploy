@@ -2,21 +2,17 @@ import { useAuth } from '../../AuthContext/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import style from "./UserProfile.module.css"
 import { firestore } from '../../AuthContext/firebase';
+import { ToastifyMessage } from '../../Toastify/Toastify';
 import {
   HStack,
-  Divider,
-  IconButton,
-  useBreakpointValue,
   Image,
   VStack,
   Flex,
-  Heading,
   Avatar,
   Box,
-  Center,
   Text,
-  Stack,
   Button,
   Tabs,
   TabList,
@@ -31,7 +27,6 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
   Portal,
 } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router-dom';
@@ -94,9 +89,9 @@ export default function UserProfile() {
         username: '',
       });
       setChangeUserName(false);
-      alert('Ussername updated succesfully');
+      ToastifyMessage("Username updated successfully", "success")
     } else {
-      alert(formErrors.name || 'Username must be completed');
+      ToastifyMessage('Username must have at least 5 characters')
     }
   };
 
@@ -184,8 +179,8 @@ export default function UserProfile() {
           <Tabs
             size="md"
             variant="enclosed"
-            h="85vh"
-            w="50vw"
+            
+            className={style.tabla_user}
             border={'black'}
             bgGradient="linear(to-b, #222222, #333333)"
             borderRadius={'5px'}
@@ -208,7 +203,6 @@ export default function UserProfile() {
               <Tab
                 fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                 color={'#99a3a4'}
-                border
               >
                 Edit
               </Tab>
@@ -217,7 +211,7 @@ export default function UserProfile() {
               <TabPanel>
                 <Avatar
                   size={'xl'}
-                  src={userData.avatar}
+                  src={image}
                   alt={'Avatar Alt'}
                   mb={4}
                   pos={'relative'}
@@ -227,7 +221,7 @@ export default function UserProfile() {
                   marginBottom={'2vh'}
                   color={'#99a3a4'}
                 >
-                  Hello! {userData.username}
+                  Hello! {username1}
                 </Box>
                 <Box>
                   {typeSub === 1 ? (
@@ -464,7 +458,7 @@ export default function UserProfile() {
                     Username
                   </Text>
                   <Text fontSize={{ base: '14px', md: '16px', lg: '20px' }} color={'#99a3a4'}>
-                        {userData.username}
+                        {username1}
                   </Text>
                 </Box>
                 <Box
@@ -605,7 +599,7 @@ export default function UserProfile() {
               <TabPanel>
                 <Avatar
                   size={'xl'}
-                  src={userData.avatar}
+                  src={image}
                   alt={'Avatar Alt'}
                   mb={4}
                   pos={'relative'}
@@ -629,7 +623,7 @@ export default function UserProfile() {
                     fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                     color={'#99a3a4'}
                   >
-                    {userData.username}
+                    {username1}
                   </Text>
                 </Box>
                 <Box
