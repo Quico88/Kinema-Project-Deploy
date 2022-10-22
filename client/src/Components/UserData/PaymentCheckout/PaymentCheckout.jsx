@@ -1,82 +1,166 @@
-import React from "react";
-import { Box, Button, Image, FormControl, Text } from '@chakra-ui/react'
+import React, { useEffect } from "react";
+import { Box, Button, Image, FormControl, Text, FormLabel, Input,FormHelperText, FormErrorMessage, Stack, Flex  } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import {Link as RouteLink, useNavigate } from "react-router-dom";
+import { Elements, CardElement, useStripe, useElements, PaymentIntent } from "@stripe/react-stripe-js"
+import { Link as RouteLink, useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../AuthContext/firebase';
+import { useState } from "react";
 import axios from "axios"
-import img from "../../../Assets/premiumiconkine.png"
-import img2 from "../../../Assets/fondopayment2.jpg"
 import { useSelector } from "react-redux";
+import { useToast } from '@chakra-ui/react';
+import logo from "../../../Assets/logo.png"
+import { useDispatch } from "react-redux";
+import Footer from "../../Home/Chakra UI Components/Footer";
+import NavBarPayment from "../../NavBarPayment/NavBarPayment";
+import { upgradePlan } from "../../../Redux/actions";
 
 const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
 
 const CheckoutForm = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const stripe = useStripe()
     const elements = useElements()
-    const { username, email } = useSelector(state => state.user);
+  const { username, email, uid } = useSelector(state => state.user);
+  const [errors, setErrors] = useState({
+    name: "Please fill name.",
+    surname:"Please fill surname.",
+    });
+    const [input, setInput] = useState({
+      name: "",
+      surname: "",
+  });
+  function handleChange(e) {
+    setInput({
+      ...input,
+      [e.target.name] : e.target.value
+    })
+    setErrors(validate({
+      ...input,
+      [e.target.name] : e.target.value
+    }))
+  };  
+  function validate(input) {
+    let errors = {};
+    let nameRegex = /^[a-zA-Z-_ ]{3,20}$/;
+    if (!input.name) {
+      errors.name = "Please fill name."
+    }
+    else if (!nameRegex.test(input.name)) {
+      errors.name = "Name is invalid.";
+    }
+    if (!input.surname) {
+      errors.surname = "Please fill surname.";
+    } 
+    else if (!nameRegex.test(input.surname)) {
+      errors.surname = "Surname is invalid.";
+    }
     
-    function handleBack() {
-        navigate(-1);
+    return errors;
+    
+  };
+
+  const upgratePlanFire = async () => {
+    const userRef = doc(firestore, `/users/${uid}`);
+    await updateDoc(userRef, {
+      subscription: 2,
+    });
+  }
+
+  const handleSubmit = async (e) => {
+    if (errors.name || errors.surname) {
+      e.preventDefault()
+      alert("The form is not properly complete.")
     }
-      
-    const handleSubmit = async (e) => {
-        try {
-            e.preventDefault()
-            const {error, paymentMethod} = await stripe.createPaymentMethod({
-                type: "card",
-                card: elements.getElement(CardElement)
-            })
-            if(!error){
-                const {id} = paymentMethod
-                const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
-                if(data.success){
-                    alert(data.message);
-                    navigate('/home'); 
-                }
-                else { alert(data.message) }
+    else {
+      try {
+        e.preventDefault()
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: "card",
+            card: elements.getElement(CardElement)
+        })
+        if(!error){
+            const {id} = paymentMethod
+            const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
+          if (data.success) {
+                await upgratePlanFire();
+                alert(data.message);
+                dispatch(upgradePlan());
+                navigate('/home'); 
             }
+            else { alert(data.message) }
         }
-        catch (e){ alert("We were not able to proceed your payment. Please try again") }    
     }
+    catch (e){ alert(e) }    
+}
+    }
+        
 
     return (
-        <form onSubmit={handleSubmit} className="form-background">
-        <FormControl backgroundImage={img2} display='flex' height={"100vh"} width={"100vw"} > 
-        <Box marginTop={"20px"}justifyContent={"center"} align={"center"} spacing={4}  objectFit='cover' height={"100"} width={"100vw"} display='flex' justify='center'  
-            >           
-          <Box spacing={4} background={"#1a1a24"}height={"600px"} w={[300, 400, 500]} borderColor={"#a56317"} alignContent={"center"}
-            borderWidth='2px' >
+      <Box backgroundColor={'#1D1D1D'}
+           backgroundImage={
+          'linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url(https://www.lavanguardia.com/files/og_thumbnail/uploads/2020/12/14/5fd73c24bebce.jpeg)'
+           }
+           backgroundRepeat={'no-repeat'}
+           backgroundSize={'cover'}
+           height={"100vh"}>
+        <NavBarPayment />
+        <form onSubmit={handleSubmit}>
+        <FormControl   display='flex'  justifyContent="center" alignItems={"center"} mt="18vh"   >
+          <Stack direction='row' spacing={4}  bg={'rgba(17, 173, 152, 0.3)'}
+          backdropFilter={'blur(10px)'}  borderRadius="0.5vh"  w={"80vh"}>
+              <Box w={"44vh"} h="50vh" pl="5vh" bgColor={"white"}  borderLeftRadius="0.5vh" pr="2vh" mr="2vh" pt="3.5vh">
+              <FormLabel  m={"0px"} p="0px" >Name</FormLabel>
+                <Input variant='flushed' value={input.name} name="name" onChange={handleChange} />
+                {errors.name && <FormHelperText color={"red"}>
+                  {errors.name}
+                   </FormHelperText>}
+              <FormLabel  m={"5vh 0px 0px 0px"} p="0px">Surname</FormLabel>
+                <Input variant='flushed' value={input.surname} name="surname" onChange={handleChange} />
+                {errors.surname && <FormHelperText color={"red"}>
+                  {errors.surname}
+                   </FormHelperText>}
+                <Stack direction='row' spacing={4} mb="5vh" >
+                  <Box >
+                    <FormLabel  m={"5vh 0px 0px 0px"}  p="0px"  >City</FormLabel>
+                    <Input   variant='flushed'  />
+                  </Box>
+              <Box >
+              <FormLabel  m={"5vh 0px 0px 0px"} p="0px"  >Address</FormLabel>
+               <Input   variant='flushed' />
+               </Box>
+             
+           </Stack>
+                <CardElement className="pcard"
+                />     
+              </Box>
+              
 
-            
-                <Button onClick={handleBack} background={"#a56317"} size='md' marginTop={"10px"} >Back</Button>
-           
-            <Text fontSize='3xl' color={"#a56317"} align={"center"}>BE PREMIUM</Text>
-            <Box align={"center"}>
-            <Image align={"center"} src={img} objectFit='cover' borderRadius='full' boxSize='350px' alt='Kinema Premium' />
-            </Box>
-            <Text  align={"center"} fontSize='2xl' color={"#a56317"} background={"#1a1a24"} size='sm' >Price: $7.99 / Month</Text>
-            <Box backgroundColor={"white"} 
-            borderColor={"#a56317"} 
-            borderWidth='2px' 
-            marginLeft={"15%"} 
-            marginRight={"15%"} 
-            marginTop={"10px"}
-            marginBottom={"10px"}
-            >
-                <CardElement
-                />         
-            </Box>
-            <Box align={"center"} paddingTop={"10px"}>
-            <RouteLink to={'/home'}>
-                            <button className="btn-premium">CONFIRM</button>
-            </RouteLink>
+
+            <Box >
+              <Image src={logo} w={"30vh"} ></Image>
+              <Text align={'center'} justify={'center'} color="white">Be premium</Text>
+              <Stack direction={'row'} align={'center'} justify={'center'}>
+              <Text fontSize={'2xl'} color="white">$</Text>
+              <Text fontSize={'4xl'} color="white" fontWeight={800}>
+                7.99
+              </Text>
+                <Text color={'gray.500'}>/month</Text>
+              </Stack>
+              <Flex  align={'end'} justify={'center'} mt="3vh">
+              <button className="btn-premium">CONFIRM</button>
+              </Flex>
+              
             
             </Box>
+          </Stack>
+
+        </FormControl>
+        </form>
+       
+        
           </Box>
-          </Box>
-          </FormControl>
-          </form>
     )
 }
 

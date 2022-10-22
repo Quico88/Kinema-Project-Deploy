@@ -183,6 +183,7 @@ export default function TVShowDetail() {
                {//  USER FREE CASE:
                 user.subscription == 1 ?
                <Box textAlign="left" mt="3vh">
+                    <Link href={`/payment/rent/tv_show/${id}`}>
                    <Button
                  
                   borderRadius="3vh"
@@ -194,10 +195,11 @@ export default function TVShowDetail() {
                     color: 'white',
                   }}
                     >
-                      <Link href={`/payment/rent/tv_show/${id}`}>
+                      
                   <Text mb="0.25vh">RENT</Text>
+                     
+                      </Button> 
                       </Link>
-                  </Button> 
               <Button
                 borderRadius="3vh"
                 bg="#354f52"

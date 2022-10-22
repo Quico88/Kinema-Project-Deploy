@@ -23,7 +23,9 @@ import {
   LOG_IN,
   LOG_OUT,
   RENT_VIDEO,
-} from '../actions/const';
+  UPGRADE_PLAN,
+} from "../actions/const";
+
 
 // Initial state of global store:
 const initialState = {
@@ -157,8 +159,13 @@ const rootReducer = (state = initialState, action) => {
     case RENT_VIDEO:
       return {
         ...state,
-        user: { ...state.user, rented: [...state.user.rented, action.payload] },
-      };
+        user: {...state.user, rented: [...state.user.rented, action.payload] },
+      }
+    case UPGRADE_PLAN:
+      return {
+        ...state,
+        user: {...state.user, subscription: 2 },
+      }
     default:
       return state;
   }

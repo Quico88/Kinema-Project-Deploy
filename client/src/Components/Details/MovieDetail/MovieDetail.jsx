@@ -135,6 +135,7 @@ export default function MovieDetail() {
                   // USER FREE CASE: 
                   user.subscription == 1 ?
                   <Box textAlign="left" mt="3vh">
+                    <Link href={`/payment/rent/movie/${myMovie.id}`}>
                    <Button
                  
                   borderRadius="3vh"
@@ -147,10 +148,11 @@ export default function MovieDetail() {
                   }}
                     >
                  
-                      <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                      
                       <Text mb="0.25vh">RENT</Text>
-                      </Link>
-                  </Button> <Button borderRadius="3vh" bg="#354f52" color="white">
+                      
+                    </Button>
+                    </Link><Button borderRadius="3vh" bg="#354f52" color="white">
                   MY LIST
                     </Button>
                     <Text mt="2vh"

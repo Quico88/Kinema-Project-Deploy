@@ -29,8 +29,10 @@ import {
   LOG_IN,
   LOG_OUT,
   RENT_VIDEO,
+  UPGRADE_PLAN,
   CLEAR_GENRES,
 } from './const';
+
 
 // Actions functions
 // Get movie detail:
@@ -323,6 +325,7 @@ export const loadUserData = (id) => {
         return dispatch({
           type: LOG_IN,
           payload: data,
+
         });
       }
     } catch (error) {
@@ -340,3 +343,10 @@ export const logOutUser = () => {
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
+
+export const upgradePlan = () => {
+  return {
+    type: UPGRADE_PLAN
+  }
+}
+
