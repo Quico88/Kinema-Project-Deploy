@@ -1,13 +1,14 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   clearMovieDetail,
   getCommentsData,
   getMovieDetail,
   postNewComment,
-} from "../../../Redux/actions";
+  addToWatchlist,
+} from '../../../Redux/actions';
 import {
   Box,
   Flex,
@@ -19,18 +20,20 @@ import {
   Textarea,
   Divider,
   Link,
-} from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import { MdPlayArrow } from "react-icons/md";
-import Footer from "../../Home/Chakra UI Components/Footer.jsx";
-import NavBar from "../../NavBar/NavBar.jsx";
-import { useState } from "react";
-import "./MovieDetail.css";
-import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
-import Comment from "../Comment/Comment";
-import Loader from "../../Loader/LoaderDetails.jsx";
-import Error from "../../Error/Error.jsx";
-import { color } from "../../globalStyles";
+} from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
+import { MdPlayArrow } from 'react-icons/md';
+import Footer from '../../Home/Chakra UI Components/Footer.jsx';
+import NavBar from '../../NavBar/NavBar.jsx';
+import { useState } from 'react';
+import './MovieDetail.css';
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
+import Comment from '../Comment/Comment';
+import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
+import { color } from '../../globalStyles';
+import { useToast } from '@chakra-ui/react';
+import StarRatings from 'react-star-ratings';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
@@ -40,9 +43,10 @@ export default function MovieDetail() {
   const error = useSelector((state) => state.error);
   const user = useSelector((state) => state.user);
   const comments = useSelector((state) => state.comments);
-  const [commentArea, setCommentArea] = useState("");
+  const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState("");
+  const [random, refresh] = useState('');
+  const toast = useToast();
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -59,6 +63,28 @@ export default function MovieDetail() {
     e.preventDefault();
     setCommentArea(e.target.value);
     setErrorCommentArea(validate(e.target.value));
+  };
+
+  const handleAddToWatchlist = (id) => {
+    if (user.watchList.find((e) => e.id === id)) {
+      toast({
+        title: 'This movie is already in your watchlist.',
+        status: 'info',
+        duration: 2000,
+        position: 'top-center',
+        isClosable: true,
+      });
+    } else {
+      dispatch(addToWatchlist(myMovie, user));
+      toast({
+        title: 'Added to watchlist',
+        description: 'You can see it in your profile and home.',
+        status: 'success',
+        duration: 2000,
+        position: 'top-center',
+        isClosable: true,
+      });
+    }
   };
 
   const handleSubmitComment = (e) => {
@@ -90,8 +116,8 @@ export default function MovieDetail() {
       <>
         <NavBarPlayer closePlayer={closePlayer} />
         <iframe
-          height={"100%"}
-          width={"100%"}
+          height={'100%'}
+          width={'100%'}
           src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
           frameborder="0"
           allowFullScreen
@@ -114,21 +140,21 @@ export default function MovieDetail() {
             <Flex
               as="main"
               mt={16}
-              w={"full"}
-              h={"85vh"}
+              w={'full'}
+              h={'85vh'}
               backgroundImage={
-                myMovie.back_poster.includes("https://image.tmdb.org")
+                myMovie.back_poster.includes('https://image.tmdb.org')
                   ? myMovie.back_poster
-                  : "https://image.tmdb.org/t/p/original/" + myMovie.back_poster
+                  : 'https://image.tmdb.org/t/p/original/' + myMovie.back_poster
               }
-              backgroundSize={"cover"}
-              backgroundPosition={"center center"}
+              backgroundSize={'cover'}
+              backgroundPosition={'center center'}
               boxShadow="80px 0px 128px 64px black inset"
               justify="left"
             >
               <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
                 <Heading
-                  m="2vh"
+                  mb="1.5vh"
                   size="3xl"
                   textAlign="left"
                   noOfLines={2}
@@ -137,89 +163,181 @@ export default function MovieDetail() {
                 >
                   {myMovie.title}
                 </Heading>
-                <Text fontSize="2vh" textAlign="left" color="white">
+                <Box>
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    fontWeight="bold"
+                    display="inline"
+                  >
+                    Rating:{' '}
+                  </Text>
+                  <StarRatings
+                    rating={Math.floor(myMovie.rating / 2)}
+                    starRatedColor="gold"
+                    starHoverColor="gold"
+                    starDimension={'2vh'}
+                    starSpacing={'0.5vh'}
+                    numberOfStars={5}
+                    name="rating"
+                  />
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    display="inline"
+                  >
+                    {`  (${Math.round(myMovie.rating * 10) / 10 / 2}/5)`} ||
+                    <Text
+                      fontSize="2vh"
+                      textAlign="left"
+                      color="white"
+                      fontWeight="bold"
+                      display="inline"
+                    >
+                      {' '}
+                      User reviews:{' '}
+                    </Text>
+                    {myMovie.user_reviews
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </Text>
+                </Box>
+                <br />
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                >
+                  Released:{' '}
+                </Text>
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  display="inline"
+                >
+                  {myMovie.release_date}
+                </Text>
+                <br />
+                <br />
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  maxW="80vh"
+                  fontWeight="bold"
+                  noOfLines={4}
+                >
+                  Genres:{' '}
+                  {myMovie.genres?.map((genre) => (
+                    <Button
+                      key={genre.id}
+                      size="sm"
+                      variant="outline"
+                      mr="1vh"
+                      mb="1vh"
+                      pointerEvents="none"
+                    >
+                      {genre}
+                    </Button>
+                  ))}
+                </Text>
+                <br />
+                <Text
+                  fontSize="2vh"
+                  color="white"
+                  maxW={'80vh'}
+                  textAlign="justify"
+                >
                   {myMovie.description}
                 </Text>
                 <br />
-                <Text fontSize="2vh" textAlign="left" color="white">
-                  Released: {myMovie.release_date}
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                >
+                  Duration:{' '}
                 </Text>
-                <br />
-                <Text fontSize="2vh" textAlign="left" color="white">
-                  Duration: {myMovie.duration}
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  display="inline"
+                >
+                  {myMovie.runtime}
                 </Text>
-                <Box mt="3.5vh" mb="3vh">
-                  <Text
-                    justify="left"
-                    textAlign="left"
-                    fontWeight="bold"
-                    fontSize="2.5vh"
-                    color="#d90429"
-                  >
-                    Genres
-                  </Text>
-                  <Text
-                    justify="left"
-                    textAlign="left"
-                    fontWeight="500"
-                    fontSize="2.3vh"
-                    color="white"
-                  >
-                    {myMovie.genres?.map((el) => el + " ")}
-                  </Text>
-                </Box>
-
                 {
                   // USER PREMIUM CASE:
-                  user.subscription == 2 ? (
+                  user.subscription === 2 ? (
                     <Box textAlign="left" mt="3vh">
                       <Button
                         onClick={() => setPlayerTrailer(true)}
                         borderRadius="3vh"
                         rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                        mr="1.5vh"
-                        bg="#7209b7"
-                        color="white"
-                        _hover={{
-                          background: "#5e60ce",
-                          color: "white",
-                        }}
+                        bg={'blue.400'}
+                        rounded={'full'}
+                        color={'white'}
+                        mr="2vh"
+                        _hover={{ bg: 'blue.500' }}
                       >
-                        <Text mb="0.25vh">WATCH</Text>
-                      </Button>{" "}
-                      <Button borderRadius="3vh" bg="#354f52" color="white">
-                        MY LIST
+                        <Text mb="0.25vh">Watch</Text>
+                      </Button>
+                      <Button
+                        onClick={() => handleAddToWatchlist(myMovie.id)}
+                        bg={'whiteAlpha.300'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'whiteAlpha.500' }}
+                      >
+                        My List
                       </Button>
                     </Box>
                   ) : null
                 }
                 {
                   // USER FREE CASE:
-                  user.subscription == 1 ? (
+                  user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                      <Link href={`/payment/rent/movie/${myMovie.id}`}>
-                        <Button
-                          borderRadius="3vh"
-                          mr="1.5vh"
-                          bg="#7209b7"
-                          color="white"
-                          _hover={{
-                            background: "#5e60ce",
-                            color: "white",
-                          }}
-                        >
-                          <Text mb="0.25vh">RENT</Text>
-                        </Button>
-                      </Link>
-                      <Button borderRadius="3vh" bg="#354f52" color="white">
-                        MY LIST
+                      <Button
+                        bg={'blue.400'}
+                        rounded={'full'}
+                        color={'white'}
+                        mr="2vh"
+                        _hover={{ bg: 'blue.500' }}
+                      >
+                        <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                          <Text mb="0.25vh">Rent</Text>
+                        </Link>
                       </Button>
-                      <Text mt="2vh" fontSize="2.3vh" color={"white"}>
-                        {" "}
-                        You can{" "}
-                        <Link href="/payment" color={"#72efdd"}>
-                          <b>upgrade</b>
-                        </Link>{" "}
+                      <Button
+                        onClick={() => {
+                          toast({
+                            title: `Upgrade your account to add to your list.`,
+                            status: 'info',
+                            position: 'top-right',
+                            isClosable: true,
+                            duration: 3000,
+                          });
+                        }}
+                        bg={'whiteAlpha.300'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'whiteAlpha.500' }}
+                      >
+                        My List
+                      </Button>
+                      <Text mt="2vh" fontSize="2.3vh" color={'white'}>
+                        You can
+                        <Link href="/payment" color={'#72efdd'}>
+                          <b> upgrade </b>
+                        </Link>
                         your plan to watch any content.
                       </Text>
                     </Box>
@@ -229,40 +347,27 @@ export default function MovieDetail() {
                   // USER GUEST CASE:
                   user.subscription == null ? (
                     <Box textAlign="left" mt="3vh">
-                      <Text fontSize="2.3vh" color={"white"}>
-                        <Link href="/login" color={"#72efdd"}>
-                          <b>Log In</b>
-                        </Link>{" "}
-                        or{" "}
-                        <Link href="/register" color={"#64dfdf"}>
-                          <b>Register</b>
-                        </Link>{" "}
+                      <Text fontSize="2.3vh" color={'white'}>
+                        <Link href="/login" color={'#72efdd'}>
+                          <b>Log In </b>
+                        </Link>
+                        or
+                        <Link href="/register" color={'#64dfdf'}>
+                          <b> Register </b>
+                        </Link>
                         to watch this movie.
                       </Text>
                     </Box>
                   ) : null
                 }
-
-                <Text
-                  textAlign="left"
-                  fontWeight="500"
-                  fontSize="2.3vh"
-                  color="#ffd000"
-                  mt="3.5vh"
-                >
-                  Rating: {Math.round(myMovie.rating * 100) / 100} || User
-                  reviews: {myMovie.user_reviews}{" "}
-                </Text>
               </Container>
             </Flex>
-
             <Flex flexDirection="column" ml="10vh" mt={100} mb={50}>
               <Box w="50%" borderBottom="1px" borderColor="gray.800" mb={5}>
                 <Text color="gray.200" fontSize={30}>
                   Comments
                 </Text>
               </Box>
-
               <Flex
                 maxH={500}
                 overflow="auto"
@@ -270,16 +375,16 @@ export default function MovieDetail() {
                 alignItems="center"
                 w="50%"
                 css={{
-                  "&::-webkit-scrollbar": {
-                    backgroundColor: "black",
-                    width: "10px",
+                  '&::-webkit-scrollbar': {
+                    backgroundColor: 'black',
+                    width: '10px',
                   },
-                  "&::-webkit-scrollbar-track": {
-                    width: "1px",
+                  '&::-webkit-scrollbar-track': {
+                    width: '1px',
                   },
-                  "&::-webkit-scrollbar-thumb": {
+                  '&::-webkit-scrollbar-thumb': {
                     background: color.kinemaBg,
-                    borderRadius: "24px",
+                    borderRadius: '24px',
                   },
                 }}
               >
@@ -341,7 +446,7 @@ export default function MovieDetail() {
                     <Flex justifyContent="flex-end">
                       {errorCommentArea ? (
                         <Text mr={5} color="red">
-                          You must write at least 5 letters
+                          You must write at least 5 characters.
                         </Text>
                       ) : (
                         <></>
@@ -351,7 +456,7 @@ export default function MovieDetail() {
                         mb={5}
                         backgroundColor={color.kinemaBg}
                         borderRadius={0}
-                        _hover={{ backgroundColor: "gray.600" }}
+                        _hover={{ backgroundColor: 'gray.600' }}
                         onClick={handleSubmitComment}
                         disabled={errorCommentArea}
                       >
@@ -363,24 +468,24 @@ export default function MovieDetail() {
                   <Center fontSize={15} mb={10} mt={10}>
                     <Button
                       onClick={() => {
-                        navigate("/login");
+                        navigate('/login');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       mr={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Log In
                     </Button>
                     <Text>Or</Text>
                     <Button
                       onClick={() => {
-                        navigate("/register");
+                        navigate('/register');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       ml={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Register
                     </Button>

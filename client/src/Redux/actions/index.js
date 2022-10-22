@@ -34,12 +34,35 @@ import {
   DELETE_COMMENT,
   UPGRADE_PLAN,
   CLEAR_GENRES,
-} from "./const";
-
+  ADD_TO_WATCHLIST,
+} from './const';
 
 // Actions functions
-// Get movie detail:
+export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
+  try {
+    const watchListMovieAdded = {
+      id: toBeAdd.id,
+      posterImg: `https://image.tmdb.org/t/p/original${toBeAdd.poster}`,
+      title: toBeAdd.title,
+      ...(toBeAdd.serie && { serie: true }),
+    };
 
+    const userRef = doc(firestore, 'users', user.uid);
+    await updateDoc(userRef, {
+      watchList: [...user.watchList, watchListMovieAdded],
+    });
+    dispatch({
+      type: ADD_TO_WATCHLIST,
+      payload: [...user.watchList, watchListMovieAdded],
+    });
+  } catch (error) {
+    return dispatch({
+      type: ERROR_FOUND,
+    });
+  }
+};
+
+// Get movie detail:
 export function getMovieDetail(id) {
   return async function (dispatch) {
     try {
@@ -328,7 +351,6 @@ export const loadUserData = (id) => {
         return dispatch({
           type: LOG_IN,
           payload: data,
-
         });
       }
     } catch (error) {
@@ -345,12 +367,11 @@ export const logOutUser = () => {
   };
 };
 
-
 export const upgradePlan = () => {
   return {
-    type: UPGRADE_PLAN
-  }
-}
+    type: UPGRADE_PLAN,
+  };
+};
 
 export const getCommentsData = (id) => {
   return async function (dispatch) {
@@ -371,23 +392,28 @@ export const getCommentsData = (id) => {
       });
     }
   };
-}
+};
 
 export const postNewComment = (userId, content, date, idReference) => {
   return async function (dispatch) {
     try {
-      var json = await axios.post(`/comments`, {userId, content, date, idReference});
+      var json = await axios.post(`/comments`, {
+        userId,
+        content,
+        date,
+        idReference,
+      });
       return dispatch({
         type: POST_COMMENT,
         payload: json.data,
-      })
+      });
     } catch (error) {
       return dispatch({
         type: ERROR_FOUND,
       });
     }
-  }
-}
+  };
+};
 
 export const deleteComment = (id) => {
   return async function (dispatch) {
@@ -395,14 +421,13 @@ export const deleteComment = (id) => {
       var json = await axios.delete(`/comments/${id}`);
       return dispatch({
         type: DELETE_COMMENT,
-      })
+      });
     } catch (error) {
       return dispatch({
         type: ERROR_FOUND,
       });
     }
-  }
-}
+  };
+};
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
-
