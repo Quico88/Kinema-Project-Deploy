@@ -125,13 +125,14 @@ export default function TVShowDetail() {
           <NavBar />
         </Flex>
         {mySerie.title ? (
+
           <Box>
             <Flex
               as="main"
               mt={16}
               w={"100%"}
               h={"85vh"}
-              backgroundImage={mySerie.back_poster}
+              backgroundImage={mySerie.back_poster.includes('https://image.tmdb.org') ? mySerie.back_poster : 'https://image.tmdb.org/t/p/original/'+mySerie.back_poster}
               backgroundSize={"cover"}
               backgroundPosition={"center center"}
               boxShadow="70vh 0px 128px 64px black inset"
