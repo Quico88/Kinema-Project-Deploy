@@ -14,7 +14,6 @@ import { useAuth } from '../AuthContext/AuthContext';
 import '@fontsource/raleway';
 import { ERROR_CLEAN } from '../../Redux/actions/const';
 
-
 export default function Home() {
   const { user, logout, loadingUser, read } = useAuth();
   const dispatch = useDispatch();
@@ -23,10 +22,8 @@ export default function Home() {
   const userData = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch({type: ERROR_CLEAN});
+    dispatch({ type: ERROR_CLEAN });
     if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
-    
-    
   }, []);
 
   if (!loading) {
@@ -47,7 +44,7 @@ export default function Home() {
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
           <NavBar ruta={'Home'} />
         </Flex>
-        <Flex as="main"  w="100%" direction="column">
+        <Flex as="main" w="100%" direction="column">
           {loading || !carrousels_home.allCarruselsMovies ? (
             <Loader />
           ) : (
@@ -124,30 +121,6 @@ export default function Home() {
                 movies={movieCarrousel.upComing}
                 title="Up Coming:"
               />
-              {/* <Text
-                fontWeight={'bold'}
-                color={'white'}
-                fontSize={{ base: '1xl', md: '3xl' }}
-                mb={0}
-              >
-                Top rated TV Shows :
-              </Text>
-              <CarouselHome
-                movies={SeriesCarrousel.topRatedSeries}
-                title="Top rated TV Shows:"
-              />
-              <Text
-                fontWeight={'bold'}
-                color={'white'}
-                fontSize={{ base: '1xl', md: '3xl' }}
-                mb={0}
-              >
-                Latests TV Shows :
-              </Text>
-              <CarouselHome
-                movies={SeriesCarrousel.latestSeries}
-                title="Latests TV Shows:"
-              /> */}
             </Box>
           )}
           <Footer />

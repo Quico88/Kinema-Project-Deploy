@@ -35,7 +35,7 @@ export default function MainMovieMenu(props) {
           'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'
         }
       >
-        <Stack maxW={'2xl'} align={'center'} spacing={6}>
+        <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
           <Text
             color={'white'}
             fontWeight={700}
@@ -44,7 +44,7 @@ export default function MainMovieMenu(props) {
           >
             {props.title}
           </Text>
-          <Stack direction={'row'} spacing={4}>
+          <Stack direction={'row'} spacing={4} alignSelf={'center'}>
             {userData.subscription === 2 ? (
               <Link to={`/home/movie_details/${props.id}`}>
                 <Button

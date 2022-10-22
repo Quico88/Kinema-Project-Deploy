@@ -78,8 +78,15 @@ export default function CarouselWatchList({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickPrev()}
         display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowBack />
+        <IoIosArrowBack color="white" size={85} />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -93,8 +100,15 @@ export default function CarouselWatchList({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickNext()}
         display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowForward />
+        <IoIosArrowForward color="white" size={85} />
       </IconButton>
       {/* Slider */}
       <Slider

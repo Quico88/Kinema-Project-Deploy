@@ -7,12 +7,14 @@ import {
   Image,
   Button,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 // Here we have used react-icons package for the icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import deleted from '../../../Assets/delete.png';
+import { removeFromWatchlist } from '../../../Redux/actions';
 
 // Settings for the slider
 const settings = {
@@ -29,6 +31,8 @@ export default function CarouselWatchList({ movies }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const cards = movies;
 
@@ -38,6 +42,11 @@ export default function CarouselWatchList({ movies }) {
   const side = useBreakpointValue({ base: '30%', md: '10px' });
 
   // These are the images used in the slide
+
+  /* handleDelete from watchlist: */
+  const handleDeleteFromWatchlist = (toBeRemove) => {
+    dispatch(removeFromWatchlist(user, toBeRemove));
+  };
 
   return (
     <Box
@@ -79,8 +88,15 @@ export default function CarouselWatchList({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickPrev()}
         display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowBack />
+        <IoIosArrowBack color="white" size={85} />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -94,8 +110,15 @@ export default function CarouselWatchList({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickNext()}
         display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowForward />
+        <IoIosArrowForward color="white" size={85} />
       </IconButton>
       {/* Slider */}
       <Slider
@@ -113,13 +136,13 @@ export default function CarouselWatchList({ movies }) {
                   top={1}
                   zIndex={20}
                   size="md"
-                  background="black"
+                  background="#282c34"
                   _hover={{
                     transform: 'scale(1.1)',
                     transition: 'all 0.2s',
                   }}
                   onClick={() => {
-                    console.log('delete');
+                    handleDeleteFromWatchlist(m);
                   }}
                 >
                   <img
@@ -157,13 +180,13 @@ export default function CarouselWatchList({ movies }) {
                   top={1}
                   zIndex={20}
                   size="md"
-                  background="black"
+                  background="#282c34"
                   _hover={{
                     transform: 'scale(1.1)',
                     transition: 'all 0.2s',
                   }}
                   onClick={() => {
-                    console.log('delete');
+                    handleDeleteFromWatchlist(m);
                   }}
                 >
                   <img
