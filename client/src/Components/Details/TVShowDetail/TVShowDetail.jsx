@@ -1,14 +1,15 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   getSerieDetail,
   clearSerieDetail,
   getSeasonDetail,
   getCommentsData,
   postNewComment,
-} from "../../../Redux/actions";
+  addToWatchlist,
+} from '../../../Redux/actions';
 import {
   Box,
   Flex,
@@ -21,17 +22,19 @@ import {
   Divider,
   Center,
   Textarea,
-} from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import { MdPlayArrow } from "react-icons/md";
-import NavBar from "../../NavBar/NavBar";
-import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
-import Comment from "../Comment/Comment";
-import Footer from "../../Home/Chakra UI Components/Footer";
-import CarouselTvShow from "../../Carrousel/Chackra UI Components/CarouselTVShowDetail";
-import Loader from "../../Loader/LoaderDetails.jsx";
-import Error from "../../Error/Error.jsx";
-import { color } from "../../globalStyles";
+} from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
+import { MdPlayArrow } from 'react-icons/md';
+import NavBar from '../../NavBar/NavBar';
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
+import Comment from '../Comment/Comment';
+import Footer from '../../Home/Chakra UI Components/Footer';
+import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
+import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
+import { color } from '../../globalStyles';
+import { useToast } from '@chakra-ui/react';
+import StarRatings from 'react-star-ratings';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -41,9 +44,10 @@ export default function TVShowDetail() {
   const [playTrailer, setPlayerTrailer] = useState(false);
   const error = useSelector((state) => state.error);
   const user = useSelector((state) => state.user);
-  const [commentArea, setCommentArea] = useState("");
+  const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState("");
+  const [random, refresh] = useState('');
+  const toast = useToast();
 
   useEffect(() => {
     dispatch(clearSerieDetail());
@@ -66,6 +70,28 @@ export default function TVShowDetail() {
     setErrorCommentArea(validate(e.target.value));
   };
 
+  const handleAddToWatchlist = (id) => {
+    if (user.watchList.find((e) => e.id === id)) {
+      toast({
+        title: 'This serie is already in your watchlist.',
+        status: 'info',
+        duration: 2000,
+        position: 'top-center',
+        isClosable: true,
+      });
+    } else {
+      dispatch(addToWatchlist(mySerie, user));
+      toast({
+        title: 'Added to watchlist',
+        description: 'You can see it in your profile and home.',
+        status: 'success',
+        duration: 2000,
+        position: 'top-center',
+        isClosable: true,
+      });
+    }
+  };
+
   const handleSubmitComment = (e) => {
     if (!commentArea) {
       e.preventDefault();
@@ -78,7 +104,7 @@ export default function TVShowDetail() {
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, mySerie.id));
       refresh(Math.random());
-      setCommentArea("");
+      setCommentArea('');
     }
   };
 
@@ -93,7 +119,7 @@ export default function TVShowDetail() {
   let totalSeasons = [];
   if (mySerie.number_seasons >= 1) {
     for (let i = 1; i <= mySerie.number_seasons; i++) {
-      totalSeasons.push("Season " + [i]);
+      totalSeasons.push('Season ' + [i]);
     }
   }
 
@@ -105,8 +131,8 @@ export default function TVShowDetail() {
       <>
         <NavBarPlayer closePlayer={closePlayer} />
         <iframe
-          height={"100%"}
-          width={"100%"}
+          height={'100%'}
+          width={'100%'}
           src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
           frameborder="0"
           allowFullScreen
@@ -125,16 +151,19 @@ export default function TVShowDetail() {
           <NavBar />
         </Flex>
         {mySerie.title ? (
-
           <Box>
             <Flex
               as="main"
               mt={16}
-              w={"100%"}
-              h={"85vh"}
-              backgroundImage={mySerie.back_poster.includes('https://image.tmdb.org') ? mySerie.back_poster : 'https://image.tmdb.org/t/p/original/'+mySerie.back_poster}
-              backgroundSize={"cover"}
-              backgroundPosition={"center center"}
+              w={'100%'}
+              h={'85vh'}
+              backgroundImage={
+                mySerie.back_poster.includes('https://image.tmdb.org')
+                  ? mySerie.back_poster
+                  : 'https://image.tmdb.org/t/p/original/' + mySerie.back_poster
+              }
+              backgroundSize={'cover'}
+              backgroundPosition={'center center'}
               boxShadow="70vh 0px 128px 64px black inset"
               justify="left"
             >
@@ -149,194 +178,209 @@ export default function TVShowDetail() {
                 >
                   {mySerie.title}
                 </Heading>
+                <Box>
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    fontWeight="bold"
+                    display="inline"
+                  >
+                    Rating:{' '}
+                  </Text>
+                  <StarRatings
+                    rating={Math.floor(mySerie.rating / 2)}
+                    starRatedColor="gold"
+                    starHoverColor="gold"
+                    starDimension={'2vh'}
+                    starSpacing={'0.5vh'}
+                    numberOfStars={5}
+                    name="rating"
+                  />
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    display="inline"
+                  >
+                    {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`} ||
+                    <Text
+                      fontSize="2vh"
+                      textAlign="left"
+                      color="white"
+                      fontWeight="bold"
+                      display="inline"
+                    >
+                      {' '}
+                      User reviews:{' '}
+                    </Text>
+                    {mySerie.user_reviews
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </Text>
+                </Box>
+                <br />
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                >
+                  Released:{' '}
+                </Text>
+                <Text
+                  fontSize="2vh"
+                  textAlign="left"
+                  color="white"
+                  display="inline"
+                >
+                  {mySerie.release_date_first_episode}.
+                </Text>
+                <br />
+                <br />
                 <Text
                   fontSize="2vh"
                   textAlign="left"
                   color="white"
                   maxW="80vh"
+                  fontWeight="bold"
                   noOfLines={4}
+                >
+                  Genres:{' '}
+                  {mySerie.genres?.map((genre) => (
+                    <Button
+                      key={genre.id}
+                      size="sm"
+                      variant="outline"
+                      mr="1vh"
+                      mb="1vh"
+                      pointerEvents="none"
+                    >
+                      {genre}
+                    </Button>
+                  ))}
+                </Text>
+                <br />
+                <Text
+                  fontSize="2vh"
+                  color="white"
+                  maxW="80vh"
+                  noOfLines={4}
+                  textAlign="justify"
                 >
                   {mySerie.description}
                 </Text>
-                <Box mt="3.5vh" mb="3vh">
-                  <Text
-                    justify="left"
-                    textAlign="left"
-                    fontWeight="bold"
-                    fontSize="2.5vh"
-                    color="#d90429"
-                  >
-                    Genres
-                  </Text>
-                  <Text
-                    justify="left"
-                    textAlign="left"
-                    fontWeight="500"
-                    fontSize="2.3vh"
-                    color="white"
-                  >
-                    {mySerie.genres?.map((el) => el + " ")}
-                  </Text>
-                </Box>
                 {
                   //  USER PREMIUM CASE:
-                  user.subscription == 2 ? (
+                  user.subscription === 2 ? (
                     <Box textAlign="left" mt="3vh">
                       <Button
                         onClick={() => setPlayerTrailer(true)}
                         borderRadius="3vh"
                         rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                        mr="1.5vh"
-                        bg="#7209b7"
-                        color="white"
-                        _hover={{
-                          background: "#5e60ce",
-                          color: "white",
-                        }}
+                        bg={'blue.400'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'blue.500' }}
                       >
-                        <Text mb="0.25vh">WATCH</Text>
+                        <Text mb="0.25vh">Watch</Text>
                       </Button>
                       <Button
-                        borderRadius="3vh"
-                        bg="#354f52"
-                        color="white"
-                        mr="1.5vh"
+                        onClick={() => handleAddToWatchlist(mySerie.id)}
+                        bg={'whiteAlpha.300'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'whiteAlpha.500' }}
                       >
-                        MY LIST
+                        My List
                       </Button>
-                      <Select
-                        borderRadius="3vh"
-                        focusBorderColor="#233d4d"
-                        onChange={(e) => handleSeason(e)}
-                        bg="#233d4d"
-                        w="15vh"
-                        display={"inline-block"}
-                        color="white"
-                        mt="2vh"
-                      >
-                        {totalSeasons?.map((el, index) => {
-                          return (
-                            <option
-                              value={index + 1}
-                              style={{ backgroundColor: "#233d4d" }}
-                            >
-                              {el}
-                            </option>
-                          );
-                        })}
-                      </Select>
-                    </Box> ) : null }
-                { //  USER FREE CASE:
-                  user.subscription == 1 ? (
+                    </Box>
+                  ) : null
+                }
+                {
+                  //  USER FREE CASE:
+                  user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                    <Link href={`/payment/rent/tv_show/${id}`}>
                       <Button
-                        borderRadius="3vh"
-                        mr="1.5vh"
-                        bg="#7209b7"
-                        color="white"
-                        _hover={{
-                          background: "#5e60ce",
-                          color: "white",
-                        }}
+                        bg={'blue.400'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'blue.500' }}
                       >
-                        
-                          <Text mb="0.25vh">RENT</Text>
-                        
+                        <Link href={`/payment/rent/tv_show/${id}`}>
+                          <Text mb="0.25vh">Rent</Text>
+                        </Link>
                       </Button>
-                      </Link>
                       <Button
-                        borderRadius="3vh"
-                        bg="#354f52"
-                        color="white"
-                        mr="1.5vh"
+                        onClick={() =>
+                          toast({
+                            title: `Upgrade your account to add to your list.`,
+                            status: 'info',
+                            position: 'top-right',
+                            isClosable: true,
+                            duration: 3000,
+                          })
+                        }
+                        bg={'whiteAlpha.300'}
+                        rounded={'full'}
+                        color={'white'}
+                        _hover={{ bg: 'whiteAlpha.500' }}
                       >
-                        MY LIST
+                        My List
                       </Button>
-                      <Select
-                        borderRadius="3vh"
-                        focusBorderColor="#233d4d"
-                        onChange={(e) => handleSeason(e)}
-                        bg="#233d4d"
-                        maxW="15vh"
-                        display={"inline-block"}
-                        color="white"
-                        mt="2vh"
-                        mr="1vh"
-                      >
-                        {totalSeasons?.map((el, index) => {
-                          return (
-                            <option
-                              value={index + 1}
-                              style={{ backgroundColor: "#233d4d" }}
-                            >
-                              {el}
-                            </option>
-                          );
-                        })}
-                      </Select>
-                      <Text mt="2vh" fontSize="2.3vh" color={"white"}>
-                        {" "}
-                        You can{" "}
-                        <Link href="/payment" color={"#72efdd"}>
-                          <b>upgrade</b>
-                        </Link>{" "}
+
+                      <Text mt="2vh" fontSize="2.3vh" color={'white'}>
+                        You can
+                        <Link href="/payment" color={'#72efdd'}>
+                          <b> upgrade </b>
+                        </Link>
                         your plan to watch any content.
                       </Text>
                     </Box>
                   ) : null
                 }
                 {
-                  //  USER FREE CASE:
+                  //  USER GUEST CASE:
                   user.subscription == null ? (
                     <Box textAlign="left" mt="1vh">
-                      <Select
-                        borderRadius="3vh"
-                        focusBorderColor="#233d4d"
-                        onChange={(e) => handleSeason(e)}
-                        bg="#233d4d"
-                        maxW="15vh"
-                        display={"inline-block"}
-                        color="white"
-                        mt="0vh"
-                        mr="1vh"
-                      >
-                        {totalSeasons?.map((el, index) => {
-                          return (
-                            <option
-                              value={index + 1}
-                              style={{ backgroundColor: "#233d4d" }}
-                            >
-                              {el}
-                            </option>
-                          );
-                        })}
-                      </Select>
-                      <Text fontSize="2.3vh" color={"white"} mt="2vh">
-                        <Link href="/login" color={"#72efdd"}>
-                          <b>Log In</b>
-                        </Link>{" "}
-                        or{" "}
-                        <Link href="/register" color={"#64dfdf"}>
-                          <b>Register</b>
-                        </Link>{" "}
+                      <Text fontSize="2.3vh" color={'white'} mt="2vh">
+                        <Link href="/login" color={'#72efdd'}>
+                          <b>Log In </b>
+                        </Link>
+                        or
+                        <Link href="/register" color={'#64dfdf'}>
+                          <b> Register </b>
+                        </Link>
                         to watch this serie.
                       </Text>
+                      <br />
                     </Box>
                   ) : null
                 }
-
-                <Text
-                  textAlign="left"
-                  fontWeight="500"
-                  fontSize="2.3vh"
-                  color="#ffd000"
-                  mt="2.5vh"
+                <br />
+                <Select
+                  focusBorderColor="#233d4d"
+                  onChange={(e) => handleSeason(e)}
+                  bg="#233d4d"
+                  maxW="15vh"
+                  display={'inline-block'}
+                  color="white"
+                  mt="0vh"
+                  mr="1vh"
+                  cursor="pointer"
                 >
-                  Rating: {Math.round(mySerie.rating * 100) / 100} || User
-                  reviews:
-                  {mySerie.user_reviews}
-                </Text>
+                  {totalSeasons?.map((el, index) => {
+                    return (
+                      <option
+                        value={index + 1}
+                        style={{ backgroundColor: '#233d4d' }}
+                      >
+                        {el}
+                      </option>
+                    );
+                  })}
+                </Select>
                 {mySeason.id ? (
                   <CarouselTvShow
                     movies={mySeason.episodes}
@@ -359,16 +403,16 @@ export default function TVShowDetail() {
                 alignItems="center"
                 w="50%"
                 css={{
-                  "&::-webkit-scrollbar": {
-                    backgroundColor: "black",
-                    width: "10px",
+                  '&::-webkit-scrollbar': {
+                    backgroundColor: 'black',
+                    width: '10px',
                   },
-                  "&::-webkit-scrollbar-track": {
-                    width: "1px",
+                  '&::-webkit-scrollbar-track': {
+                    width: '1px',
                   },
-                  "&::-webkit-scrollbar-thumb": {
+                  '&::-webkit-scrollbar-thumb': {
                     background: color.kinemaBg,
-                    borderRadius: "24px",
+                    borderRadius: '24px',
                   },
                 }}
               >
@@ -395,7 +439,9 @@ export default function TVShowDetail() {
                     w="100%"
                     borderRadius={0}
                   >
-                    <Text mt="2vh" mb="2vh" fontSize="2vh" >No comments yet. Be the first one!</Text>
+                    <Text mt="2vh" mb="2vh" fontSize="2vh">
+                      No comments yet. Be the first one!
+                    </Text>
                   </Center>
                 )}
               </Flex>
@@ -438,7 +484,7 @@ export default function TVShowDetail() {
                         mb={5}
                         backgroundColor={color.kinemaBg}
                         borderRadius={0}
-                        _hover={{ backgroundColor: "gray.600" }}
+                        _hover={{ backgroundColor: 'gray.600' }}
                         onClick={handleSubmitComment}
                         disabled={errorCommentArea}
                       >
@@ -450,24 +496,24 @@ export default function TVShowDetail() {
                   <Center fontSize={15} mb={10} mt={10}>
                     <Button
                       onClick={() => {
-                        navigate("/login");
+                        navigate('/login');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       mr={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Log In
                     </Button>
                     <Text>Or</Text>
                     <Button
                       onClick={() => {
-                        navigate("/register");
+                        navigate('/register');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       ml={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Register
                     </Button>

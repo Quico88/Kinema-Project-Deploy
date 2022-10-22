@@ -11,6 +11,7 @@ import {
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
+import { useSelector } from 'react-redux';
 
 // Settings for the slider
 const settings = {
@@ -27,6 +28,7 @@ export default function CarouselTvShow({ movies, videoSerie }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState(null);
+  const user = useSelector((state) => state.user);
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
@@ -99,7 +101,12 @@ export default function CarouselTvShow({ movies, videoSerie }) {
                   transition: '0.8s',
                 }}
               >
-                <Link href={videoSerie} position="relative" w={'250px'}>
+                <Link
+                  href={videoSerie}
+                  position="relative"
+                  w={'250px'}
+                  pointerEvents={!user || user.subscription === 1 ? 'none' : ''}
+                >
                   <Image src={m.image} borderRadius="0.5vh"></Image>
 
                   {m.duration ? (
