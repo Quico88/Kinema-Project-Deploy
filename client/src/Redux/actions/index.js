@@ -28,10 +28,13 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
+  GET_COMMENTS_DATA,
+  POST_COMMENT,
   RENT_VIDEO,
+  DELETE_COMMENT,
   UPGRADE_PLAN,
   CLEAR_GENRES,
-} from './const';
+} from "./const";
 
 
 // Actions functions
@@ -342,11 +345,64 @@ export const logOutUser = () => {
   };
 };
 
-export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
 
 export const upgradePlan = () => {
   return {
     type: UPGRADE_PLAN
   }
 }
+
+export const getCommentsData = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/comments/${id}`);
+      if (json.status === 204) {
+        return dispatch({
+          type: ERROR_FOUND,
+        });
+      }
+      return dispatch({
+        type: GET_COMMENTS_DATA,
+        payload: json.data,
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const postNewComment = (userId, content, date, idReference) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/comments`, {userId, content, date, idReference});
+      return dispatch({
+        type: POST_COMMENT,
+        payload: json.data,
+      })
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  }
+}
+
+export const deleteComment = (id) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.delete(`/comments/${id}`);
+      return dispatch({
+        type: DELETE_COMMENT,
+      })
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  }
+}
+
+export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
 

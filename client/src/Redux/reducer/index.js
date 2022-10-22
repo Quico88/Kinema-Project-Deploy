@@ -22,8 +22,10 @@ import {
   GET_SERIES_BY_GENRE,
   LOG_IN,
   LOG_OUT,
+  GET_COMMENTS_DATA,
   RENT_VIDEO,
   UPGRADE_PLAN,
+  DELETE_COMMENT,
 } from "../actions/const";
 
 
@@ -40,6 +42,7 @@ const initialState = {
   allgenres: [],
   error: false,
   user: false,
+  comments:[]
 };
 
 // Reducer:
@@ -155,12 +158,18 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: false,
-      };
+      }
+    case GET_COMMENTS_DATA:
+      return {
+        ...state,
+        comments: action.payload
+      }
     case RENT_VIDEO:
       return {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
       }
+
     case UPGRADE_PLAN:
       return {
         ...state,
