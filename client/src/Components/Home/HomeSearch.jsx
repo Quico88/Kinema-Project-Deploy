@@ -5,7 +5,7 @@ import Footer from "./Chakra UI Components/Footer";
 import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 import { useLocation } from "react-router-dom";
-import { Flex, Divider, Center } from "@chakra-ui/react";
+import { Flex, Divider, Center, Text } from "@chakra-ui/react";
 import Loader from "../Loader/LoaderCards";
 import Error from "../Error/Error";
 import "@fontsource/raleway";
@@ -66,9 +66,19 @@ export default function HomeSearch() {
             />
           </Center>
           {searchToShow.length === 0 ? (
-            <Loader />
+            <Center h="90vh">
+              <Center w="95%" mb={30} pt={70} pb={70} borderColor="white">
+                <Text fontSize={30} color="white">
+                  No results...
+                </Text>
+              </Center>
+            </Center>
           ) : (
-            <DataList data={ searchToShow } next={ setPage } hasMore={ search.length > 19 } />
+            <DataList
+              data={searchToShow}
+              next={setPage}
+              hasMore={search.length > 19}
+            />
           )}
           <Footer />
         </Flex>
