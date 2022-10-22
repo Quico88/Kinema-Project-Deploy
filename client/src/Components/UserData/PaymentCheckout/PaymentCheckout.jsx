@@ -24,8 +24,8 @@ const CheckoutForm = () => {
     const elements = useElements()
   const { username, email, uid } = useSelector(state => state.user);
   const [errors, setErrors] = useState({
-    name: "A name is required",
-    surname:"A surname is required",
+    name: "Please fill name.",
+    surname:"Please fill surname.",
     });
     const [input, setInput] = useState({
       name: "",
@@ -45,16 +45,16 @@ const CheckoutForm = () => {
     let errors = {};
     let nameRegex = /^[a-zA-Z-_ ]{3,20}$/;
     if (!input.name) {
-      errors.name = "A name is required"
+      errors.name = "Please fill name."
     }
     else if (!nameRegex.test(input.name)) {
-      errors.name = "Name is invalid";
+      errors.name = "Name is invalid.";
     }
     if (!input.surname) {
-      errors.surname = "A surname is required";
+      errors.surname = "Please fill surname.";
     } 
     else if (!nameRegex.test(input.surname)) {
-      errors.surname = "Surname is invalid";
+      errors.surname = "Surname is invalid.";
     }
     
     return errors;
