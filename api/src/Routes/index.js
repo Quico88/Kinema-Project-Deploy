@@ -124,7 +124,7 @@ router.get('/home/search', async (req, res) => {
     const { page, name } = req.query;
     let data = await getAllSearch(page, name);
 
-    if (data.length === 0) return res.status(204).send({ Error: 'Not found' });
+    /* if (data.length === 0) return res.status(204).send({ Error: 'Not found' }); */ // ROMPE EL CODIGO ==== VACIO
 
     data.sort((a, b) => {
       if (a.vote_average < b.vote_average) {
