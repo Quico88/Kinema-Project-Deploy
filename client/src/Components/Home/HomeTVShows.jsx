@@ -7,7 +7,7 @@ import {
   getTvShows,
   getTVShowGenres,
   getSeriesByGenre,
-  clearGenres,
+  // clearGenres,
 } from '../../Redux/actions';
 import DataList from '../DataList/DataList';
 import { Box, Flex, Select, Text, Center, Divider } from '@chakra-ui/react';
@@ -20,9 +20,28 @@ export default function HomeTVShows() {
   const series = useSelector((state) => state.series);
   const [page, setPage] = useState(1);
   const [seriesToShow, setSeriesToShow] = useState([]);
-  const allGenres = useSelector((state) => state.allgenres);
+  // const allGenres = useSelector((state) => state.allgenres);
   const [genre, setGenero] = useState('All');
   const [titulo, setTitulo] = useState('TV Shows');
+
+  const allGenres = [
+    'Action and Adventure',
+    'Animation',
+    'Comedy',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
+    'Kids',
+    'Mystery',
+    'News',
+    'Reality',
+    'Sci-Fi and Fantasy',
+    'Soap',
+    'Talk',
+    'War and Politics',
+    'Western',
+  ];
 
   const error = useSelector((state) => state.error);
 
@@ -47,7 +66,7 @@ export default function HomeTVShows() {
     }
     return () => {
       dispatch(clearTvShows());
-      dispatch(clearGenres());
+      // dispatch(clearGenres());
     };
   }, [genre]);
 
@@ -97,9 +116,7 @@ export default function HomeTVShows() {
                   fontWeight="500"
                   defaultValue="Genres"
                 >
-                  <option disabled>
-                    Genres
-                  </option>
+                  <option disabled>Genres</option>
                   <option className="options">All</option>
                   {allGenres.map((g, i) => (
                     <option name={g} key={i} value={g} className="options">
