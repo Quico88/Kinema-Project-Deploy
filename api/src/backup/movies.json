@@ -26,6 +26,24 @@
 		"trailer": "https://www.youtube.com/watch?v=aftysDQ4hpI"	
 	},
 	{
+		"id": 848791,
+		"genres": [
+			"Crime",
+			"Drama",
+			"Mystery",
+			"Thriller"
+		],
+		"title": "The Stranger",
+		"description": "Two strangers strike up a conversation on a long journey. One is a suspect in an unsolved missing person’s case and the other an undercover operative on his trail. Their uneasy friendship becomes the core of this tightly wrought thriller, which is based on the true story of one of the largest investigations and undercover operations in Australia.",
+		"rating": 6.5,
+		"user_reviews": 29,
+		"release_date": "September 29, 2022",
+		"duration": "117 minutes.",
+		"poster": "/ydbm5Ad1nyZq7eywWsw82Wxdsgg.jpg",
+		"back_poster": "/u6WzMRpTkGzIlfsPNtDfIBfEy9z.jpg",
+		"trailer": "https://www.youtube.com/watch?v=umIeYcQLABg"
+	},
+	{
 		"id": 760161,
 		"genres": [
 			"Horror",
@@ -55,21 +73,6 @@
 		"poster": "/aVLV38txajXhEy2qNEClPIsDbAH.jpg",
 		"back_poster": "/etP5jwlwvkNhwe7jnI2AyA6ZKrR.jpg",
 		"trailer": "https://www.youtube.com/watch?v=Gi4Pobu1PWw"
-	},
-	{
-		"id": 985939,
-		"genres": [
-			"Thriller"
-		],
-		"title": "Fall",
-		"description": "For best friends Becky and Hunter, life is all about conquering fears and pushing limits. But after they climb 2,000 feet to the top of a remote, abandoned radio tower, they find themselves stranded with no way down. Now Becky and Hunter’s expert climbing skills will be put to the ultimate test as they desperately fight to survive the elements, a lack of supplies, and vertigo-inducing heights",
-		"rating": 7.362,
-		"user_reviews": 1463,
-		"release_date": "August 10, 2022",
-		"duration": "107 minutes.",
-		"poster": "/spCAxD99U1A6jsiePFoqdEcY0dG.jpg",
-		"back_poster": "/1DBDwevWS8OhiT3wqqlW7KGPd6m.jpg",
-		"trailer": "https://www.youtube.com/watch?v=FNk7Cu4sJOs"
 	},
 	{
 		"id": 642885,
@@ -104,23 +107,6 @@
 		"poster": "/AeyiuQUUs78bPkz18FY3AzNFF8b.jpg",
 		"back_poster": "/5hoS3nEkGGXUfmnu39yw1k52JX5.jpg",
 		"trailer": "https://www.youtube.com/watch?v=iOL7uUAbsUQ"
-	},
-	{
-		"id": 616820,
-		"genres": [
-			"Horror",
-			"Thriller",
-			"Romance"
-		],
-		"title": "Halloween Ends",
-		"description": "Four years after the events of Halloween in 2018, Laurie has decided to liberate herself from fear and rage and embrace life. But when a young man is accused of killing a boy he was babysitting, it ignites a cascade of violence and terror that will force Laurie to finally confront the evil she can’t control, once and for all.",
-		"rating": 6.9,
-		"user_reviews": 382,
-		"release_date": "October 11, 2022",
-		"duration": "111 minutes.",
-		"poster": "/3uDwqxbr0j34rJVJMOW6o8Upw5W.jpg",
-		"back_poster": "/aTovumsNlDjof7YVoU5nW2RHaYn.jpg",
-		"trailer": "https://www.youtube.com/watch?v=i_mAWKyfj6c"
 	},
 	{
 		"id": 852046,
@@ -325,6 +311,105 @@
 		"trailer": "https://www.youtube.com/watch?v=mkomfZHG5q4"
 	},
 	{
+		"id": 238,
+		"genres": [
+			"Drama",
+			"Crime"
+		],
+		"title": "The Godfather",
+		"description": "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.",
+		"rating": 8.7,
+		"user_reviews": 16778,
+		"release_date": "March 14, 1972",
+		"duration": "175 minutes.",
+		"poster": "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+		"back_poster": "/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg",
+		"trailer": "https://www.youtube.com/watch?v=Ma1-sIoZnMs"
+	},
+	{
+	  "id": 278,
+	  "genres": [
+	    "Drama",
+	    "Crime"
+	  ],
+	  "title": "The Shawshank Redemption",
+	  "description": "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.",
+	  "rating": 8.7,
+	  "user_reviews": 22508,
+	  "release_date": "September 23, 1994",
+	  "duration": "142 minutes.",
+	  "poster": "/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+	  "back_poster": "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=PLl99DlL6b4"
+	},
+	{
+  	"id": 240,
+  	"genres": [
+    	"Drama",
+    	"Crime"
+  	],
+  	"title": "The Godfather Part II",
+  	"description": "In the continuing saga of the Corleone crime family, a young Vito Corleone grows up in Sicily and in 1910s New York. In the 1950s, Michael Corleone attempts to expand the family business into Las Vegas, Hollywood and Cuba.",
+  	"rating": 8.6,
+  	"user_reviews": 10165,
+  	"release_date": "December 19, 1974",
+  	"duration": "202 minutes.",
+  	"poster": "/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg",
+  	"back_poster": "/kGzFbGhp99zva6oZODW5atUtnqi.jpg",
+  	"trailer": "https://www.youtube.com/watch?v=rcU6DUUUd7k"
+	},
+	{
+	  "id": 424,
+	  "genres": [
+	    "Drama",
+	    "History",
+	    "War"
+	  ],
+	  "title": "Schindler's List",
+	  "description": "The true story of how businessman Oskar Schindler saved over a thousand Jewish lives from the Nazis while they worked as slaves in his factory during World War II.",
+	  "rating": 8.6,
+	  "user_reviews": 13361,
+	  "release_date": "December 14, 1993",
+	  "duration": "195 minutes.",
+	  "poster": "/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg",
+	  "back_poster": "/zb6fM1CX41D9rF9hdgclu0peUmy.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=bJcLRFWxRno"
+	},
+	{
+	  "id": 19404,
+	  "genres": [
+	    "Comedy",
+	    "Drama",
+	    "Romance"
+	  ],
+	  "title": "Dilwale Dulhania Le Jayenge",
+	  "description": "Raj is a rich, carefree, happy-go-lucky second generation NRI. Simran is the daughter of Chaudhary Baldev Singh, who in spite of being an NRI is very strict about adherence to Indian values. Simran has left for India to be married to her childhood fiancé. Raj leaves for India with a mission at his hands, to claim his lady love under the noses of her whole family. Thus begins a saga.",
+	  "rating": 8.6,
+	  "user_reviews": 3918,
+	  "release_date": "October 18, 1995",
+	  "duration": "190 minutes.",
+	  "poster": "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
+	  "back_poster": "/vI3aUGTuRRdM7J78KIdW98LdxE5.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=oIZ4U21DRlM"
+	},
+	{
+	  "id": 129,
+	  "genres": [
+	    "Animation",
+	    "Family",
+	    "Fantasy"
+	  ],
+	  "title": "Spirited Away",
+	  "description": "A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.",
+	  "rating": 8.5,
+	  "user_reviews": 13451,
+	  "release_date": "July 19, 2001",
+	  "duration": "125 minutes.",
+	  "poster": "/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+	  "back_poster": "/Ab8mkHmkYADjU7wQiOkia9BzGvS.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=ByXuk9QqQkk"
+	},
+	{
 		"id": 744276,
 		"genres": [
 			"Romance",
@@ -339,6 +424,22 @@
 		"poster": "/6b7swg6DLqXCO3XUsMnv6RwDMW2.jpg",
 		"back_poster": "/rwgmDkIEv8VjAsWx25ottJrFvpO.jpg",
 		"trailer": "https://www.youtube.com/watch?v=hLQ-5exgctI"
+	},
+	{
+	  "id": 667257,
+	  "genres": [
+	    "Family",
+	    "Drama"
+	  ],
+	  "title": "Impossible Things",
+	  "description": "Matilde is a woman who, after the death of her husband - a man who constantly abused her - finds her new best friend in Miguel, her young, insecure, disoriented and even dealer neighbor.",
+	  "rating": 8.5,
+	  "user_reviews": 271,
+	  "release_date": "June 16, 2021",
+	  "duration": "88 minutes.",
+	  "poster": "/t2Ew8NZ8Ci2kqmoecZUNQUFDJnQ.jpg",
+	  "back_poster": "/bxSBOAD8AuMHYMdW3jso9npAkgt.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=eRJryexKYxQ"
 	},
 	{
 		"id": 766507,
@@ -494,6 +595,39 @@
 		"poster": "/aPqcQwu4VGEewPhagWNncDbJ9Xp.jpg",
 		"back_poster": "/olPXihyFeeNvnaD6IOBltgIV1FU.jpg",
 		"trailer": "https://www.youtube.com/watch?v=BcDK7lkzzsU"
+	},
+	{
+		"id": 633657,
+		"genres": [
+			"Drama",
+			"Comedy"
+		],
+		"title": "The Good House",
+		"description": "Hildy Good, a wry New England realtor and descendant of the Salem witches who loves her wine and loves her secrets. Her compartmentalized life starts to unravel as she rekindles an old romance and becomes dangerously entwined in one person’s reckless behavior.",
+		"rating": 6.875,
+		"user_reviews": 8,
+		"release_date": "September 14, 2021",
+		"duration": "103 minutes.",
+		"poster": "/a0tSiNq9Ze4ucWFU6oRPd4OEGJr.jpg",
+		"back_poster": "/rUh1IQCuMrvkaKQrovh97T3hRz.jpg",
+		"trailer": "https://www.youtube.com/watch?v=jK_KcgHwA0s"
+	},
+	{
+		"id": 551271,
+		"genres": [
+			"History",
+			"Drama",
+			"Action"
+		],
+		"title": "Medieval",
+		"description": "The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.",
+		"rating": 7.1,
+		"user_reviews": 17,
+		"release_date": "September 7, 2022",
+		"duration": "126 minutes.",
+		"poster": "/4njdAkiBdC5LnFApeXSkFQ78GdT.jpg",
+		"back_poster": "/aQOWnw3HydsCQZ10O0wvxFOaWc3.jpg",
+		"trailer": "https://www.youtube.com/watch?v=pvueouCojgM"
 	},
 	{
 		"id": 629176,
@@ -6847,6 +6981,23 @@
 		"trailer": "https://www.youtube.com/watch?v=SlNVu5pnZuc"
 	},
 	{
+	  "id": 496243,
+	  "genres": [
+	    "Comedy",
+	    "Thriller",
+	    "Drama"
+	  ],
+	  "title": "Parasite",
+	  "description": "Matilde is a woman who, after the death of her husband - a man who constantly abused her - finds her new best friend in Miguel, her young, insecure, disoriented and even dealer neighbor.",
+	  "rating": 8.5,
+	  "user_reviews": 14584,
+	  "release_date": "May 29, 2019",
+	  "duration": "133 minutes.",
+	  "poster": "/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+	  "back_poster": "/TU9NIjwzjoKPwQHoHshkFcQUCG.jpg",
+	  "trailer": "https://www.youtube.com/watch?v=isOGD_7hNIY"
+	},
+	{
 		"id": 799876,
 		"genres": [
 			"Crime",
@@ -7960,6 +8111,21 @@
 		"trailer": "https://www.youtube.com/watch?v=sz0nYdtUB20"
 	},
 	{
+		"id": 724089,
+		"genres": [
+			"Romance"
+		],
+		"title": "Gabriel's Inferno: Part II",
+		"description": "Professor Gabriel Emerson finally learns the truth about Julia Mitchell's identity, but his realization comes a moment too late. Julia is done waiting for the well-respected Dante specialist to remember her and wants nothing more to do with him. Can Gabriel win back her heart before she finds love in another's arms?",
+		"rating": 8.511,
+		"user_reviews": 1439,
+		"release_date": "July 30, 2020",
+		"duration": "105 minutes.",
+		"poster": "/x5o8cLZfEXMoZczTYWLrUo1P7UJ.jpg",
+		"back_poster": "/jtAI6OJIWLWiRItNSZoWjrsUtmi.jpg",
+		"trailer": "https://www.youtube.com/watch?v=5g02v1oz5Y0"
+	},
+	{
 		"id": 497,
 		"genres": [
 			"Fantasy",
@@ -7975,6 +8141,86 @@
 		"poster": "/velWPhVMQeQKcxggNEU8YmIo52R.jpg",
 		"back_poster": "/l6hQWH9eDksNJNiXWYRkWqikOdu.jpg",
 		"trailer": "https://www.youtube.com/watch?v=Bg7epsq0OIQ"
+	},
+	{
+		"id": 553512,
+		"genres": [
+			"Music"
+		],
+		"title": "Burn the Stage: The Movie",
+		"description": "A documentary following the worldwide famous music group BTS, as they tour the world and share their experience along with their beloved band friends and fans.",
+		"rating": 8.488,
+		"user_reviews": 368,
+		"release_date": "November 14, 2018",
+		"duration": "85 minutes.",
+		"poster": "/pJKy1yvnKh8UjcuYeG3Rt35xHFA.jpg",
+		"back_poster": "/aQ7444JX7gefPhGJTlvilj3zG2S.jpg",
+		"trailer": "https://www.youtube.com/watch?v=g_6FoBgps9Y"
+	},
+		{
+		"id": 730154,
+		"genres": [
+			"Romance",
+			"Drama"
+		],
+		"title": "Your Eyes Tell",
+		"description": "A tragic accident lead to Kaori's blindness, but she clings to life and the smaller pleasures it can still afford her. She meets Rui and begins to talk to him. Rui was once a promising kickboxer, but something happened in his past. Kaori's smile brings out a change in Rui. However, the two are connected in more than one way. Rui attempts to do what is right.",
+		"rating": 8.504,
+		"user_reviews": 356,
+		"release_date": "October 22, 2020",
+		"duration": "123 minutes.",
+		"poster": "/cVn8E3Fxbi8HzYYtaSfsblYC4gl.jpg",
+		"back_poster": "/v5CEt88iDsuoMaW1Q5Msu9UZdEt.jpg",
+		"trailer": "https://www.youtube.com/watch?v=Sx02Ikxtk-8"
+	},
+	{
+		"id": 696374,
+		"genres": [
+			"Romance"
+		],
+		"title": "Gabriel's Inferno",
+		"description": "An intriguing and sinful exploration of seduction, forbidden love, and redemption, Gabriel's Inferno is a captivating and wildly passionate tale of one man's escape from his own personal hell as he tries to earn the impossible--forgiveness and love.",
+		"rating": 8.506,
+		"user_reviews": 2293,
+		"release_date": "May 28, 2020",
+		"duration": "122 minutes.",
+		"poster": "/oyG9TL7FcRP4EZ9Vid6uKzwdndz.jpg",
+		"back_poster": "/w2uGvCpMtvRqZg6waC1hvLyZoJa.jpg",
+		"trailer": "https://www.youtube.com/watch?v=kgWFjmiqHmQ"
+	},
+	{
+		"id": 155,
+		"genres": [
+			"Drama",
+			"Action",
+			"Crime",
+			"Thriller"
+		],
+		"title": "The Dark Knight",
+		"description": "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker.",
+		"rating": 8.5,
+		"user_reviews": 28440,
+		"release_date": "July 13, 2008",
+		"duration": "152 minutes.",
+		"poster": "/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+		"back_poster": "/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg",
+		"trailer": "https://www.youtube.com/watch?v=kmJLuwP3MbY"
+	},
+	{
+		"id": 680,
+		"genres": [
+			"Thriller",
+			"Crime"
+		],
+		"title": "Pulp Fiction",
+		"description": "A burger-loving hit man, his philosophical partner, a drug-addled gangster's moll and a washed-up boxer converge in this sprawling, comedic crime caper. Their adventures unfurl in three stories that ingeniously trip back and forth in time.",
+		"rating": 8.49,
+		"user_reviews": 23937,
+		"release_date": "September 9, 1994",
+		"duration": "154 minutes.",
+		"poster": "/fIE3lAGcZDV1G6XM5KmuWnNsPp1.jpg",
+		"back_poster": "/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+		"trailer": "https://www.youtube.com/watch?v=tGpTpVyI_OQ"
 	},
 	{
 		"id": 10987,
@@ -8442,6 +8688,55 @@
 		"poster": "/jXwYESgxqkXlYvoTyUTO2hqKK7T.jpg",
 		"back_poster": "/7IwLNl9MJbj47pObu8xMDUbIesv.jpg",
 		"trailer": "https://www.youtube.com/watch?v=OkEnG6inG4c"
+	},
+	{
+		"id": 913290,
+		"genres": [
+			"Horror",
+			"Mystery",
+			"Thriller"
+		],
+		"title": "Barbarian",
+		"description": "In town for a job interview, a young woman arrives at her Airbnb late at night only to find that it has been mistakenly double-booked and a strange man is already staying there. Against her better judgement, she decides to stay the night anyway, but soon discovers that there is much more to be afraid of in the house than the other guest.",
+		"rating": 7.2,
+		"user_reviews": 75,
+		"release_date": "September 7, 2022",
+		"duration": "103 minutes.",
+		"poster": "/n3N3j08ocxecz2gohfeecnZAFOt.jpg",
+		"back_poster": "/bUjPcNS8GweBh5Nxp8oq9Dy712Z.jpg",
+		"trailer": "https://www.youtube.com/watch?v=zUqIv5PvbGk"
+	},
+	{
+		"id": 614939,
+		"genres": [
+			"Comedy",
+			"Romance"
+		],
+		"title": "Bros",
+		"description": "Two men with commitment problems attempt a relationship.",
+		"rating": 6.425,
+		"user_reviews": 60,
+		"release_date": "September 29, 2022",
+		"duration": "115 minutes.",
+		"poster": "/4CArWLRroMPXwKJeO3HSYiyKyHD.jpg",
+		"back_poster": "/qCtf5YUt0uPHRVZUDJPKW0UMDuZ.jpg",
+		"trailer": "https://www.youtube.com/watch?v=BQIeBB9XMe8"
+	},
+	{
+		"id": 754609,
+		"genres": [
+			"Comedy",
+			"Drama"
+		],
+		"title": "Mrs. Harris Goes to Paris",
+		"description": "A 1950s London cleaning lady falls in love with an haute couture dress by Christian Dior and decides to gamble everything for the sake of this folly.",
+		"rating": 7.612,
+		"user_reviews": 76,
+		"release_date": "July 14, 2022",
+		"duration": "116 minutes.",
+		"poster": "/eUg0HDLhTEDcXGBU2iK6QRBILv4.jpg",
+		"back_poster": "/AhkirfgU32n0D1uxpaGYJEKy2Hu.jpg",
+		"trailer": "https://www.youtube.com/watch?v=iO9JcPbbmAA"
 	},
 	{
 		"id": 24150,
