@@ -24,7 +24,7 @@ const settings = {
   slidesToScroll: 4,
 };
 
-export default function CarouselTvShow({ movies, videoSerie }) {
+export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState(null);
@@ -102,7 +102,7 @@ export default function CarouselTvShow({ movies, videoSerie }) {
                 }}
               >
                 <Link
-                  href={videoSerie}
+                  onClick={() => openPlayer()}
                   position="relative"
                   w={'250px'}
                   pointerEvents={!user || user.subscription === 1 ? 'none' : ''}
