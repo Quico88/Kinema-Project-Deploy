@@ -93,9 +93,9 @@ export default function UserProfile() {
         username: '',
       });
       setChangeUserName(false);
-      ToastifyMessage("Username updated successfully", "success")
+      ToastifyMessage("Username updated.", "success")
     } else {
-      ToastifyMessage('Username must have at least 5 characters')
+      ToastifyMessage('Username must have at least 5 characters.')
     }
   };
 
@@ -104,7 +104,7 @@ export default function UserProfile() {
     await updateDoc(userRef, {
       active: false,
     });
-    alert('Your account is deleted');
+    alert('Your account was deleted.');
     logOut();
   };
 
@@ -123,11 +123,11 @@ export default function UserProfile() {
   function validate(x) {
     let errors = {};
     if (!x.username.trim()) {
-      errors.name = 'Name must be completed';
+      errors.name = 'Please fill name.';
     } else if (x.username.trim().length < 4) {
-      errors.name = 'Name must have more than 5 letters';
+      errors.name = 'Name must have more than 5 characters.';
     } else if (x.username.length === 0) {
-      errors.name = 'Name must be completed';
+      errors.name = 'Please fill name.';
     }
 
     return errors;
