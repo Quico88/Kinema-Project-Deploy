@@ -30,7 +30,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import edit from "../../../Assets/edit.png";
-import deleted from "../../../Assets/delete.png";
+import prohibition from "../../../Assets/prohibition.png";
 import { Navigate } from "react-router-dom";
 
 export default function Admin() {
@@ -198,7 +198,7 @@ export default function Admin() {
                 Edit
               </Th>
               <Th color={"black"} fontSize={"14px"}>
-                Delete
+                Ban
               </Th>
             </Tr>
           </Thead>
@@ -238,7 +238,7 @@ export default function Admin() {
                           <Popover>
                             <PopoverTrigger>
                               <Button>
-                                <img src={deleted} alt="delete_image" />
+                                <img src={prohibition} alt="delete_image" width="20vh"/>
                               </Button>
                             </PopoverTrigger>
                             <Portal>
