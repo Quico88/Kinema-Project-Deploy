@@ -30,7 +30,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import edit from "../../../Assets/edit.png";
-import deleted from "../../../Assets/delete.png";
+import prohibition from "../../../Assets/prohibition.png";
 import { Navigate } from "react-router-dom";
 
 export default function Admin() {
@@ -70,8 +70,8 @@ export default function Admin() {
       );
     }
 
-    const indexOfLast = page * 20;
-  const indexOfFirst = indexOfLast - 20;
+    const indexOfLast = page * 10;
+  const indexOfFirst = indexOfLast - 10;
   const currentUsers = results.slice(indexOfFirst, indexOfLast);
   
   function prevPage(e) {
@@ -79,12 +79,12 @@ export default function Admin() {
     if (page > 1) return setPage(page - 1);
   }
 
-  let totalPaginas = Math.ceil(users.length / 20);
+  let totalPaginas = Math.ceil(users.length / 10);
   
 
   const pageNumbers = []
 
-  for(let i = 1; i <= Math.ceil(users.length / 20); i++){
+  for(let i = 1; i <= Math.ceil(users.length / 10); i++){
     pageNumbers.push(i)
   }
 
@@ -198,7 +198,7 @@ export default function Admin() {
                 Edit
               </Th>
               <Th color={"black"} fontSize={"14px"}>
-                Delete
+                Ban
               </Th>
             </Tr>
           </Thead>
@@ -238,7 +238,7 @@ export default function Admin() {
                           <Popover>
                             <PopoverTrigger>
                               <Button>
-                                <img src={deleted} alt="delete_image" />
+                                <img src={prohibition} alt="delete_image" width="20vh"/>
                               </Button>
                             </PopoverTrigger>
                             <Portal>
