@@ -138,7 +138,7 @@ export default function Register() {
                   color: 'gray.500',
                 }}
               />
-              <Center>{/* {error && <p>{error}</p>}  */}{!validName && <Text color={"#cd6155"} fontWeight={"600"} >You need to add a username</Text>} </Center>
+              <Center>{!validName && <Text color={"#cd6155"} fontWeight={"600"} >You need to add a username</Text>} </Center>
               <FormControl>
                 <Input
                   placeholder="example@email.com"
