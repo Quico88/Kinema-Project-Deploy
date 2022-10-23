@@ -100,17 +100,6 @@
 		]
 	},
 	{
-		"id": 389,
-		"title": "12 Angry Men",
-		"poster": "/ppd84D2i9W8jXmsyInGyihiSyqz.jpg",
-		"back_poster": "/qqHQsStV6exghCM7zbObuYBiYxw.jpg",
-		"rating": 8.5,
-		"release_date": "April 9, 1957",
-		"genres": [
-			"Drama"
-		]
-	},
-	{
 		"id": 496243,
 		"title": "Parasite",
 		"poster": "/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
@@ -145,18 +134,6 @@
 			"Fantasy",
 			"Drama",
 			"Crime"
-		]
-	},
-	{
-		"id": 372754,
-		"title": "Dou kyu sei – Classmates",
-		"poster": "/cIfRCA5wEvj9tApca4UDUagQEiM.jpg",
-		"back_poster": "/3RMLbSEXOn1CzLoNT7xFeLfdxhq.jpg",
-		"rating": 8.5,
-		"release_date": "February 19, 2016",
-		"genres": [
-			"Romance",
-			"Animation"
 		]
 	},
 	{
@@ -217,17 +194,6 @@
 		"genres": [
 			"Thriller",
 			"Crime"
-		]
-	},
-	{
-		"id": 429,
-		"title": "The Good, the Bad and the Ugly",
-		"poster": "/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg",
-		"back_poster": "/x4biAVdPVCghBlsVIzB6NmbghIz.jpg",
-		"rating": 8.5,
-		"release_date": "December 22, 1966",
-		"genres": [
-			"Western"
 		]
 	},
 	{
