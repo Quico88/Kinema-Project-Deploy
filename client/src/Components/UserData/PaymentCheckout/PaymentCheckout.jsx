@@ -80,7 +80,7 @@ const CheckoutForm = () => {
         })
         if(!error){
             const {id} = paymentMethod
-            const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
+            const {data} = await axios.post("/payment/premium",{id, username, email })
           if (data.success) {
                 await upgratePlanFire();
                 alert(data.message);
