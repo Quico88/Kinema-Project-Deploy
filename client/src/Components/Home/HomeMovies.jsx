@@ -210,16 +210,6 @@ export default function HomeMovies() {
                 })}
               </Select>
             </Flex>
-            {/* <Center>
-              <Divider
-                borderColor="white"
-                borderWidth="1px"
-                width="30%"
-                border="1px"
-                opacity="1"
-              />
-            </Center> */}
-
             {moviesToShow.length ? (
               <DataList
                 data={moviesToShow}
