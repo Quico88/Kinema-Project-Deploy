@@ -70,8 +70,8 @@ export default function Admin() {
       );
     }
 
-    const indexOfLast = page * 20;
-  const indexOfFirst = indexOfLast - 20;
+    const indexOfLast = page * 10;
+  const indexOfFirst = indexOfLast - 10;
   const currentUsers = results.slice(indexOfFirst, indexOfLast);
   
   function prevPage(e) {
@@ -79,12 +79,12 @@ export default function Admin() {
     if (page > 1) return setPage(page - 1);
   }
 
-  let totalPaginas = Math.ceil(users.length / 20);
+  let totalPaginas = Math.ceil(users.length / 10);
   
 
   const pageNumbers = []
 
-  for(let i = 1; i <= Math.ceil(users.length / 20); i++){
+  for(let i = 1; i <= Math.ceil(users.length / 10); i++){
     pageNumbers.push(i)
   }
 
