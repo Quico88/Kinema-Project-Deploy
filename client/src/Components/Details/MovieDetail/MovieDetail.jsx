@@ -358,11 +358,11 @@ export default function MovieDetail() {
                         My List
                       </Button>
                       <Text mt="2vh" fontSize="2.3vh" color={'white'}>
-                        You can
+                        You can&nbsp;
                         <Link href="/payment" color={'#72efdd'}>
-                          <b> upgrade </b>
+                          <b>upgrade</b>
                         </Link>
-                        your plan to watch any content.
+                        &nbsp;your plan to watch any content.
                       </Text>
                     </Box>
                   ) : null

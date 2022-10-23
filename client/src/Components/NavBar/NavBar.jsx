@@ -104,7 +104,7 @@ const NavLink3 = ({ ruta }) => (
 
 export default function NavBar({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { logout } = useAuth()
+  const { logout } = useAuth();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [dataUser, setDataUser] = useState();
@@ -116,7 +116,11 @@ export default function NavBar({ ruta }) {
 
   return (
     <>
-      <Box bgGradient='linear(to-b, rgba(0,0,0,0.639093137254902) 35%, rgba(0,0,0,0) 100%)' px={4} w="100%" >
+      <Box
+        bgGradient="linear(to-b, rgba(0,0,0,0.639093137254902) 35%, rgba(0,0,0,0) 100%)"
+        px={4}
+        w="100%"
+      >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -169,7 +173,13 @@ export default function NavBar({ ruta }) {
                     <RouteLink to="/profile">
                       <MenuItem>Profile</MenuItem>
                     </RouteLink>
-                    <MenuItem>Watchlist</MenuItem>
+                    {user.subscription === 1 ? (
+                      <RouteLink to="/payment">
+                        <MenuItem color="green.700">Upgrade your plan</MenuItem>
+                      </RouteLink>
+                    ) : (
+                      <></>
+                    )}
                     <MenuDivider />
                     <MenuItem onClick={logOut}>Log out</MenuItem>
                   </MenuGroup>

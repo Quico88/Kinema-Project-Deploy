@@ -122,15 +122,6 @@ export default function HomeTVShows() {
                 ))}
               </Select>
             </Flex>
-            <Center>
-              <Divider
-                borderColor="white"
-                borderWidth="1px"
-                width="30%"
-                border="1px"
-                opacity="1"
-              />
-            </Center>
             {seriesToShow.length ? (
               <DataList
                 data={seriesToShow}
