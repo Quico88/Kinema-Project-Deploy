@@ -5,12 +5,16 @@ import {
   useBreakpointValue,
   Text,
   Image,
+  Button,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 // Here we have used react-icons package for the icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import deleted from '../../../Assets/delete.png';
+import { removeFromWatchlist } from '../../../Redux/actions';
 
 // Settings for the slider
 const settings = {
@@ -27,6 +31,10 @@ export default function CarouselWatchList({ movies }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const cards = movies;
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
@@ -35,11 +43,14 @@ export default function CarouselWatchList({ movies }) {
 
   // These are the images used in the slide
 
-  const cards = movies;
+  /* handleDelete from watchlist: */
+  const handleDeleteFromWatchlist = (toBeRemove) => {
+    dispatch(removeFromWatchlist(user, toBeRemove));
+  };
 
   return (
     <Box
-      position={cards.length > 8 ? 'relative' : 'static'}
+      position={'relative'}
       height={'390px'}
       width={cards.length < 8 ? `${cards.length * 12.5}%` : 'full'}
       mt={20}
@@ -76,8 +87,16 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
+        display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowBack />
+        <IoIosArrowBack color="white" size={85} />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -90,8 +109,16 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
+        display={cards.length < 8 ? 'none' : 'inline-flex'}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowForward />
+        <IoIosArrowForward color="white" size={85} />
       </IconButton>
       {/* Slider */}
       <Slider
@@ -102,16 +129,43 @@ export default function CarouselWatchList({ movies }) {
         {cards.map((m, index) => {
           if (m.serie) {
             return (
-              <Box key={index} height={'6xl'}>
+              <Box key={index} height={'6xl'} zIndex={1} position={'relative'}>
+                <IconButton
+                  position="absolute"
+                  right={1}
+                  top={1}
+                  zIndex={20}
+                  size="md"
+                  background="#282c34"
+                  _hover={{
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.2s',
+                  }}
+                  onClick={() => {
+                    handleDeleteFromWatchlist(m);
+                  }}
+                >
+                  <img
+                    src={deleted}
+                    alt="deleted"
+                    style={{
+                      width: '17px',
+                      height: '17px',
+                      filter: 'invert(100%)',
+                    }}
+                  />
+                </IconButton>
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
+                    position={'absolute'}
                     src={m.posterImg}
                     alt={m.title}
+                    transition="0.4s"
                     _hover={{
-                      transform: 'scale(1.05)',
+                      transform: 'scale(1.10)',
                       transition: '0.7s',
                       shadow: '5px 5px 50px black',
-                      zIndex: '400',
+                      zIndex: '2',
                     }}
                   />
                 </Link>
@@ -119,16 +173,42 @@ export default function CarouselWatchList({ movies }) {
             );
           } else {
             return (
-              <Box key={index} height={'6xl'} zIndex={20}>
+              <Box key={index} height={'6xl'} zIndex={1} position={'relative'}>
+                <IconButton
+                  position="absolute"
+                  right={1}
+                  top={1}
+                  zIndex={20}
+                  size="md"
+                  background="#282c34"
+                  _hover={{
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.2s',
+                  }}
+                  onClick={() => {
+                    handleDeleteFromWatchlist(m);
+                  }}
+                >
+                  <img
+                    src={deleted}
+                    alt="deleted"
+                    style={{
+                      width: '17px',
+                      height: '17px',
+                      filter: 'invert(100%)',
+                    }}
+                  />
+                </IconButton>
                 <Link to={`/home/movie_details/${m.id}`}>
                   <Image
+                    position={'absolute'}
                     src={m.posterImg}
                     transition="0.4s"
                     _hover={{
                       transform: 'scale(1.10)',
                       transition: '0.7s',
                       shadow: '5px 5px 50px black',
-                      zIndex: '400',
+                      zIndex: '2',
                     }}
                     alt={m.title}
                   />

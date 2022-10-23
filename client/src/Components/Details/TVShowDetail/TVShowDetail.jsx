@@ -123,6 +123,16 @@ export default function TVShowDetail() {
     }
   }
 
+  const isRentedAndValid = () => {
+    const { rented } = user;
+    if (!rented.length) return false;
+    const movieRentHistory = rented.filter ( m => m.id == id);
+    let now = new Date();
+    if (!movieRentHistory.length) return false;
+    return (movieRentHistory.some ( (m) => m.expirationDate > now.getTime()))  
+  }
+
+  const openPlayer = () => setPlayerTrailer(true);
   const closePlayer = () => setPlayerTrailer(false);
 
   const renderTrailer = () => {
@@ -276,7 +286,7 @@ export default function TVShowDetail() {
                   user.subscription === 2 ? (
                     <Box textAlign="left" mt="3vh">
                       <Button
-                        onClick={() => setPlayerTrailer(true)}
+                        onClick={() => openPlayer()}
                         borderRadius="3vh"
                         rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
                         bg={'blue.400'}
@@ -302,16 +312,30 @@ export default function TVShowDetail() {
                   //  USER FREE CASE:
                   user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                      <Button
-                        bg={'blue.400'}
-                        rounded={'full'}
-                        color={'white'}
-                        _hover={{ bg: 'blue.500' }}
-                      >
-                        <Link href={`/payment/rent/tv_show/${id}`}>
-                          <Text mb="0.25vh">Rent</Text>
-                        </Link>
-                      </Button>
+                      {isRentedAndValid()?
+                        <Button
+                          onClick={() => openPlayer()}
+                          borderRadius="3vh"
+                          rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
+                          _hover={{ bg: 'blue.500' }}
+                        >
+                          <Text mb="0.25vh">Watch</Text>
+                        </Button>
+                        :
+                        <Button
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
+                          _hover={{ bg: 'blue.500' }}
+                        >
+                          <Link href={`/payment/rent/tv_show/${id}`}>
+                            <Text mb="0.25vh">Rent</Text>
+                          </Link>
+                        </Button>
+                      }
                       <Button
                         onClick={() =>
                           toast({
@@ -331,11 +355,11 @@ export default function TVShowDetail() {
                       </Button>
 
                       <Text mt="2vh" fontSize="2.3vh" color={'white'}>
-                        You can
+                        You can&nbsp;
                         <Link href="/payment" color={'#72efdd'}>
-                          <b> upgrade </b>
+                          <b>upgrade</b>
                         </Link>
-                        your plan to watch any content.
+                        &nbsp;your plan to watch any content.
                       </Text>
                     </Box>
                   ) : null
@@ -383,6 +407,7 @@ export default function TVShowDetail() {
                 </Select>
                 {mySeason.id ? (
                   <CarouselTvShow
+                    openPlayer = {openPlayer}
                     movies={mySeason.episodes}
                     videoSerie={mySerie.trailer}
                   ></CarouselTvShow>

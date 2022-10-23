@@ -117,14 +117,12 @@ const SearchBar = () => {
               onChange={(e) => setSearch(e.target.value)}
               mr={4}
               h={9}
+              _focus={{backgroundColor:"rgba(195, 194, 195, 0.7)"}}
             />
           </InputGroup>
         </Flex>
       </form>
-
-
       <form onSubmit={handleSearch2}>
-
       <Container
                 onMouseEnter={()=> setIsHovered(true)}
                 onMouseLeave={()=> setIsHovered(false)}

@@ -24,7 +24,8 @@ import {
   LOG_OUT,
   GET_COMMENTS_DATA,
   RENT_VIDEO,
-  ADD_TO_WATCHLIST, // TODO: CHEQUEAR ESTO
+  ADD_TO_WATCHLIST,
+  REMOVE_FROM_WATCHLIST,
   UPGRADE_PLAN,
   DELETE_COMMENT,
   CHANGE_NAME,
@@ -176,6 +177,14 @@ const rootReducer = (state = initialState, action) => {
         user: {...state.user, username: action.payload },
       };
     case ADD_TO_WATCHLIST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          watchList: action.payload,
+        },
+      };
+    case REMOVE_FROM_WATCHLIST:
       return {
         ...state,
         user: {
