@@ -7,7 +7,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
-import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
@@ -41,7 +41,6 @@ export default function CarouselHome({ movies }) {
       position={'relative'}
       height={'350px'}
       width={'full'}
-      mt={20}
       mb={20}
       overflow={'hidden'}
     >
@@ -69,7 +68,7 @@ export default function CarouselHome({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickPrev()}
       >
-        <BiLeftArrowAlt />
+        <IoIosArrowBack />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -83,26 +82,24 @@ export default function CarouselHome({ movies }) {
         zIndex={2}
         onClick={() => slider?.slickNext()}
       >
-        <BiRightArrowAlt />
+        <IoIosArrowForward />
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((m, index) => {
           if (m.serie) {
             return (
-              <Box
-                key={index}
-                height={'6xl'}
-                _hover={{
-                  transform: 'scale(1.05)',
-                  transition: '0.7s',
-                  shadow: '5px 5px 50px black',
-                }}
-              >
+              <Box key={index} height={'6xl'}>
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
                     src={'https://image.tmdb.org/t/p/w300' + m.poster}
                     alt={m.title}
+                    _hover={{
+                      transform: 'scale(1.10)',
+                      transition: '0.7s',
+                      shadow: '5px 5px 50px black',
+                      zIndex: '400',
+                    }}
                   />
                 </Link>
               </Box>

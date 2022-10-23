@@ -1,19 +1,17 @@
 const { Router } = require('express');
 const router = Router();
 const {
-  getSearchSeriesDB,
-  getSearchMovies,
+  // getSearchSeriesDB,
+  // getSearchMovies,
+  getAllSearch,
 } = require('../controllers API/searchbar-controller');
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_KEY);
-
-// const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
 
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
 const {getMoviesGenreById} = require("../controllers API/genresMovies")
+const Comment = require('../Db/Schema/comment.js');
 
 
 const {
@@ -30,22 +28,38 @@ const {
 } = require('../controllers API/detailedSeasonSelected.js');
 
 const {
-  getTVSeriesByIdApi,
-  getTrailerSerie,
+  // getTVSeriesByIdApi,
+  // getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
 
 const {
   getSeriesByGenre,
-  getAllSeriesDB,
+  // getAllSeriesDB,
 } = require('../controllers DB/getDataDB.js');
 
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
 
+
+const {
+  getDataTVJSON,
+  getDetailTVJSON,
+  // getDataSearchTVJSON,
+  getSeriesByGenreJSON,
+} = require('../controllers local/getDataJSONSeries');
+
+const { getDataComments } = require('../controllers DB/comments');
+
+
+const paymenRoutes = require('./paymentRoutes');
+
+router.use('/payment', paymenRoutes);
+
+
 // ROUTES:
 
-// Get season and it's episodes details by ID and season number:
+// TODO: Get season and it's episodes details by ID and season number:
 router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
@@ -62,6 +76,11 @@ router.get('/movies/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let movieDetail = await getMoviesByIdApi(id);
+
+    if (movieDetail.hasOwnProperty('json')) {
+      return res.json(movieDetail.data);
+    }
+
     const trailer = await getTrailerMovie(id);
 
     movieDetail = {
@@ -74,13 +93,16 @@ router.get('/movies/:id', async (req, res) => {
   }
 });
 
-// Get serie from API by ID with trailer:
+// Get TV series detail from JSON:
 router.get('/tv/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    let TVSeriesDetail = await getTVSeriesByIdApi(id);
-    if (typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail);
-    const trailer = await getTrailerSerie(id);
+    // let TVSeriesDetail = await getTVSeriesByIdApi(id);
+    // if (typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail);
+    let TVSeriesDetail = await getDetailTVJSON(id);
+    // const trailer = await getTrailerSerie(id);
+
+    let trailer = `https://www.youtube.com/watch?v=SRA_XcsYu3k`;
 
     TVSeriesDetail = {
       ...TVSeriesDetail,
@@ -107,11 +129,11 @@ router.get('/home/movies', async (req, res) => {
 router.get('/home/search', async (req, res) => {
   try {
     const { page, name } = req.query;
-    let allSeries = await getSearchSeriesDB(name, page);
-    let allMovies = await getSearchMovies(name, page);
-    let seriesAndMovies = allSeries.concat(allMovies);
+    let data = await getAllSearch(page, name);
 
-    seriesAndMovies.sort((a, b) => {
+    /* if (data.length === 0) return res.status(204).send({ Error: 'Not found' }); */ // ROMPE EL CODIGO ==== VACIO
+
+    data.sort((a, b) => {
       if (a.vote_average < b.vote_average) {
         return 1;
       }
@@ -120,42 +142,9 @@ router.get('/home/search', async (req, res) => {
       }
       return 0;
     });
-    res.send(seriesAndMovies);
+    return res.send(data);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
-  }
-});
-
-// Stripe:
-router.post('/payment/premium', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Plan Premium',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Congratulations for your Premium Plan' });
-  } catch (error) {
-    res.json({ message: error.row.message });
-  }
-});
-
-router.post('/payment/rent', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Movie rent',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Enjoy your movie' });
-  } catch (error) {
-    res.json({ message: error.row.message });
   }
 });
 
@@ -163,10 +152,10 @@ router.post('/payment/rent', async (req, res) => {
 router.get('/home', async (req, res) => {
   try {
     const allCarruselsMovies = await getAllCarrusels();
-    const allCarruselsSeries = await getAllCarruselsTV();
+    //const allCarruselsSeries = await getAllCarruselsTV();
     res.send({
       allCarruselsMovies,
-      allCarruselsSeries,
+      //allCarruselsSeries,
     });
   } catch (error) {
     return res.status(204).send({ Error: error.message });
@@ -188,9 +177,10 @@ router.get('/home/series/:id', async (req, res) => {
 router.get('/home/series', async (req, res) => {
   const { page } = req.query;
   try {
-    let skip = (page - 1) * 20;
-    let limit = 20;
-    let data = await getAllSeriesDB(skip, limit);
+    // let skip = (page - 1) * 20;
+    // let limit = 20;
+    // let data = await getAllSeriesDB(skip, limit);
+    let data = await getDataTVJSON(page);
     res.json(data);
   } catch (error) {
     return res.status(204).json({ Error: error.message });
@@ -218,6 +208,7 @@ router.get('/movies_by_genre', async (req, res) => {
   }
 });
 
+// Get genres from DB:
 router.get('/genres', async (req, res) => {
   try {
     const genres = await getGenresFromDB();
@@ -227,17 +218,52 @@ router.get('/genres', async (req, res) => {
   }
 });
 
+// Get series by genres from JSON:
 router.get('/home/series_by_genre', async (req, res) => {
-  const {genre, page} = req.query
+  const { genre, page } = req.query;
   try {
-    let skip = (page - 1) * 20;
-    let limit = 20;
-    let data = await getSeriesByGenre(genre, skip, limit);
+    // let skip = (page - 1) * 20;
+    // let limit = 20;
+    // let data = await getSeriesByGenre(genre, skip, limit);
+    const data = await getSeriesByGenreJSON(genre, page);
+    console.log(genre);
+    console.log(data);
     res.send(data);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+
+router.post('/comments', async (req, res) => {
+  const {userId, content, date, idReference} = req.body
+  try {
+    Comment.create({userId, content, date, idReference})
+    res.status(201).json("creado!")
   } catch (error) {
       return res.status(204).json({Error: error.message});
   }
 });
+
+router.get('/comments/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    let info = await getDataComments(id)
+    res.status(200).send(info)
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+})
+
+router.delete('/comments/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    let json = await Comment.deleteOne({ _id : id })
+    res.status(200).json(json)
+  } catch (error) {
+      return res.status(204).json({Error: error.message});
+  }
+})
 
 
 module.exports = router;

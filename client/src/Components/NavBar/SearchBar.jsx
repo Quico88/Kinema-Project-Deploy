@@ -22,14 +22,14 @@ const SearchBar = () => {
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
-              children={<SearchIcon color="black.300" />}
+              children={<SearchIcon color="gray" />}
             />
             <Input
               type="text"
               placeholder="Search..."
-              bg={bg}
+              color={"gray"}
+              bg={"transparent"}
               onChange={(e) => setSearch(e.target.value)}
-              _hover={{ cursor: 'pointer' }}
               mr={4}
               h={9}
             />
