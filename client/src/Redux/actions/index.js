@@ -35,6 +35,7 @@ import {
   UPGRADE_PLAN,
   CLEAR_GENRES,
   ADD_TO_WATCHLIST,
+  CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
 } from './const';
 
@@ -453,3 +454,5 @@ export const deleteComment = (id) => {
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
+
+export const changeNameUser = (payload) => ({ type: CHANGE_NAME, payload });

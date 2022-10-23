@@ -1,0 +1,10 @@
+
+
+
+@media (max-width: 420px){
+
+    .searchbar{
+        display: none;
+    }
+   
+}

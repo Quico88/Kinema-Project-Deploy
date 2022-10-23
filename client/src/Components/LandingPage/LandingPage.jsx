@@ -19,11 +19,11 @@ export default function LandingPage() {
   let refCloseBtn = useRef();
 
   const handleToggleMenu = (e) => {
-    if (refMenuBtn.current.id === 5) {
+    if (refMenuBtn.current.id === "5") {
       refMenuBtn.current.id = refCloseBtn.current.id;
       list.current.style.display = 'flex';
     } else {
-      refMenuBtn.current.id = 5;
+      refMenuBtn.current.id = "5";
       list.current.style.display = 'none';
     }
   };
@@ -36,7 +36,7 @@ export default function LandingPage() {
             <Text
               className={styles.close}
               ref={refCloseBtn}
-              id={6}
+              id={"6"}
               onClick={handleToggleMenu}
             >
               Close
@@ -53,7 +53,7 @@ export default function LandingPage() {
           <Text
             className={styles.menu}
             ref={refMenuBtn}
-            id={5}
+            id={"5"}
             onClick={handleToggleMenu}
           >
             Menu

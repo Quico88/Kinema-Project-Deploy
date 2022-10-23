@@ -28,6 +28,7 @@ import {
   REMOVE_FROM_WATCHLIST,
   UPGRADE_PLAN,
   DELETE_COMMENT,
+  CHANGE_NAME,
 } from '../actions/const';
 
 // Initial state of global store:
@@ -169,6 +170,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
+      };
+    case CHANGE_NAME:
+      return {
+        ...state,
+        user: {...state.user, username: action.payload },
       };
     case ADD_TO_WATCHLIST:
       return {

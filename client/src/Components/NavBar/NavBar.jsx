@@ -25,6 +25,7 @@ import SearchBar from "./SearchBar.jsx";
 import logo from "../../Assets/logo.png";
 import { color } from "../globalStyles";
 import { useSelector } from "react-redux";
+import style from "./NavBar.module.css"
 
 const Links = ["Home", "Movies", "TV Shows"];
 
@@ -107,7 +108,6 @@ export default function NavBar({ ruta }) {
   const { logout } = useAuth();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [dataUser, setDataUser] = useState();
 
   async function logOut() {
     await logout();
@@ -130,7 +130,7 @@ export default function NavBar({ ruta }) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>
+            <Box className={style.logo_nav}  >
               <Image
                 boxSize="100px"
                 objectFit="cover"
