@@ -225,7 +225,7 @@ export default function UserProfile() {
                   marginBottom={'2vh'}
                   color={'#99a3a4'}
                 >
-                  Hello! {username1}
+                  Hello {username1}!
                 </Box>
                 <Box>
                   {typeSub === 1 ? (
