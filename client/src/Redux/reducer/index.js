@@ -175,7 +175,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: {...state.user, username: action.payload },
       };
-    // TODO: CHEQUEAR
     case ADD_TO_WATCHLIST:
       return {
         ...state,
