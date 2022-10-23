@@ -24,9 +24,11 @@ import {
   LOG_OUT,
   GET_COMMENTS_DATA,
   RENT_VIDEO,
-  ADD_TO_WATCHLIST, // TODO: CHEQUEAR ESTO
+  ADD_TO_WATCHLIST,
+  REMOVE_FROM_WATCHLIST,
   UPGRADE_PLAN,
   DELETE_COMMENT,
+  CHANGE_NAME,
 } from '../actions/const';
 
 // Initial state of global store:
@@ -169,8 +171,20 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: {...state.user, rented: [...state.user.rented, action.payload] },
       };
-    // TODO: CHEQUEAR
+    case CHANGE_NAME:
+      return {
+        ...state,
+        user: {...state.user, username: action.payload },
+      };
     case ADD_TO_WATCHLIST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          watchList: action.payload,
+        },
+      };
+    case REMOVE_FROM_WATCHLIST:
       return {
         ...state,
         user: {

@@ -1,17 +1,8 @@
-.typeFilter{
-    text-decoration: none;
-    text-transform: uppercase;
-    margin: 0 20px 20px 0;
-}
 
-.typeFilter:hover{
-    cursor: pointer;
-    font-weight: bold;
-}
 
-.navBar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+@media (max-width: 400px){
+    .logo_nav{ 
+        position: absolute;
+        left: 60px;
+    }
 }

@@ -45,6 +45,7 @@ export default function AuthProvider({ children }) {
       avatar:
         "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
       active: true,
+      banned: false,
       rented: [],
     });
     welcomeEmail(userEmail, displayName);
@@ -66,7 +67,11 @@ export default function AuthProvider({ children }) {
     let infoUser = await signInWithPopup(auth, googleProvider).then(
       (userFirebase) => userFirebase
     );
+
     const googleRef = doc(firestore, `/users/${infoUser.user.uid}`);
+    const docSnap = await getDoc(googleRef);
+    if (docSnap.exists()) return dispatch(loadUserData(infoUser.user.uid))
+
     setDoc(googleRef, {
       username: infoUser.user.displayName,
       email: infoUser.user.email,
@@ -76,17 +81,11 @@ export default function AuthProvider({ children }) {
       watchList: [],
       avatar: infoUser.user.photoURL,
       active: true,
+      banned: false,
       rented: [],
     });
     welcomeEmail(infoUser.user.email, infoUser.user.displayName);
     dispatch(loadUserData(infoUser.user.uid));
-  };
-
-  const loginWithGoogle = async () => {
-    const googleProvider = new GoogleAuthProvider();
-
-    const data = await signInWithPopup(auth, googleProvider);
-    dispatch(loadUserData(data.user.uid));
   };
 
   const logout = () => {
@@ -125,7 +124,6 @@ export default function AuthProvider({ children }) {
         logout,
         user,
         loadingUser,
-        loginWithGoogle,
         signupWithGoogle,
         read,
       }}

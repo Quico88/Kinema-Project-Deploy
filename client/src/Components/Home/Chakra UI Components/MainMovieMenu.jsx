@@ -9,15 +9,15 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMovieDetail } from "../../../Redux/actions"
+import { getMovieDetail } from '../../../Redux/actions';
 
 export default function MainMovieMenu(props) {
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const handleClick =  () => {
+  const handleClick = () => {
     dispatch(getMovieDetail(props.id));
-  }
+  };
 
   return (
     <Flex
@@ -26,13 +26,14 @@ export default function MainMovieMenu(props) {
       backgroundImage={props.poster}
       backgroundSize={'cover'}
       backgroundPosition={'center center'}
-     
     >
       <VStack
         w={'full'}
         justify={'center'}
         px={useBreakpointValue({ base: 4, md: 8 })}
-        bgGradient={'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'}
+        bgGradient={
+          'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'
+        }
       >
         <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
           <Text
@@ -43,7 +44,7 @@ export default function MainMovieMenu(props) {
           >
             {props.title}
           </Text>
-          <Stack direction={'row'}>
+          <Stack direction={'row'} spacing={4} alignSelf={'center'}>
             {userData.subscription === 2 ? (
               <Link to={`/home/movie_details/${props.id}`}>
                 <Button
@@ -58,7 +59,7 @@ export default function MainMovieMenu(props) {
             ) : userData.subscription === 1 ? (
               <Link to={`/payment/rent/movie/${props.id}`}>
                 <Button
-                  onClick={()=> handleClick()}
+                  onClick={() => handleClick()}
                   bg={'blue.400'}
                   rounded={'full'}
                   color={'white'}
@@ -87,9 +88,7 @@ export default function MainMovieMenu(props) {
                 color={'white'}
                 _hover={{ bg: 'whiteAlpha.500' }}
               >
-
                 More Information
-
               </Button>
             </Link>
           </Stack>
