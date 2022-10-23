@@ -1,19 +1,36 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY_1 } = process.env;
+const {
+  getMoviesByGenreJSON,
+  getGenresJSON,
+} = require('../controllers local/getDataJSON.js');
 
-const  getGenresFromAPI = async ()=>{
-    const {data} = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`);
-    return data.genres
-}
+const  getGenresFromAPI = async () => {
+    const genres = undefined;
+      // await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      // .then( d => d.data.genres)
+      // .catch( e => undefined)
 
+  if (genres === undefined) {
+    let data = getGenresJSON();
+    return data;
+  }
+  return genres;
+};
 
-const getMoviesGenreById = async (id,page) => {
-  const {
-    data: { results },
-  } = await axios.get(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`
-  );
+const getMoviesGenreById = async (id, page) => {
+
+const results = undefined;
+    // await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${YOUR_API_KEY_1}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${id}&with_watch_monetization_types=flatrate`)
+    // .then( d => d.data.results)
+    // .catch( e => undefined)
+  let idgenre = id
+  if( results === undefined) {
+    let data = getMoviesByGenreJSON(id, page);
+    return data;
+  }
+
   const movieData = results.map((m) => {
     return {
       id: m.id,
@@ -46,46 +63,47 @@ const getMoviesGenreById = async (id,page) => {
     };
   });
 
-  const validate = (m) => {
+  const validate = async (m) => {
     const moviesVal = [];
-    m.map((n) => {
-      if (
-        !n.title ||
-        n.title.length < 1 ||
-        !n.description ||
-        n.description.length < 1 ||
-        !n.backPoster ||
-        n.backPoster.length < 1 ||
-        !n.id ||
-        !n.poster ||
-        n.poster.length < 1 ||
-        !fetchMovie(n.id)
-      ) {
-        return null;
-      } else {
-        moviesVal.push(n);
+    for (let n of m) {
+      let trailer = await fetchMovie(n.id);
+      if (Array.isArray(trailer)) {
+        return trailer;
       }
-    });
+      if (
+        !!n.title &&
+        !!n.description &&
+        !!n.backPoster &&
+        !!n.id &&
+        !!n.poster &&
+        !!trailer
+      )
+        moviesVal.push(n);
+    }
+
     return moviesVal;
   };
 
   const fetchMovie = async (id) => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}`,
-      {
-        params: {
-          api_key: YOUR_API_KEY_1,
-          append_to_response: 'videos',
-        },
-      }
-    );
-    if (data.key) return true;
+
+  const data = undefined;
+      // await axios(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${YOUR_API_KEY_1}&language=en-US`)
+      // .then( d => d.data)
+      // .catch( e => undefined)
+   
+   if(data === undefined) {
+      console.log("entre al if de la validacion de video en fecth movie en genres movies")
+      let data = getMoviesByGenreJSON(idgenre, page);
+      return data;
+    }
+    if (!!data.results.length) return true;
+    return false;
   };
+
   return validate(movieData);
 };
 
-
 module.exports = {
-    getGenresFromAPI,
-    getMoviesGenreById,
-} 
+  getGenresFromAPI,
+  getMoviesGenreById,
+};
