@@ -1,8 +1,8 @@
 import emailjs from '@emailjs/browser';
 
-const YOUR_SERVICE_ID = "service_px53msi";
-const YOUR_TEMPLATE_ID = "template_h7ggtip";
-const YOUR_PUBLIC_KEY = "bGSqopmNF1TmerpdF"
+const YOUR_SERVICE_ID = "service_1bulzc5";
+const YOUR_TEMPLATE_ID = "template_5z1zo5j";
+const YOUR_PUBLIC_KEY = "sz809Sptds_qM-l4v"
 
 export default function welcomeEmail (email, username) {
 

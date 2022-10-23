@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import { Box, Button, Image, FormControl, Text, FormLabel, Input,FormHelperText, FormErrorMessage, Stack, Flex  } from '@chakra-ui/react'
+import { Box, Image, FormControl, Text, FormLabel, Input,FormHelperText, Stack, Flex  } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
-import { Elements, CardElement, useStripe, useElements, PaymentIntent } from "@stripe/react-stripe-js"
-import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import { useNavigate } from "react-router-dom";
+import { doc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../AuthContext/firebase';
 import { useState } from "react";
 import axios from "axios"
@@ -11,11 +10,10 @@ import { useSelector } from "react-redux";
 import { useToast } from '@chakra-ui/react';
 import logo from "../../../Assets/logo.png"
 import { useDispatch } from "react-redux";
-import Footer from "../../Home/Chakra UI Components/Footer";
 import NavBarPayment from "../../NavBarPayment/NavBarPayment";
 import { upgradePlan } from "../../../Redux/actions";
 
-const stripePromise = loadStripe("pk_test_51LrrgZJF8OdpthZQzjEA3gwPESBIW22v5gNBch6JZhhDgIhm0j25PoUQ0XzT0HQqUb1EwnzdO68oWfJK5pgrvVYl00TLD4bPSL")
+const stripePromise = loadStripe("pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI")
 
 const CheckoutForm = () => {
     const dispatch = useDispatch();

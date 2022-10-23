@@ -67,8 +67,15 @@ export default function CarouselHome({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowBack />
+        <IoIosArrowBack color="white" size={85} />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -81,8 +88,15 @@ export default function CarouselHome({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
+        backgroundColor={'transparent'}
+        _hover={{
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          backgroundColor: 'transparent',
+        }}
       >
-        <IoIosArrowForward />
+        <IoIosArrowForward color="white" size={85} />
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
