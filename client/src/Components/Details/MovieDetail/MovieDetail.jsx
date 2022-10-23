@@ -108,6 +108,15 @@ export default function MovieDetail() {
     } else return false;
   };
 
+  const isRentedAndValid = () => {
+    const { rented } = user;
+    if (!rented.length) return false;
+    const movieRentHistory = rented.filter ( m => m.id == id);
+    let now = new Date();
+    if (!movieRentHistory.length) return false;
+    return (movieRentHistory.some ( (m) => m.expirationDate > now.getTime()))  
+  }
+
   const closePlayer = () => setPlayerTrailer(false);
 
   const renderTrailer = () => {
@@ -302,20 +311,35 @@ export default function MovieDetail() {
                   ) : null
                 }
                 {
-                  // USER FREE CASE:
+                  // USER FREE CASE 
                   user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                      <Button
-                        bg={'blue.400'}
-                        rounded={'full'}
-                        color={'white'}
-                        mr="2vh"
-                        _hover={{ bg: 'blue.500' }}
-                      >
-                        <Link href={`/payment/rent/movie/${myMovie.id}`}>
-                          <Text mb="0.25vh">Rent</Text>
-                        </Link>
-                      </Button>
+                    {isRentedAndValid()?
+                        <Button
+                          onClick={() => setPlayerTrailer(true)}
+                          borderRadius="3vh"
+                          rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
+                          mr="2vh"
+                          _hover={{ bg: 'blue.500' }}
+                        >
+                          <Text mb="0.25vh">Watch</Text>
+                        </Button>
+                      :
+                        <Button
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
+                          mr="2vh"
+                          _hover={{ bg: 'blue.500' }}
+                        >
+                          <Link href={`/payment/rent/movie/${myMovie.id}`}>
+                            <Text mb="0.25vh">Rent</Text>
+                          </Link>
+                        </Button>
+                    }
                       <Button
                         onClick={() => {
                           toast({
@@ -334,11 +358,11 @@ export default function MovieDetail() {
                         My List
                       </Button>
                       <Text mt="2vh" fontSize="2.3vh" color={'white'}>
-                        You can
+                        You can&nbsp;
                         <Link href="/payment" color={'#72efdd'}>
-                          <b> upgrade </b>
+                          <b>upgrade</b>
                         </Link>
-                        your plan to watch any content.
+                        &nbsp;your plan to watch any content.
                       </Text>
                     </Box>
                   ) : null

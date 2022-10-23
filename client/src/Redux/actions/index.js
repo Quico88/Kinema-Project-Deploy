@@ -35,9 +35,13 @@ import {
   UPGRADE_PLAN,
   CLEAR_GENRES,
   ADD_TO_WATCHLIST,
+  CHANGE_NAME,
+  REMOVE_FROM_WATCHLIST,
 } from './const';
 
 // Actions functions
+
+// Add to watchlist:
 export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
   try {
     const watchListMovieAdded = {
@@ -54,6 +58,25 @@ export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
     dispatch({
       type: ADD_TO_WATCHLIST,
       payload: [...user.watchList, watchListMovieAdded],
+    });
+  } catch (error) {
+    return dispatch({
+      type: ERROR_FOUND,
+    });
+  }
+};
+
+// Remove from watchlist:
+export const removeFromWatchlist = (user, toBeRemove) => async (dispatch) => {
+  try {
+    console.log(`TOBEREMOVE: ${toBeRemove}`);
+    const userRef = doc(firestore, 'users', user.uid);
+    await updateDoc(userRef, {
+      watchList: user.watchList.filter((movie) => movie.id !== toBeRemove.id),
+    });
+    dispatch({
+      type: REMOVE_FROM_WATCHLIST,
+      payload: user.watchList.filter((movie) => movie.id !== toBeRemove.id),
     });
   } catch (error) {
     return dispatch({
@@ -431,3 +454,5 @@ export const deleteComment = (id) => {
 };
 
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
+
+export const changeNameUser = (payload) => ({ type: CHANGE_NAME, payload });

@@ -262,6 +262,7 @@ h3 {
     background-color: hsla(180, 12%, 8%, 0.96);
     top: 0;
     right: 0;
+    width: 40%;
     font-size: 16px;
     border-left: 2px solid gray;
     flex-direction: column-reverse;
