@@ -8,7 +8,7 @@ export function ToastifyMessage(message, type){
         close: true,
         className: "info",
         offset: {
-            y: 70 // vertical axis - can be a number or a string indicating unity. eg: '2em'
+            y: 70
           },
         gravity: "bottom", 
         position: "center", 
