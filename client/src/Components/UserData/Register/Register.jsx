@@ -54,7 +54,6 @@ export default function Register() {
       await signup(user.email, user.password, user.displayName);
       navigate('/register/plan');
     } catch (error) {
-      /* console.log(error.message.includes("already") ? true: false) */
       if(error.message.includes("already")){
         let errorEm = error.message
         setErrorEm(false)
