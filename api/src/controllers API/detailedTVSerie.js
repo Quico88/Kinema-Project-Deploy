@@ -79,11 +79,15 @@ const getTVSeriesByIdApi = async (id) => {
 
 // Get trailer of TVSerie from API by ID:
 const getTrailerSerie = async (name) => {
-  let trailer = await axios(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${name} trailer&key=${API_YT_KEY}`)
-    .then(d => `https://www.youtube.com/watch?v=${d.data.items[0].id.videoId}`)
-    .catch(e => 'https://www.youtube.com/watch?v=SRA_XcsYu3k')
+  let trailer = await axios(
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${name} trailer&key=${API_YT_KEY}`
+  )
+    .then(
+      (d) => `https://www.youtube.com/watch?v=${d.data.items[0].id.videoId}`
+    )
+    .catch((e) => 'https://www.youtube.com/watch?v=SRA_XcsYu3k');
   return trailer;
-  
+
   // const apiResponse = await axios.get(
   //   `${api_general_route}/tv/${id}/videos?api_key=${YOUR_API_KEY_1}`
   // );

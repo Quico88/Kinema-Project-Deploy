@@ -9,9 +9,8 @@ const {
 
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
-const {getMoviesGenreById} = require("../controllers API/genresMovies")
+const { getMoviesGenreById } = require('../controllers API/genresMovies');
 const Comment = require('../Db/Schema/comment.js');
-
 
 const {
   getMoviesByIdApi,
@@ -40,7 +39,6 @@ const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
 
-
 const {
   getDataTVJSON,
   getDetailTVJSON,
@@ -48,14 +46,14 @@ const {
   getSeriesByGenreJSON,
 } = require('../controllers local/getDataJSONSeries');
 
-const { detailSeasonJSON } = require('../controllers local/detailedSeasonsSeriesJSON.js');
+const {
+  detailSeasonJSON,
+} = require('../controllers local/detailedSeasonsSeriesJSON.js');
 const { getDataComments } = require('../controllers DB/comments');
-
 
 const paymenRoutes = require('./paymentRoutes');
 
 router.use('/payment', paymenRoutes);
-
 
 // ROUTES:
 
@@ -63,12 +61,15 @@ router.use('/payment', paymenRoutes);
 router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
-    // const season_detail = await getSeasonDetails(id, season);
-    // if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
-    // res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
 
-    const data = detailSeasonJSON(id, season);
-    res.json(data);
+    let season_detail = await getSeasonDetails(id, season);
+
+    if (season_detail === undefined) {
+      // if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
+      // res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
+      season_detail = detailSeasonJSON(id, season);
+    }
+    res.json(season_detail);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
   }
@@ -235,36 +236,34 @@ router.get('/home/series_by_genre', async (req, res) => {
   }
 });
 
-
 router.post('/comments', async (req, res) => {
-  const {userId, content, date, idReference} = req.body
+  const { userId, content, date, idReference } = req.body;
   try {
-    Comment.create({userId, content, date, idReference})
-    res.status(201).json("creado!")
+    Comment.create({ userId, content, date, idReference });
+    res.status(201).json('creado!');
   } catch (error) {
-      return res.status(204).json({Error: error.message});
+    return res.status(204).json({ Error: error.message });
   }
 });
 
 router.get('/comments/:id', async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   try {
-    let info = await getDataComments(id)
-    res.status(200).send(info)
+    let info = await getDataComments(id);
+    res.status(200).send(info);
   } catch (error) {
-      return res.status(204).json({Error: error.message});
+    return res.status(204).json({ Error: error.message });
   }
-})
+});
 
 router.delete('/comments/:id', async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   try {
-    let json = await Comment.deleteOne({ _id : id })
-    res.status(200).json(json)
+    let json = await Comment.deleteOne({ _id: id });
+    res.status(200).json(json);
   } catch (error) {
-      return res.status(204).json({Error: error.message});
+    return res.status(204).json({ Error: error.message });
   }
-})
-
+});
 
 module.exports = router;
