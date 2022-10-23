@@ -10,8 +10,8 @@ export function ToastifyMessage(message, type){
         offset: {
             y: 70 // vertical axis - can be a number or a string indicating unity. eg: '2em'
           },
-        gravity: "bottom", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
+        gravity: "bottom", 
+        position: "center", 
         style: {
           background: type === "success" ?  "green" :  "red",
           borderRadius: "10px",
