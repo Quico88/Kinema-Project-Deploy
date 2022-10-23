@@ -231,7 +231,7 @@ export default function UserProfile() {
                   {typeSub === 1 ? (
                     <Box
                     >
-                      {rented && rented.length > 0 ? (
+                      {userData.rented && userData.rented.length > 0 ? (
                         <Box
                           position={'relative'}
                           height={'270px'}
@@ -266,7 +266,7 @@ export default function UserProfile() {
                             {...settings}
                             ref={(slider) => setSlider(slider)}
                           >
-                            {rented.map((r, index) => {
+                            {userData.rented.map((r, index) => {
                               if (r.serie) {
                                 return (
                                   <Box
@@ -286,7 +286,7 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={r.posterImg}
+                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -311,7 +311,7 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={r.posterImg}
+                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -345,7 +345,7 @@ export default function UserProfile() {
                   ) : (
                     <Box
                     >
-                      {watchList && watchList.length > 0 ? (
+                      {userData.watchList && userData.watchList.length > 0 ? (
                         <Box
                           position={'relative'}
                           height={'270px'}
@@ -374,13 +374,13 @@ export default function UserProfile() {
                         color={'#99a3a4'}
                       >
                         {' '}
-                        Enjoy your rented content{' '}
+                        Enjoy your favorite content{' '}
                       </Text>
                           <Slider
                             {...settings}
                             ref={(slider) => setSlider(slider)}
                           >
-                            {watchList.map((r, index) => {
+                            {userData.watchList.map((r, index) => {
                               if (r.serie) {
                                 return (
                                   <Box
@@ -400,7 +400,7 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={r.posterImg}
+                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -425,7 +425,7 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={r.posterImg}
+                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
