@@ -10,6 +10,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getMovieDetail } from '../../../Redux/actions';
+import { Icon } from '@chakra-ui/react';
+import { BsCreditCard } from 'react-icons/bs';
+import { IoMdInformationCircleOutline } from 'react-icons/io';
+
 
 export default function MainMovieMenu(props) {
   const userData = useSelector((state) => state.user);
@@ -60,6 +64,7 @@ export default function MainMovieMenu(props) {
               <Link to={`/payment/rent/movie/${props.id}`}>
                 <Button
                   onClick={() => handleClick()}
+                  rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
                   bg={'blue.400'}
                   rounded={'full'}
                   color={'white'}
@@ -84,6 +89,7 @@ export default function MainMovieMenu(props) {
             <Link to={`/home/movie_details/${props.id}`}>
               <Button
                 bg={'whiteAlpha.300'}
+                rightIcon={<Icon as={IoMdInformationCircleOutline} boxSize={6} />}
                 rounded={'full'}
                 color={'white'}
                 _hover={{ bg: 'whiteAlpha.500' }}

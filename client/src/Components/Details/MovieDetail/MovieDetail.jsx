@@ -23,6 +23,8 @@ import {
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
+import { FiPlusCircle } from 'react-icons/fi';
+import { BsCreditCard } from 'react-icons/bs';
 import Footer from '../../Home/Chakra UI Components/Footer.jsx';
 import NavBar from '../../NavBar/NavBar.jsx';
 import { useState } from 'react';
@@ -34,6 +36,7 @@ import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
+import moment from 'moment';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
@@ -108,13 +111,14 @@ export default function MovieDetail() {
     } else return false;
   };
 
-  const isRentedAndValid = () => {
+  const validExpirationDate = () => {
     const { rented } = user;
     if (!rented.length) return false;
     const movieRentHistory = rented.filter ( m => m.id == id);
     let now = new Date();
     if (!movieRentHistory.length) return false;
-    return (movieRentHistory.some ( (m) => m.expirationDate > now.getTime()))  
+    const validMovie = (movieRentHistory.find ( (m) => m.expirationDate > now.getTime())) 
+    return validMovie.expirationDate;
   }
 
   const closePlayer = () => setPlayerTrailer(false);
@@ -303,6 +307,7 @@ export default function MovieDetail() {
                       <Button
                         onClick={() => handleAddToWatchlist(myMovie.id)}
                         bg={'whiteAlpha.300'}
+                        rightIcon={<Icon as={FiPlusCircle} boxSize={6}/>}
                         rounded={'full'}
                         color={'white'}
                         _hover={{ bg: 'whiteAlpha.500' }}
@@ -316,7 +321,7 @@ export default function MovieDetail() {
                   // USER FREE CASE 
                   user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                    {isRentedAndValid()?
+                    {validExpirationDate()?
                         <Button
                           onClick={() => setPlayerTrailer(true)}
                           borderRadius="3vh"
@@ -332,14 +337,14 @@ export default function MovieDetail() {
                       :
                         <Button
                           bg={'blue.400'}
+                          onClick={() => navigate(`/payment/rent/movie/${myMovie.id}`)}
+                          rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
                           rounded={'full'}
                           color={'white'}
                           mr="2vh"
                           _hover={{ bg: 'blue.500' }}
                         >
-                          <Link href={`/payment/rent/movie/${myMovie.id}`}>
-                            <Text mb="0.25vh">Rent</Text>
-                          </Link>
+                          <Text mb="0.25vh">Rent</Text>
                         </Button>
                     }
                       <Button
@@ -355,10 +360,15 @@ export default function MovieDetail() {
                         bg={'whiteAlpha.300'}
                         rounded={'full'}
                         color={'white'}
+                        rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
                         _hover={{ bg: 'whiteAlpha.500' }}
                       >
                         My List
                       </Button>
+                      {validExpirationDate() ?
+                        <Text mt="2vh" color={'white'}>You have until {moment(validExpirationDate()).format('MMMM Do YYYY, h:mm a')} to watch this content.</Text>
+                        : null
+                      }
                       <Text mt="2vh" fontSize="2.3vh" color={'white'}>
                         You can&nbsp;
                         <Link href="/payment" color={'#72efdd'}>

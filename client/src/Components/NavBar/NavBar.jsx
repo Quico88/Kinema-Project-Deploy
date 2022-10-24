@@ -109,6 +109,16 @@ export default function NavBar({ ruta }) {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    window.scroll({
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth'
+    });
+  }, [])
+
+  useEffect(()=>{}, [user])
+  
   async function logOut() {
     await logout();
     navigate("/");
@@ -179,6 +189,14 @@ export default function NavBar({ ruta }) {
                     {user.subscription === 1 ? (
                       <RouteLink to="/payment">
                         <MenuItem color="green.700">Upgrade your plan</MenuItem>
+                      </RouteLink>
+                    ) : (
+                      <></>
+                    )}
+                    <MenuDivider/>
+                    {user.admin ? (
+                      <RouteLink to="/admin">
+                        <MenuItem>Admin Panel</MenuItem>
                       </RouteLink>
                     ) : (
                       <></>
