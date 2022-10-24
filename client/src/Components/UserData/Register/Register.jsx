@@ -17,7 +17,8 @@ import Footer from '../../Home/Chakra UI Components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { useAuth } from '../../AuthContext/AuthContext';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -86,6 +87,7 @@ export default function Register() {
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
       >
+      <NavBarPayment></NavBarPayment>
       <Container
         as={SimpleGrid}
         maxW={'7xl'}

@@ -1,4 +1,4 @@
-import { Box, Image, FormControl, Text, FormLabel, Input,FormHelperText, Stack, Flex  } from '@chakra-ui/react'
+import { Box, Image, FormControl, Text, FormLabel, Input,FormHelperText, Stack, Flex, Spinner  } from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import logo from "../../../Assets/logo.png"
 import { useDispatch } from "react-redux";
 import NavBarPayment from "../../NavBarPayment/NavBarPayment";
 import { upgradePlan } from "../../../Redux/actions";
+import { ToastContainer, toast } from 'react-toastify';
 
 const stripePromise = loadStripe("pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI")
 
@@ -21,7 +22,9 @@ const CheckoutForm = () => {
     const stripe = useStripe()
     const elements = useElements()
   const { username, email, uid } = useSelector(state => state.user);
-  const [errors, setErrors] = useState({
+
+    
+    const [errors, setErrors] = useState({
     name: "Please fill name.",
     surname:"Please fill surname.",
     });
@@ -69,7 +72,16 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     if (errors.name || errors.surname) {
       e.preventDefault()
-      alert("The form is not properly complete.")
+      toast.warn('The form is not properly complete.', {
+        position: "top-center",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     }
     else {
       try {
@@ -80,14 +92,35 @@ const CheckoutForm = () => {
         })
         if(!error){
             const {id} = paymentMethod
-            const {data} = await axios.post("http://localhost:3001/payment/premium",{id, username, email })
+          const { data } = await axios.post("http://localhost:3001/payment/premium", { id, username, email })
           if (data.success) {
+                toast.success(data.message, {
+                   position: "top-center",
+                   autoClose: 3500,
+                   hideProgressBar: false,
+                   closeOnClick: true,
+                   pauseOnHover: false,
+                   draggable: true,
+                   progress: undefined,
+                   theme: "dark",
+                   });
                 await upgratePlanFire();
-                alert(data.message);
                 dispatch(upgradePlan());
                 navigate('/home'); 
             }
-            else { alert(data.message) }
+          else {
+            
+            toast.error(data.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              
+              }); }
         }
     }
     catch (e){ alert(e) }    
@@ -104,9 +137,10 @@ const CheckoutForm = () => {
            backgroundSize={'cover'}
            height={"100vh"}>
         <NavBarPayment />
+        <ToastContainer/>
         <form onSubmit={handleSubmit}>
         <FormControl   display='flex'  justifyContent="center" alignItems={"center"} mt="18vh"   >
-          <Stack direction='row' spacing={4}  bg={'rgba(17, 173, 152, 0.3)'}
+           <Stack direction='row' spacing={4}  bg={'rgba(17, 173, 152, 0.3)'}
           backdropFilter={'blur(10px)'}  borderRadius="0.5vh"  w={"80vh"}>
               <Box w={"44vh"} h="50vh" pl="5vh" bgColor={"white"}  borderLeftRadius="0.5vh" pr="2vh" mr="2vh" pt="3.5vh">
               <FormLabel  m={"0px"} p="0px" >Name</FormLabel>
@@ -146,14 +180,15 @@ const CheckoutForm = () => {
               </Text>
                 <Text color={'gray.500'}>/month</Text>
               </Stack>
-              <Flex  align={'end'} justify={'center'} mt="3vh">
-              <button className="btn-premium">CONFIRM</button>
+                <Flex align={'end'} justify={'center'} mt="3vh">
+                <button className="btn-premium">CONFIRM</button>
               </Flex>
+              
               
             
             </Box>
-          </Stack>
 
+          </Stack> 
         </FormControl>
         </form>
        

@@ -16,7 +16,9 @@ import {
   useColorModeValue,
   Stack,
   MenuGroup,
+  
 } from "@chakra-ui/react";
+import { BsArrowReturnLeft } from 'react-icons/bs';
 import { useAuth } from "../AuthContext/AuthContext";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -58,12 +60,15 @@ export default function NavBarPayment({ ruta }) {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box>
+              <RouteLink to="/home">
               <Image
                 boxSize="100px"
                 objectFit="cover"
                 src={logo}
                 alt="Logo-kinema"
               />
+              </RouteLink>
+           
             </Box>
             <HStack
               as={"nav"}
@@ -74,7 +79,10 @@ export default function NavBarPayment({ ruta }) {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-          <Button onClick={() => functionBack()}>BACK</Button>
+          <Button onClick={() => functionBack()} variant='outline' 
+                color={'white'}
+              _hover={{ bg: 'blue.400' }}
+              rightIcon={<BsArrowReturnLeft />}>Back</Button>
           </Flex>
         </Flex>
 
