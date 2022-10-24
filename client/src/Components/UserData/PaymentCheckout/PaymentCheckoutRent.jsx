@@ -22,13 +22,15 @@ import axios from 'axios';
 import './PaymentCheckout.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { rentVideo } from '../../../Redux/actions';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 import logo from '../../../Assets/logo.png';
 
 import { doc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../AuthContext/firebase';
+
 
 const stripePromise = loadStripe(
   'pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI'
@@ -115,7 +117,17 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     if (errors.name || errors.surname) {
       e.preventDefault();
-      alert('Please complete the form correctly');
+      toast.warn('The form is not properly complete.', {
+        position: "top-center",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        
+        });
     } else {
       e.preventDefault();
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -130,12 +142,31 @@ const CheckoutForm = () => {
         );
 
         if (data.success) {
-          alert(data.message);
+          toast.success(data.message, {
+            position: "top-center",
+            autoClose: 3500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
           dispatch(rentVideo(rentedMovie));
           await updateRented(rentedMovie);
           navigate(-1);
         } else {
-          alert(data.message);
+          toast.error(data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            
+            });
         }
       }
     }
@@ -152,6 +183,7 @@ const CheckoutForm = () => {
       height={'100vh'}
     >
       <NavBarPayment />
+      <ToastContainer/>
       <Stack
         direction="row"
         spacing={4}
