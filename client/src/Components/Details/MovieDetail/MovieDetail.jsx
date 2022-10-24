@@ -162,10 +162,12 @@ export default function MovieDetail() {
               }
               backgroundSize={'cover'}
               backgroundPosition={'center center'}
-              boxShadow="400px 0px 128px 64px black inset"
+              boxShadow="40vw 0px 128px 64px black inset"
               justify="left"
             >
+        
               <Container maxW="900px" ms="none" ml="10vh" mt="10vh">
+                
                 <Heading
                   mb="1.5vh"
                   size="3xl"
