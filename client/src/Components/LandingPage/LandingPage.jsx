@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getHomeAll } from '../../Redux/actions';
-import { Box, Button, color, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -19,14 +19,15 @@ export default function LandingPage() {
   let refCloseBtn = useRef();
 
   const handleToggleMenu = (e) => {
-    if (refMenuBtn.current.id === "5") {
+    if (refMenuBtn.current.id === '5') {
       refMenuBtn.current.id = refCloseBtn.current.id;
       list.current.style.display = 'flex';
     } else {
-      refMenuBtn.current.id = "5";
+      refMenuBtn.current.id = '5';
       list.current.style.display = 'none';
     }
   };
+
   return (
     <Box className={styles.background}>
       <Flex className={styles.nav}>
@@ -36,7 +37,7 @@ export default function LandingPage() {
             <Text
               className={styles.close}
               ref={refCloseBtn}
-              id={"6"}
+              id={'6'}
               onClick={handleToggleMenu}
             >
               Close
@@ -53,7 +54,7 @@ export default function LandingPage() {
           <Text
             className={styles.menu}
             ref={refMenuBtn}
-            id={"5"}
+            id={'5'}
             onClick={handleToggleMenu}
           >
             Menu
@@ -83,6 +84,7 @@ export default function LandingPage() {
             style={{
               textAlign: 'center',
               color: 'white',
+              fontSize: '2rem',
             }}
           >
             Sit, relax and enjoy.
@@ -90,9 +92,16 @@ export default function LandingPage() {
           <Box className={styles.container_button}>
             <Link to="/home">
               <Button
-                className={styles.button_detail}
-                style={{
-                  backgroundColor: '#1cdaff',
+                bg={'blue.400'}
+                rounded={'full'}
+                color={'white'}
+                fontSize={'1.5rem'}
+                padding={'2rem'}
+                width={'15rem'}
+                _hover={{
+                  bg: 'blue.500',
+                  /* add kinema logo: */
+                  backgroundImage: `${logo}`,
                 }}
               >
                 Explore!

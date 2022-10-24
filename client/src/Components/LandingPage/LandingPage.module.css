@@ -7,7 +7,7 @@
 }
 
 .nav {
-  height: 50px;
+  height: 0px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -18,12 +18,11 @@
 
 .list {
   display: inline-flex;
-
   justify-content: flex-end;
 }
 
 .logo {
-  width: 250px;
+  width: 220px;
   height: 180px;
   margin-top: -20px;
 }
