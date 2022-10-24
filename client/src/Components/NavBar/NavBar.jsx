@@ -141,12 +141,15 @@ export default function NavBar({ ruta }) {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box className={style.logo_nav}  >
+              <RouteLink to="/home">
               <Image
                 boxSize="100px"
                 objectFit="cover"
                 src={logo}
                 alt="Logo-kinema"
               />
+              </RouteLink>
+            
             </Box>
             <HStack
               as={"nav"}

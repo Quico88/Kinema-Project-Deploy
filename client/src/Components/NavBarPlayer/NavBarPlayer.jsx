@@ -22,6 +22,7 @@ import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { color } from '../globalStyles';
+import { BsArrowReturnLeft } from 'react-icons/bs';
 
 const Links = ['Home', 'Movies', 'TV Shows'];
 
@@ -106,7 +107,10 @@ export default function Simple(props) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Button onClick={() => closePlayer()}>BACK</Button>
+            <Button onClick={() => closePlayer()} variant='outline' 
+                color={'white'}
+              _hover={{ bg: 'blue.400' }}
+              rightIcon={<BsArrowReturnLeft />}>BACK</Button>
             <HStack
               as={'nav'}
               spacing={4}
