@@ -25,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
+import { BsCreditCard } from 'react-icons/bs';
 import NavBar from '../../NavBar/NavBar';
 import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Comment from '../Comment/Comment';
@@ -35,6 +36,8 @@ import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
+import { FiPlusCircle } from 'react-icons/fi';
+import moment from 'moment';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -123,13 +126,14 @@ export default function TVShowDetail() {
     }
   }
 
-  const isRentedAndValid = () => {
+  const validExpirationDate = () => {
     const { rented } = user;
     if (!rented.length) return false;
     const movieRentHistory = rented.filter ( m => m.id == id);
     let now = new Date();
     if (!movieRentHistory.length) return false;
-    return (movieRentHistory.some ( (m) => m.expirationDate > now.getTime()))  
+    const validMovie = (movieRentHistory.find ( (m) => m.expirationDate > now.getTime())) 
+    return validMovie.expirationDate;
   }
 
   const openPlayer = () => setPlayerTrailer(true);
@@ -292,6 +296,7 @@ export default function TVShowDetail() {
                         bg={'blue.400'}
                         rounded={'full'}
                         color={'white'}
+                        mr="2vh"
                         _hover={{ bg: 'blue.500' }}
                       >
                         <Text mb="0.25vh">Watch</Text>
@@ -301,6 +306,7 @@ export default function TVShowDetail() {
                         bg={'whiteAlpha.300'}
                         rounded={'full'}
                         color={'white'}
+                        rightIcon={<Icon as={FiPlusCircle} boxSize={6}/>}
                         _hover={{ bg: 'whiteAlpha.500' }}
                       >
                         My List
@@ -312,10 +318,11 @@ export default function TVShowDetail() {
                   //  USER FREE CASE:
                   user.subscription === 1 ? (
                     <Box textAlign="left" mt="3vh">
-                      {isRentedAndValid()?
+                      {validExpirationDate()?
                         <Button
                           onClick={() => openPlayer()}
                           borderRadius="3vh"
+                          mr="2vh"
                           rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
                           bg={'blue.400'}
                           rounded={'full'}
@@ -327,13 +334,14 @@ export default function TVShowDetail() {
                         :
                         <Button
                           bg={'blue.400'}
+                          mr="2vh"
+                          rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
+                          onClick={() => navigate(`/payment/rent/tv_show/${id}`)}
                           rounded={'full'}
                           color={'white'}
                           _hover={{ bg: 'blue.500' }}
                         >
-                          <Link href={`/payment/rent/tv_show/${id}`}>
-                            <Text mb="0.25vh">Rent</Text>
-                          </Link>
+                          <Text mb="0.25vh">Rent</Text>
                         </Button>
                       }
                       <Button
@@ -349,11 +357,15 @@ export default function TVShowDetail() {
                         bg={'whiteAlpha.300'}
                         rounded={'full'}
                         color={'white'}
+                        rightIcon={<Icon as={FiPlusCircle} boxSize={6}/>}
                         _hover={{ bg: 'whiteAlpha.500' }}
                       >
                         My List
                       </Button>
-
+                      {validExpirationDate() ?
+                        <Text mt="2vh" color={'white'}>You have until {moment(validExpirationDate()).format('MMMM Do YYYY, h:mm a')} to watch this content.</Text>
+                        : null
+                      }
                       <Text mt="2vh" fontSize="2.3vh" color={'white'}>
                         You can&nbsp;
                         <Link href="/payment" color={'#72efdd'}>
