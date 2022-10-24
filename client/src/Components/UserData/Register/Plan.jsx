@@ -49,24 +49,20 @@ export default function Plan() {
             fontWeight="600"
             display="inline"
             color={"white"}
-            >Select your plan
+            >Select your plan:
            </Text>
          <Stack direction={{ base: 'flex', sm: 'row' }}>
-          
             <Pricing 
             planType={"Basic"}
             price={0}
-            firstFeature={"Rent any Movie or TV Serie"}
-            secondFeature={"All features"}
-            
+            firstFeature={"Rent Movies and TV Shows"}
            />
           <Pricing 
             planType={"Premium"} 
             price={7.99}
-            firstFeature={"Play any Movie or TV Serie"}
-            secondFeature={"Create Your Watch List"}
-             thirdFeature={"All features"}
-            
+            firstFeature={"Watch any Movie and TV Show"}
+            secondFeature={"Create your own Watchlist"}
+            thirdFeature={"All features"} 
            />
          
         </Stack>
