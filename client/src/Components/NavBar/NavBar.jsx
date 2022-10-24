@@ -116,6 +116,8 @@ export default function NavBar({ ruta }) {
       behavior: 'smooth'
     });
   }, [])
+
+  useEffect(()=>{}, [user])
   
   async function logOut() {
     await logout();
