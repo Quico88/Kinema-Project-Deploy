@@ -29,6 +29,8 @@ import {
   UPGRADE_PLAN,
   DELETE_COMMENT,
   CHANGE_NAME,
+  DOWNGRADE_PLAN,
+  CHANGE_SID
 } from '../actions/const';
 
 // Initial state of global store:
@@ -197,6 +199,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: { ...state.user, subscription: 2 },
       };
+      case DOWNGRADE_PLAN:
+        return {
+          ...state,
+          user: { ...state.user, subscription: 1 },
+        };
+        case CHANGE_SID:
+          return {
+            ...state,
+            user: { ...state.user, stripeId: action.payload },
+          };
     default:
       return state;
   }

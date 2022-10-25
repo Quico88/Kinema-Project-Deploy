@@ -42,6 +42,7 @@ export default function AuthProvider({ children }) {
       subscription: 1,
       subscriptionDate: Timestamp.fromDate(new Date()).toDate(),
       watchList: [],
+      stripeId: '',
       avatar:
         "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
       active: true,
@@ -79,6 +80,7 @@ export default function AuthProvider({ children }) {
       subscription: 1,
       subscriptionDate: Timestamp.fromDate(new Date()).toDate(),
       watchList: [],
+      stripeId: '',
       avatar: infoUser.user.photoURL,
       active: true,
       banned: false,
