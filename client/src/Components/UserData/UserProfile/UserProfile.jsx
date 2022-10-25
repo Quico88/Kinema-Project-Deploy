@@ -1,4 +1,5 @@
 import { useAuth } from '../../AuthContext/AuthContext';
+import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -33,7 +34,7 @@ import { Link as RouteLink } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeNameUser } from '../../../Redux/actions';
+import { changeNameUser, downgradePlan } from '../../../Redux/actions';
 
 const settings = {
   dots: true,
@@ -99,6 +100,22 @@ export default function UserProfile() {
     }
   };
 
+  const downgrade = async () => {  
+    const id = userData.stripeId  
+    const {data} = await axios.post("/payment/downgrade", {id})
+
+    if (data.success) {
+        dispatch(downgradePlan())
+        const userRef = doc(firestore, `/users/${user.uid}`);
+        await updateDoc(userRef, {
+        subscription: 1,
+        });         
+        alert(data.message);                     
+      }
+      else { alert(data.message) }
+  }
+  
+
   const accDelete = async () => {
     const userRef = doc(firestore, `/users/${user.uid}`);
     await updateDoc(userRef, {
@@ -147,7 +164,7 @@ export default function UserProfile() {
     exe();
   }, [user.uid]);
 
-  if (loadingUser) return <h1>loading</h1>;
+  /* if (loadingUser) return <h1>loading</h1>; */
   return (
     <div style={{ background: '#111111', height: '100vh' }}>
       <Flex
@@ -547,14 +564,14 @@ export default function UserProfile() {
                       >
                         Downgrade
                       </Text>
-                      <RouteLink to="/payment">
+                      
                         <Text
                           fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                           color={'#cd6155'}
                         >
-                          Cancel Subscription
+                          <Button onClick={downgrade}>DOWNGRADE</Button>
                         </Text>
-                      </RouteLink>
+                      
                     </Box>
                   )}
                 </Box>

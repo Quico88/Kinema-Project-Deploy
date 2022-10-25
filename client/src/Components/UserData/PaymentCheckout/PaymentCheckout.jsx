@@ -11,7 +11,7 @@ import { useToast } from '@chakra-ui/react';
 import logo from "../../../Assets/logo.png"
 import { useDispatch } from "react-redux";
 import NavBarPayment from "../../NavBarPayment/NavBarPayment";
-import { upgradePlan } from "../../../Redux/actions";
+import { changeSID, upgradePlan } from "../../../Redux/actions";
 
 const stripePromise = loadStripe("pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI")
 
@@ -82,6 +82,11 @@ const CheckoutForm = () => {
             const {id} = paymentMethod
             const {data} = await axios.post("/payment/premium",{id, username, email })
           if (data.success) {
+                const userRef = doc(firestore, `/users/${uid}`);
+                await updateDoc(userRef, {
+                stripeId: data.subId,
+                });
+                dispatch(changeSID(data.subId))
                 await upgratePlanFire();
                 alert(data.message);
                 dispatch(upgradePlan());

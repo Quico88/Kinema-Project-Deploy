@@ -7,6 +7,7 @@ import { auth, firestore } from '../../Components/AuthContext/firebase.js';
 // Import variables of actions:
 
 import {
+  DOWNGRADE_PLAN,
   GET_MOVIE_DETAIL,
   CLEAR_MOVIE_DETAIL,
   GET_MOVIES,
@@ -37,6 +38,7 @@ import {
   ADD_TO_WATCHLIST,
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
+  CHANGE_SID
 } from './const';
 
 // Actions functions
@@ -395,6 +397,19 @@ export const upgradePlan = () => {
     type: UPGRADE_PLAN,
   };
 };
+
+export const changeSID = (id) => {
+  return {
+    type: CHANGE_SID,
+    payload: id
+  }
+}
+
+export const downgradePlan = () => {
+  return {
+    type: DOWNGRADE_PLAN,
+  }
+}
 
 export const getCommentsData = (id) => {
   return async function (dispatch) {
