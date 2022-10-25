@@ -9,7 +9,6 @@ export default function Watch() {
     const idTrailer = myMovie.trailer.slice(32)
 
     const { id } = useParams();
-    console.log(id);
         return (
         <>
             <NavBarPlayer/>
