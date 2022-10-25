@@ -80,8 +80,6 @@ export default function Simple(props) {
   const [image, setImage] = useState();
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(location);
   
   const { closePlayer } = props;
 
