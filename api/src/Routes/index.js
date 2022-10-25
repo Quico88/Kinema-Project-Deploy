@@ -10,7 +10,9 @@ const {
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
 const { getMoviesGenreById } = require('../controllers API/genresMovies');
+
 const Comment = require('../Db/Schema/comment.js');
+const Like = require('../Db/Schema/like.js');
 
 const {
   getMoviesByIdApi,
@@ -265,5 +267,45 @@ router.delete('/comments/:id', async (req, res) => {
     return res.status(204).json({ Error: error.message });
   }
 });
+
+router.post('/like', async (req, res) => {
+  const { idContent, idUser } = req.query;
+  try {
+    let json = await Like.create({ idUser, idContent });
+    res.status(201).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+})
+
+router.post('/dislike', async (req, res) => {
+  const { idContent, idUser } = req.query;
+  try {
+    let json = await Like.deleteOne({ idUser, idContent });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+})
+
+router.get('/likes_from/:idContent', async (req, res) => {
+  const { idContent } = req.params;
+  try {
+    let json = await Like.find({ idContent });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+})
+
+router.get('/likes_from_user/:idUser', async (req, res) => {
+  const { idUser } = req.params;
+  try {
+    let json = await Like.find({ idUser });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+})
 
 module.exports = router;
