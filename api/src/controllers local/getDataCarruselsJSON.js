@@ -28,13 +28,29 @@ const upComingData = () => {
 const topRatedSeries = () => {
 	return series_backup
 		.sort((a, b) => b.rating - a.rating)
-		.slice(0, 20);
+		.slice(0, 20)
+		.map( s => {
+			return {
+				id: s.id,
+				title: s.title,
+				poster: s.poster,
+				serie: true
+			}
+		});
 };
 
 const latestSeries = () => {
 	return series_backup
 		.sort((a, b) => Date.parse(b.release_date_first_episode) - Date.parse(a.release_date_first_episode))
-		.slice(0, 20);
+		.slice(0, 20)
+		.map( s => {
+			return {
+				id: s.id,
+				title: s.title,
+				poster: s.poster,
+				serie: true
+			}
+		});
 }
 
 module.exports = {
