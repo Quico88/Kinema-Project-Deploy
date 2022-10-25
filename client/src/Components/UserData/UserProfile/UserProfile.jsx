@@ -1,7 +1,7 @@
 import { useAuth } from '../../AuthContext/AuthContext';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import style from "./UserProfile.module.css"
 import { firestore } from '../../AuthContext/firebase';
@@ -29,12 +29,20 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Portal,
+  useDisclosure,
+    AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeNameUser, downgradePlan } from '../../../Redux/actions';
+import { reload } from 'firebase/auth';
 
 const settings = {
   dots: true,
@@ -103,14 +111,14 @@ export default function UserProfile() {
   const downgrade = async () => {  
     const id = userData.stripeId  
     const {data} = await axios.post("/payment/downgrade", {id})
-
     if (data.success) {
         dispatch(downgradePlan())
         const userRef = doc(firestore, `/users/${user.uid}`);
         await updateDoc(userRef, {
         subscription: 1,
-        });         
-        alert(data.message);                     
+        });      
+        ToastifyMessage(data.message, "success");
+        setTimeout(()=> {window.location.reload()}, 2000)                        
       }
       else { alert(data.message) }
   }
@@ -146,7 +154,6 @@ export default function UserProfile() {
     } else if (x.username.length === 0) {
       errors.name = 'Please fill name.';
     }
-
     return errors;
   }
 
@@ -163,6 +170,10 @@ export default function UserProfile() {
     }
     exe();
   }, [user.uid]);
+
+  const {isOpen, onOpen, onClose} = useDisclosure()
+  const cancelRef = useRef()
+
 
   /* if (loadingUser) return <h1>loading</h1>; */
   return (
@@ -569,7 +580,39 @@ export default function UserProfile() {
                           fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                           color={'#cd6155'}
                         >
-                          <Button onClick={downgrade}>DOWNGRADE</Button>
+                                <Box>
+      <>
+      <Button variant={'link'} onClick={onOpen}>
+        Downgrade
+      </Button>
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Downgrade Account
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to Downgrade your Account? You will lose all Premium benefits.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={downgrade} ml={3}>
+                Downgrade
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+      </Box>
                         </Text>
                       
                     </Box>
