@@ -18,7 +18,7 @@ import {
 
 import { useAuth } from '../AuthContext/AuthContext';
 import './NavBarPlayer.module.css';
-import { Link as RouteLink, useNavigate } from 'react-router-dom';
+import { Link as RouteLink, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { color } from '../globalStyles';
@@ -79,7 +79,10 @@ export default function Simple(props) {
   const { user, logout, loadingUser, read } = useAuth();
   const [image, setImage] = useState();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  console.log(location);
+  
   const { closePlayer } = props;
 
   async function logOut() {
@@ -107,7 +110,7 @@ export default function Simple(props) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Button onClick={() => closePlayer()} variant='outline' 
+            <Button onClick={ location.pathname.includes("watch") ? () => navigate(-1) : () => closePlayer()} variant='outline' 
                 color={'white'}
               _hover={{ bg: 'blue.400' }}
               rightIcon={<BsArrowReturnLeft />}>BACK</Button>
