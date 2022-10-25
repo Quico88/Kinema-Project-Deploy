@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
@@ -11,10 +12,8 @@ import {
   getMovieGenreByID,
 } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
-import { Box, Center, Divider, Flex, Select, Text } from "@chakra-ui/react";
-import Loader from "../Loader/LoaderCards";
+import { Box, Center, Flex, Select, Text } from "@chakra-ui/react";
 import Error from "../Error/Error";
-import { color } from "../globalStyles";
 import "@fontsource/raleway";
 
 export default function HomeMovies() {

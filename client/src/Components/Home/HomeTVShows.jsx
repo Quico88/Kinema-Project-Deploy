@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
@@ -5,13 +6,12 @@ import Footer from "./Chakra UI Components/Footer";
 import {
   clearTvShows,
   getTvShows,
-  getTVShowGenres,
+  //getTVShowGenres,
   getSeriesByGenre,
   // clearGenres,
 } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
-import { Box, Flex, Select, Text, Center, Divider } from "@chakra-ui/react";
-import Loader from "../Loader/LoaderCards.jsx";
+import { Box, Flex, Select, Text, Center } from "@chakra-ui/react";
 import Error from "../Error/Error";
 import "@fontsource/raleway";
 
@@ -53,9 +53,9 @@ export default function HomeTVShows() {
     }
   }, [page]);
 
-  useEffect(() => {
-    dispatch(getTVShowGenres());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getTVShowGenres());
+  // }, []);
 
   useEffect(() => {
     setSeriesToShow([]);

@@ -3,7 +3,6 @@ import {
   Box,
   IconButton,
   useBreakpointValue,
-  Text,
   Image,
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
