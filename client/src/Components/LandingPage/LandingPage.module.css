@@ -19,6 +19,7 @@
 .list {
   display: inline-flex;
   justify-content: flex-end;
+  /* align-items: center; */
 }
 
 .logo {
@@ -30,8 +31,9 @@
 .nav__toggle {
   display: none;
   cursor: pointer;
-  width: 32px;
-  margin-top: 40px;
+  width: 40px;
+  height: 40px;
+  margin-top: 20px;
   margin-right: 20px;
   background-image: url('../../Assets/menu.png');
   background-repeat: no-repeat;
@@ -45,10 +47,10 @@
 }
 
 .sign {
-  padding-top: 20px;
   color: white;
-  margin-right: 40px;
   cursor: pointer;
+  margin-top: 40px;
+  margin-right: 40px;
 }
 
 .container_landing {
@@ -87,7 +89,6 @@
 }
 
 .main_text {
-  font-size: 48px;
   color: #ffffff;
 }
 
@@ -223,6 +224,8 @@ h3 {
 
   .logo {
     margin-left: 0;
+    width: 120px;
+    height: 120px;
   }
 
   .movie_list,
@@ -281,7 +284,6 @@ h3 {
   }
 
   .main_text {
-    font-size: 24px;
     text-align: center;
   }
 }
