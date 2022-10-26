@@ -38,6 +38,8 @@ import {
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
   CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG
   LIKE,
   DISLIKE,
   ISLIKE,
@@ -411,6 +413,20 @@ export const changeSID = (id) => {
 export const downgradePlan = () => {
   return {
     type: DOWNGRADE_PLAN,
+  }
+}
+
+export const uploadImg = (data) => {
+  return {
+    type : UPLOAD_IMG,
+    payload : data
+  }
+}
+
+export const avatarImg = (data) => {
+  return {
+    type: AVATAR_IMG,
+    payload : data
   }
 }
 
