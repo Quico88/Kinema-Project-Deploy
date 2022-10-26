@@ -1,9 +1,4 @@
 /* eslint-disable */
-import { collection, getDocs, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useAuth } from "../../AuthContext/AuthContext";
-import { firestore } from "../../AuthContext/firebase";
 import {
   Box,
   useColorModeValue,
