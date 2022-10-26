@@ -19,6 +19,7 @@ import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCh
 import Plan from './Components/UserData/Register/Plan.jsx';
 import Admin from './Components/UserData/Admin/Admin.jsx';
 import Watch from './Components/Home/Watch.jsx';
+import Owner from './Components/UserData/Owner/Owner.jsx';
 
 // Create App component:
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/home/watch/:id" element={<Watch />} />
         <Route path="/payment" element={<PaymentCheckout />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/owner" element={<Owner />} />
         <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
         <Route path="/payment/rent/tv_show/:id" element={<PaymentCheckoutRent />} />
         <Route

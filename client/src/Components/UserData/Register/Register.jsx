@@ -201,6 +201,10 @@ export default function Register() {
               variant={'outline'}
               backgroundColor={'white'}
               marginTop={'30px'}
+              color={"black"}
+              _hover={{
+                backgroundColor: "rgb(232, 229, 229)"
+              }}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
