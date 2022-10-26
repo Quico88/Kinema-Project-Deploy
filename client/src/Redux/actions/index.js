@@ -512,7 +512,6 @@ export const getLikesFromContent = (content) => {
   return async function (dispatch) {
     try {
       var json = await axios.get(`/likes_from/${content}`);
-      console.log(json)
       return dispatch({
         type: GET_LIKES_FROM_CONTENT,
         payload: json.data

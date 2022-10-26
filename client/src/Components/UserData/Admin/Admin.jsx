@@ -134,7 +134,6 @@ export default function Admin() {
   }else {
     let userFilter = arrUsers.filter(u => u.username === ban)
     let filteredUser = userFilter[0]
-    console.log(filteredUser)
     await updateDoc(filteredUser, {
       active: false,
     });

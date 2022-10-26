@@ -16,7 +16,6 @@ const getMoviesByIdApi = async (id) => {
   // .catch( e => undefined)
 
   if (apiResponse === undefined) {
-    console.log('if del datail');
     let data = getDetailJSON(id);
     return {
       data: data,
@@ -65,7 +64,6 @@ const getTrailerMovie = async (id) => {
   /* if official trailer exist then official trailer, otherwise officialTrailer equal a first of videos on array: */
 
   const videos = apiResponse.data.results;
-  // console.log("los videos son: -----------",videos)
   const officialTrailer = apiResponse.data.results.find(
     (t) => t.name.toLowerCase().indexOf('official trailer') !== -1
   );
