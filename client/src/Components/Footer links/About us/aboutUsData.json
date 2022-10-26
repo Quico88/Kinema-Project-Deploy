@@ -1,0 +1,79 @@
+[
+  {
+    "fullName": "Juan Francisco Drewanz",
+    "profilePic": "Juan.jpeg",
+    "skill": "Analytical thinking",
+    "description": "Software engineer with experience in Project Management and Management Consulting. Loves kitesurfing and playing the piano.",
+    "education": "Civil Engineer | MBA | Fullstack Developer",
+    "location": "Concordia, Argentina",
+    "email": "juandrewanz@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/juan-francisco-drewanz-7b099226/",
+    "github": "https://github.com/Quico88"
+  },
+  {
+    "fullName": "Gustavo Elías Engers",
+    "profilePic": "Gus.jpeg",
+    "skill": "Data processing",
+    "description": "Big fun of computers since childhood, has been immersing in the IT world ever since. Loves 'mate'.",
+    "education": "Master builder | Fullstack Developer",
+    "location": "Misiones, Argentina",
+    "email": "gustavoengers6441@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/gustavo-elias-engers-965788223/",
+    "github": "https://github.com/GusEngers"
+  },
+  {
+    "fullName": "Federico Irarrazaval",
+    "profilePic": "Fede.jpg",
+    "skill": "Problem-solving",
+    "description": "Full Stack web developer. Curious and self-taught. I have passion for technology and gaming, and enjoy doing archery and reading.",
+    "education": "Fullstack Developer | Master's degree in Law",
+    "location": "Buenos Aires, Argentina",
+    "email": "fedeirar@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/federico-irarr%C3%A1zaval-314b89a1/",
+    "github": "https://github.com/FedeIra"
+  },
+  {
+    "fullName": "Patterson johnson",
+    "profilePic": "Juan.jpeg",
+    "skill": "",
+    "description": "Full Stack maker & UI / UX Designer , love hip hop music Author of Building UI.",
+    "education": "Chock UI",
+    "location": "California",
+    "email": "juandrewanz@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/juan-francisco-drewanz-7b099226/",
+    "github": "https://github.com/Quico88"
+  },
+  {
+    "fullName": "Patterson johnson",
+    "profilePic": "prueba.jpeg",
+    "skill": "",
+    "description": "Full Stack maker & UI / UX Designer , love hip hop music Author of Building UI.",
+    "education": "Chock UI",
+    "location": "California",
+    "email": "juandrewanz@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/juan-francisco-drewanz-7b099226/",
+    "github": "https://github.com/Quico88"
+  },
+  {
+    "fullName": "Patterson johnson",
+    "profilePic": "prueba.jpeg",
+    "skill": "",
+    "description": "Full Stack maker & UI / UX Designer , love hip hop music Author of Building UI.",
+    "education": "Chock UI",
+    "location": "California",
+    "email": "juandrewanz@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/juan-francisco-drewanz-7b099226/",
+    "github": "https://github.com/Quico88"
+  },
+  {
+    "fullName": "Patterson johnson",
+    "profilePic": "prueba.jpeg",
+    "skill": "",
+    "description": "Full Stack maker & UI / UX Designer , love hip hop music Author of Building UI.",
+    "education": "Chock UI",
+    "location": "California",
+    "email": "juandrewanz@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/juan-francisco-drewanz-7b099226/",
+    "github": "https://github.com/Quico88"
+  }
+]

@@ -122,6 +122,30 @@ export default function Home() {
                 movies={movieCarrousel.upComing}
                 title="Up Coming:"
               />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Top rated Series :
+              </Text>
+              <CarouselHome
+                movies={SeriesCarrousel.topRatedSeries}
+                title="Top rated Series:"
+              />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Latest Series :
+              </Text>
+              <CarouselHome
+                movies={SeriesCarrousel.latestSeries}
+                title="Latest Series:"
+              />
             </Box>
           )}
           <Footer />

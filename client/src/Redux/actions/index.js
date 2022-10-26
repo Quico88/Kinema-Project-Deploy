@@ -37,7 +37,12 @@ import {
   ADD_TO_WATCHLIST,
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
-  CHANGE_SID
+  CHANGE_SID,
+  LIKE,
+  DISLIKE,
+  ISLIKE,
+  GET_LIKES_FROM_CONTENT,
+  GET_LIKES_FROM_USER
 } from './const';
 
 // Actions functions
@@ -70,7 +75,6 @@ export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
 // Remove from watchlist:
 export const removeFromWatchlist = (user, toBeRemove) => async (dispatch) => {
   try {
-    console.log(`TOBEREMOVE: ${toBeRemove}`);
     const userRef = doc(firestore, 'users', user.uid);
     await updateDoc(userRef, {
       watchList: user.watchList.filter((movie) => movie.id !== toBeRemove.id),
@@ -470,3 +474,95 @@ export const deleteComment = (id) => {
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
 
 export const changeNameUser = (payload) => ({ type: CHANGE_NAME, payload });
+
+export const putLike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/like/?idUser=${user}&idContent=${content}`);
+      return dispatch({
+        type: LIKE,
+        payload: { user, content }
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const dislike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/dislike/?idUser=${user}&idContent=${content}`);
+      return dispatch({
+        type: DISLIKE,
+        payload: { user, content }
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const getLikesFromContent = (content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/likes_from/${content}`);
+      console.log(json)
+      return dispatch({
+        type: GET_LIKES_FROM_CONTENT,
+        payload: json.data
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const getLikesFromUser = (user) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/likes_from_user/${user}`);
+      return dispatch({
+        type: GET_LIKES_FROM_USER,
+        payload: json.data
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const isLike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/islike/?idUser=${user}&idContent=${content}`);
+      if (json.data === null) {
+        return dispatch({
+          type: ISLIKE,
+          payload: false
+        });
+      } else {
+        return dispatch({
+          type: ISLIKE,
+          payload: true
+        });
+
+      }
+
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+
