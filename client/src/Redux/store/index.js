@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 import rootReducer from '../reducer/index.js';
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
-import { combineReducers } from 'redux'; 
 
 const persistConfig = {
   key: "root",

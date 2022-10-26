@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import { useAuth } from '../../Components/AuthContext/AuthContext';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { auth, firestore } from '../../Components/AuthContext/firebase.js';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../Components/AuthContext/firebase.js';
 
 // Import variables of actions:
 
@@ -460,7 +459,7 @@ export const postNewComment = (userId, content, date, idReference) => {
 export const deleteComment = (id) => {
   return async function (dispatch) {
     try {
-      var json = await axios.delete(`/comments/${id}`);
+      await axios.delete(`/comments/${id}`);
       return dispatch({
         type: DELETE_COMMENT,
       });

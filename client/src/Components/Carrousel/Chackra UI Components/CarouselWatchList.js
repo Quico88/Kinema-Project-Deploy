@@ -5,7 +5,6 @@ import {
   useBreakpointValue,
   Text,
   Image,
-  Button,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 // Here we have used react-icons package for the icons

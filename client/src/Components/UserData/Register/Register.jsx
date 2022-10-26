@@ -12,7 +12,6 @@ import {
   Checkbox,
   FormControl,
 } from '@chakra-ui/react';
-import Pricing from './Pricing';
 import Footer from '../../Home/Chakra UI Components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
@@ -56,13 +55,11 @@ export default function Register() {
       navigate('/register/plan');
     } catch (error) {
       if(error.message.includes("already")){
-        let errorEm = error.message
         setErrorEm(false)
       }else{
         setErrorEm(true)
       }
       if(error.message.includes("Password")){
-        let errorEm = error.message
         setError(false);
       }else{
         setError(true)

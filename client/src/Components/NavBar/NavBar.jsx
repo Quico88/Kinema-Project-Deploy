@@ -13,7 +13,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   MenuGroup,
 } from '@chakra-ui/react';

@@ -1,4 +1,5 @@
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+/* eslint-disable */
+import { collection, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAuth } from "../../AuthContext/AuthContext";
@@ -7,11 +8,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Heading,
   Center,
@@ -24,10 +23,8 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverHeader,
-  Switch,
   Box,
   PopoverBody,
-  Select,
 } from "@chakra-ui/react";
 import edit from "../../../Assets/edit.png";
 import prohibition from "../../../Assets/prohibition.png";
@@ -101,6 +98,7 @@ export default function Admin() {
       results.sort((a,b) => {
         if(a.rented.length < b.rented.length) return 1 
         if(a.rented.length > b.rented.length) return -1 
+        return 0
       })
       
       setOrder(results)
@@ -110,6 +108,7 @@ export default function Admin() {
       results.sort((a,b) => {
         if(a.subscriptionDate < b.subscriptionDate) return 1 
         if(a.subscriptionDate > b.subscriptionDate) return -1 
+        return 0
       })
       
       setByDate(results)
