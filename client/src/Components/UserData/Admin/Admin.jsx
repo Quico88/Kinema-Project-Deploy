@@ -102,6 +102,45 @@ export default function Admin() {
     if (page !== totalPaginas) return setPage(page + 1);
   };
 
+  function sortRented(){
+    let res = results.sort((a,b) => {
+      if(a.rented.length < b.rented.length) return 1 
+      if(a.rented.length > b.rented.length) return -1 
+      return 0
+    })
+    
+    setOrder(res)
+  }
+  
+  function sortByDate(){
+    let res = results.sort((a,b) => {
+      if(a.subscriptionDate < b.subscriptionDate) return 1 
+      if(a.subscriptionDate > b.subscriptionDate) return -1 
+      return 0
+    })
+    
+    setByDate(res)
+  }
+
+  const accDelete = async (e) => {
+    let arrUsers = []
+     let snap = await getDocs(collection(firestore, "users"))
+     snap.forEach((doc) => {
+       arrUsers.push(doc.data());
+     });
+    if(!ban) {
+     setBan(e.target.value)
+ 
+   }else {
+     let userFilter = arrUsers.filter(u => u.username === ban)
+     let filteredUser = userFilter[0]
+     /* console.log(filteredUser) */
+     await updateDoc(filteredUser, {
+       active: false,
+     });
+   }
+  }
+  
   let backgroundBox = useColorModeValue("gray.100", "gray.900")
 
   useEffect(() => {
@@ -174,7 +213,7 @@ export default function Admin() {
                       padding={"5px"}
                       height={"25px"}
                       fontSize={"12px"}
-                      border={"1px solid black"} /* onClick={sortByDate} */
+                      border={"1px solid black"} onClick={sortByDate} 
                     >
                       Sort
                     </Button>
@@ -186,7 +225,7 @@ export default function Admin() {
                       padding={"5px"}
                       height={"25px"}
                       fontSize={"12px"}
-                      border={"1px solid black"} /* onClick={sortRented } */
+                      border={"1px solid black"} onClick={sortRented }
                     >
                       Sort
                     </Button>
@@ -259,7 +298,7 @@ export default function Admin() {
                                       <Button
                                         background={"#cd6155"}
                                         value={user.username}
-                                        /* onClick={accDelete} */
+                                        onClick={accDelete}
                                       >
                                         Ban
                                       </Button>
