@@ -27,12 +27,13 @@ import {
   ADD_TO_WATCHLIST,
   REMOVE_FROM_WATCHLIST,
   UPGRADE_PLAN,
-  DELETE_COMMENT,
   CHANGE_NAME,
   DOWNGRADE_PLAN,
   CHANGE_SID,
   UPLOAD_IMG,
   AVATAR_IMG
+  ISLIKE,
+  GET_LIKES_FROM_CONTENT
 } from '../actions/const';
 
 // Initial state of global store:
@@ -49,6 +50,8 @@ const initialState = {
   error: false,
   user: false,
   comments: [],
+  isLike: false,
+  totalLikes: 0
 };
 
 // Reducer:
@@ -173,12 +176,12 @@ const rootReducer = (state = initialState, action) => {
     case RENT_VIDEO:
       return {
         ...state,
-        user: {...state.user, rented: [...state.user.rented, action.payload] },
+        user: { ...state.user, rented: [...state.user.rented, action.payload] },
       };
     case CHANGE_NAME:
       return {
         ...state,
-        user: {...state.user, username: action.payload },
+        user: { ...state.user, username: action.payload },
       };
     case ADD_TO_WATCHLIST:
       return {
@@ -201,26 +204,36 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: { ...state.user, subscription: 2 },
       };
-      case DOWNGRADE_PLAN:
-        return {
-          ...state,
-          user: { ...state.user, subscription: 1 },
-        };
-        case CHANGE_SID:
-          return {
-            ...state,
-            user: { ...state.user, stripeId: action.payload },
-          };
-        case UPLOAD_IMG:
-          return {
-            ...state,
-            user: {...state.user, avatars: [...state.user.avatars, action.payload]}
-          };
-        case AVATAR_IMG:
-          return{
-            ...state,
-            user : {...state.user, avatar: action.payload}
-          }
+    case UPLOAD_IMG:
+      return {
+         ...state,
+         user: {...state.user, avatars: [...state.user.avatars, action.payload]}
+       };
+    case AVATAR_IMG:
+       return{
+         ...state,
+         user : {...state.user, avatar: action.payload}
+        }
+    case DOWNGRADE_PLAN:
+      return {
+        ...state,
+        user: { ...state.user, subscription: 1 },
+      };
+    case CHANGE_SID:
+      return {
+        ...state,
+        user: { ...state.user, stripeId: action.payload },
+      };
+    case ISLIKE:
+      return {
+        ...state,
+        isLike: action.payload
+      }
+    case GET_LIKES_FROM_CONTENT:
+      return {
+        ...state,
+        totalLikes: action.payload
+      }
     default:
       return state;
   }

@@ -1,4 +1,14 @@
-import { Box, Image, FormControl, Text, FormLabel, Input,FormHelperText, Stack, Flex, Spinner  } from '@chakra-ui/react'
+import { 
+  Box,
+  Image,
+  FormControl,
+  Text,
+  FormLabel,
+  Input,
+  FormHelperText,
+  Stack,
+  Flex
+} from '@chakra-ui/react'
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { useNavigate } from "react-router-dom";
@@ -7,7 +17,6 @@ import { firestore } from '../../AuthContext/firebase';
 import { useState } from "react";
 import axios from "axios"
 import { useSelector } from "react-redux";
-import { useToast } from '@chakra-ui/react';
 import logo from "../../../Assets/logo.png"
 import { useDispatch } from "react-redux";
 import NavBarPayment from "../../NavBarPayment/NavBarPayment";

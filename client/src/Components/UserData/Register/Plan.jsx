@@ -2,20 +2,9 @@ import React from "react";
 import {
   Box,
   Stack,
-  Heading,
   Text,
   Container,
-  Input,
-  Button,
-  SimpleGrid,
-  Center,
-  Link,
-  Checkbox,
-  FormControl,
-  useColorModeValue,
-  Tabs,
-  TabList,
-  Tab
+  SimpleGrid
 } from '@chakra-ui/react';
 import Pricing from './Pricing';
 import Footer from '../../Home/Chakra UI Components/Footer';

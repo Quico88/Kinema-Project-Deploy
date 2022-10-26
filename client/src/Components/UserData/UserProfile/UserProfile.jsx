@@ -1,9 +1,10 @@
+/* eslint-disable */
 import { useAuth } from '../../AuthContext/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import style from './UserProfile.module.css';
+import { doc, updateDoc } from 'firebase/firestore';
+import style from "./UserProfile.module.css"
 import { firestore } from '../../AuthContext/firebase';
 import { ToastifyMessage } from '../../Toastify/Toastify';
 import { EditIcon } from '@chakra-ui/icons';
@@ -89,8 +90,8 @@ export default function UserProfile() {
   });
   const [changeUserName, setChangeUserName] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [slider, setSlider] = useState(null);
-  const dispatch = useDispatch();
+  const [, setSlider] = useState(null);
+  const dispatch = useDispatch()
 
   async function logOut() {
     await logout();
