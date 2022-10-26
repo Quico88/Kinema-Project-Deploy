@@ -38,6 +38,8 @@ import {
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
   CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG
   LIKE,
   DISLIKE,
   ISLIKE,
@@ -414,6 +416,20 @@ export const downgradePlan = () => {
   }
 }
 
+export const uploadImg = (data) => {
+  return {
+    type : UPLOAD_IMG,
+    payload : data
+  }
+}
+
+export const avatarImg = (data) => {
+  return {
+    type: AVATAR_IMG,
+    payload : data
+  }
+}
+
 export const getCommentsData = (id) => {
   return async function (dispatch) {
     try {
@@ -511,7 +527,6 @@ export const getLikesFromContent = (content) => {
   return async function (dispatch) {
     try {
       var json = await axios.get(`/likes_from/${content}`);
-      console.log(json)
       return dispatch({
         type: GET_LIKES_FROM_CONTENT,
         payload: json.data

@@ -123,22 +123,20 @@ export default function Admin() {
   }
 
   const accDelete = async (e) => {
-    let arrUsers = []
-     let snap = await getDocs(collection(firestore, "users"))
-     snap.forEach((doc) => {
-       arrUsers.push(doc.data());
-     });
-    if(!ban) {
-     setBan(e.target.value)
- 
-   }else {
-     let userFilter = arrUsers.filter(u => u.username === ban)
-     let filteredUser = userFilter[0]
-     /* console.log(filteredUser) */
-     await updateDoc(filteredUser, {
-       active: false,
-     });
-   }
+   let arrUsers = []
+    let snap = await getDocs(collection(firestore, "users"))
+    snap.forEach((doc) => {
+      arrUsers.push(doc.data());
+    });
+   if(!ban) {
+    setBan(e.target.value)
+
+  }else {
+    let userFilter = arrUsers.filter(u => u.username === ban)
+    let filteredUser = userFilter[0]
+    await updateDoc(filteredUser, {
+      active: false,
+    });
   }
   
   let backgroundBox = useColorModeValue("gray.100", "gray.900")

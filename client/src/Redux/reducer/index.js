@@ -30,6 +30,8 @@ import {
   CHANGE_NAME,
   DOWNGRADE_PLAN,
   CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG
   ISLIKE,
   GET_LIKES_FROM_CONTENT
 } from '../actions/const';
@@ -202,6 +204,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: { ...state.user, subscription: 2 },
       };
+    case UPLOAD_IMG:
+      return {
+         ...state,
+         user: {...state.user, avatars: [...state.user.avatars, action.payload]}
+       };
+    case AVATAR_IMG:
+       return{
+         ...state,
+         user : {...state.user, avatar: action.payload}
+        }
     case DOWNGRADE_PLAN:
       return {
         ...state,
