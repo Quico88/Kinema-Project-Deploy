@@ -6,9 +6,9 @@ import Footer from "./Chakra UI Components/Footer";
 import {
   clearTvShows,
   getTvShows,
-  //getTVShowGenres,
+  getTVShowGenres,
   getSeriesByGenre,
-  // clearGenres,
+  clearGenres,
 } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 import { Box, Flex, Select, Text, Center } from "@chakra-ui/react";
