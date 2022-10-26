@@ -34,7 +34,7 @@ import edit from "../../../Assets/edit.png";
 import prohibition from "../../../Assets/prohibition.png";
 
 
-export default function Owner(){
+export default function Admin(){
     
     const [ready, setReady] = useState(false);
     const [users, setUsers] = useState([]);
@@ -119,7 +119,7 @@ export default function Owner(){
 
     if(loadingUser) return null
     if(!user) return <Navigate  to={"/home"} />
-    if(!userData.owner) return <Navigate  to={"/home"} />
+    if(!userData.admin) return <Navigate  to={"/home"} />
 
 
     return(
