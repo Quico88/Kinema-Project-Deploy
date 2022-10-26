@@ -31,7 +31,7 @@ import {
   DOWNGRADE_PLAN,
   CHANGE_SID,
   UPLOAD_IMG,
-  AVATAR_IMG
+  AVATAR_IMG,
   ISLIKE,
   GET_LIKES_FROM_CONTENT
 } from '../actions/const';
