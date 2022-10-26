@@ -38,7 +38,9 @@ import {
   ADD_TO_WATCHLIST,
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
-  CHANGE_SID
+  CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG
 } from './const';
 
 // Actions functions
@@ -408,6 +410,20 @@ export const changeSID = (id) => {
 export const downgradePlan = () => {
   return {
     type: DOWNGRADE_PLAN,
+  }
+}
+
+export const uploadImg = (data) => {
+  return {
+    type : UPLOAD_IMG,
+    payload : data
+  }
+}
+
+export const avatarImg = (data) => {
+  return {
+    type: AVATAR_IMG,
+    payload : data
   }
 }
 

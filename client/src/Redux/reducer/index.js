@@ -30,7 +30,9 @@ import {
   DELETE_COMMENT,
   CHANGE_NAME,
   DOWNGRADE_PLAN,
-  CHANGE_SID
+  CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG
 } from '../actions/const';
 
 // Initial state of global store:
@@ -209,6 +211,16 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             user: { ...state.user, stripeId: action.payload },
           };
+        case UPLOAD_IMG:
+          return {
+            ...state,
+            user: {...state.user, avatars: [...state.user.avatars, action.payload]}
+          };
+        case AVATAR_IMG:
+          return{
+            ...state,
+            user : {...state.user, avatar: action.payload}
+          }
     default:
       return state;
   }

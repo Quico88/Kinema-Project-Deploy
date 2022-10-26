@@ -32,3 +32,5 @@ export const CHANGE_NAME = "CHANGE_NAME"
 export const REMOVE_FROM_WATCHLIST = 'REMOVE_FROM_WATCHLIST';
 export const DOWNGRADE_PLAN = 'DOWNGRADE_PLAN';
 export const CHANGE_SID = 'CHANGE_SID';
+export const UPLOAD_IMG = 'UPLOAD_IMG'
+export const AVATAR_IMG = 'AVATAR_IMG'

@@ -1,12 +1,14 @@
 import { useAuth } from '../../AuthContext/AuthContext';
-import axios from "axios"
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import style from "./UserProfile.module.css"
+import style from './UserProfile.module.css';
 import { firestore } from '../../AuthContext/firebase';
 import { ToastifyMessage } from '../../Toastify/Toastify';
+import { EditIcon } from '@chakra-ui/icons';
 import {
+  Icon,
   HStack,
   Image,
   VStack,
@@ -30,18 +32,30 @@ import {
   PopoverCloseButton,
   Portal,
   useDisclosure,
-    AlertDialog,
+  AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeNameUser, downgradePlan } from '../../../Redux/actions';
+import {
+  changeNameUser,
+  downgradePlan,
+  uploadImg,
+  avatarImg,
+} from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 
 const settings = {
@@ -57,13 +71,16 @@ const settings = {
 export default function UserProfile() {
   const navigate = useNavigate();
   const { user, logout, loadingUser, read } = useAuth();
-  const userData = useSelector(state => state.user)
+  const userData = useSelector((state) => state.user);
   const [username1, setUsername1] = useState();
   const [mail, setMail] = useState();
+  const [openImage, setOpenImage] = useState(false);
   const [image, setImage] = useState();
   const [typeSub, setTypeSub] = useState();
   const [rented, setRented] = useState();
   const [watchList, setWatchList] = useState();
+  const [avatar, setAvatar] = useState();
+  const [avatars, setAvatars] = useState();
   const [admin, setAdmin] = useState();
   const [input, setInput] = useState({
     username: '',
@@ -73,8 +90,7 @@ export default function UserProfile() {
   const [changeUserName, setChangeUserName] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [slider, setSlider] = useState(null);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   async function logOut() {
     await logout();
@@ -97,32 +113,34 @@ export default function UserProfile() {
         username: input.username,
       });
       setUsername1(input.username);
-      dispatch(changeNameUser(input.username))
+      dispatch(changeNameUser(input.username));
       setInput({
         username: '',
       });
       setChangeUserName(false);
-      ToastifyMessage("Username updated.", "success")
+      ToastifyMessage('Username updated.', 'success');
     } else {
-      ToastifyMessage('Username must have at least 5 characters.')
+      ToastifyMessage('Username must have at least 5 characters.');
     }
   };
 
-  const downgrade = async () => {  
-    const id = userData.stripeId  
-    const {data} = await axios.post("/payment/downgrade", {id})
+  const downgrade = async () => {
+    const id = userData.stripeId;
+    const { data } = await axios.post('/payment/downgrade', { id });
     if (data.success) {
-        dispatch(downgradePlan())
-        const userRef = doc(firestore, `/users/${user.uid}`);
-        await updateDoc(userRef, {
+      dispatch(downgradePlan());
+      const userRef = doc(firestore, `/users/${user.uid}`);
+      await updateDoc(userRef, {
         subscription: 1,
-        });      
-        ToastifyMessage(data.message, "success");
-        setTimeout(()=> {window.location.reload()}, 2000)                        
-      }
-      else { alert(data.message) }
-  }
-  
+      });
+      ToastifyMessage(data.message, 'success');
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      alert(data.message);
+    }
+  };
 
   const accDelete = async () => {
     const userRef = doc(firestore, `/users/${user.uid}`);
@@ -167,13 +185,65 @@ export default function UserProfile() {
       setAdmin(dataUser.admin);
       setRented(dataUser.rented);
       setWatchList(dataUser.watchList);
+      setAvatars(dataUser.avatars);
     }
     exe();
   }, [user.uid]);
 
-  const {isOpen, onOpen, onClose} = useDisclosure()
-  const cancelRef = useRef()
+  const {
+    isOpen: firstIsOpen,
+    onOpen: firstOnOpen,
+    onClose: firstOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: secondIsOpen,
+    onOpen: secondOnOpen,
+    onClose: secondOnClose,
+  } = useDisclosure();
+  const cancelRef = useRef();
 
+  //cloudinary
+  const handleOpenWidget = async () => {
+    var myWidget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'ddhpexcoe',
+        uploadPreset: 'prueba',
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          const imageToDb = result.info.secure_url;
+          const userRef = doc(firestore, `/users/${user.uid}`);
+          updateDoc(userRef, {
+            avatars: [...avatars, imageToDb],
+          });
+          dispatch(uploadImg(imageToDb));
+          setAvatars([...avatars, imageToDb]);
+        }
+      }
+    );
+    myWidget.open();
+  };
+
+  const handleChangeImage = (i) => {
+    setImage(i);
+  };
+
+  const handleCancelImage = () => {
+    setImage(userData.avatar);
+    secondOnClose();
+  };
+
+  const handleSave = async () => {
+    dispatch(avatarImg(image));
+    const userRef = doc(firestore, `/users/${user.uid}`);
+    await updateDoc(userRef, {
+      avatar: image,
+    });
+    ToastifyMessage('Your Avatar has been successfully updated', 'success');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
 
   /* if (loadingUser) return <h1>loading</h1>; */
   return (
@@ -211,7 +281,6 @@ export default function UserProfile() {
           <Tabs
             size="md"
             variant="enclosed"
-            
             className={style.tabla_user}
             border={'black'}
             bgGradient="linear(to-b, #222222, #333333)"
@@ -257,8 +326,7 @@ export default function UserProfile() {
                 </Box>
                 <Box>
                   {typeSub === 1 ? (
-                    <Box
-                    >
+                    <Box>
                       {userData.rented && userData.rented.length > 0 ? (
                         <Box
                           position={'relative'}
@@ -282,14 +350,14 @@ export default function UserProfile() {
                           {/* Right Icon */}
                           {/* Slider */}
                           <Text
-                        marginBottom={'2vh'}
-                        borderColor={'#424949'}
-                        fontSize={{ base: '14px', md: '16px', lg: '20px' }}
-                        color={'#99a3a4'}
-                      >
-                        {' '}
-                        Enjoy your rented content{' '}
-                      </Text>
+                            marginBottom={'2vh'}
+                            borderColor={'#424949'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                            color={'#99a3a4'}
+                          >
+                            {' '}
+                            Enjoy your rented content{' '}
+                          </Text>
                           <Slider
                             {...settings}
                             ref={(slider) => setSlider(slider)}
@@ -314,7 +382,10 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
+                                        src={
+                                          'https://image.tmdb.org/t/p/w300' +
+                                          r.posterImg
+                                        }
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -339,7 +410,10 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
+                                        src={
+                                          'https://image.tmdb.org/t/p/w300' +
+                                          r.posterImg
+                                        }
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -351,28 +425,36 @@ export default function UserProfile() {
                         </Box>
                       ) : (
                         <Box>
-                          <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>No rented Movies or Tv Shows</Text>
-                          {
-                            userData.admin 
-                            ? 
-                            <Button 
-                            background={"var(--chakra-colors-blue-600)"} 
-                            _hover={{
-                              background: "var(--chakra-colors-blue-700)"
-                            }} 
+                          <Text
+                            color={'#99a3a4'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                          >
+                            No rented Movies or Tv Shows
+                          </Text>
+                          {userData.admin ? (
+                            <Button
+                              background={'var(--chakra-colors-blue-600)'}
+                              _hover={{
+                                background: 'var(--chakra-colors-blue-700)',
+                              }}
                             >
-                            <RouteLink to={"/admin"}>Admin Panel</RouteLink>  
+                              <RouteLink to={'/admin'}>Admin Panel</RouteLink>
                             </Button>
-                            :
-                            null
-                          }
-                          <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>Go to <Button variant={"link"} color={' #2ecc71 '}><RouteLink to='/home'>EXPLORE</RouteLink></Button></Text>
+                          ) : null}
+                          <Text
+                            color={'#99a3a4'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                          >
+                            Go to{' '}
+                            <Button variant={'link'} color={' #2ecc71 '}>
+                              <RouteLink to="/home">EXPLORE</RouteLink>
+                            </Button>
+                          </Text>
                         </Box>
                       )}
                     </Box>
                   ) : (
-                    <Box
-                    >
+                    <Box>
                       {userData.watchList && userData.watchList.length > 0 ? (
                         <Box
                           position={'relative'}
@@ -396,14 +478,14 @@ export default function UserProfile() {
                           {/* Right Icon */}
                           {/* Slider */}
                           <Text
-                        marginBottom={'2vh'}
-                        borderColor={'#424949'}
-                        fontSize={{ base: '14px', md: '16px', lg: '20px' }}
-                        color={'#99a3a4'}
-                      >
-                        {' '}
-                        Enjoy your favorite content{' '}
-                      </Text>
+                            marginBottom={'2vh'}
+                            borderColor={'#424949'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                            color={'#99a3a4'}
+                          >
+                            {' '}
+                            Enjoy your favorite content{' '}
+                          </Text>
                           <Slider
                             {...settings}
                             ref={(slider) => setSlider(slider)}
@@ -428,7 +510,10 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
+                                        src={
+                                          'https://image.tmdb.org/t/p/w300' +
+                                          r.posterImg
+                                        }
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -453,7 +538,10 @@ export default function UserProfile() {
                                       w={'250px'}
                                     >
                                       <Image
-                                        src={'https://image.tmdb.org/t/p/w300' + r.posterImg}
+                                        src={
+                                          'https://image.tmdb.org/t/p/w300' +
+                                          r.posterImg
+                                        }
                                         borderRadius="0.5vh"
                                       ></Image>
                                     </RouteLink>
@@ -465,8 +553,21 @@ export default function UserProfile() {
                         </Box>
                       ) : (
                         <Box>
-                          <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>No favorites Movies or Tv Shows</Text>
-                          <Text color={'#99a3a4'} fontSize={{ base: '14px', md: '16px', lg: '20px' }}>Go to <Button variant={"link"} color={' #2ecc71 '}><RouteLink to='/home'>EXPLORE</RouteLink></Button></Text>
+                          <Text
+                            color={'#99a3a4'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                          >
+                            No favorites Movies or Tv Shows
+                          </Text>
+                          <Text
+                            color={'#99a3a4'}
+                            fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                          >
+                            Go to{' '}
+                            <Button variant={'link'} color={' #2ecc71 '}>
+                              <RouteLink to="/home">EXPLORE</RouteLink>
+                            </Button>
+                          </Text>
                         </Box>
                       )}
                     </Box>
@@ -474,7 +575,7 @@ export default function UserProfile() {
                 </Box>
               </TabPanel>
               <TabPanel>
-              <Box
+                <Box
                   borderRadius={'4px'}
                   marginBottom={'2vh'}
                   border="solid 1px"
@@ -489,8 +590,11 @@ export default function UserProfile() {
                   >
                     Username
                   </Text>
-                  <Text fontSize={{ base: '14px', md: '16px', lg: '20px' }} color={'#99a3a4'}>
-                        {username1}
+                  <Text
+                    fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                    color={'#99a3a4'}
+                  >
+                    {username1}
                   </Text>
                 </Box>
                 <Box
@@ -508,8 +612,11 @@ export default function UserProfile() {
                   >
                     Email
                   </Text>
-                  <Text fontSize={{ base: '14px', md: '16px', lg: '20px' }} color={'#99a3a4'}>
-                        {mail}
+                  <Text
+                    fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                    color={'#99a3a4'}
+                  >
+                    {mail}
                   </Text>
                 </Box>
                 <Box
@@ -575,46 +682,56 @@ export default function UserProfile() {
                       >
                         Downgrade
                       </Text>
-                      
-                        <Text
-                          fontSize={{ base: '14px', md: '16px', lg: '20px' }}
-                          color={'#cd6155'}
-                        >
-                                <Box>
-      <>
-      <Button variant={'link'} onClick={onOpen}>
-        Downgrade
-      </Button>
 
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Downgrade Account
-            </AlertDialogHeader>
+                      <Text
+                        fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                        color={'#cd6155'}
+                      >
+                        <Box>
+                          <>
+                            <Button variant={'link'} onClick={firstOnOpen}>
+                              Downgrade
+                            </Button>
 
-            <AlertDialogBody>
-              Are you sure you want to Downgrade your Account? You will lose all Premium benefits.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='red' onClick={downgrade} ml={3}>
-                Downgrade
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </>
-      </Box>
-                        </Text>
-                      
+                            <AlertDialog
+                              isOpen={firstIsOpen}
+                              leastDestructiveRef={cancelRef}
+                              onClose={firstOnClose}
+                            >
+                              <AlertDialogOverlay>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader
+                                    fontSize="lg"
+                                    fontWeight="bold"
+                                  >
+                                    Downgrade Account
+                                  </AlertDialogHeader>
+
+                                  <AlertDialogBody>
+                                    Are you sure you want to Downgrade your
+                                    Account? You will lose all Premium benefits.
+                                  </AlertDialogBody>
+                                  <AlertDialogFooter>
+                                    <Button
+                                      ref={cancelRef}
+                                      onClick={firstOnClose}
+                                    >
+                                      Cancel
+                                    </Button>
+                                    <Button
+                                      colorScheme="red"
+                                      onClick={downgrade}
+                                      ml={3}
+                                    >
+                                      Downgrade
+                                    </Button>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialogOverlay>
+                            </AlertDialog>
+                          </>
+                        </Box>
+                      </Text>
                     </Box>
                   )}
                 </Box>
@@ -668,6 +785,72 @@ export default function UserProfile() {
                   mb={4}
                   pos={'relative'}
                 />
+                <>
+                  <Button
+                    onClick={secondOnOpen}
+                    position={'absolute'}
+                    marginLeft={'0px'}
+                    paddingLeft={'0px'}
+                    variant={'link'}
+                    rightIcon={<Icon as={EditIcon} boxSize={6} />}
+                  ></Button>
+                  <Modal isOpen={secondIsOpen} onClose={secondOnClose}>
+                    <ModalOverlay />
+                    <ModalContent
+                      backgroundColor={'#222222'}
+                      shadow="0px 0.5px 8px #444444"
+                      color={'#99a3a4'}
+                    >
+                      <ModalHeader>Select your Avatar</ModalHeader>
+                      <ModalCloseButton onClick={handleCancelImage} />
+                      <ModalBody>
+                        <Box
+                          display={'grid'}
+                          gridTemplateColumns={'repeat(4,1fr)'}
+                          gridRowGap={'10px'}
+                          gridColumnGap={'10px'}
+                        >
+                          {avatars?.map((i) => (
+                            <Image
+                              onClick={() => handleChangeImage(i)}
+                              src={i}
+                              h={'100px'}
+                              w={'100px'}
+                              borderRadius={'100%'}
+                              alt={i}
+                              key={i}
+                            />
+                          ))}
+                        </Box>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Box
+                          display={'grid'}
+                          gridTemplateColumns={'repeat(3,1fr)'}
+                          gridColumnGap={'10px'}
+                        >
+                          <Button colorScheme="green" onClick={handleSave}>
+                            Save
+                          </Button>
+                          <Button
+                            colorScheme="blue"
+                            onClick={() => handleOpenWidget()}
+                          >
+                            Upload
+                          </Button>
+                          <Button
+                            colorScheme="red"
+                            mr={3}
+                            onClick={handleCancelImage}
+                            background={'#cd6155'}
+                          >
+                            Close
+                          </Button>
+                        </Box>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+                </>
                 <Box
                   marginBottom={'2vh'}
                   border="solid 1px"
@@ -751,8 +934,7 @@ export default function UserProfile() {
                             <PopoverHeader>
                               <Text color={'#424949'}>
                                 Are you sure you want to update? From{' '}
-                                {userData.username} to {" "}
-                                {input.username}?
+                                {userData.username} to {input.username}?
                               </Text>
                             </PopoverHeader>
                             <PopoverBody>
