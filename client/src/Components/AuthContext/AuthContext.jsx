@@ -83,6 +83,7 @@ export default function AuthProvider({ children }) {
       watchList: [],
       stripeId: '',
       avatar: infoUser.user.photoURL,
+      avatars: [infoUser.user.photoURL],
       active: true,
       banned: false,
       rented: [],
