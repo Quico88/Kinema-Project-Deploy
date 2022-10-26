@@ -23,7 +23,6 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverHeader,
-  Box,
   PopoverBody,
 } from "@chakra-ui/react";
 import AdminNavbar from "./AdminNavbar";
