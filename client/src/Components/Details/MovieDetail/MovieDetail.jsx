@@ -1,7 +1,8 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+/* eslint-disable */
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   clearMovieDetail,
   getCommentsData,

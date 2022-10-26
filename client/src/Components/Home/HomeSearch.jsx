@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
@@ -6,7 +7,6 @@ import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
 import DataList from "../DataList/DataList";
 import { useLocation } from "react-router-dom";
 import { Flex, Divider, Center, Text } from "@chakra-ui/react";
-import Loader from "../Loader/LoaderCards";
 import Error from "../Error/Error";
 import "@fontsource/raleway";
 
