@@ -94,7 +94,7 @@ export default function AuthProvider({ children }) {
     signOut(auth)
     dispatch(logOutUser());
   }
-
+// eslint-disable-next-line
   const updateUserInfo = async (img, userName) => {
     let docu = user;
     const userRef = doc(firestore, `/users/${docu.user.uid}`);

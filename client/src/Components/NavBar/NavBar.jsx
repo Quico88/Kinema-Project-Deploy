@@ -13,14 +13,13 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   MenuGroup,
 } from "@chakra-ui/react";
 import { useAuth } from "../AuthContext/AuthContext";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SearchBar from "./SearchBar.jsx";
 import logo from "../../Assets/logo.png";
 import { color } from "../globalStyles";

@@ -1,8 +1,9 @@
+/* eslint-disable */
 import { useAuth } from '../../AuthContext/AuthContext';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import style from "./UserProfile.module.css"
 import { firestore } from '../../AuthContext/firebase';
 import { ToastifyMessage } from '../../Toastify/Toastify';
@@ -42,7 +43,6 @@ import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeNameUser, downgradePlan } from '../../../Redux/actions';
-import { reload } from 'firebase/auth';
 
 const settings = {
   dots: true,
@@ -56,15 +56,15 @@ const settings = {
 
 export default function UserProfile() {
   const navigate = useNavigate();
-  const { user, logout, loadingUser, read } = useAuth();
+  const { user, logout, read } = useAuth();
   const userData = useSelector(state => state.user)
   const [username1, setUsername1] = useState();
   const [mail, setMail] = useState();
   const [image, setImage] = useState();
   const [typeSub, setTypeSub] = useState();
-  const [rented, setRented] = useState();
-  const [watchList, setWatchList] = useState();
-  const [admin, setAdmin] = useState();
+  const [, setRented] = useState();
+  const [, setWatchList] = useState();
+  const [, setAdmin] = useState();
   const [input, setInput] = useState({
     username: '',
     email: '',
@@ -72,7 +72,7 @@ export default function UserProfile() {
   });
   const [changeUserName, setChangeUserName] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [slider, setSlider] = useState(null);
+  const [, setSlider] = useState(null);
   const dispatch = useDispatch()
 
 

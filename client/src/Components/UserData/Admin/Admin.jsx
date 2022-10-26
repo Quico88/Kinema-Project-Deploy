@@ -1,3 +1,9 @@
+/* eslint-disable */
+import { collection, getDocs, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../AuthContext/AuthContext";
+import { firestore } from "../../AuthContext/firebase";
 import {
   Box,
   useColorModeValue,
@@ -17,9 +23,8 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverHeader,
+  Box,
   PopoverBody,
-  Avatar,
-  Image
 } from "@chakra-ui/react";
 import AdminNavbar from "./AdminNavbar";
 import Statistics from "./StatisticsAdmin";
@@ -97,8 +102,6 @@ export default function Admin() {
     if (page !== totalPaginas) return setPage(page + 1);
   };
 
-  
-
   let backgroundBox = useColorModeValue("gray.100", "gray.900")
 
   useEffect(() => {
@@ -130,7 +133,6 @@ export default function Admin() {
       />
 
       {/* <TableSales/> */}
-
       <Box bg={loadingUser ? null : backgroundBox}>
         <Center margin={"20px"}>
           <Button
