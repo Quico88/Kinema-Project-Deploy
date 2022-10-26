@@ -378,8 +378,8 @@ export default function MovieDetail() {
                             {totalLikes}&nbsp;
                           </Text>
                           {totalLikes === 1
-                            ? " person likes this."
-                            : " others likes this."}
+                            ? " like"
+                            : " likes"}
                         </Text>
                       </Flex>
                     </Box>

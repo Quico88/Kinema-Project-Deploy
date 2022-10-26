@@ -346,7 +346,7 @@ export default function TVShowDetail() {
                             rounded={"full"}
                             color="white"
                             rightIcon={
-                              <Icon as={AiFillHeart} color="red" boxSize={6} />
+                              <Icon as={AiFillHeart} color="#72EFDD" boxSize={6} />
                             }
                             _hover={{ bg: "whiteAlpha.500" }}
                           >
@@ -381,8 +381,8 @@ export default function TVShowDetail() {
                             {totalLikes}&nbsp;
                           </Text>
                           {totalLikes === 1
-                            ? " person likes this."
-                            : " others likes this."}
+                            ? " like"
+                            : " likes"}
                         </Text>
                       </Flex>
                     </Box>
