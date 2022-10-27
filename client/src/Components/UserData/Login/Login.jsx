@@ -40,7 +40,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(user.email, user.password);
-      navigate('/home');
+      // navigate('/home');
     } catch (error) {
       setError(error.message);
     }
@@ -48,7 +48,7 @@ export default function Login() {
 
   async function handleGoogleSignin() {
     await signupWithGoogle();
-    setTimeout(()=> navigate('/home'), 500)
+    // setTimeout(() => navigate('/home'), 500);
   }
 
   return (
@@ -154,9 +154,9 @@ export default function Login() {
               variant={'outline'}
               backgroundColor={'white'}
               marginTop={'20px'}
-              color={"black"}
+              color={'black'}
               _hover={{
-                backgroundColor: "rgb(232, 229, 229)"
+                backgroundColor: 'rgb(232, 229, 229)',
               }}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
@@ -181,7 +181,9 @@ export default function Login() {
             justifyContent={'center'}
           >
             <Text color={'white'}>¿First Time in KINEMA? </Text>
-            <Link  href='/register'  color={'gray'}>Sign up</Link>
+            <Link href="/register" color={'gray'}>
+              Sign up
+            </Link>
           </Stack>
         </Stack>
       </Container>

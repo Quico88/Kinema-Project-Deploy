@@ -14,7 +14,7 @@ import {
   dislike,
   putLike,
   getLikesFromContent,
-} from "../../../Redux/actions";
+} from '../../../Redux/actions';
 import {
   Box,
   Flex,
@@ -27,23 +27,23 @@ import {
   Divider,
   Center,
   Textarea,
-} from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import { MdPlayArrow } from "react-icons/md";
-import { BsCreditCard } from "react-icons/bs";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import NavBar from "../../NavBar/NavBar";
-import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
-import Comment from "../Comment/Comment";
-import Footer from "../../Home/Chakra UI Components/Footer";
-import CarouselTvShow from "../../Carrousel/Chackra UI Components/CarouselTVShowDetail";
-import Loader from "../../Loader/LoaderDetails.jsx";
-import Error from "../../Error/Error.jsx";
-import { color } from "../../globalStyles";
-import { useToast } from "@chakra-ui/react";
-import StarRatings from "react-star-ratings";
-import { FiPlusCircle } from "react-icons/fi";
-import moment from "moment";
+} from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
+import { MdPlayArrow } from 'react-icons/md';
+import { BsCreditCard } from 'react-icons/bs';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import NavBar from '../../NavBar/NavBar';
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
+import Comment from '../Comment/Comment';
+import Footer from '../../Home/Chakra UI Components/Footer';
+import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
+import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
+import { color } from '../../globalStyles';
+import { useToast } from '@chakra-ui/react';
+import StarRatings from 'react-star-ratings';
+import { FiPlusCircle } from 'react-icons/fi';
+import moment from 'moment';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -56,10 +56,23 @@ export default function TVShowDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
-  const [commentArea, setCommentArea] = useState("");
+  const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState("");
+  const [random, refresh] = useState('');
   const toast = useToast();
+
+  if (user && user.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 3000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+  }
 
   useEffect(() => {
     dispatch(clearSerieDetail());
@@ -101,20 +114,20 @@ export default function TVShowDetail() {
   const handleAddToWatchlist = (id) => {
     if (user.watchList.find((e) => e.id === id)) {
       toast({
-        title: "This serie is already in your watchlist.",
-        status: "info",
+        title: 'This serie is already in your watchlist.',
+        status: 'info',
         duration: 2000,
-        position: "top-center",
+        position: 'top-center',
         isClosable: true,
       });
     } else {
       dispatch(addToWatchlist(mySerie, user));
       toast({
-        title: "Added to watchlist",
-        description: "You can see it in your profile and home.",
-        status: "success",
+        title: 'Added to watchlist',
+        description: 'You can see it in your profile and home.',
+        status: 'success',
         duration: 2000,
-        position: "top-center",
+        position: 'top-center',
         isClosable: true,
       });
     }
@@ -132,7 +145,7 @@ export default function TVShowDetail() {
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, mySerie.id));
       refresh(Math.random());
-      setCommentArea("");
+      setCommentArea('');
     }
   };
 
@@ -147,7 +160,7 @@ export default function TVShowDetail() {
   let totalSeasons = [];
   if (mySerie.number_seasons >= 1) {
     for (let i = 1; i <= mySerie.number_seasons; i++) {
-      totalSeasons.push("Season " + [i]);
+      totalSeasons.push('Season ' + [i]);
     }
   }
 
@@ -172,8 +185,8 @@ export default function TVShowDetail() {
       <>
         <NavBarPlayer closePlayer={closePlayer} />
         <iframe
-          height={"100%"}
-          width={"100%"}
+          height={'100%'}
+          width={'100%'}
           src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
           frameborder="0"
           allowFullScreen
@@ -196,15 +209,15 @@ export default function TVShowDetail() {
             <Flex
               as="main"
               mt={16}
-              w={"100%"}
-              h={"85vh"}
+              w={'100%'}
+              h={'85vh'}
               backgroundImage={
-                mySerie.back_poster.includes("https://image.tmdb.org")
+                mySerie.back_poster.includes('https://image.tmdb.org')
                   ? mySerie.back_poster
-                  : "https://image.tmdb.org/t/p/original/" + mySerie.back_poster
+                  : 'https://image.tmdb.org/t/p/original/' + mySerie.back_poster
               }
-              backgroundSize={"cover"}
-              backgroundPosition={"center center"}
+              backgroundSize={'cover'}
+              backgroundPosition={'center center'}
               boxShadow="70vh 0px 128px 64px black inset"
               justify="left"
             >
@@ -227,14 +240,14 @@ export default function TVShowDetail() {
                     fontWeight="bold"
                     display="inline"
                   >
-                    Rating:{" "}
+                    Rating:{' '}
                   </Text>
                   <StarRatings
                     rating={Math.floor(mySerie.rating / 2)}
                     starRatedColor="gold"
                     starHoverColor="gold"
-                    starDimension={"2vh"}
-                    starSpacing={"0.5vh"}
+                    starDimension={'2vh'}
+                    starSpacing={'0.5vh'}
                     numberOfStars={5}
                     name="rating"
                   />
@@ -252,12 +265,12 @@ export default function TVShowDetail() {
                       fontWeight="bold"
                       display="inline"
                     >
-                      {" "}
-                      User reviews:{" "}
+                      {' '}
+                      User reviews:{' '}
                     </Text>
                     {mySerie.user_reviews
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Text>
                 </Box>
                 <br />
@@ -268,7 +281,7 @@ export default function TVShowDetail() {
                   fontWeight="bold"
                   display="inline"
                 >
-                  Released:{" "}
+                  Released:{' '}
                 </Text>
                 <Text
                   fontSize="2vh"
@@ -288,7 +301,7 @@ export default function TVShowDetail() {
                   fontWeight="bold"
                   noOfLines={4}
                 >
-                  Genres:{" "}
+                  Genres:{' '}
                   {mySerie.genres?.map((genre) => (
                     <Button
                       key={genre.id}
@@ -321,22 +334,22 @@ export default function TVShowDetail() {
                           onClick={() => openPlayer()}
                           borderRadius="3vh"
                           rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                          bg={"blue.400"}
-                          rounded={"full"}
-                          color={"white"}
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
                           mr="2vh"
-                          _hover={{ bg: "blue.500" }}
+                          _hover={{ bg: 'blue.500' }}
                         >
                           <Text mb="0.25vh">Watch</Text>
                         </Button>
                         <Button
                           onClick={() => handleAddToWatchlist(mySerie.id)}
-                          bg={"whiteAlpha.300"}
-                          rounded={"full"}
-                          color={"white"}
+                          bg={'whiteAlpha.300'}
+                          rounded={'full'}
+                          color={'white'}
                           mr="2vh"
                           rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          _hover={{ bg: "whiteAlpha.500" }}
+                          _hover={{ bg: 'whiteAlpha.500' }}
                         >
                           My List
                         </Button>
@@ -344,12 +357,16 @@ export default function TVShowDetail() {
                           <Button
                             onClick={handleDislike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
-                              <Icon as={AiFillHeart} color="#72EFDD" boxSize={6} />
+                              <Icon
+                                as={AiFillHeart}
+                                color="#72EFDD"
+                                boxSize={6}
+                              />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -357,20 +374,19 @@ export default function TVShowDetail() {
                           <Button
                             onClick={handleLike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
                               <Icon
                                 as={AiOutlineHeart}
-                                color={"whiteAlpha.300"}
+                                color={'whiteAlpha.300'}
                                 boxSize={6}
                               />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
-                          
                         )}
                         <Text
                           color="white"
@@ -381,9 +397,7 @@ export default function TVShowDetail() {
                           <Text color="#72EFDD" fontWeight={600}>
                             {totalLikes}&nbsp;
                           </Text>
-                          {totalLikes === 1
-                            ? " like"
-                            : " likes"}
+                          {totalLikes === 1 ? ' like' : ' likes'}
                         </Text>
                       </Flex>
                     </Box>
@@ -400,24 +414,24 @@ export default function TVShowDetail() {
                             borderRadius="3vh"
                             mr="2vh"
                             rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                            bg={"blue.400"}
-                            rounded={"full"}
-                            color={"white"}
-                            _hover={{ bg: "blue.500" }}
+                            bg={'blue.400'}
+                            rounded={'full'}
+                            color={'white'}
+                            _hover={{ bg: 'blue.500' }}
                           >
                             <Text mb="0.25vh">Watch</Text>
                           </Button>
                         ) : (
                           <Button
-                            bg={"blue.400"}
+                            bg={'blue.400'}
                             mr="2vh"
                             rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
                             onClick={() =>
                               navigate(`/payment/rent/tv_show/${id}`)
                             }
-                            rounded={"full"}
-                            color={"white"}
-                            _hover={{ bg: "blue.500" }}
+                            rounded={'full'}
+                            color={'white'}
+                            _hover={{ bg: 'blue.500' }}
                           >
                             <Text mb="0.25vh">Rent</Text>
                           </Button>
@@ -426,18 +440,18 @@ export default function TVShowDetail() {
                           onClick={() =>
                             toast({
                               title: `Upgrade your account to add to your list.`,
-                              status: "info",
-                              position: "top-right",
+                              status: 'info',
+                              position: 'top-right',
                               isClosable: true,
                               duration: 3000,
                             })
                           }
-                          bg={"whiteAlpha.300"}
-                          rounded={"full"}
-                          color={"white"}
+                          bg={'whiteAlpha.300'}
+                          rounded={'full'}
+                          color={'white'}
                           mr="2vh"
                           rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          _hover={{ bg: "whiteAlpha.500" }}
+                          _hover={{ bg: 'whiteAlpha.500' }}
                         >
                           My List
                         </Button>
@@ -446,7 +460,7 @@ export default function TVShowDetail() {
                           <Button
                             onClick={handleDislike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
                               <Icon
@@ -455,7 +469,7 @@ export default function TVShowDetail() {
                                 boxSize={6}
                               />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -463,16 +477,16 @@ export default function TVShowDetail() {
                           <Button
                             onClick={handleLike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
                               <Icon
                                 as={AiOutlineHeart}
-                                color={"whiteAlpha.300"}
+                                color={'whiteAlpha.300'}
                                 boxSize={6}
                               />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -487,22 +501,22 @@ export default function TVShowDetail() {
                             {totalLikes}&nbsp;
                           </Text>
                           {totalLikes === 1
-                            ? " person likes this."
-                            : " others likes this."}
+                            ? ' person likes this.'
+                            : ' others likes this.'}
                         </Text>
                       </Flex>
                       {validExpirationDate() ? (
-                        <Text mt="2vh" color={"white"}>
-                          You have until{" "}
+                        <Text mt="2vh" color={'white'}>
+                          You have until{' '}
                           {moment(validExpirationDate()).format(
-                            "MMMM Do YYYY, h:mm a"
-                          )}{" "}
+                            'MMMM Do YYYY, h:mm a'
+                          )}{' '}
                           to watch this content.
                         </Text>
                       ) : null}
-                      <Text mt="2vh" fontSize="2.3vh" color={"white"}>
+                      <Text mt="2vh" fontSize="2.3vh" color={'white'}>
                         You can&nbsp;
-                        <Link href="/payment" color={"#72efdd"}>
+                        <Link href="/payment" color={'#72efdd'}>
                           <b>upgrade</b>
                         </Link>
                         &nbsp;your plan to watch any content.
@@ -514,12 +528,12 @@ export default function TVShowDetail() {
                   //  USER GUEST CASE:
                   user.subscription == null ? (
                     <Box textAlign="left" mt="1vh">
-                      <Text fontSize="2.3vh" color={"white"} mt="2vh">
-                        <Link href="/login" color={"#72efdd"}>
+                      <Text fontSize="2.3vh" color={'white'} mt="2vh">
+                        <Link href="/login" color={'#72efdd'}>
                           <b>Log In </b>
                         </Link>
                         or
-                        <Link href="/register" color={"#64dfdf"}>
+                        <Link href="/register" color={'#64dfdf'}>
                           <b> Register </b>
                         </Link>
                         to watch this serie.
@@ -534,7 +548,7 @@ export default function TVShowDetail() {
                   onChange={(e) => handleSeason(e)}
                   bg="#233d4d"
                   maxW="15vh"
-                  display={"inline-block"}
+                  display={'inline-block'}
                   color="white"
                   mt="0vh"
                   mr="1vh"
@@ -544,7 +558,7 @@ export default function TVShowDetail() {
                     return (
                       <option
                         value={index + 1}
-                        style={{ backgroundColor: "#233d4d" }}
+                        style={{ backgroundColor: '#233d4d' }}
                       >
                         {el}
                       </option>
@@ -574,16 +588,16 @@ export default function TVShowDetail() {
                 alignItems="center"
                 w="50%"
                 css={{
-                  "&::-webkit-scrollbar": {
-                    backgroundColor: "black",
-                    width: "10px",
+                  '&::-webkit-scrollbar': {
+                    backgroundColor: 'black',
+                    width: '10px',
                   },
-                  "&::-webkit-scrollbar-track": {
-                    width: "1px",
+                  '&::-webkit-scrollbar-track': {
+                    width: '1px',
                   },
-                  "&::-webkit-scrollbar-thumb": {
+                  '&::-webkit-scrollbar-thumb': {
                     background: color.kinemaBg,
-                    borderRadius: "24px",
+                    borderRadius: '24px',
                   },
                 }}
               >
@@ -655,7 +669,7 @@ export default function TVShowDetail() {
                         mb={5}
                         backgroundColor={color.kinemaBg}
                         borderRadius={0}
-                        _hover={{ backgroundColor: "gray.600" }}
+                        _hover={{ backgroundColor: 'gray.600' }}
                         onClick={handleSubmitComment}
                         disabled={errorCommentArea}
                       >
@@ -667,24 +681,24 @@ export default function TVShowDetail() {
                   <Center fontSize={15} mb={10} mt={10}>
                     <Button
                       onClick={() => {
-                        navigate("/login");
+                        navigate('/login');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       mr={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Log In
                     </Button>
                     <Text>Or</Text>
                     <Button
                       onClick={() => {
-                        navigate("/register");
+                        navigate('/register');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       ml={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Register
                     </Button>
