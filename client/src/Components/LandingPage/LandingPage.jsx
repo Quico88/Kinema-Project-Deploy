@@ -253,15 +253,13 @@ export default function LandingPage() {
               }}
             >
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Link to={'/register'}>
-                  <Pricing
-                    planType={'Premium'}
-                    price={7.99}
-                    firstFeature={'Watch any Movie and TV Show'}
-                    secondFeature={'Create your own Watchlist'}
-                    thirdFeature={'All features'}
-                  />
-                </Link>
+                <Pricing
+                  planType={'Premium'}
+                  price={7.99}
+                  firstFeature={'Watch any Movie and TV Show'}
+                  secondFeature={'Create your own Watchlist'}
+                  thirdFeature={'All features'}
+                />
               </Box>
               <Divider
                 orientation="vertical"
@@ -273,13 +271,11 @@ export default function LandingPage() {
                 }}
               />
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Link to={'/register'}>
-                  <Pricing
-                    planType={'Basic'}
-                    price={0}
-                    firstFeature={'Rent Movies and TV Shows'}
-                  />
-                </Link>
+                <Pricing
+                  planType={'Basic'}
+                  price={0}
+                  firstFeature={'Rent Movies and TV Shows'}
+                />
               </Box>
             </Box>
           </Flex>

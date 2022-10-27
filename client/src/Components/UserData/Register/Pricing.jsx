@@ -68,26 +68,26 @@ export default function Pricing({
           color="white"
         >
           <List spacing={3}>
-            <ListItem key={2}>
+            <ListItem key={'firts-feature-1'}>
               <ListIcon as={CheckIcon} color="green.400" />
               Read and leave comments on any content
             </ListItem>
-            <ListItem key={3}>
+            <ListItem key={'firts-feature-2'}>
               <ListIcon as={CheckIcon} color="green.400" />
               Search for information of all available content
             </ListItem>
-            <ListItem key={1}>
+            <ListItem key={'firts-feature-3'}>
               <ListIcon as={CheckIcon} color="green.400" />
               {firstFeature}
             </ListItem>
             {secondFeature ? (
-              <ListItem key={4}>
+              <ListItem key={'second-feature-1'}>
                 <ListIcon as={CheckIcon} color="green.400" />
                 {secondFeature}
               </ListItem>
             ) : null}
             {thirdFeature ? (
-              <ListItem key={4}>
+              <ListItem key={'third-feature-1'}>
                 <ListIcon as={CheckIcon} color="green.400" />
                 {thirdFeature}
               </ListItem>
