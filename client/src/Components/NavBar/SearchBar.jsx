@@ -31,7 +31,7 @@ const Container = styled.div`
         ${({hover}) => hover && css`
             width: 100px;
         `}
-        @media (min-width: 420px){    
+        @media (min-width: 768px){    
           display: none
       }
     `;
@@ -78,15 +78,15 @@ const SearchBar = () => {
 
   return (
     <Box>
-    <form onSubmit={handleSearch} className={style.searchbar} >
+      <form onSubmit={handleSearch} className={style.searchbar} >
         <Flex >
           <InputGroup>
-          <InputLeftElement
-            children={<SearchIcon/>}
-            color={"white"}
-            cursor={"pointer"}
-            onClick={handleSearch}
-          />
+            <InputLeftElement
+              children={<SearchIcon/>}
+              color={"white"}
+              cursor={"pointer"}
+              onClick={handleSearch}
+            />
             <Input
               type="text"
               placeholder="Search..."
@@ -102,7 +102,7 @@ const SearchBar = () => {
         </Flex>
       </form>
       <form onSubmit={handleSearch2}>
-      <Container
+          <Container
                 onMouseEnter={()=> setIsHovered(true)}
                 onMouseLeave={()=> setIsHovered(false)}
                 onFocus={() => setIsFocused(true)}
@@ -119,8 +119,8 @@ const SearchBar = () => {
                     />
                 {showSearchInput ? null : <IconSearch/>}
                 
-            </Container>
-                    </form>
+          </Container>
+      </form>
     </Box>
   );
 };
