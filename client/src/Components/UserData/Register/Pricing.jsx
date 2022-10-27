@@ -68,15 +68,15 @@ export default function Pricing({
           color="white"
         >
           <List spacing={3}>
-            <ListItem key={'firts-feature-1'}>
+            <ListItem key={'first-feature-1'}>
               <ListIcon as={CheckIcon} color="green.400" />
               Read and leave comments on any content
             </ListItem>
-            <ListItem key={'firts-feature-2'}>
+            <ListItem key={'first-feature-2'}>
               <ListIcon as={CheckIcon} color="green.400" />
               Search for information of all available content
             </ListItem>
-            <ListItem key={'firts-feature-3'}>
+            <ListItem key={'first-feature-3'}>
               <ListIcon as={CheckIcon} color="green.400" />
               {firstFeature}
             </ListItem>
