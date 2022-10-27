@@ -4,106 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import "./Home.css";
-
+import allGenres from "./allGenresMovies.json";
 import {
   clearMovies,
   getMovies,
   getAllGenres,
   getMovieGenreByID,
 } from "../../Redux/actions";
-import DataList from "../DataList/DataList";
+import DataList from "./DataList/DataList";
 import { Box, Center, Flex, Select, Text } from "@chakra-ui/react";
 import Error from "../Error/Error";
 import "@fontsource/raleway";
+import { color } from "../globalStyles";
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
-  //const allGenres = useSelector((state) => state.allgenres);
   const [genero, setGenero] = useState("All");
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
   const error = useSelector((state) => state.error);
   const [titulo, setTitulo] = useState("Movies");
-
-  const allGenres = [
-    {
-      id: 28,
-      name: "Action",
-    },
-    {
-      id: 12,
-      name: "Adventure",
-    },
-    {
-      id: 16,
-      name: "Animation",
-    },
-    {
-      id: 35,
-      name: "Comedy",
-    },
-    {
-      id: 80,
-      name: "Crime",
-    },
-    {
-      id: 99,
-      name: "Documentary",
-    },
-    {
-      id: 18,
-      name: "Drama",
-    },
-    {
-      id: 10751,
-      name: "Family",
-    },
-    {
-      id: 14,
-      name: "Fantasy",
-    },
-    {
-      id: 36,
-      name: "History",
-    },
-    {
-      id: 27,
-      name: "Horror",
-    },
-    {
-      id: 10402,
-      name: "Music",
-    },
-    {
-      id: 9648,
-      name: "Mystery",
-    },
-    {
-      id: 10749,
-      name: "Romance",
-    },
-    {
-      id: 878,
-      name: "Science Fiction",
-    },
-    {
-      id: 10770,
-      name: "TV Movie",
-    },
-    {
-      id: 53,
-      name: "Thriller",
-    },
-    {
-      id: 10752,
-      name: "War",
-    },
-    {
-      id: 37,
-      name: "Western",
-    },
-  ];
 
   useEffect(() => {
     if (genero === "All" && page !== 1) {
@@ -161,7 +82,7 @@ export default function HomeMovies() {
         <Flex as="main" mt={16} w="100%" direction="column">
           <Box>
             <Flex
-              direction="row"
+              direction={{base: "column", md:"row"}}
               mt={10}
               mb={5}
               justify="space-around"
@@ -169,18 +90,18 @@ export default function HomeMovies() {
             >
               {genero === "All" ? (
                 <Text
-                  fontSize={40}
+                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
                   fontWeight="600"
-                  color="white"
+                  color={color.kinemaLogoColor1}
                   fontFamily="Raleway"
                 >
                   Movies
                 </Text>
               ) : (
                 <Text
-                  fontSize={40}
+                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
                   fontWeight="600"
-                  color="white"
+                  color={color.kinemaLogoColor1}
                   fontFamily="Raleway"
                 >
                   {titulo}
@@ -189,8 +110,9 @@ export default function HomeMovies() {
 
               <Select
                 onChange={(e) => handleGenres(e)}
-                w="15%"
-                fontSize={25}
+                w="240px"
+                h={{base: "32px", md: "36px", lg:"44px"}}
+                fontSize={{base: "18px", md: "24px", lg:"28px"}}
                 textAlign="center"
                 fontWeight="500"
                 color="white"
