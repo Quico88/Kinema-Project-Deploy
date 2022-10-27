@@ -1,13 +1,13 @@
 [
   {
     "name": "JavaScript",
-    "role": "",
+    "role": "Front-End / Back-End",
     "content": "JavaScript is a lightweight, interpreted, object-oriented language with first-class functions, and is best known as the scripting language for Web pages, but it's used in many non-browser environments as well.",
     "avatar": "javascript.png"
   },
   {
     "name": "Node.js",
-    "role": "Backend - Rest Api",
+    "role": "Back-End - Rest Api",
     "content": "Kinema uses Node.js to build its rest api alongside Express and Mongoose. Node.js is an open source development platform for executing JavaScript code on the server side.",
     "avatar": "nodejs.png"
   },
