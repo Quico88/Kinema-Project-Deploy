@@ -14,7 +14,7 @@ import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import deleted from '../../../Assets/delete.png';
 import { removeFromWatchlist } from '../../../Redux/actions';
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react';
 
 const breakpoints = {
   sm: '400px',
@@ -125,7 +125,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
-        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6, lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
@@ -147,7 +147,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
-        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6, lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
@@ -173,9 +173,11 @@ export default function CarouselWatchList({ movies }) {
                   top={1}
                   zIndex={20}
                   background="#282c34"
+                  opacity={0.5}
                   _hover={{
                     transform: 'scale(1.1)',
                     transition: 'all 0.2s',
+                    opacity:1
                   }}
                   onClick={() => {
                     handleDeleteFromWatchlist(m);
@@ -215,9 +217,11 @@ export default function CarouselWatchList({ movies }) {
                   top={1}
                   zIndex={20}
                   background="#282c34"
+                  opacity={0.5}
                   _hover={{
                     transform: 'scale(1.1)',
                     transition: 'all 0.2s',
+                    opacity: 1
                   }}
                   onClick={() => {
                     handleDeleteFromWatchlist(m);

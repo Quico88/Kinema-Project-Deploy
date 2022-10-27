@@ -117,7 +117,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
-        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6, lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
@@ -139,7 +139,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
-        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6, lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
