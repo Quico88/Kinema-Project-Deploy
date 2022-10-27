@@ -1,52 +1,56 @@
-/* import React, { Component } from 'react';
-import CanvasJSReact from './canvasjs.react';
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
- 
-var dataPoints =[];
-export default class TableSales extends Component {
- 
-	render() {	
-		const options = {
-			theme: "light2",
-			title: {
-				text: "Stock Price of NIFTY 50"
-			},
-			axisY: {
-				title: "Price in USD",
-				prefix: "$"
-			},
-			data: [{
-				type: "line",
-				xValueFormatString: "MMM YYYY",
-				yValueFormatString: "$#,##0.00",
-				dataPoints: dataPoints
-			}]
-		}
-		return (
-		<div>
-			<CanvasJSChart options = {options} 
-				 onRef={ref => this.chart = ref}
-			/>
-			
-		</div>
-		);
-	}
-	
-	componentDidMount(){
-		var chart = this.chart;
-		fetch('https://canvasjs.com/data/gallery/react/nifty-stock-price.json')
-		.then(function(response) {
-			return response.json();
+import { Bar, Line } from "react-chartjs-2"
+import { useState } from "react"
+import { Chart /* as ChartJS  */} from "chart.js/auto"
+
+const userInfo = [
+	{
+		id: 1,
+		year: 2016,
+		userGain: 80000,
+		userLost: 823
+	},
+	{
+		id: 2,
+		year: 2017,
+		userGain: 45677,
+		userLost: 345
+	},
+	{
+		id: 3,
+		year: 2018,
+		userGain: 78888,
+		userLost: 555
+	},
+	{
+		id: 4,
+		year: 2019,
+		userGain: 93043,
+		userLost: 650
+	},
+	{
+		id: 5,
+		year: 2020,
+		userGain: 78888,
+		userLost: 590
+	},
+]
+
+  export default function TableSales({}){
+		const [userData, setUserData] = useState({
+			labels: userInfo.map(data => data.year),
+			datasets: [
+				{
+					label: "Users Gained",
+					data: userInfo.map(data => data.userGain),
+					borderColor: 'rgb(75, 192, 192)',
+					fill: false,
+					tension: 0.2
+				}
+			]
 		})
-		.then(function(data) {
-			for (var i = 0; i < data.length; i++) {
-				dataPoints.push({
-					x: new Date(data[i].x),
-					y: data[i].y
-				});
-			}
-			chart.render();
-		});
-	}
-} */
+
+
+	return <Line data={userData} />
+		
+			
+  }

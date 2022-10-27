@@ -23,7 +23,7 @@ Table,
   Image
 }from "@chakra-ui/react"
 import Statistics from "./Statistics";
-/* import TableSales from "./TableSales"; */
+import TableSales from "./TableSales";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -102,8 +102,49 @@ export default function Owner(){
         e.preventDefault()
         if (page !== totalPaginas) return setPage(page + 1);
       };
-    
-     
+
+
+      const makeAdmin = async (id) => {
+        try {
+          const userRef = doc(firestore, `/users/${id}`);
+        await updateDoc(userRef, {
+          admin: true,
+        });
+        } catch (error) {
+          console.log(error)
+        }
+      };
+
+      const removeAdmin = async (id) => {
+        try {
+          const userRef = doc(firestore, `/users/${id}`);
+        await updateDoc(userRef, {
+          admin: false,
+        });
+        } catch (error) {
+          console.log(error)
+        }
+        
+      };
+
+      function sortByDate(){
+        
+        return results.sort((a,b) => {
+            if(a.subscriptionDate > b.subscriptionDate) return  1
+            if(a.subscriptionDate < b.subscriptionDate) return  -1
+            else return 0
+        })
+        return results
+      }
+
+      function sortByRent(){
+         results.sort((a,b) =>{
+          if(a.rented.length > b.rented.length) return  1
+          if(a.rented.length < b.rented.length) return  -1
+          else return 0
+        })
+        return results
+      }
 
       let backgroundBox = useColorModeValue("gray.100", "gray.900")
 
@@ -137,22 +178,28 @@ export default function Owner(){
                 premiumUsers={premiumUsers.length}
                 basicUsers={basicUsers.length}
             />
+            <Center>
 
-
+            <Box display={"flex"} width={"700px"} margin={"50px"} >
+            <TableSales />
+            </Box>
+            </Center>
+        
             <Box  bg={loadingUser ? null : backgroundBox}>
 
-<Center margin={"20px"}>
+      <Center margin={"20px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
       <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
       </Center>
+{/* <Center> */}
+<TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
 
-<TableContainer bg={loadingUser ? null : backgroundBox} height={"700px"} >
-    <Center>
-        <Table variant="simple" width={"90%"} >
+{/*     <Center> */}
+        <Table variant="simple"  >
           <Thead>
             <Tr>
-            <Th  fontSize={"14px"}>
+            <Th  fontSize={"14px"} >
                 Photo
               </Th>
               <Th  fontSize={"14px"}>
@@ -162,22 +209,22 @@ export default function Owner(){
                 Username
               </Th>
               <Th  fontSize={"14px"}>
-                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} /* onClick={sortByDate} */ >Sort</Button>
+                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
               </Th>
               <Th  fontSize={"14px"}>
                 Subscription
               </Th>
               <Th  fontSize={"14px"}>
-                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} /* onClick={sortRented } */>Sort</Button>
+                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByRent} >Sort</Button>
               </Th>
               <Th fontSize={"14px"}>
                 Status
               </Th>
               <Th  fontSize={"14px"}>
-                Edit
+                Type User
               </Th>
               <Th  fontSize={"14px"}>
-                Ban
+                Make/Remove Admin
               </Th>
             </Tr>
           </Thead>
@@ -214,35 +261,67 @@ export default function Owner(){
                         {activeOrNot}
                       </Td>
                       <Td key={i + 1} color={ "gray" } >
-                                  <Button background={"lightgray"} >
-                                    <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
-                                  </Button>
+
+                          {
+                            user.admin ? "Admin" : "User"
+                          }
                       </Td>
                       <Td>
-                        <Box>
+                        <Box >
                           <Popover>
                             <PopoverTrigger>
                                   <Button background={"lightgray"} >
-                                    <Image src={prohibition} alt="delete_image" width="20px" height="20px" color="white" />
+                                    <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
                                   </Button>
+                                  
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent>
                                 <PopoverArrow />
                                 <PopoverCloseButton />
                                 <PopoverHeader>
-                                  Are you sure you want to ban {user.username}?
+                                  Are you sure you want to MAKE admin {user.username}?
                                 </PopoverHeader>
                                 <PopoverBody>
                                   <Button
                                     background={"#cd6155"}
                                     value={user.username}
-                                    /* onClick={accDelete} */
+                                    onClick={() => makeAdmin(user.id)}
                                   >
-                                    Ban
+                                    Continue
                                   </Button>
                                 </PopoverBody>
                               </PopoverContent>
+                              
+                            </Portal>
+                          </Popover>
+                          
+
+                          <Popover>
+                            <PopoverTrigger>
+                                  <Button marginLeft={"30px"} background={"lightgray"} >
+                                    <Image src={prohibition} alt="delete_image" width="20px" height="20px" color="white" />
+                                  </Button>
+                                  
+                            </PopoverTrigger>
+                            <Portal>
+                              <PopoverContent>
+                                <PopoverArrow />
+                                <PopoverCloseButton />
+                                <PopoverHeader>
+                                  Are you sure you want to REMOVE admin {user.username}?
+                                </PopoverHeader>
+                                <PopoverBody >
+                                  <Button
+                                    background={"#cd6155"}
+                                    value={user.username}
+                                    onClick={() => removeAdmin(user.id)}
+                                  >
+                                    Continue
+                                  </Button>
+                                </PopoverBody>
+                              </PopoverContent>
+                              
                             </Portal>
                           </Popover>
                         </Box>
@@ -254,8 +333,9 @@ export default function Owner(){
               
           </Tbody>
         </Table>
-        </Center>
+        {/* </Center> */}
       </TableContainer>
+   {/*    </Center> */}
       <Center marginTop={"20px"} paddingBottom={"30px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
