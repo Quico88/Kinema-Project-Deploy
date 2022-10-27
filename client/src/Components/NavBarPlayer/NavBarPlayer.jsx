@@ -110,7 +110,10 @@ export default function Simple(props) {
             <Button onClick={ location.pathname.includes("watch") ? () => navigate(-1) : () => closePlayer()} variant='outline' 
                 color={'white'}
               _hover={{ bg: 'blue.400' }}
-              rightIcon={<BsArrowReturnLeft />}>BACK</Button>
+              rightIcon={<BsArrowReturnLeft />}
+              h={'30px'}
+              w={'80px'}
+              >Back</Button>
             <HStack
               as={'nav'}
               spacing={4}
