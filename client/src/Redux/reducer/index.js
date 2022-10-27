@@ -33,7 +33,7 @@ import {
   UPLOAD_IMG,
   AVATAR_IMG,
   ISLIKE,
-  GET_LIKES_FROM_CONTENT
+  GET_LIKES_FROM_CONTENT,
 } from '../actions/const';
 
 // Initial state of global store:
@@ -51,7 +51,7 @@ const initialState = {
   user: false,
   comments: [],
   isLike: false,
-  totalLikes: 0
+  totalLikes: 0,
 };
 
 // Reducer:
@@ -206,14 +206,17 @@ const rootReducer = (state = initialState, action) => {
       };
     case UPLOAD_IMG:
       return {
-         ...state,
-         user: {...state.user, avatars: [...state.user.avatars, action.payload]}
-       };
+        ...state,
+        user: {
+          ...state.user,
+          avatars: [...state.user.avatars, action.payload],
+        },
+      };
     case AVATAR_IMG:
-       return{
-         ...state,
-         user : {...state.user, avatar: action.payload}
-        }
+      return {
+        ...state,
+        user: { ...state.user, avatar: action.payload },
+      };
     case DOWNGRADE_PLAN:
       return {
         ...state,
@@ -227,13 +230,13 @@ const rootReducer = (state = initialState, action) => {
     case ISLIKE:
       return {
         ...state,
-        isLike: action.payload
-      }
+        isLike: action.payload,
+      };
     case GET_LIKES_FROM_CONTENT:
       return {
         ...state,
-        totalLikes: action.payload
-      }
+        totalLikes: action.payload,
+      };
     default:
       return state;
   }
