@@ -24,7 +24,7 @@ export default function Overview () {
 	      fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
 	      lineHeight={'50%'}
 	    >
-	      <Text as={'span'} color={color.kinemaLogoColor1}>Kinema</Text> is developed with:
+	      <Text as={'span'} color={color.kinemaLogoColor1}>Kinema</Text> was developed with:
 	    </Heading>
 	    <Flex
 	      
