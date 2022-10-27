@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NavBar from "../NavBar/NavBar";
 import Footer from "./Chakra UI Components/Footer";
 import { clearSearchByQuery, getSearchByQuery } from "../../Redux/actions";
-import DataList from "../DataList/DataList";
+import DataList from "./DataList/DataList";
 import { useLocation } from "react-router-dom";
 import { Flex, Divider, Center, Text } from "@chakra-ui/react";
 import Error from "../Error/Error";
