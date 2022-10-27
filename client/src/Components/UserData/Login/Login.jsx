@@ -154,6 +154,10 @@ export default function Login() {
               variant={'outline'}
               backgroundColor={'white'}
               marginTop={'20px'}
+              color={"black"}
+              _hover={{
+                backgroundColor: "rgb(232, 229, 229)"
+              }}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >

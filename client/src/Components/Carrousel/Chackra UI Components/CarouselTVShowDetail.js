@@ -128,6 +128,7 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
               </Box>
             );
           }
+          return null
         })}
       </Slider>
     </Box>

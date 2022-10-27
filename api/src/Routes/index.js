@@ -156,10 +156,10 @@ router.get('/home/search', async (req, res) => {
 router.get('/home', async (req, res) => {
   try {
     const allCarruselsMovies = await getAllCarrusels();
-    //const allCarruselsSeries = await getAllCarruselsTV();
+    const allCarruselsSeries = await getAllCarruselsTV();
     res.send({
       allCarruselsMovies,
-      //allCarruselsSeries,
+      allCarruselsSeries,
     });
   } catch (error) {
     return res.status(204).send({ Error: error.message });

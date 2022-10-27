@@ -6,7 +6,6 @@ import {
   Stack,
   Text,
   Image,
-  useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
 
@@ -70,7 +69,7 @@ export default function Footer() {
           </Stack>
           <Stack align={'flex-start'}>
             <ListHeader children={'Company'}></ListHeader>
-            <RouteLink to='/about'><NavLink name='About'/></RouteLink>
+            <RouteLink to='/about_us'><NavLink name='About us'/></RouteLink>
             <RouteLink to='/founders'><NavLink name='Contact'/></RouteLink>
           </Stack>
         </SimpleGrid>
