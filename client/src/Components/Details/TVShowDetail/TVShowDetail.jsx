@@ -204,7 +204,7 @@ export default function TVShowDetail() {
               }
               backgroundSize={"cover"}
               backgroundPosition={"center center"}
-              boxShadow="70vh 0px 128px 64px black inset"
+              boxShadow="40vw 0px 128px 64px black inset"
               justify="left"
             >
               <Container maxW="90%" ms="none" ml="10vh" mt="3vh">
