@@ -46,12 +46,13 @@ export default function LandingPage() {
       <Flex className={styles.nav}>
         <Image className={styles.logo} src={logo} alt="logo" />
         <Box className={styles.list} ref={list}>
-          <Link to={'/register'}>
-            <Text className={styles.sign}>Register</Text>
-          </Link>
-          <Link to={'/login'}>
-            <Text className={styles.sign}>Log In</Text>
-          </Link>
+          <Text className={styles.sign}>
+            <Link to={'/register'}>Register </Link>
+          </Text>
+          <Text className={styles.sign}>
+            <Link to={'/login'}>Log In </Link>
+          </Text>
+
           <Box className={styles.nav__close}>
             <Text
               className={styles.close}
@@ -253,13 +254,15 @@ export default function LandingPage() {
               }}
             >
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Pricing
-                  planType={'Premium'}
-                  price={7.99}
-                  firstFeature={'Watch any Movie and TV Show'}
-                  secondFeature={'Create your own Watchlist'}
-                  thirdFeature={'All features'}
-                />
+                <Link to={'/register'}>
+                  <Pricing
+                    planType={'Premium'}
+                    price={7.99}
+                    firstFeature={'Watch any Movie and TV Show'}
+                    secondFeature={'Create your own Watchlist'}
+                    thirdFeature={'All features'}
+                  />
+                </Link>
               </Box>
               <Divider
                 orientation="vertical"
@@ -271,11 +274,13 @@ export default function LandingPage() {
                 }}
               />
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Pricing
-                  planType={'Basic'}
-                  price={0}
-                  firstFeature={'Rent Movies and TV Shows'}
-                />
+                <Link to={'/register'}>
+                  <Pricing
+                    planType={'Basic'}
+                    price={0}
+                    firstFeature={'Rent Movies and TV Shows'}
+                  />
+                </Link>
               </Box>
             </Box>
           </Flex>
