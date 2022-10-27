@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import NavBar from '../NavBar/NavBar';
 import Footer from './Chakra UI Components/Footer';
@@ -7,7 +8,7 @@ import CarouselWatchList from '../Carrousel/Chackra UI Components/CarouselWatchL
 import CarouselRented from '../Carrousel/Chackra UI Components/CarouselRented';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHomeAll } from '../../Redux/actions';
-import { Container, Flex, Stack, Box, Text } from '@chakra-ui/react';
+import { Container, Flex, Box, Text } from '@chakra-ui/react';
 import Loader from '../Loader/LoaderCarrusels';
 import Error from '../Error/Error.jsx';
 import { useAuth } from '../AuthContext/AuthContext';
@@ -15,7 +16,7 @@ import '@fontsource/raleway';
 import { ERROR_CLEAN } from '../../Redux/actions/const';
 
 export default function Home() {
-  const { user, logout, loadingUser, read } = useAuth();
+  const { loadingUser } = useAuth();
   const dispatch = useDispatch();
   const { carrousels_home, loading } = useSelector((state) => state);
   const error = useSelector((state) => state.error);
@@ -120,6 +121,30 @@ export default function Home() {
               <CarouselHome
                 movies={movieCarrousel.upComing}
                 title="Up Coming:"
+              />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Top rated Series :
+              </Text>
+              <CarouselHome
+                movies={SeriesCarrousel.topRatedSeries}
+                title="Top rated Series:"
+              />
+              <Text
+                fontWeight={'bold'}
+                color={'white'}
+                fontSize={{ base: '1xl', md: '3xl' }}
+                mb={0}
+              >
+                Latest Series :
+              </Text>
+              <CarouselHome
+                movies={SeriesCarrousel.latestSeries}
+                title="Latest Series:"
               />
             </Box>
           )}

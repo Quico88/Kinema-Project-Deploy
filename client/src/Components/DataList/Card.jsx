@@ -1,8 +1,8 @@
-import { Image, Box, WrapItem, Text, Center, useBoolean, Heading } from "@chakra-ui/react";
+import { Image, WrapItem, /*useBoolean*/ } from "@chakra-ui/react";
 
 
 export default function Card({ posterUrl, id, title }) {
-  const [hover, setHover] = useBoolean()
+  //const [hover, setHover] = useBoolean()
   return (
     <WrapItem >
         <Image

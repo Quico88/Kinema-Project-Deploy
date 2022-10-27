@@ -45,6 +45,7 @@ export default function AuthProvider({ children }) {
       stripeId: '',
       avatar:
         "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
+      avatars: ["https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"],
       active: true,
       banned: false,
       rented: [],
@@ -82,6 +83,7 @@ export default function AuthProvider({ children }) {
       watchList: [],
       stripeId: '',
       avatar: infoUser.user.photoURL,
+      avatars: [infoUser.user.photoURL],
       active: true,
       banned: false,
       rented: [],
@@ -94,7 +96,7 @@ export default function AuthProvider({ children }) {
     signOut(auth)
     dispatch(logOutUser());
   }
-
+// eslint-disable-next-line
   const updateUserInfo = async (img, userName) => {
     let docu = user;
     const userRef = doc(firestore, `/users/${docu.user.uid}`);

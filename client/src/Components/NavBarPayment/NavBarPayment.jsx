@@ -1,47 +1,22 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
-  Link,
   IconButton,
   Image,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
-  Stack,
-  MenuGroup,
-  
+  Stack
 } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from 'react-icons/bs';
-import { useAuth } from "../AuthContext/AuthContext";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
 
 import logo from "../../Assets/logo.png";
-import { color } from "../globalStyles";
-import { useSelector } from "react-redux";
-
-
-
 
 export default function NavBarPayment({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { logout } = useAuth()
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [dataUser, setDataUser] = useState();
-
-  async function logOut() {
-    await logout();
-    navigate("/");
-  }
 
   function functionBack() {
     navigate(-1);

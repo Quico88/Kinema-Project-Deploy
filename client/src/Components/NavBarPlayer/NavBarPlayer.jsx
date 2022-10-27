@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
 
@@ -76,7 +75,7 @@ const NavLink3 = () => (
 
 export default function Simple(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout, loadingUser, read } = useAuth();
+  const { user, logout, read } = useAuth();
   const [image, setImage] = useState();
   const navigate = useNavigate();
   const location = useLocation();

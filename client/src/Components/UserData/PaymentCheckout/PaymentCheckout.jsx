@@ -7,13 +7,11 @@ import { firestore } from '../../AuthContext/firebase';
 import { useState } from "react";
 import axios from "axios"
 import { useSelector } from "react-redux";
-import { useToast } from '@chakra-ui/react';
 import logo from "../../../Assets/logo.png"
 import { useDispatch } from "react-redux";
 import NavBarPayment from "../../NavBarPayment/NavBarPayment";
 import { changeSID, upgradePlan } from "../../../Redux/actions";
 import { ToastContainer, toast } from 'react-toastify';
-
 
 const stripePromise = loadStripe("pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI")
 
@@ -133,8 +131,7 @@ const CheckoutForm = () => {
     catch (e){ alert(e) }    
 }
     }
-        
-
+     
     return (
       <Box backgroundColor={'#1D1D1D'}
            backgroundImage={
@@ -239,8 +236,6 @@ const CheckoutForm = () => {
             </Stack>
         </FormControl>
         </form>
-       
-        
           </Box>
     )
 }

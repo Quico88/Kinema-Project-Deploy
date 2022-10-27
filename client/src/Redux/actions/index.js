@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import { useAuth } from '../../Components/AuthContext/AuthContext';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { auth, firestore } from '../../Components/AuthContext/firebase.js';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../Components/AuthContext/firebase.js';
 
 // Import variables of actions:
 
@@ -38,7 +37,14 @@ import {
   ADD_TO_WATCHLIST,
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
-  CHANGE_SID
+  CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG,
+  LIKE,
+  DISLIKE,
+  ISLIKE,
+  GET_LIKES_FROM_CONTENT,
+  GET_LIKES_FROM_USER
 } from './const';
 
 // Actions functions
@@ -71,7 +77,6 @@ export const addToWatchlist = (toBeAdd, user) => async (dispatch) => {
 // Remove from watchlist:
 export const removeFromWatchlist = (user, toBeRemove) => async (dispatch) => {
   try {
-    console.log(`TOBEREMOVE: ${toBeRemove}`);
     const userRef = doc(firestore, 'users', user.uid);
     await updateDoc(userRef, {
       watchList: user.watchList.filter((movie) => movie.id !== toBeRemove.id),
@@ -411,6 +416,20 @@ export const downgradePlan = () => {
   }
 }
 
+export const uploadImg = (data) => {
+  return {
+    type : UPLOAD_IMG,
+    payload : data
+  }
+}
+
+export const avatarImg = (data) => {
+  return {
+    type: AVATAR_IMG,
+    payload : data
+  }
+}
+
 export const getCommentsData = (id) => {
   return async function (dispatch) {
     try {
@@ -456,7 +475,7 @@ export const postNewComment = (userId, content, date, idReference) => {
 export const deleteComment = (id) => {
   return async function (dispatch) {
     try {
-      var json = await axios.delete(`/comments/${id}`);
+      await axios.delete(`/comments/${id}`);
       return dispatch({
         type: DELETE_COMMENT,
       });
@@ -471,3 +490,94 @@ export const deleteComment = (id) => {
 export const rentVideo = (payload) => ({ type: RENT_VIDEO, payload });
 
 export const changeNameUser = (payload) => ({ type: CHANGE_NAME, payload });
+
+export const putLike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/like/?idUser=${user}&idContent=${content}`);
+      return dispatch({
+        type: LIKE,
+        payload: { user, content }
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const dislike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.post(`/dislike/?idUser=${user}&idContent=${content}`);
+      return dispatch({
+        type: DISLIKE,
+        payload: { user, content }
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const getLikesFromContent = (content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/likes_from/${content}`);
+      return dispatch({
+        type: GET_LIKES_FROM_CONTENT,
+        payload: json.data
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const getLikesFromUser = (user) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/likes_from_user/${user}`);
+      return dispatch({
+        type: GET_LIKES_FROM_USER,
+        payload: json.data
+      });
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+export const isLike = (user, content) => {
+  return async function (dispatch) {
+    try {
+      var json = await axios.get(`/islike/?idUser=${user}&idContent=${content}`);
+      if (json.data === null) {
+        return dispatch({
+          type: ISLIKE,
+          payload: false
+        });
+      } else {
+        return dispatch({
+          type: ISLIKE,
+          payload: true
+        });
+
+      }
+
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+}
+
+
