@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
     Stack,
     Flex,
@@ -13,6 +14,7 @@ import { getMovieDetail } from '../../../Redux/actions';
 import { Icon } from '@chakra-ui/react';
 import { BsCreditCard } from 'react-icons/bs';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
+import { MdPlayArrow } from 'react-icons/md';
 
 
 export default function MainMovieMenu(props) {
@@ -36,7 +38,7 @@ export default function MainMovieMenu(props) {
     return (
         <Flex
             w={'full'}
-            h={'65vh'}
+            h={{base:'50vh', sm: '65vh'}}
             backgroundImage={props.poster}
             backgroundSize={'cover'}
             backgroundPosition={'center center'}
@@ -52,18 +54,22 @@ export default function MainMovieMenu(props) {
             <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
                 <Text
                     color={'white'}
+                    textAlign='center'
                     fontWeight={700}
                     lineHeight={1.2}
-                    fontSize={useBreakpointValue({ base: '3xl', md: '4xl' })}
+                    fontSize={useBreakpointValue({ base: '2xl', sm: '3xl', md: '4xl' })}
                 >
                     {props.title}
                 </Text>
-                <Stack direction={'row'} spacing={4} alignSelf={'center'}>
+                <Stack direction={{base: 'column', sm: 'row'}} spacing={4} alignSelf={'center'}>
                     {userData.subscription === 2 || (userData.subscription === 1 && validExpirationDate()) ? (
                     <Link to={`/home/watch/${props.id}`}>
                         <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
                             onClick={() => handleClick()}
+                            rightIcon={<Icon as={MdPlayArrow} boxSize={{base: 4, sm: 5, md: 6}} />}
                             bg={'blue.400'}
+                            w={{base: '100%', sm: '100px'}}
                             rounded={'full'}
                             color={'white'}
                             _hover={{ bg: 'blue.500' }}
@@ -74,9 +80,11 @@ export default function MainMovieMenu(props) {
                     ) : userData.subscription === 1 ? (
                         <Link to={`/payment/rent/movie/${props.id}`}>
                             <Button
+                                size={{base: "xs", sm: "sm", md: "md"}}
                                 onClick={() => handleClick()}
-                                rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
+                                rightIcon={<Icon as={BsCreditCard} boxSize={{base: 4, sm: 5, md: 6}} />}
                                 bg={'blue.400'}
+                                w={{base: '100%', sm: '100px'}}
                                 rounded={'full'}
                                 color={'white'}
                                 _hover={{ bg: 'blue.500' }}
@@ -87,6 +95,8 @@ export default function MainMovieMenu(props) {
                     ) : (
                     <Link to={`/login`}>
                         <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
+                            w={{base: '100%', sm: '200px'}}
                             bg={'blue.400'}
                             rounded={'full'}
                             color={'white'}
@@ -99,8 +109,10 @@ export default function MainMovieMenu(props) {
 
                     <Link to={`/home/movie_details/${props.id}`}>
                         <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
+                            w={{base: '100%', sm: '200px'}}
                             bg={'whiteAlpha.300'}
-                            rightIcon={<Icon as={IoMdInformationCircleOutline} boxSize={6} />}
+                            rightIcon={<Icon as={IoMdInformationCircleOutline} boxSize={{base: 4, sm: 5, md: 6}} />}
                             rounded={'full'}
                             color={'white'}
                             _hover={{ bg: 'whiteAlpha.500' }}

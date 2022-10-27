@@ -1,7 +1,9 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+
+/* eslint-disable */
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   clearMovieDetail,
   getCommentsData,
@@ -11,8 +13,8 @@ import {
   isLike,
   dislike,
   putLike,
-  getLikesFromContent
-} from "../../../Redux/actions";
+  getLikesFromContent,
+} from '../../../Redux/actions';
 import {
   Box,
   Flex,
@@ -24,24 +26,24 @@ import {
   Textarea,
   Divider,
   Link,
-} from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import { MdPlayArrow } from "react-icons/md";
-import { FiPlusCircle } from "react-icons/fi";
-import { BsCreditCard } from "react-icons/bs";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import Footer from "../../Home/Chakra UI Components/Footer.jsx";
-import NavBar from "../../NavBar/NavBar.jsx";
-import { useState } from "react";
-import "./MovieDetail.css";
-import NavBarPlayer from "../../NavBarPlayer/NavBarPlayer";
-import Comment from "../Comment/Comment";
-import Loader from "../../Loader/LoaderDetails.jsx";
-import Error from "../../Error/Error.jsx";
-import { color } from "../../globalStyles";
-import { useToast } from "@chakra-ui/react";
-import StarRatings from "react-star-ratings";
-import moment from "moment";
+} from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
+import { MdPlayArrow } from 'react-icons/md';
+import { FiPlusCircle } from 'react-icons/fi';
+import { BsCreditCard } from 'react-icons/bs';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import Footer from '../../Home/Chakra UI Components/Footer.jsx';
+import NavBar from '../../NavBar/NavBar.jsx';
+import { useState } from 'react';
+import './MovieDetail.css';
+import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
+import Comment from '../Comment/Comment';
+import Loader from '../../Loader/LoaderDetails.jsx';
+import Error from '../../Error/Error.jsx';
+import { color } from '../../globalStyles';
+import { useToast } from '@chakra-ui/react';
+import StarRatings from 'react-star-ratings';
+import moment from 'moment';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
@@ -55,9 +57,9 @@ export default function MovieDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
-  const [commentArea, setCommentArea] = useState("");
+  const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState("");
+  const [random, refresh] = useState('');
   const toast = useToast();
 
   useEffect(() => {
@@ -92,20 +94,20 @@ export default function MovieDetail() {
   const handleAddToWatchlist = (id) => {
     if (user.watchList.find((e) => e.id === id)) {
       toast({
-        title: "This movie is already in your watchlist.",
-        status: "info",
+        title: 'This movie is already in your watchlist.',
+        status: 'info',
         duration: 2000,
-        position: "top-center",
+        position: 'top-center',
         isClosable: true,
       });
     } else {
       dispatch(addToWatchlist(myMovie, user));
       toast({
-        title: "Added to watchlist",
-        description: "You can see it in your profile and home.",
-        status: "success",
+        title: 'Added to watchlist',
+        description: 'You can see it in your profile and home.',
+        status: 'success',
         duration: 2000,
-        position: "top-center",
+        position: 'top-center',
         isClosable: true,
       });
     }
@@ -152,8 +154,8 @@ export default function MovieDetail() {
       <>
         <NavBarPlayer closePlayer={closePlayer} />
         <iframe
-          height={"100%"}
-          width={"100%"}
+          height={'100%'}
+          width={'100%'}
           src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
           frameborder="0"
           allowFullScreen
@@ -176,15 +178,15 @@ export default function MovieDetail() {
             <Flex
               as="main"
               mt={16}
-              w={"full"}
-              h={"85vh"}
+              w={'full'}
+              h={'85vh'}
               backgroundImage={
-                myMovie.back_poster.includes("https://image.tmdb.org")
+                myMovie.back_poster.includes('https://image.tmdb.org')
                   ? myMovie.back_poster
-                  : "https://image.tmdb.org/t/p/original/" + myMovie.back_poster
+                  : 'https://image.tmdb.org/t/p/original/' + myMovie.back_poster
               }
-              backgroundSize={"cover"}
-              backgroundPosition={"center center"}
+              backgroundSize={'cover'}
+              backgroundPosition={'center center'}
               boxShadow="40vw 0px 128px 64px black inset"
               justify="left"
             >
@@ -207,14 +209,14 @@ export default function MovieDetail() {
                     fontWeight="bold"
                     display="inline"
                   >
-                    Rating:{" "}
+                    Rating:{' '}
                   </Text>
                   <StarRatings
                     rating={Math.floor(myMovie.rating / 2)}
                     starRatedColor="gold"
                     starHoverColor="gold"
-                    starDimension={"2vh"}
-                    starSpacing={"0.5vh"}
+                    starDimension={'2vh'}
+                    starSpacing={'0.5vh'}
                     numberOfStars={5}
                     name="rating"
                   />
@@ -232,12 +234,12 @@ export default function MovieDetail() {
                       fontWeight="bold"
                       display="inline"
                     >
-                      {" "}
-                      User reviews:{" "}
+                      {' '}
+                      User reviews:{' '}
                     </Text>
                     {myMovie.user_reviews
                       .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Text>
                 </Box>
                 <br />
@@ -248,7 +250,7 @@ export default function MovieDetail() {
                   fontWeight="bold"
                   display="inline"
                 >
-                  Released:{" "}
+                  Released:{' '}
                 </Text>
                 <Text
                   fontSize="2vh"
@@ -268,7 +270,7 @@ export default function MovieDetail() {
                   fontWeight="bold"
                   noOfLines={4}
                 >
-                  Genres:{" "}
+                  Genres:{' '}
                   {myMovie.genres?.map((genre) => (
                     <Button
                       key={genre.id}
@@ -286,7 +288,7 @@ export default function MovieDetail() {
                 <Text
                   fontSize="2vh"
                   color="white"
-                  maxW={"80vh"}
+                  maxW={'80vh'}
                   textAlign="justify"
                 >
                   {myMovie.description}
@@ -299,7 +301,7 @@ export default function MovieDetail() {
                   fontWeight="bold"
                   display="inline"
                 >
-                  Duration:{" "}
+                  Duration:{' '}
                 </Text>
                 <Text
                   fontSize="2vh"
@@ -307,7 +309,7 @@ export default function MovieDetail() {
                   color="white"
                   display="inline"
                 >
-                  {myMovie.runtime}
+                  {myMovie.duration}
                 </Text>
                 {
                   // USER PREMIUM CASE:
@@ -318,22 +320,22 @@ export default function MovieDetail() {
                           onClick={() => setPlayerTrailer(true)}
                           borderRadius="3vh"
                           rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                          bg={"blue.400"}
-                          rounded={"full"}
-                          color={"white"}
+                          bg={'blue.400'}
+                          rounded={'full'}
+                          color={'white'}
                           mr="2vh"
-                          _hover={{ bg: "blue.500" }}
+                          _hover={{ bg: 'blue.500' }}
                         >
                           <Text mb="0.25vh">Watch</Text>
                         </Button>
                         <Button
                           onClick={() => handleAddToWatchlist(myMovie.id)}
-                          bg={"whiteAlpha.300"}
+                          bg={'whiteAlpha.300'}
                           rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          rounded={"full"}
-                          color={"white"}
+                          rounded={'full'}
+                          color={'white'}
                           mr="2vh"
-                          _hover={{ bg: "whiteAlpha.500" }}
+                          _hover={{ bg: 'whiteAlpha.500' }}
                         >
                           My List
                         </Button>
@@ -341,12 +343,16 @@ export default function MovieDetail() {
                           <Button
                             onClick={handleDislike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
-                              <Icon as={AiFillHeart} color="#72EFDD" boxSize={6} />
+                              <Icon
+                                as={AiFillHeart}
+                                color="#72EFDD"
+                                boxSize={6}
+                              />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -354,16 +360,16 @@ export default function MovieDetail() {
                           <Button
                             onClick={handleLike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
                               <Icon
                                 as={AiOutlineHeart}
-                                color={"whiteAlpha.300"}
+                                color={'whiteAlpha.300'}
                                 boxSize={6}
                               />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -377,9 +383,7 @@ export default function MovieDetail() {
                           <Text color="#72EFDD" fontWeight={600}>
                             {totalLikes}&nbsp;
                           </Text>
-                          {totalLikes === 1
-                            ? " like"
-                            : " likes"}
+                          {totalLikes === 1 ? ' like' : ' likes'}
                         </Text>
                       </Flex>
                     </Box>
@@ -395,25 +399,25 @@ export default function MovieDetail() {
                             onClick={() => setPlayerTrailer(true)}
                             borderRadius="3vh"
                             rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                            bg={"blue.400"}
-                            rounded={"full"}
-                            color={"white"}
+                            bg={'blue.400'}
+                            rounded={'full'}
+                            color={'white'}
                             mr="2vh"
-                            _hover={{ bg: "blue.500" }}
+                            _hover={{ bg: 'blue.500' }}
                           >
                             <Text mb="0.25vh">Watch</Text>
                           </Button>
                         ) : (
                           <Button
-                            bg={"blue.400"}
+                            bg={'blue.400'}
                             onClick={() =>
                               navigate(`/payment/rent/movie/${myMovie.id}`)
                             }
                             rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
-                            rounded={"full"}
-                            color={"white"}
+                            rounded={'full'}
+                            color={'white'}
                             mr="2vh"
-                            _hover={{ bg: "blue.500" }}
+                            _hover={{ bg: 'blue.500' }}
                           >
                             <Text mb="0.25vh">Rent</Text>
                           </Button>
@@ -422,17 +426,17 @@ export default function MovieDetail() {
                           onClick={() => {
                             toast({
                               title: `Upgrade your account to add to your list.`,
-                              status: "info",
-                              position: "top-right",
+                              status: 'info',
+                              position: 'top-right',
                               isClosable: true,
                               duration: 3000,
                             });
                           }}
-                          bg={"whiteAlpha.300"}
-                          rounded={"full"}
-                          color={"white"}
+                          bg={'whiteAlpha.300'}
+                          rounded={'full'}
+                          color={'white'}
                           rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          _hover={{ bg: "whiteAlpha.500" }}
+                          _hover={{ bg: 'whiteAlpha.500' }}
                           mr="2vh"
                         >
                           My List
@@ -441,12 +445,16 @@ export default function MovieDetail() {
                           <Button
                             onClick={handleDislike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
-                              <Icon as={AiFillHeart} color="#72EFDD" boxSize={6} />
+                              <Icon
+                                as={AiFillHeart}
+                                color="#72EFDD"
+                                boxSize={6}
+                              />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -454,16 +462,16 @@ export default function MovieDetail() {
                           <Button
                             onClick={handleLike}
                             backgroundColor="whiteAlpha.300"
-                            rounded={"full"}
+                            rounded={'full'}
                             color="white"
                             rightIcon={
                               <Icon
                                 as={AiOutlineHeart}
-                                color={"whiteAlpha.300"}
+                                color={'whiteAlpha.300'}
                                 boxSize={6}
                               />
                             }
-                            _hover={{ bg: "whiteAlpha.500" }}
+                            _hover={{ bg: 'whiteAlpha.500' }}
                           >
                             Like
                           </Button>
@@ -478,22 +486,22 @@ export default function MovieDetail() {
                             {totalLikes}&nbsp;
                           </Text>
                           {totalLikes === 1
-                            ? " person likes this."
-                            : " others likes this."}
+                            ? ' person likes this.'
+                            : ' others likes this.'}
                         </Text>
                       </Flex>
                       {validExpirationDate() ? (
-                        <Text mt="2vh" color={"white"}>
-                          You have until{" "}
+                        <Text mt="2vh" color={'white'}>
+                          You have until{' '}
                           {moment(validExpirationDate()).format(
-                            "MMMM Do YYYY, h:mm a"
-                          )}{" "}
+                            'MMMM Do YYYY, h:mm a'
+                          )}{' '}
                           to watch this content.
                         </Text>
                       ) : null}
-                      <Text mt="2vh" fontSize="2.3vh" color={"white"}>
+                      <Text mt="2vh" fontSize="2.3vh" color={'white'}>
                         You can&nbsp;
-                        <Link href="/payment" color={"#72efdd"}>
+                        <Link href="/payment" color={'#72efdd'}>
                           <b>upgrade</b>
                         </Link>
                         &nbsp;your plan to watch any content.
@@ -505,12 +513,12 @@ export default function MovieDetail() {
                   // USER GUEST CASE:
                   user.subscription == null ? (
                     <Box textAlign="left" mt="3vh">
-                      <Text fontSize="2.3vh" color={"white"}>
-                        <Link href="/login" color={"#72efdd"}>
+                      <Text fontSize="2.3vh" color={'white'}>
+                        <Link href="/login" color={'#72efdd'}>
                           <b>Log In </b>
                         </Link>
                         or
-                        <Link href="/register" color={"#64dfdf"}>
+                        <Link href="/register" color={'#64dfdf'}>
                           <b> Register </b>
                         </Link>
                         to watch this movie.
@@ -533,16 +541,16 @@ export default function MovieDetail() {
                 alignItems="center"
                 w="50%"
                 css={{
-                  "&::-webkit-scrollbar": {
-                    backgroundColor: "black",
-                    width: "10px",
+                  '&::-webkit-scrollbar': {
+                    backgroundColor: 'black',
+                    width: '10px',
                   },
-                  "&::-webkit-scrollbar-track": {
-                    width: "1px",
+                  '&::-webkit-scrollbar-track': {
+                    width: '1px',
                   },
-                  "&::-webkit-scrollbar-thumb": {
+                  '&::-webkit-scrollbar-thumb': {
                     background: color.kinemaBg,
-                    borderRadius: "24px",
+                    borderRadius: '24px',
                   },
                 }}
               >
@@ -614,7 +622,7 @@ export default function MovieDetail() {
                         mb={5}
                         backgroundColor={color.kinemaBg}
                         borderRadius={0}
-                        _hover={{ backgroundColor: "gray.600" }}
+                        _hover={{ backgroundColor: 'gray.600' }}
                         onClick={handleSubmitComment}
                         disabled={errorCommentArea}
                       >
@@ -626,24 +634,24 @@ export default function MovieDetail() {
                   <Center fontSize={15} mb={10} mt={10}>
                     <Button
                       onClick={() => {
-                        navigate("/login");
+                        navigate('/login');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       mr={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Log In
                     </Button>
                     <Text>Or</Text>
                     <Button
                       onClick={() => {
-                        navigate("/register");
+                        navigate('/register');
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       ml={5}
-                      _hover={{ backgroundColor: "gray.600" }}
+                      _hover={{ backgroundColor: 'gray.600' }}
                     >
                       Register
                     </Button>

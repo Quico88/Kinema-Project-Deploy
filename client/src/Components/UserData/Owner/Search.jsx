@@ -1,9 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
-import { Box, Flex } from '@chakra-ui/layout';
-import { useNavigate } from 'react-router-dom';
-import style from "./SearchBar.module.css"
+import { Box} from '@chakra-ui/layout';
+import { useRef } from "react"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
 
@@ -29,11 +27,14 @@ const Container = styled.div`
         flex-direction: column;
 
         ${({hover}) => hover && css`
-            width: 100px;
+            width: 300px;
         `}
-        @media (min-width: 768px){    
-          display: none
-      }
+        @media (max-width: 420px){ 
+               
+            ${({hover}) => hover && css`
+            width: 80px;
+        `}
+      } 
     `;
 
     const InputSearch = styled.input`
@@ -43,8 +44,9 @@ const Container = styled.div`
     height: 100%;
     line-height: 30px;
     outline: 0;
-    border: 1px solid gray;
+    border: 1px solid white;
     border-radius: 12px;
+
     color: white;
     padding: 0 10px;
     margin-right: 50px;
@@ -52,57 +54,33 @@ const Container = styled.div`
     -webkit-appearance: none;
     appearance: none;
     background-color: transparent;
+    ::placeholder {
+    color: rgb(208, 191, 191);
+     }
+    @media (max-width: 420px){
+        margin-rigth: 0
+    }
     
     display: ${(props) => (props.showSearchInput ? "block" : "none")}
 `;
 
-const SearchBar = () => {
-  const [search, setSearch] = useState('');
-  const [search2, setSearch2] = useState('');
-  const navigate = useNavigate();
- 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    navigate(`/home/search/?query=${search}`);
-  };
 
-  const handleSearch2 = (e) => {
-    e.preventDefault();
-    navigate(`/home/search/?query=${search2}`);
-  };
+
+
+export default function SearchBarOwner({ searcher, search}){
+
 
   const targetRef = useRef(null)
   const [isHovered, setIsHovered] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const showSearchInput = isHovered || isFocused;
 
+ 
+
   return (
     <Box>
-      <form onSubmit={handleSearch} className={style.searchbar} >
-        <Flex >
-          <InputGroup>
-            <InputLeftElement
-              children={<SearchIcon/>}
-              color={"white"}
-              cursor={"pointer"}
-              onClick={handleSearch}
-            />
-            <Input
-              type="text"
-              placeholder="Search..."
-              _placeholder={{ color: 'white' }}
-              color={"white"}
-              bg={"transparent"}
-              onChange={(e) => setSearch(e.target.value)}
-              mr={4}
-              h={9}
-              _focus={{backgroundColor:"rgba(195, 194, 195, 0.7)"}}
-            />
-          </InputGroup>
-        </Flex>
-      </form>
-      <form onSubmit={handleSearch2}>
-          <Container
+      <form >
+      <Container
                 onMouseEnter={()=> setIsHovered(true)}
                 onMouseLeave={()=> setIsHovered(false)}
                 onFocus={() => setIsFocused(true)}
@@ -114,15 +92,15 @@ const SearchBar = () => {
                 <InputSearch
                     placeholder="Search..."
                     ref={targetRef}
-                    onChange={(e) => setSearch2(e.target.value)}
+                    value={search} 
+                    onChange={searcher}
                     showSearchInput = {showSearchInput}
                     />
                 {showSearchInput ? null : <IconSearch/>}
                 
-          </Container>
-      </form>
+            </Container>
+                    </form>
     </Box>
   );
 };
 
-export default SearchBar;

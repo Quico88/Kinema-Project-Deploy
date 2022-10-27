@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import { useAuth } from '../../Components/AuthContext/AuthContext';
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
-import { auth, firestore } from '../../Components/AuthContext/firebase.js';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '../../Components/AuthContext/firebase.js';
 
 // Import variables of actions:
 
@@ -39,6 +38,8 @@ import {
   CHANGE_NAME,
   REMOVE_FROM_WATCHLIST,
   CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG,
   LIKE,
   DISLIKE,
   ISLIKE,
@@ -415,6 +416,20 @@ export const downgradePlan = () => {
   }
 }
 
+export const uploadImg = (data) => {
+  return {
+    type : UPLOAD_IMG,
+    payload : data
+  }
+}
+
+export const avatarImg = (data) => {
+  return {
+    type: AVATAR_IMG,
+    payload : data
+  }
+}
+
 export const getCommentsData = (id) => {
   return async function (dispatch) {
     try {
@@ -460,7 +475,7 @@ export const postNewComment = (userId, content, date, idReference) => {
 export const deleteComment = (id) => {
   return async function (dispatch) {
     try {
-      var json = await axios.delete(`/comments/${id}`);
+      await axios.delete(`/comments/${id}`);
       return dispatch({
         type: DELETE_COMMENT,
       });
@@ -512,7 +527,6 @@ export const getLikesFromContent = (content) => {
   return async function (dispatch) {
     try {
       var json = await axios.get(`/likes_from/${content}`);
-      console.log(json)
       return dispatch({
         type: GET_LIKES_FROM_CONTENT,
         payload: json.data

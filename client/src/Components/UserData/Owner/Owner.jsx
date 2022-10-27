@@ -1,5 +1,6 @@
+import OwnerNavbar from "./OwnerNavbar"
 import { 
-  Box,
+Box,
 useColorModeValue,
 Table,
   Thead,
@@ -21,8 +22,7 @@ Table,
   Avatar,
   Image
 }from "@chakra-ui/react"
-import OwnerNavbar from "./AdminNavbar"
-import Statistics from "./StatisticsAdmin";
+import Statistics from "./Statistics";
 /* import TableSales from "./TableSales"; */
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ import edit from "../../../Assets/edit.png";
 import prohibition from "../../../Assets/prohibition.png";
 
 
-export default function Admin(){
+export default function Owner(){
     
     const [ready, setReady] = useState(false);
     const [users, setUsers] = useState([]);
@@ -119,7 +119,7 @@ export default function Admin(){
 
     if(loadingUser) return null
     if(!user) return <Navigate  to={"/home"} />
-    if(!userData.admin) return <Navigate  to={"/home"} />
+    if(!userData.owner) return <Navigate  to={"/home"} />
 
 
     return(

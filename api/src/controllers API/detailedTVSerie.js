@@ -26,7 +26,6 @@ const getTVSeriesByIdApi = async (id) => {
     .catch((e) => undefined);
 
   if (apiResponse === undefined) {
-    console.log('entro al if');
     let data = getDataJSON(page);
     return data;
   }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Alert, AlertIcon, AlertTitle, Button, Box } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
