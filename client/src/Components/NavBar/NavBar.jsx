@@ -15,6 +15,7 @@ import {
   useDisclosure,
   Stack,
   MenuGroup,
+  Text
 } from '@chakra-ui/react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { Link as RouteLink, useNavigate } from 'react-router-dom';
@@ -29,7 +30,7 @@ const Links = ['Home', 'Movies', 'TV Shows'];
 
 const NavLink1 = ({ ruta }) => {
   return (
-    <Link
+    <Text
       px={2}
       py={1}
       rounded={'md'}
@@ -49,12 +50,12 @@ const NavLink1 = ({ ruta }) => {
       }}
     >
       {Links[0]}
-    </Link>
+    </Text>
   );
 };
 
 const NavLink2 = ({ ruta }) => (
-  <Link
+  <Text
     px={2}
     py={1}
     rounded={'md'}
@@ -74,11 +75,11 @@ const NavLink2 = ({ ruta }) => (
     }}
   >
     {Links[1]}
-  </Link>
+  </Text>
 );
 
 const NavLink3 = ({ ruta }) => (
-  <Link
+  <Text
     px={2}
     py={1}
     rounded={'md'}
@@ -98,7 +99,7 @@ const NavLink3 = ({ ruta }) => (
     }}
   >
     {Links[2]}
-  </Link>
+  </Text>
 );
 
 export default function NavBar({ ruta }) {

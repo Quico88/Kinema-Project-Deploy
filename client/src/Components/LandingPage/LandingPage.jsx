@@ -46,12 +46,13 @@ export default function LandingPage() {
       <Flex className={styles.nav}>
         <Image className={styles.logo} src={logo} alt="logo" />
         <Box className={styles.list} ref={list}>
-          <Link to={'/register'}>
-            <Text className={styles.sign}>Register</Text>
-          </Link>
-          <Link to={'/login'}>
-            <Text className={styles.sign}>Log In</Text>
-          </Link>
+          <Text className={styles.sign}>
+            <Link to={'/register'}>Register </Link>
+          </Text>
+          <Text className={styles.sign}>
+            <Link to={'/login'}>Log In </Link>
+          </Text>
+
           <Box className={styles.nav__close}>
             <Text
               className={styles.close}
