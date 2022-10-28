@@ -159,7 +159,7 @@ const CheckoutForm = () => {
           backdropFilter={'blur(10px)'}  borderRadius="0.5vh"  w={"80vh"}>
               <Box w={"44vh"} h="50vh" pl="5vh" bgColor={"white"}  borderLeftRadius="0.5vh" pr="2vh" mr="2vh" pt="3.5vh">
               <FormLabel  m={"0px"} p="0px" >Name</FormLabel>
-                <Input variant='flushed' value={input.name} name="name" onChange={handleChange} />
+                <Input variant='flushed' name="name" value={input.name}  onChange={handleChange} />
                 {errors.name && <FormHelperText color={"red"}>
                   {errors.name}
                    </FormHelperText>}

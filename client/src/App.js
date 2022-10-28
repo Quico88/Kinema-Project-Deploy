@@ -21,6 +21,7 @@ import Admin from './Components/UserData/Admin/Admin.jsx';
 import Watch from './Components/Home/Watch.jsx';
 import Owner from './Components/UserData/Owner/Owner.jsx';
 import AboutUs from './Components/Footer links/About us/AboutUs.jsx';
+import Contact from './Components/Footer links/Contact/Contact.jsx';
 
 // Create App component:
 export default function App() {
@@ -51,7 +52,7 @@ export default function App() {
         <Route path="/home/search" element={<HomeSearch />} />
         <Route path="/home/movie_details/:id" element={<MovieDetail />} />
         <Route path="/home/tv_show_details/:id" element={<TVShowDetail />} />
-        <Route path="/about_us" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </AuthProvider>
   );
