@@ -18,7 +18,6 @@ export default function Contact() {
      >
       <NavBar></NavBar>
       <ContactTemplate></ContactTemplate>
-  
       <Footer/>
     </Flex>
   )
