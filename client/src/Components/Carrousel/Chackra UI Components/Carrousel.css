@@ -1,7 +1,7 @@
 .slick-dots li button{
-    color: white;
     font-size: 2vw !important;
 }
+
 .slick-dots li.slick-active button:before{
     opacity: 0;
     font-size: 30px !important;
@@ -12,4 +12,15 @@
     color: white !important;
     font-size: 30px !important;
 }
+
+.slick-dots li{
+    width: 3% !important;
+}
+
+
+.slick-next, .slick-prev, .slick-next:before, .slick-prev:before {
+    font-size: 1.8vw !important;
+    
+}
+
 

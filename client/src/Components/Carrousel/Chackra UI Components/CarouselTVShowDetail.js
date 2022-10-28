@@ -18,7 +18,7 @@ import './Carrousel.css'
 // Settings for the slider
 const settings = {
   dots: true,
-  arrows: false,
+  arrows: true,
   fade: false,
   infinite: false,
   speed: 500,
@@ -96,7 +96,7 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
       position={'relative'}
       height={'270px'}
       w="105%"
-      pr="5vw"
+      pr="7vw"
     >
       {/* CSS files for react-slick */}
       <link
@@ -110,7 +110,8 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      
+
+
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((m, index) => {
