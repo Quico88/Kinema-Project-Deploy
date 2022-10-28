@@ -1,9 +1,8 @@
-
 /* eslint-disable */
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   clearMovieDetail,
   getCommentsData,
@@ -47,7 +46,6 @@ import { useToast, useMediaQuery } from "@chakra-ui/react";
 import StarRatings from "react-star-ratings";
 import moment from "moment";
 
-
 export default function MovieDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,11 +58,12 @@ export default function MovieDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
-  const [commentArea, setCommentArea] = useState('');
+  const [commentArea, setCommentArea] = useState("");
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState('');
+  const [random, refresh] = useState("");
   const toast = useToast();
   const [isShortThan960px] = useMediaQuery("(max-width: 960px)");
+  const [isShortThan400px] = useMediaQuery("(max-width: 400px)");
 
   useEffect(() => {
     dispatch(clearMovieDetail());
@@ -98,20 +97,20 @@ export default function MovieDetail() {
   const handleAddToWatchlist = (id) => {
     if (user.watchList.find((e) => e.id === id)) {
       toast({
-        title: 'This movie is already in your watchlist.',
-        status: 'info',
+        title: "This movie is already in your watchlist.",
+        status: "info",
         duration: 2000,
-        position: 'top-center',
+        position: "top-center",
         isClosable: true,
       });
     } else {
       dispatch(addToWatchlist(myMovie, user));
       toast({
-        title: 'Added to watchlist',
-        description: 'You can see it in your profile and home.',
-        status: 'success',
+        title: "Added to watchlist",
+        description: "You can see it in your profile and home.",
+        status: "success",
         duration: 2000,
-        position: 'top-center',
+        position: "top-center",
         isClosable: true,
       });
     }
@@ -158,8 +157,8 @@ export default function MovieDetail() {
       <>
         <NavBarPlayer closePlayer={closePlayer} />
         <iframe
-          height={'100%'}
-          width={'100%'}
+          height={"100%"}
+          width={"100%"}
           src={`//www.youtube.com/embed/${idTrailer}?autoplay=1`}
           frameborder="0"
           allowFullScreen
@@ -229,7 +228,7 @@ export default function MovieDetail() {
                         noOfLines={2}
                         color="white"
                         fontWeight="bold"
-                        fontSize="40px"
+                        fontSize="4vh"
                         ml="10vw"
                       >
                         {myMovie.title}
@@ -237,8 +236,27 @@ export default function MovieDetail() {
                     </Box>
                   </VStack>
                 </Flex>
-                <br />
-
+                
+                <Text
+                  fontSize="1.5vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                  ml="10vw"
+                >
+                  Duration:{" "}
+                </Text>
+                <Text
+                  fontSize="1.5vh"
+                  textAlign="left"
+                  color="white"
+                  display="inline"
+                  
+                >
+                  {myMovie.duration}
+                </Text>
+                <br /> 
                 <Text
                   fontSize="1.5vh"
                   textAlign="left"
@@ -283,6 +301,8 @@ export default function MovieDetail() {
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </Text>
+                <br />
+                
 
                 <Divider w="80vw" mt={1} ml="10vw"></Divider>
                 <Box mr="10vw" ml="10vw">
@@ -310,7 +330,7 @@ export default function MovieDetail() {
                             color={"white"}
                             mr="2vh"
                             _hover={{ bg: "blue.500" }}
-                            fontSize="17px"
+                            fontSize={isShortThan400px ? "12px" : "17px"}
                           >
                             <Text mb="0.25vh">Watch</Text>
                           </Button>
@@ -322,7 +342,7 @@ export default function MovieDetail() {
                             color={"white"}
                             mr="2vh"
                             _hover={{ bg: "whiteAlpha.500" }}
-                            fontSize="17px"
+                            fontSize={isShortThan400px ? "12px" : "17px"}
                           >
                             My List
                           </Button>
@@ -339,7 +359,7 @@ export default function MovieDetail() {
                                   boxSize={6}
                                 />
                               }
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"}
                               _hover={{ bg: "whiteAlpha.500" }}
                             >
                               Like
@@ -358,7 +378,7 @@ export default function MovieDetail() {
                                 />
                               }
                               _hover={{ bg: "whiteAlpha.500" }}
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"}
                             >
                               Like
                             </Button>
@@ -373,8 +393,8 @@ export default function MovieDetail() {
                               {totalLikes}&nbsp;
                             </Text>
                             {totalLikes === 1
-                              ? " person likes this."
-                              : " others likes this."}
+                              ? " like."
+                              : " likes."}
                           </Text>
                         </Flex>
                       </Box>
@@ -395,7 +415,7 @@ export default function MovieDetail() {
                               color={"white"}
                               mr="2vh"
                               _hover={{ bg: "blue.500" }}
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"}
                             >
                               <Text mb="0.25vh">Watch</Text>
                             </Button>
@@ -410,7 +430,7 @@ export default function MovieDetail() {
                               color={"white"}
                               mr="2vh"
                               _hover={{ bg: "blue.500" }}
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"}
                             >
                               <Text mb="0.25vh">Rent</Text>
                             </Button>
@@ -431,7 +451,7 @@ export default function MovieDetail() {
                             rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
                             _hover={{ bg: "whiteAlpha.500" }}
                             mr="2vh"
-                            fontSize="17px"
+                            fontSize={isShortThan400px ? "12px" : "17px"}
                           >
                             My List
                           </Button>
@@ -448,14 +468,14 @@ export default function MovieDetail() {
                                   boxSize={6}
                                 />
                               }
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"}
                               _hover={{ bg: "whiteAlpha.500" }}
                             >
                               Like
                             </Button>
                           ) : (
                             <Button
-                              fontSize="17px"
+                              fontSize={isShortThan400px ? "12px" : "17px"} 
                               onClick={handleLike}
                               backgroundColor="whiteAlpha.300"
                               rounded={"full"}
@@ -482,8 +502,8 @@ export default function MovieDetail() {
                               {totalLikes}&nbsp;
                             </Text>
                             {totalLikes === 1
-                              ? " person likes this."
-                              : " others likes this."}
+                              ? " like."
+                              : " likes."}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
@@ -668,21 +688,19 @@ export default function MovieDetail() {
                     user.subscription === 2 ? (
                       <Box textAlign="left" mt="3vh">
                         <Flex alignItems="center">
-
                           <Button
                             onClick={() => setPlayerTrailer(true)}
                             borderRadius="3vh"
                             rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                            bg={'blue.400'}
-                            rounded={'full'}
-                            color={'white'}
+                            bg={"blue.400"}
+                            rounded={"full"}
+                            color={"white"}
                             mr="2vh"
-                            _hover={{ bg: 'blue.500' }}
+                            _hover={{ bg: "blue.500" }}
                           >
                             <Text mb="0.25vh">Watch</Text>
                           </Button>
                           <Button
-
                             onClick={() => handleAddToWatchlist(myMovie.id)}
                             bg={"whiteAlpha.300"}
                             rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
@@ -904,16 +922,16 @@ export default function MovieDetail() {
                 flexDirection="column"
                 alignItems="center"
                 css={{
-                  '&::-webkit-scrollbar': {
-                    backgroundColor: 'black',
-                    width: '10px',
+                  "&::-webkit-scrollbar": {
+                    backgroundColor: "black",
+                    width: "10px",
                   },
-                  '&::-webkit-scrollbar-track': {
-                    width: '1px',
+                  "&::-webkit-scrollbar-track": {
+                    width: "1px",
                   },
-                  '&::-webkit-scrollbar-thumb': {
+                  "&::-webkit-scrollbar-thumb": {
                     background: color.kinemaBg,
-                    borderRadius: '24px',
+                    borderRadius: "24px",
                   },
                 }}
               >
@@ -984,7 +1002,7 @@ export default function MovieDetail() {
                         mb={5}
                         backgroundColor={color.kinemaBg}
                         borderRadius={0}
-                        _hover={{ backgroundColor: 'gray.600' }}
+                        _hover={{ backgroundColor: "gray.600" }}
                         onClick={handleSubmitComment}
                         disabled={errorCommentArea}
                       >
@@ -996,24 +1014,24 @@ export default function MovieDetail() {
                   <Center fontSize={15} mb={10} mt={10}>
                     <Button
                       onClick={() => {
-                        navigate('/login');
+                        navigate("/login");
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       mr={5}
-                      _hover={{ backgroundColor: 'gray.600' }}
+                      _hover={{ backgroundColor: "gray.600" }}
                     >
                       Log In
                     </Button>
                     <Text>Or</Text>
                     <Button
                       onClick={() => {
-                        navigate('/register');
+                        navigate("/register");
                       }}
                       fontSize={20}
                       backgroundColor={color.kinemaBg}
                       ml={5}
-                      _hover={{ backgroundColor: 'gray.600' }}
+                      _hover={{ backgroundColor: "gray.600" }}
                     >
                       Register
                     </Button>
