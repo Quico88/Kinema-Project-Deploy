@@ -42,6 +42,8 @@ export default function Owner(){
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const {user, loadingUser} = useAuth()
+    const [byDate, setByDate] = useState()
+    const [byRent, setByRent] = useState()
 
     async function allUsers() {
         let allUsers = [];
@@ -127,23 +129,23 @@ export default function Owner(){
         
       };
 
-      function sortByDate(){
-        
-        return results.sort((a,b) => {
-            if(a.subscriptionDate > b.subscriptionDate) return  1
-            if(a.subscriptionDate < b.subscriptionDate) return  -1
-            else return 0
+      function sortRented(){
+        let res = [...users]
+        res.sort((a,b) => {
+          if(a.rented.length < b.rented.length) return 1 
+          if(a.rented.length > b.rented.length) return -1 
         })
-        return results
+  
+        setByRent(res)
       }
-
-      function sortByRent(){
-         results.sort((a,b) =>{
-          if(a.rented.length > b.rented.length) return  1
-          if(a.rented.length < b.rented.length) return  -1
-          else return 0
+  
+      function sortByDate(){
+        let res = results.sort((a,b) => {
+          if(a.subscriptionDate < b.subscriptionDate) return 1 
+          if(a.subscriptionDate > b.subscriptionDate) return -1 
         })
-        return results
+  
+        setByDate(res)
       }
 
       let backgroundBox = useColorModeValue("gray.100", "gray.900")
@@ -192,10 +194,9 @@ export default function Owner(){
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
       <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
       </Center>
-{/* <Center> */}
+
 <TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
 
-{/*     <Center> */}
         <Table variant="simple"  >
           <Thead>
             <Tr>
@@ -215,7 +216,7 @@ export default function Owner(){
                 Subscription
               </Th>
               <Th  fontSize={"14px"}>
-                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByRent} >Sort</Button>
+                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortRented} >Sort</Button>
               </Th>
               <Th fontSize={"14px"}>
                 Status
@@ -333,9 +334,7 @@ export default function Owner(){
               
           </Tbody>
         </Table>
-        {/* </Center> */}
       </TableContainer>
-   {/*    </Center> */}
       <Center marginTop={"20px"} paddingBottom={"30px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
