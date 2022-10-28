@@ -44,7 +44,7 @@ import {
   DISLIKE,
   ISLIKE,
   GET_LIKES_FROM_CONTENT,
-  GET_LIKES_FROM_USER
+  GET_LIKES_FROM_USER,
 } from './const';
 
 // Actions functions
@@ -406,29 +406,29 @@ export const upgradePlan = () => {
 export const changeSID = (id) => {
   return {
     type: CHANGE_SID,
-    payload: id
-  }
-}
+    payload: id,
+  };
+};
 
 export const downgradePlan = () => {
   return {
     type: DOWNGRADE_PLAN,
-  }
-}
+  };
+};
 
 export const uploadImg = (data) => {
   return {
-    type : UPLOAD_IMG,
-    payload : data
-  }
-}
+    type: UPLOAD_IMG,
+    payload: data,
+  };
+};
 
 export const avatarImg = (data) => {
   return {
     type: AVATAR_IMG,
-    payload : data
-  }
-}
+    payload: data,
+  };
+};
 
 export const getCommentsData = (id) => {
   return async function (dispatch) {
@@ -497,7 +497,7 @@ export const putLike = (user, content) => {
       var json = await axios.post(`/like/?idUser=${user}&idContent=${content}`);
       return dispatch({
         type: LIKE,
-        payload: { user, content }
+        payload: { user, content },
       });
     } catch (error) {
       return dispatch({
@@ -505,15 +505,17 @@ export const putLike = (user, content) => {
       });
     }
   };
-}
+};
 
 export const dislike = (user, content) => {
   return async function (dispatch) {
     try {
-      var json = await axios.post(`/dislike/?idUser=${user}&idContent=${content}`);
+      var json = await axios.post(
+        `/dislike/?idUser=${user}&idContent=${content}`
+      );
       return dispatch({
         type: DISLIKE,
-        payload: { user, content }
+        payload: { user, content },
       });
     } catch (error) {
       return dispatch({
@@ -521,7 +523,7 @@ export const dislike = (user, content) => {
       });
     }
   };
-}
+};
 
 export const getLikesFromContent = (content) => {
   return async function (dispatch) {
@@ -529,7 +531,7 @@ export const getLikesFromContent = (content) => {
       var json = await axios.get(`/likes_from/${content}`);
       return dispatch({
         type: GET_LIKES_FROM_CONTENT,
-        payload: json.data
+        payload: json.data,
       });
     } catch (error) {
       return dispatch({
@@ -537,7 +539,7 @@ export const getLikesFromContent = (content) => {
       });
     }
   };
-}
+};
 
 export const getLikesFromUser = (user) => {
   return async function (dispatch) {
@@ -545,7 +547,7 @@ export const getLikesFromUser = (user) => {
       var json = await axios.get(`/likes_from_user/${user}`);
       return dispatch({
         type: GET_LIKES_FROM_USER,
-        payload: json.data
+        payload: json.data,
       });
     } catch (error) {
       return dispatch({
@@ -553,31 +555,29 @@ export const getLikesFromUser = (user) => {
       });
     }
   };
-}
+};
 
 export const isLike = (user, content) => {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`/islike/?idUser=${user}&idContent=${content}`);
+      var json = await axios.get(
+        `/islike/?idUser=${user}&idContent=${content}`
+      );
       if (json.data === null) {
         return dispatch({
           type: ISLIKE,
-          payload: false
+          payload: false,
         });
       } else {
         return dispatch({
           type: ISLIKE,
-          payload: true
+          payload: true,
         });
-
       }
-
     } catch (error) {
       return dispatch({
         type: ERROR_FOUND,
       });
     }
   };
-}
-
-
+};

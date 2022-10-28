@@ -19,6 +19,7 @@ import PaymentCheckoutRent from './Components/UserData/PaymentCheckout/PaymentCh
 import Plan from './Components/UserData/Register/Plan.jsx';
 import Admin from './Components/UserData/Admin/Admin.jsx';
 import Watch from './Components/Home/Watch.jsx';
+import Overview from './Components/Overview/Overview.jsx';
 import Owner from './Components/UserData/Owner/Owner.jsx';
 import AboutUs from './Components/Footer links/About us/AboutUs.jsx';
 import Contact from './Components/Footer links/Contact/Contact.jsx';
@@ -53,6 +54,9 @@ export default function App() {
         <Route path="/home/movie_details/:id" element={<MovieDetail />} />
         <Route path="/home/tv_show_details/:id" element={<TVShowDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/overview" element={<Overview />} />
+  
+
       </Routes>
     </AuthProvider>
   );

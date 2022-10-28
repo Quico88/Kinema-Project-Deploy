@@ -6,14 +6,14 @@ import Footer from "./Chakra UI Components/Footer";
 import {
   clearTvShows,
   getTvShows,
-  getTVShowGenres,
   getSeriesByGenre,
-  clearGenres,
 } from "../../Redux/actions";
-import DataList from "../DataList/DataList";
+import DataList from "./DataList/DataList";
 import { Box, Flex, Select, Text, Center } from "@chakra-ui/react";
 import Error from "../Error/Error";
 import "@fontsource/raleway";
+import allGenres from "./allGenresTV.json";
+import { color } from "../globalStyles";
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -23,25 +23,6 @@ export default function HomeTVShows() {
   // const allGenres = useSelector((state) => state.allgenres);
   const [genre, setGenero] = useState("All");
   const [titulo, setTitulo] = useState("TV Shows");
-
-  const allGenres = [
-    "Action and Adventure",
-    "Animation",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Family",
-    "Kids",
-    "Mystery",
-    "News",
-    "Reality",
-    "Sci-Fi and Fantasy",
-    "Soap",
-    "Talk",
-    "War and Politics",
-    "Western",
-  ];
 
   const error = useSelector((state) => state.error);
 
@@ -95,22 +76,28 @@ export default function HomeTVShows() {
         <Flex as="main" mt={16} w="100%" direction="column">
           <Box>
             <Flex
-              direction="row"
+              direction={{base: "column", md:"row"}}
               mt={10}
               mb={5}
               justify="space-around"
               alignItems="center"
               color="white"
             >
-              <Text fontSize={40} fontWeight="600" fontFamily="Raleway">
+              <Text 
+                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
+                  fontWeight="600"
+                  color={color.kinemaLogoColor1}
+                  fontFamily="Raleway">
                 {titulo}
               </Text>
               <Select
                 onChange={(e) => handleGenres(e)}
-                w="15%"
-                fontSize={25}
+                w="240px"
+                h={{base: "32px", md: "36px", lg:"44px"}}
+                fontSize={{base: "18px", md: "24px", lg:"28px"}}
                 textAlign="center"
                 fontWeight="500"
+                color="white"
                 defaultValue="Genres"
               >
                 <option disabled>Genres</option>
