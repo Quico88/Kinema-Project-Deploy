@@ -20,10 +20,12 @@ Table,
   PopoverHeader,
   PopoverBody,
   Avatar,
-  Image
+  Image,
+  Flex,
+  useToast
 }from "@chakra-ui/react"
 import Statistics from "./Statistics";
-import TableSales from "./TableSales";
+import LineChart from "./LineChart";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -32,6 +34,8 @@ import { firestore } from "../../AuthContext/firebase";
 import { Navigate } from "react-router-dom";
 import edit from "../../../Assets/edit.png";
 import prohibition from "../../../Assets/prohibition.png";
+import DoughnutGraph from "./DoughnutChart";
+import BarChart from "./BarChart";
 
 
 export default function Owner(){
@@ -44,12 +48,13 @@ export default function Owner(){
     const {user, loadingUser} = useAuth()
     const [byDate, setByDate] = useState()
     const [byRent, setByRent] = useState()
+    const toast = useToast();
 
     async function allUsers() {
         let allUsers = [];
         const querySnapshot = await getDocs(collection(firestore, "users"));
         querySnapshot.forEach((doc) => {
-          allUsers.push(doc.data());
+          allUsers.push({...doc.data(), uid: doc.id});
         });
         return allUsers;
       }
@@ -63,6 +68,18 @@ export default function Owner(){
 
       const premiumUsers = users.filter(u => u.subscription === 2 )
       const basicUsers = users.filter(u => u.subscription === 1 )
+
+
+      const totalRent = users.filter(u => u.rented.length ).map(u => u.rented) 
+      const totalRented = totalRent.flat()
+      const totalRentRevenue = totalRented.length * 1.99
+      const totalPremiumRevenue = premiumUsers.length * 7.99 
+
+      const totalRevenue = totalRentRevenue + totalPremiumRevenue
+
+
+      const porcentajePremiumUsers = premiumUsers.length * 100 / users.length
+      const porcentajeBasicUsers = basicUsers.length * 100 / users.length
 
       function searcher(e) {
         e.preventDefault()
@@ -106,9 +123,9 @@ export default function Owner(){
       };
 
 
-      const makeAdmin = async (id) => {
+      const makeAdmin = async (user) => {
         try {
-          const userRef = doc(firestore, `/users/${id}`);
+          const userRef = doc(firestore, `/users/${user.uid}`);
         await updateDoc(userRef, {
           admin: true,
         });
@@ -117,9 +134,9 @@ export default function Owner(){
         }
       };
 
-      const removeAdmin = async (id) => {
+      const removeAdmin = async (user) => {
         try {
-          const userRef = doc(firestore, `/users/${id}`);
+          const userRef = doc(firestore, `/users/${user.id}`);
         await updateDoc(userRef, {
           admin: false,
         });
@@ -128,6 +145,49 @@ export default function Owner(){
         }
         
       };
+
+      const handleBan = async (user) => {
+        if (!user.admin) {
+          toast({
+            title: `User ${user.username} is admin now`,
+            status: 'info',
+            duration: 5000,
+            position: 'top-center',
+            isClosable: true,
+          });
+          await updateDoc(doc(firestore, 'users', user.uid), {
+            admin: true,
+          });
+          setUsers((prev) => {
+            return prev.map((u) => {
+              if (u.uid === user.uid) {
+                u.admin = true;
+              }
+              return u;
+            });
+          });
+        } else {
+          toast({
+            title: `User ${user.username} is no longer admin`,
+            status: 'info',
+            duration: 5000,
+            position: 'top-center',
+            isClosable: true,
+          });
+          await updateDoc(doc(firestore, 'users', user.uid), {
+            admin: false,
+          });
+          setUsers((prev) => {
+            return prev.map((u) => {
+              if (u.uid === user.uid) {
+                u.admin = false;
+              }
+              return u;
+            });
+          });
+        }
+      };
+
 
       function sortRented(){
         let res = [...users]
@@ -148,11 +208,20 @@ export default function Owner(){
         setByDate(res)
       }
 
+
+
       let backgroundBox = useColorModeValue("gray.100", "gray.900")
 
     useEffect(() => {
         async function exe() {
           let allUsersData = await allUsers();
+          console.log(allUsersData)
+         /*  console.log(totalRented)
+          console.log("Total Peliculas rentadas: ", totalRentRevenue)
+          console.log("Total Ventas Usuarios Premium: ", totalPremiumRevenue)
+          console.log("Total vendido", totalRevenue)
+          console.log("Porcentaje Usuarios Premium", porcentajePremiumUsers.toFixed(2))
+          console.log("Porcentaje Usuarios Premium", porcentajeBasicUsers.toFixed(2)) */
           setUsers(allUsersData);
           setReady(true);
         }
@@ -175,17 +244,39 @@ export default function Owner(){
                 results={results}
                 user={userData}
             />
+            <Box>
+
             <Statistics 
                 totalUsers={users.length}
                 premiumUsers={premiumUsers.length}
                 basicUsers={basicUsers.length}
-            />
-            <Center>
+                />
 
-            <Box display={"flex"} width={"700px"} margin={"50px"} >
-            <TableSales />
+<Center>
+
+<Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
+   <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
+</Box>
+</Center>
+           
+                </Box>
+            <Center>
+            <Box /* width={"800px"} */ backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
+            <LineChart data={totalRevenue} tableName="Total Revenue"/>  
             </Box>
             </Center>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <LineChart data={totalRentRevenue} tableName="Rent Revenue" color="white" />
+            <LineChart data={totalPremiumRevenue} tableName="Premium Revenue"/>
+            </Flex>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <BarChart data={users.length} tableName="User growth" />
+            <BarChart data={users.length} tableName="New Users"/>
+            </Flex>
+
+           
         
             <Box  bg={loadingUser ? null : backgroundBox}>
 
@@ -196,8 +287,9 @@ export default function Owner(){
       </Center>
 
 <TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
-
-        <Table variant="simple"  >
+  
+        <Center>
+        <Table variant="simple" width={"90vw"} >
           <Thead>
             <Tr>
             <Th  fontSize={"14px"} >
@@ -225,7 +317,7 @@ export default function Owner(){
                 Type User
               </Th>
               <Th  fontSize={"14px"}>
-                Make/Remove Admin
+                Edit Admin
               </Th>
             </Tr>
           </Thead>
@@ -236,32 +328,32 @@ export default function Owner(){
                 let activeOrNot = user.active ? "Active" : "Banned"
 
                   return (
-                    <Tr>
+                    <Tr >
                         <Td  >
                              <Avatar
                                  size={'md'}
                                  src={user.avatar}
                              />
                       </Td>
-                      <Td fontSize={"14px"} key={user.email} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.email} color={ "gray.500" } >
                         {user.email}
                       </Td>
-                      <Td fontSize={"14px"} key={user.username} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.username} color={ "gray.500" } >
                         {user.username}
                       </Td>
-                      <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray.500" } >
                         {user.subscriptionDate
                           .toDate()
                           .toLocaleDateString("en-US", options)}
                       </Td>
-                      <Td fontSize={"14px"} color={ "gray" } >
+                      <Td fontSize={"14px"} color={ "gray.500" } >
                         {user.subscription === 1 ? "Basic" : "Premium"}
                       </Td>
-                      <Td fontSize={"14px"} color={ "gray" } >{user.rented.length}</Td>
-                      <Td fontSize={"14px"}color={ "gray" } >
+                      <Td fontSize={"14px"} color={ "gray.500" } >{user.rented.length}</Td>
+                      <Td fontSize={"14px"}color={ "gray.500" } >
                         {activeOrNot}
                       </Td>
-                      <Td key={i + 1} color={ "gray" } >
+                      <Td key={i + 1} color={ "gray.500" } >
 
                           {
                             user.admin ? "Admin" : "User"
@@ -281,13 +373,15 @@ export default function Owner(){
                                 <PopoverArrow />
                                 <PopoverCloseButton />
                                 <PopoverHeader>
-                                  Are you sure you want to MAKE admin {user.username}?
+                                {
+                                    user.admin ? `Are you sure you want to REMOVE admin ${user.username}?` : `Are you sure you want to MAKE admin ${user.username}?`
+                                  }
                                 </PopoverHeader>
                                 <PopoverBody>
                                   <Button
                                     background={"#cd6155"}
                                     value={user.username}
-                                    onClick={() => makeAdmin(user.id)}
+                                    onClick={() => handleBan(user)}
                                   >
                                     Continue
                                   </Button>
@@ -298,33 +392,7 @@ export default function Owner(){
                           </Popover>
                           
 
-                          <Popover>
-                            <PopoverTrigger>
-                                  <Button marginLeft={"30px"} background={"lightgray"} >
-                                    <Image src={prohibition} alt="delete_image" width="20px" height="20px" color="white" />
-                                  </Button>
-                                  
-                            </PopoverTrigger>
-                            <Portal>
-                              <PopoverContent>
-                                <PopoverArrow />
-                                <PopoverCloseButton />
-                                <PopoverHeader>
-                                  Are you sure you want to REMOVE admin {user.username}?
-                                </PopoverHeader>
-                                <PopoverBody >
-                                  <Button
-                                    background={"#cd6155"}
-                                    value={user.username}
-                                    onClick={() => removeAdmin(user.id)}
-                                  >
-                                    Continue
-                                  </Button>
-                                </PopoverBody>
-                              </PopoverContent>
-                              
-                            </Portal>
-                          </Popover>
+                          
                         </Box>
                       </Td>
                     </Tr>
@@ -334,6 +402,7 @@ export default function Owner(){
               
           </Tbody>
         </Table>
+        </Center>
       </TableContainer>
       <Center marginTop={"20px"} paddingBottom={"30px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
