@@ -18,7 +18,7 @@ import './Carrousel.css'
 // Settings for the slider
 const settings = {
   dots: true,
-  arrows: true,
+  arrows: false,
   fade: false,
   infinite: false,
   speed: 500,
@@ -41,6 +41,7 @@ const settings = {
     settings: {
       slidesToShow: 4,
       slidesToScroll: 4,
+      arrows: true,
     }
   },
   {
@@ -48,6 +49,8 @@ const settings = {
     settings: {
       slidesToShow: 3,
       slidesToScroll: 3,
+      arrows: true,
+      dots: false
     }
   },
   {
@@ -55,6 +58,8 @@ const settings = {
     settings: {
       slidesToShow: 2,
       slidesToScroll: 1,
+      arrows: true,
+      dots: false
     }
   },
   {
@@ -63,6 +68,8 @@ const settings = {
       slidesToShow: 1,
       slidesToScroll: 1,
       centerMode: true,
+      arrows: true,
+      dots: false
     }
   },]
 };
@@ -77,6 +84,7 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
+  const buttonSize = useBreakpointValue({base:40, md:60, lg:80})
   const top = useBreakpointValue({ base: '90%', md: '35%' });
   const side = useBreakpointValue({ base: '30%', md: '0px' });
 
@@ -102,7 +110,7 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-
+      
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((m, index) => {
