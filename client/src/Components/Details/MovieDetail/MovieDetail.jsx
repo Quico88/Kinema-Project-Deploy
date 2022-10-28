@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,6 +60,19 @@ export default function MovieDetail() {
   const [errorCommentArea, setErrorCommentArea] = useState(false);
   const [random, refresh] = useState('');
   const toast = useToast();
+
+  if (user && user.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 3000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+  }
 
   useEffect(() => {
     dispatch(clearMovieDetail());

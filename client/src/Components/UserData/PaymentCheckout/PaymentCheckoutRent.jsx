@@ -10,6 +10,7 @@ import {
   Input,
   FormHelperText,
   Flex,
+  useMediaQuery
 } from '@chakra-ui/react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -27,8 +28,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
-import logo from '../../../Assets/logo.png';
-
+import logo from '../../../Assets/logoPayment.png';
+import moment from 'moment';
 import { doc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../AuthContext/firebase';
 
@@ -46,6 +47,8 @@ const CheckoutForm = () => {
   const { username, email, uid, rented } = useSelector((state) => state.user);
   const { movieDetail } = useSelector((state) => state);
   const { serieDetail } = useSelector((state) => state);
+  const [isLargerThan960] = useMediaQuery('(min-width: 960px)');
+  const [isLargerThan480] = useMediaQuery('(min-width: 480px)');
 
   const { pathname } = useLocation();
   const params = useParams();
@@ -53,7 +56,7 @@ const CheckoutForm = () => {
   const type = pathname.split('/')[3];
 
   if (type === 'tv_show') {
-    var { title, poster, genres, release_date, duration, rating } = serieDetail;
+    var { title, poster, genres, number_seasons, duration, rating } = serieDetail;
   } else {
     var { title, poster, genres, release_date, duration, rating } = movieDetail;
   }
@@ -181,12 +184,15 @@ const CheckoutForm = () => {
       }
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
-      height={'100vh'}
+      height={isLargerThan960 ? '100vh' : null}
+      width={isLargerThan960 ? "100vw" : null}
+      pb="30px"
     >
       <NavBarPayment />
       <ToastContainer/>
       <Stack
-        direction="row"
+        direction={isLargerThan960 ? "row" : "column"}
+        
         spacing={4}
         display="flex"
         mt="10vh"
@@ -200,22 +206,23 @@ const CheckoutForm = () => {
             alignItems={'center'}
           >
             <Stack
-              direction="row"
-              spacing={4}
-              bg={'rgba(17, 173, 152, 0.3)'}
-              backdropFilter={'blur(10px)'}
-              borderRadius="0.5vh"
-              w={'80vh'}
+              direction={isLargerThan480 ? "row" : "column-reverse"}
+              spacing={0}
+              
             >
               <Box
-                w={'44vh'}
-                h="50vh"
-                pl="5vh"
+                w={'24vw'}
+                h="48vh"
+                minW="300px"
+                minH="430px"
+                maxH="450px"
+                pl="30px"
                 bgColor={'white'}
-                borderLeftRadius="0.5vh"
-                pr="2vh"
-                mr="2vh"
+                borderLeftRadius={isLargerThan480 ? "0.5vh" : null}
+                borderBottomRadius={isLargerThan480 ? null : "0.5vh"}
+                pr="30px"
                 pt="3.5vh"
+                mb={"30px"}
               >
                 <FormLabel m={'0px'} p="0px">
                   Name
@@ -225,11 +232,14 @@ const CheckoutForm = () => {
                   value={input.name}
                   name="name"
                   onChange={handleChange}
+                  w="18vw"
+                  h="3.5vh"
+                  minW="200px"
                 />
                 {errors.name && (
                   <FormHelperText color={'red'}>{errors.name}</FormHelperText>
                 )}
-                <FormLabel m={'5vh 0px 0px 0px'} p="0px">
+                <FormLabel m={'3vh 0px 0px 0px'} p="0px">
                   Surname
                 </FormLabel>
                 <Input
@@ -237,31 +247,38 @@ const CheckoutForm = () => {
                   value={input.surname}
                   name="surname"
                   onChange={handleChange}
+                  w="18vw"
+                  h="3.5vh"
+                  minW="200px"
                 />
                 {errors.surname && (
                   <FormHelperText color={'red'}>
                     {errors.surname}
                   </FormHelperText>
                 )}
-                <Stack direction="row" spacing={4} mb="5vh">
+                <Stack direction="row" spacing={10} mb="5vh">
                   <Box>
-                    <FormLabel m={'5vh 0px 0px 0px'} p="0px">
+                    <FormLabel m={'3vh 0px 0px 0px'} p="0px">
                       City
                     </FormLabel>
-                    <Input variant="flushed" />
+                    <Input variant="flushed" w="8vw" minW={"100px"}
+                  h="3.5vh" />
                   </Box>
                   <Box>
-                    <FormLabel m={'5vh 0px 0px 0px'} p="0px">
+                    <FormLabel m={'3vh 0px 0px 0px'}  p="0px">
                       Address
                     </FormLabel>
-                    <Input variant="flushed" />
+                    <Input variant="flushed" minW={"100px"} w="8vw"
+                  h="3.5vh"  />
                   </Box>
                 </Stack>
                 <CardElement className="pcard" />
+                {isLargerThan480 ? null :  <button className="btn-premium2">CONFIRM</button> } 
               </Box>
-
-              <Box>
-                <Image src={logo} w={'30vh'}></Image>
+              
+              <Box  w="16vw" h={isLargerThan480 ?"48vh" : "230px"} borderRightRadius={isLargerThan480 ? "0.5vh" : null} borderTopRadius={isLargerThan480 ? null : "0.5vh"} minW={isLargerThan480 ? "250px" : "300px"} minH={isLargerThan480? "430px" : null} maxH="450px" bg={'rgba(17, 173, 152, 0.3)'}
+              backdropFilter={'blur(10px)'}>
+                <Image src={logo} w={isLargerThan480 ?"70%" : "160px"} h={isLargerThan480 ? "50%" : "160px"} ml={isLargerThan480 ?"20%" : "25%"} ></Image>
                 <Text align={'center'} justify={'center'} color="white">
                   Rent
                 </Text>
@@ -274,23 +291,29 @@ const CheckoutForm = () => {
                   </Text>
                 </Stack>
                 <Flex align={'end'} justify={'center'} mt="3vh">
-                  <button className="btn-premium">CONFIRM</button>
+                 {isLargerThan480 ? <button className="btn-premium">CONFIRM</button> : null } 
                 </Flex>
               </Box>
             </Stack>
           </FormControl>
         </form>
-        <Box
+        <Stack
           backgroundColor={'white'}
-          w="35vh"
+          w="300px"
           h={'68vh'}
-          display={'flex'}
-          alignItems="center"
+          minH="500px"
+                 
+          direction={"column"}
+          spacing={4}
+          display="flex"
+          
           justifyContent="center"
+          alignItems={'center'}
           borderRadius="0.5vh"
+          
         >
-          <Box alignItems={'center'}>
-            <Box m="3vh">
+          
+            
               <Text fontSize={'2.5vh'} fontWeight="600" noOfLines={1}>
                 Product detail:
               </Text>
@@ -300,26 +323,30 @@ const CheckoutForm = () => {
                 w={'25vh'}
                 h="35vh"
                 borderRadius="0.5vh"
-              ></Image>
-              <Text mt="2.2vh" fontSize={'2h'} fontWeight="500" maxW={'20vh'}>
+          ></Image>
+              <Box pl="28px" pr="28px" >
+              <Text mt="1.3vh" fontSize={'2h'} fontWeight="500" maxW={'30vh'}>
                 <b>Genres:</b> {genres?.map((el) => el + ' ')}
               </Text>
-              {release_date? 
-              <Text mt="2.2vh">
-                <b>Released:</b> {release_date}
+              
+              <Text mt="2vh">
+                <b>Expiration date:</b> {moment(now.getTime()+345600000).format('MMMM Do YYYY')}
               </Text>
-               : ""}
+              {number_seasons ? <Text mt="2.2vh">
+                <b>Seasons:</b> {number_seasons}
+              </Text> : null }
               {duration ? 
-              <Text mt="2.2vh">
+              <Text mt="2vh">
                 <b>Duration:</b> {duration}
               </Text>
               : ""}
-              <Text mt="2.2vh">
+              <Text mt="2vh">
                 <b>Rating:</b> {Math.round(rating * 100) / 100}
-              </Text>
+            </Text>
             </Box>
-          </Box>
-        </Box>
+            
+          
+        </Stack>
       </Stack>
     </Box>
   );
