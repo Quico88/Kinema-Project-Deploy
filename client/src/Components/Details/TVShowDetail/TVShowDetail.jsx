@@ -781,7 +781,7 @@ export default function TVShowDetail() {
                             <Text color="#72EFDD" fontWeight={600}>
                               {totalLikes}&nbsp;
                             </Text>
-                            {totalLikes === 1 ? ' like' : ' likes'}
+                            {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                       </Box>
@@ -885,8 +885,8 @@ export default function TVShowDetail() {
                               {totalLikes}&nbsp;
                             </Text>
                             {totalLikes === 1
-                              ? ' person likes this.'
-                              : ' others likes this.'}
+                              ? ' like.'
+                              : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
