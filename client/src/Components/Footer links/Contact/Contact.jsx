@@ -3,7 +3,7 @@ import Footer from "../../Home/Chakra UI Components/Footer";
 import NavBar from "../../NavBar/NavBar";
 import ContactTemplate from "./ContactTemplate";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import loader from "../../../Assets/loader3.gif"
+
 
 
 
@@ -18,7 +18,7 @@ export default function Contact() {
      >
       <NavBar></NavBar>
       <ContactTemplate></ContactTemplate>
-      <Image src={loader} w="140px" h="140px" alt="" />
+  
       <Footer/>
     </Flex>
   )
