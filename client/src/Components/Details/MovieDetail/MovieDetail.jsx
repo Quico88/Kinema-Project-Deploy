@@ -65,6 +65,19 @@ export default function MovieDetail() {
   const [isShortThan960px] = useMediaQuery('(max-width: 960px)');
   const [isShortThan400px] = useMediaQuery('(max-width: 400px)');
 
+  if (user && user.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 3000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+  }
+
   useEffect(() => {
     dispatch(clearMovieDetail());
     dispatch(getMovieDetail(id));

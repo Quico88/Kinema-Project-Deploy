@@ -22,7 +22,7 @@ const ListHeader = (props) => {
 };
 
 const NavLink = (props) => (
-  <Link
+  <Text
       px={2}
       py={1}
       rounded={'md'}
@@ -34,7 +34,7 @@ const NavLink = (props) => (
       }}
     >
       {props.name}
-  </Link>
+  </Text>
 );
 
 export default function Footer() {

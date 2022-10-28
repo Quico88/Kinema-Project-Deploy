@@ -15,6 +15,7 @@ import {
   useDisclosure,
   Stack,
   MenuGroup,
+  Text
 } from '@chakra-ui/react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { Link as RouteLink, useNavigate } from 'react-router-dom';
@@ -24,13 +25,12 @@ import SearchBar from './SearchBar.jsx';
 import logo from '../../Assets/logo.png';
 import { color } from '../globalStyles';
 import { useSelector } from 'react-redux';
-import style from './NavBar.module.css';
 
 const Links = ['Home', 'Movies', 'TV Shows'];
 
 const NavLink1 = ({ ruta }) => {
   return (
-    <Link
+    <Text
       px={2}
       py={1}
       rounded={'md'}
@@ -50,12 +50,12 @@ const NavLink1 = ({ ruta }) => {
       }}
     >
       {Links[0]}
-    </Link>
+    </Text>
   );
 };
 
 const NavLink2 = ({ ruta }) => (
-  <Link
+  <Text
     px={2}
     py={1}
     rounded={'md'}
@@ -75,11 +75,11 @@ const NavLink2 = ({ ruta }) => (
     }}
   >
     {Links[1]}
-  </Link>
+  </Text>
 );
 
 const NavLink3 = ({ ruta }) => (
-  <Link
+  <Text
     px={2}
     py={1}
     rounded={'md'}
@@ -99,7 +99,7 @@ const NavLink3 = ({ ruta }) => (
     }}
   >
     {Links[2]}
-  </Link>
+  </Text>
 );
 
 export default function NavBar({ ruta }) {
@@ -140,17 +140,20 @@ export default function NavBar({ ruta }) {
       >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
+            color={color.kinemaLogoColor1}
+            bg={color.kinemaLogoColor3}
             size={'md'}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            icon={ isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box className={style.logo_nav}>
+            <Box >
               <RouteLink to="/home">
                 <Image
-                  boxSize="100px"
+                  boxSize="90px"
+                  mt={2}
                   objectFit="cover"
                   src={logo}
                   alt="Logo-kinema"
@@ -227,13 +230,13 @@ export default function NavBar({ ruta }) {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               <RouteLink to="/home">
-                <NavLink1 />
+                <NavLink1 ruta={ruta}/>
               </RouteLink>
               <RouteLink to="/home/movies">
-                <NavLink2 />
+                <NavLink2 ruta={ruta}/>
               </RouteLink>
               <RouteLink to="/home/tv_shows">
-                <NavLink3 />
+                <NavLink3 ruta={ruta}/>
               </RouteLink>
             </Stack>
           </Box>
