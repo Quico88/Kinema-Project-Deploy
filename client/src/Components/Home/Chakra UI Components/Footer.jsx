@@ -65,7 +65,7 @@ export default function Footer() {
           <Stack align={'flex-start'}>
             <ListHeader children={'Product'}></ListHeader>
             <RouteLink to='/overview'><NavLink name='Overview'/></RouteLink>
-            <RouteLink to='/register'><NavLink name='Pricing'/></RouteLink>
+            <RouteLink to='/register/plan'><NavLink name='Pricing'/></RouteLink>
           </Stack>
           <Stack align={'flex-start'}>
             <ListHeader children={'Company'}></ListHeader>
