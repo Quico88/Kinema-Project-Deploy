@@ -644,7 +644,7 @@ export default function UserProfile() {
                       >
                         Be Premium
                       </Text>
-                      <RouteLink to="/payment">
+                      <RouteLink to="/payment/upgrade">
                         <Text
                           fontSize={{ base: '14px', md: '16px', lg: '20px' }}
                           color={'green'}
