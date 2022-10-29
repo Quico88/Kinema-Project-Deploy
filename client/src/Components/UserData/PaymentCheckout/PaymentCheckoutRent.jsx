@@ -10,7 +10,7 @@ import {
   Input,
   FormHelperText,
   Flex,
-  useMediaQuery
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -32,7 +32,6 @@ import logo from '../../../Assets/logoPayment.png';
 import moment from 'moment';
 import { doc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../AuthContext/firebase';
-
 
 const stripePromise = loadStripe(
   'pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI'
@@ -56,7 +55,8 @@ const CheckoutForm = () => {
   const type = pathname.split('/')[3];
 
   if (type === 'tv_show') {
-    var { title, poster, genres, number_seasons, duration, rating } = serieDetail;
+    var { title, poster, genres, number_seasons, duration, rating } =
+      serieDetail;
   } else {
     var { title, poster, genres, release_date, duration, rating } = movieDetail;
   }
@@ -122,16 +122,15 @@ const CheckoutForm = () => {
     if (errors.name || errors.surname) {
       e.preventDefault();
       toast.warn('The form is not properly complete.', {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 3500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "dark",
-        
-        });
+        theme: 'dark',
+      });
     } else {
       e.preventDefault();
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -140,37 +139,38 @@ const CheckoutForm = () => {
       });
       if (!error) {
         const { id } = paymentMethod;
-        const { data } = await axios.post(
-          '/payment/rent',
-          { id, username, email, title }
-        );
+        const { data } = await axios.post('/payment/rent', {
+          id,
+          username,
+          email,
+          title,
+        });
 
         if (data.success) {
           toast.success(data.message, {
-            position: "top-center",
+            position: 'top-center',
             autoClose: 3500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: "dark",
-            });
+            theme: 'dark',
+          });
           dispatch(rentVideo(rentedMovie));
           await updateRented(rentedMovie);
           navigate(-1);
         } else {
           toast.error(data.message, {
-            position: "top-center",
+            position: 'top-center',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: "dark",
-            
-            });
+            theme: 'dark',
+          });
         }
       }
     }
@@ -184,169 +184,153 @@ const CheckoutForm = () => {
       }
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
-      height={isLargerThan960 ? '100vh' : null}
-      width={isLargerThan960 ? "100vw" : null}
-      pb="30px"
+      height={'100vh'}
+      width={'100vw'}
+      pb='30px'
     >
       <NavBarPayment />
-      <ToastContainer/>
+      <ToastContainer />
       <Stack
-        direction={isLargerThan960 ? "row" : "column"}
-        
+        direction={isLargerThan960 ? 'row' : 'column'}
         spacing={4}
-        display="flex"
-        mt="10vh"
-        justifyContent="center"
+        display='flex'
+        mt={isLargerThan480 ? '10vh' : '5vh'}
+        justifyContent='center'
         alignItems={'center'}
       >
         <form onSubmit={handleSubmit}>
           <FormControl
-            display="flex"
-            justifyContent="center"
+            display='flex'
+            justifyContent='center'
             alignItems={'center'}
           >
             <Stack
-              direction={isLargerThan480 ? "row" : "column-reverse"}
+              direction={isLargerThan480 ? 'row' : 'column-reverse'}
               spacing={0}
-              
             >
               <Box
                 w={'24vw'}
-                h="48vh"
-                minW="300px"
-                minH="430px"
-                maxH="450px"
-                pl="30px"
+                h={isLargerThan480 ? '500px' : '450px'}
+                minW='300px'
+                // minH='430px'
+                // maxH='450px'
+                pl='30px'
                 bgColor={'white'}
-                borderLeftRadius={isLargerThan480 ? "0.5vh" : null}
-                borderBottomRadius={isLargerThan480 ? null : "0.5vh"}
-                pr="30px"
-                pt="3.5vh"
-                mb={"30px"}
+                borderLeftRadius={isLargerThan480 ? '10px' : null}
+                borderBottomRadius={isLargerThan480 ? null : '10px'}
+                pr='30px'
+                pt='3.5vh'
+                mb={'30px'}
               >
-                <FormLabel m={'0px'} p="0px">
+                <FormLabel m={'0px'} p='0px'>
                   Name
                 </FormLabel>
                 <Input
-                  variant="flushed"
+                  variant='flushed'
                   value={input.name}
-                  name="name"
+                  name='name'
                   onChange={handleChange}
-                  w="18vw"
-                  h="3.5vh"
-                  minW="200px"
+                  w='18vw'
+                  h='3.5vh'
+                  minW='200px'
                 />
                 {errors.name && (
                   <FormHelperText color={'red'}>{errors.name}</FormHelperText>
                 )}
-                <FormLabel m={'3vh 0px 0px 0px'} p="0px">
+                <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
                   Surname
                 </FormLabel>
                 <Input
-                  variant="flushed"
+                  variant='flushed'
                   value={input.surname}
-                  name="surname"
+                  name='surname'
                   onChange={handleChange}
-                  w="18vw"
-                  h="3.5vh"
-                  minW="200px"
+                  w='18vw'
+                  h='3.5vh'
+                  minW='200px'
                 />
                 {errors.surname && (
                   <FormHelperText color={'red'}>
                     {errors.surname}
                   </FormHelperText>
                 )}
-                <Stack direction="row" spacing={10} mb="5vh">
+                <Stack direction='row' spacing={10} mb='5vh'>
                   <Box>
-                    <FormLabel m={'3vh 0px 0px 0px'} p="0px">
+                    <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
                       City
                     </FormLabel>
-                    <Input variant="flushed" w="8vw" minW={"100px"}
-                  h="3.5vh" />
+                    <Input variant='flushed' w='8vw' minW={'100px'} h='3.5vh' />
                   </Box>
                   <Box>
-                    <FormLabel m={'3vh 0px 0px 0px'}  p="0px">
+                    <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
                       Address
                     </FormLabel>
-                    <Input variant="flushed" minW={"100px"} w="8vw"
-                  h="3.5vh"  />
+                    <Input variant='flushed' minW={'100px'} w='8vw' h='3.5vh' />
                   </Box>
                 </Stack>
-                <CardElement className="pcard" />
-                {isLargerThan480 ? null :  <button className="btn-premium2">CONFIRM</button> } 
+                <CardElement className='pcard' />
+                {isLargerThan480 ? null : (
+                  <Box p={6}>
+                    <button className='btn-premium2'>Confirm</button>
+                  </Box>
+                )}
               </Box>
-              
-              <Box  w="16vw" h={isLargerThan480 ?"48vh" : "230px"} borderRightRadius={isLargerThan480 ? "0.5vh" : null} borderTopRadius={isLargerThan480 ? null : "0.5vh"} minW={isLargerThan480 ? "250px" : "300px"} minH={isLargerThan480? "430px" : null} maxH="450px" bg={'rgba(17, 173, 152, 0.3)'}
-              backdropFilter={'blur(10px)'}>
-                <Image src={logo} w={isLargerThan480 ?"70%" : "160px"} h={isLargerThan480 ? "50%" : "160px"} ml={isLargerThan480 ?"20%" : "25%"} ></Image>
-                <Text align={'center'} justify={'center'} color="white">
+
+              <Flex
+                w='20vw'
+                h={isLargerThan480 ? '500px' : '280px'}
+                borderRightRadius={isLargerThan480 ? '10px' : null}
+                borderTopRadius={isLargerThan480 ? null : '10px'}
+                minW={isLargerThan480 ? '250px' : '300px'}
+                bg={'rgba(17, 173, 152, 0.3)'}
+                backdropFilter={'blur(10px)'}
+                direction='column'
+                align='center'
+                p='5px'
+              >
+                {isLargerThan480 ?
+                <Image
+                  src={logo}
+                  w='80px'
+                  h='80px'
+                ></Image>
+                : null }
+                <Text align={'center'} justify={'center'} color='white'>
                   Rent
                 </Text>
                 <Stack direction={'row'} align={'center'} justify={'center'}>
-                  <Text fontSize={'2xl'} color="white">
+                  <Text fontSize={'2xl'} color='white'>
                     $
                   </Text>
-                  <Text fontSize={'4xl'} color="white" fontWeight={800}>
+                  <Text fontSize={'4xl'} color='white' fontWeight={800}>
                     1.99
                   </Text>
                 </Stack>
-                <Flex align={'end'} justify={'center'} mt="3vh">
-                 {isLargerThan480 ? <button className="btn-premium">CONFIRM</button> : null } 
+                <Image
+                    mt={isLargerThan480 ? '2.2vh' : '2px'}
+                    src={'https://image.tmdb.org/t/p/original/' + poster}
+                    w={isLargerThan480 ? '100px' : '75px'}
+                    h={isLargerThan480 ? '140px' : '105px'}
+                    borderRadius='0.5vh'
+                  ></Image>
+                <Flex align={'center'} justify={'center'} mt='3vh' direction="column">
+                  {isLargerThan480 ? (
+                    <button className='btn-premium'>Confirm</button>
+                  ) : null}
+                  <Text mt={isLargerThan480 ? '2vh' : '1px'} textAlign='center' color='whiteAlpha.900'>
+                      <b>You can watch this content until:</b>{' '}
+                      {moment(now.getTime() + 345600000).format('MMMM Do YYYY')}
+                    </Text>
+                    {number_seasons ? (
+                      <Text mt='2.2vh'>
+                        <b>Seasons:</b> {number_seasons}
+                      </Text>
+                    ) : null}
                 </Flex>
-              </Box>
+              </Flex>
             </Stack>
           </FormControl>
         </form>
-        <Stack
-          backgroundColor={'white'}
-          w="300px"
-          h={'68vh'}
-          minH="500px"
-                 
-          direction={"column"}
-          spacing={4}
-          display="flex"
-          
-          justifyContent="center"
-          alignItems={'center'}
-          borderRadius="0.5vh"
-          
-        >
-          
-            
-              <Text fontSize={'2.5vh'} fontWeight="600" noOfLines={1}>
-                Product detail:
-              </Text>
-              <Image
-                mt="2.2vh"
-                src={'https://image.tmdb.org/t/p/original/' + poster}
-                w={'25vh'}
-                h="35vh"
-                borderRadius="0.5vh"
-          ></Image>
-              <Box pl="28px" pr="28px" >
-              <Text mt="1.3vh" fontSize={'2h'} fontWeight="500" maxW={'30vh'}>
-                <b>Genres:</b> {genres?.map((el) => el + ' ')}
-              </Text>
-              
-              <Text mt="2vh">
-                <b>Expiration date:</b> {moment(now.getTime()+345600000).format('MMMM Do YYYY')}
-              </Text>
-              {number_seasons ? <Text mt="2.2vh">
-                <b>Seasons:</b> {number_seasons}
-              </Text> : null }
-              {duration ? 
-              <Text mt="2vh">
-                <b>Duration:</b> {duration}
-              </Text>
-              : ""}
-              <Text mt="2vh">
-                <b>Rating:</b> {Math.round(rating * 100) / 100}
-            </Text>
-            </Box>
-            
-          
-        </Stack>
       </Stack>
     </Box>
   );

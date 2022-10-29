@@ -35,6 +35,7 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/watch/:id" element={<Watch />} />
         <Route path="/payment" element={<PaymentCheckout />} />
+        <Route path="/payment/upgrade" element={<PaymentCheckout />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/owner" element={<Owner />} />
         <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
