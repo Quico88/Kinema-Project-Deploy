@@ -70,7 +70,7 @@ export default function Footer() {
           <Stack align={'flex-start'}>
             <ListHeader children={'Company'}></ListHeader>
             <RouteLink to='/about_us'><NavLink name='About us'/></RouteLink>
-            <RouteLink to='/founders'><NavLink name='Contact'/></RouteLink>
+            <RouteLink to='/contact'><NavLink name='Contact'/></RouteLink>
           </Stack>
         </SimpleGrid>
       </Container>
