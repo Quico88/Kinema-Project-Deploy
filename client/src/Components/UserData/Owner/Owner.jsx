@@ -20,10 +20,12 @@ Table,
   PopoverHeader,
   PopoverBody,
   Avatar,
-  Image
+  Image,
+  Flex,
+  useToast
 }from "@chakra-ui/react"
 import Statistics from "./Statistics";
-/* import TableSales from "./TableSales"; */
+import LineChart from "./LineChart";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -32,6 +34,8 @@ import { firestore } from "../../AuthContext/firebase";
 import { Navigate } from "react-router-dom";
 import edit from "../../../Assets/edit.png";
 import prohibition from "../../../Assets/prohibition.png";
+import DoughnutGraph from "./DoughnutChart";
+import BarChart from "./BarChart";
 
 
 export default function Owner(){
@@ -42,12 +46,15 @@ export default function Owner(){
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const {user, loadingUser} = useAuth()
+    const [byDate, setByDate] = useState()
+    const [byRent, setByRent] = useState()
+    const toast = useToast();
 
     async function allUsers() {
         let allUsers = [];
         const querySnapshot = await getDocs(collection(firestore, "users"));
         querySnapshot.forEach((doc) => {
-          allUsers.push(doc.data());
+          allUsers.push({...doc.data(), uid: doc.id});
         });
         return allUsers;
       }
@@ -61,6 +68,18 @@ export default function Owner(){
 
       const premiumUsers = users.filter(u => u.subscription === 2 )
       const basicUsers = users.filter(u => u.subscription === 1 )
+
+
+      const totalRent = users.filter(u => u.rented.length ).map(u => u.rented) 
+      const totalRented = totalRent.flat()
+      const totalRentRevenue = totalRented.length * 1.99
+      const totalPremiumRevenue = premiumUsers.length * 7.99 
+
+      const totalRevenue = totalRentRevenue + totalPremiumRevenue
+
+
+      const porcentajePremiumUsers = premiumUsers.length * 100 / users.length
+      const porcentajeBasicUsers = basicUsers.length * 100 / users.length
 
       function searcher(e) {
         e.preventDefault()
@@ -102,14 +121,107 @@ export default function Owner(){
         e.preventDefault()
         if (page !== totalPaginas) return setPage(page + 1);
       };
-    
-     
+
+
+      const makeAdmin = async (user) => {
+        try {
+          const userRef = doc(firestore, `/users/${user.uid}`);
+        await updateDoc(userRef, {
+          admin: true,
+        });
+        } catch (error) {
+          console.log(error)
+        }
+      };
+
+      const removeAdmin = async (user) => {
+        try {
+          const userRef = doc(firestore, `/users/${user.id}`);
+        await updateDoc(userRef, {
+          admin: false,
+        });
+        } catch (error) {
+          console.log(error)
+        }
+        
+      };
+
+      const handleBan = async (user) => {
+        if (!user.admin) {
+          toast({
+            title: `User ${user.username} is admin now`,
+            status: 'info',
+            duration: 5000,
+            position: 'top-center',
+            isClosable: true,
+          });
+          await updateDoc(doc(firestore, 'users', user.uid), {
+            admin: true,
+          });
+          setUsers((prev) => {
+            return prev.map((u) => {
+              if (u.uid === user.uid) {
+                u.admin = true;
+              }
+              return u;
+            });
+          });
+        } else {
+          toast({
+            title: `User ${user.username} is no longer admin`,
+            status: 'info',
+            duration: 5000,
+            position: 'top-center',
+            isClosable: true,
+          });
+          await updateDoc(doc(firestore, 'users', user.uid), {
+            admin: false,
+          });
+          setUsers((prev) => {
+            return prev.map((u) => {
+              if (u.uid === user.uid) {
+                u.admin = false;
+              }
+              return u;
+            });
+          });
+        }
+      };
+
+
+      function sortRented(){
+        let res = [...users]
+        res.sort((a,b) => {
+          if(a.rented.length < b.rented.length) return 1 
+          if(a.rented.length > b.rented.length) return -1 
+        })
+  
+        setByRent(res)
+      }
+  
+      function sortByDate(){
+        let res = results.sort((a,b) => {
+          if(a.subscriptionDate < b.subscriptionDate) return 1 
+          if(a.subscriptionDate > b.subscriptionDate) return -1 
+        })
+  
+        setByDate(res)
+      }
+
+
 
       let backgroundBox = useColorModeValue("gray.100", "gray.900")
 
     useEffect(() => {
         async function exe() {
           let allUsersData = await allUsers();
+          console.log(allUsersData)
+         /*  console.log(totalRented)
+          console.log("Total Peliculas rentadas: ", totalRentRevenue)
+          console.log("Total Ventas Usuarios Premium: ", totalPremiumRevenue)
+          console.log("Total vendido", totalRevenue)
+          console.log("Porcentaje Usuarios Premium", porcentajePremiumUsers.toFixed(2))
+          console.log("Porcentaje Usuarios Premium", porcentajeBasicUsers.toFixed(2)) */
           setUsers(allUsersData);
           setReady(true);
         }
@@ -132,27 +244,55 @@ export default function Owner(){
                 results={results}
                 user={userData}
             />
+            <Box>
+
             <Statistics 
                 totalUsers={users.length}
                 premiumUsers={premiumUsers.length}
                 basicUsers={basicUsers.length}
-            />
+                />
 
+<Center>
 
+<Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
+   <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
+</Box>
+</Center>
+           
+                </Box>
+            <Center>
+            <Box /* width={"800px"} */ backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
+            <LineChart data={totalRevenue} tableName="Total Revenue"/>  
+            </Box>
+            </Center>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <LineChart data={totalRentRevenue} tableName="Rent Revenue" color="white" />
+            <LineChart data={totalPremiumRevenue} tableName="Premium Revenue"/>
+            </Flex>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <BarChart data={users.length} tableName="User growth" />
+            <BarChart data={users.length} tableName="New Users"/>
+            </Flex>
+
+           
+        
             <Box  bg={loadingUser ? null : backgroundBox}>
 
-<Center margin={"20px"}>
+      <Center margin={"20px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
       <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
       </Center>
 
-<TableContainer bg={loadingUser ? null : backgroundBox} height={"700px"} >
-    <Center>
-        <Table variant="simple" width={"90%"} >
+<TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
+  
+        <Center>
+        <Table variant="simple" width={"90vw"} >
           <Thead>
             <Tr>
-            <Th  fontSize={"14px"}>
+            <Th  fontSize={"14px"} >
                 Photo
               </Th>
               <Th  fontSize={"14px"}>
@@ -162,22 +302,22 @@ export default function Owner(){
                 Username
               </Th>
               <Th  fontSize={"14px"}>
-                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} /* onClick={sortByDate} */ >Sort</Button>
+                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
               </Th>
               <Th  fontSize={"14px"}>
                 Subscription
               </Th>
               <Th  fontSize={"14px"}>
-                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} /* onClick={sortRented } */>Sort</Button>
+                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortRented} >Sort</Button>
               </Th>
               <Th fontSize={"14px"}>
                 Status
               </Th>
               <Th  fontSize={"14px"}>
-                Edit
+                Type User
               </Th>
               <Th  fontSize={"14px"}>
-                Ban
+                Edit Admin
               </Th>
             </Tr>
           </Thead>
@@ -188,63 +328,71 @@ export default function Owner(){
                 let activeOrNot = user.active ? "Active" : "Banned"
 
                   return (
-                    <Tr>
+                    <Tr >
                         <Td  >
                              <Avatar
                                  size={'md'}
                                  src={user.avatar}
                              />
                       </Td>
-                      <Td fontSize={"14px"} key={user.email} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.email} color={ "gray.500" } >
                         {user.email}
                       </Td>
-                      <Td fontSize={"14px"} key={user.username} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.username} color={ "gray.500" } >
                         {user.username}
                       </Td>
-                      <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray" } >
+                      <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray.500" } >
                         {user.subscriptionDate
                           .toDate()
                           .toLocaleDateString("en-US", options)}
                       </Td>
-                      <Td fontSize={"14px"} color={ "gray" } >
+                      <Td fontSize={"14px"} color={ "gray.500" } >
                         {user.subscription === 1 ? "Basic" : "Premium"}
                       </Td>
-                      <Td fontSize={"14px"} color={ "gray" } >{user.rented.length}</Td>
-                      <Td fontSize={"14px"}color={ "gray" } >
+                      <Td fontSize={"14px"} color={ "gray.500" } >{user.rented.length}</Td>
+                      <Td fontSize={"14px"}color={ "gray.500" } >
                         {activeOrNot}
                       </Td>
-                      <Td key={i + 1} color={ "gray" } >
-                                  <Button background={"lightgray"} >
-                                    <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
-                                  </Button>
+                      <Td key={i + 1} color={ "gray.500" } >
+
+                          {
+                            user.admin ? "Admin" : "User"
+                          }
                       </Td>
                       <Td>
-                        <Box>
+                        <Box >
                           <Popover>
                             <PopoverTrigger>
                                   <Button background={"lightgray"} >
-                                    <Image src={prohibition} alt="delete_image" width="20px" height="20px" color="white" />
+                                    <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
                                   </Button>
+                                  
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent>
                                 <PopoverArrow />
                                 <PopoverCloseButton />
                                 <PopoverHeader>
-                                  Are you sure you want to ban {user.username}?
+                                {
+                                    user.admin ? `Are you sure you want to REMOVE admin ${user.username}?` : `Are you sure you want to MAKE admin ${user.username}?`
+                                  }
                                 </PopoverHeader>
                                 <PopoverBody>
                                   <Button
                                     background={"#cd6155"}
                                     value={user.username}
-                                    /* onClick={accDelete} */
+                                    onClick={() => handleBan(user)}
                                   >
-                                    Ban
+                                    Continue
                                   </Button>
                                 </PopoverBody>
                               </PopoverContent>
+                              
                             </Portal>
                           </Popover>
+                          
+
+                          
                         </Box>
                       </Td>
                     </Tr>
