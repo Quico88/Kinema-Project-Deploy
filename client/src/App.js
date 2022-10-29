@@ -22,6 +22,8 @@ import Watch from './Components/Home/Watch.jsx';
 import Overview from './Components/Overview/Overview.jsx';
 import Owner from './Components/UserData/Owner/Owner.jsx';
 import AboutUs from './Components/Footer links/About us/AboutUs.jsx';
+import NotFound from './Components/Not Found/Not Found.jsx';
+import Contact from './Components/Footer links/Contact/Contact.jsx';
 
 // Create App component:
 export default function App() {
@@ -35,6 +37,7 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/watch/:id" element={<Watch />} />
         <Route path="/payment" element={<PaymentCheckout />} />
+        <Route path="/payment/upgrade" element={<PaymentCheckout />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/owner" element={<Owner />} />
         <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
@@ -52,8 +55,10 @@ export default function App() {
         <Route path="/home/search" element={<HomeSearch />} />
         <Route path="/home/movie_details/:id" element={<MovieDetail />} />
         <Route path="/home/tv_show_details/:id" element={<TVShowDetail />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/about_us" element={<AboutUs />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>
   );

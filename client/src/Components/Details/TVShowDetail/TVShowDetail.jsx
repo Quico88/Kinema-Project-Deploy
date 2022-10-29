@@ -14,6 +14,8 @@ import {
   dislike,
   putLike,
   getLikesFromContent,
+  logOutUser,
+  loadUserData,
 } from '../../../Redux/actions';
 import {
   Box,
@@ -71,7 +73,7 @@ export default function TVShowDetail() {
       description:
         'For any complaint or further information please contact our crew.',
       status: 'error',
-      duration: 3000,
+      duration: 5000,
       position: 'top-center',
       isClosable: true,
     });
@@ -84,6 +86,7 @@ export default function TVShowDetail() {
     dispatch(getSeasonDetail(id, 1));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
+    dispatch(loadUserData(user.uid))
   }, [dispatch]);
 
   useEffect(() => {}, [like]);
