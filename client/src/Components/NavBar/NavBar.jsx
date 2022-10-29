@@ -196,7 +196,7 @@ export default function NavBar({ ruta }) {
                       <MenuItem>Profile</MenuItem>
                     </RouteLink>
                     {user.subscription === 1 ? (
-                      <RouteLink to="/payment">
+                      <RouteLink to="/payment/upgrade">
                         <MenuItem color="green.700">Upgrade your plan</MenuItem>
                       </RouteLink>
                     ) : (

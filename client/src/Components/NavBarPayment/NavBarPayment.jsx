@@ -56,6 +56,8 @@ export default function NavBarPayment({ ruta }) {
           <Flex alignItems={"center"}>
           <Button onClick={() => functionBack()} variant='outline' 
                 color={'white'}
+                h={'30px'}
+                w={'80px'}
               _hover={{ bg: 'blue.400' }}
               rightIcon={<BsArrowReturnLeft />}>Back</Button>
           </Flex>

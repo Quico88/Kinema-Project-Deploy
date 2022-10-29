@@ -58,6 +58,7 @@ import {
   avatarImg,
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 const settings = {
   dots: true,
@@ -257,23 +258,7 @@ export default function UserProfile() {
         marginBottom={'5vh'}
         shadow="0px 0.5px 8px #444444"
       >
-        <HStack spacing={8} alignItems={'center'}>
-          <Box>
-            <RouteLink to="/home">
-              <Image
-                boxSize="100px"
-                objectFit="cover"
-                src={logo}
-                alt="Logo-kinema"
-              />
-            </RouteLink>
-          </Box>
-          <Box>
-            <Button onClick={goBack} variant="link">
-              Back
-            </Button>
-          </Box>
-        </HStack>
+        <NavBarPayment/>
         <Flex alignItems={'center'}></Flex>
       </Flex>
 
