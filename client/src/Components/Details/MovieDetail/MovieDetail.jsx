@@ -13,6 +13,8 @@ import {
   dislike,
   putLike,
   getLikesFromContent,
+  loadUserData,
+  logOutUser,
 } from '../../../Redux/actions';
 import {
   Box,
@@ -79,6 +81,7 @@ export default function MovieDetail() {
     dispatch(getMovieDetail(id));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
+    dispatch(loadUserData(user.uid))
   }, [dispatch]);
 
   useEffect(() => {
