@@ -7,21 +7,71 @@ import {
   Image,
   Link,
 } from '@chakra-ui/react';
+import { useMediaQuery } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { useSelector } from 'react-redux';
+import './Carrousel.css'
 
 // Settings for the slider
 const settings = {
   dots: true,
-  arrows: false,
+  arrows: true,
   fade: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 4,
+  slidesToShow: 7,
+  slidesToScroll: 6,
+  responsive: [{
+    breakpoint: 2000,
+    settings: {
+      slidesToShow: 6,
+      slidesToScroll: 6,
+    }
+  },{
+    breakpoint: 1800,
+    settings: {
+      slidesToShow: 5,
+      slidesToScroll: 5,
+    }
+  },{
+    breakpoint: 1500,
+    settings: {
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      arrows: true,
+    }
+  },
+  {
+    breakpoint: 1200,
+    settings: {
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      arrows: true,
+      dots: false
+    }
+  },
+  {
+    breakpoint: 820,
+    settings: {
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      arrows: true,
+      dots: false
+    }
+  },
+  {
+    breakpoint: 420,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      centerMode: true,
+      arrows: true,
+      dots: false
+    }
+  },]
 };
 
 export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
@@ -29,9 +79,12 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
   // change the state
   const [slider, setSlider] = React.useState(null);
   const user = useSelector((state) => state.user);
+  const [isShortThan800px] = useMediaQuery("(max-width: 800px)");
+  const [isShortThan420px] = useMediaQuery("(max-width: 420px)");
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
+  const buttonSize = useBreakpointValue({base:40, md:60, lg:80})
   const top = useBreakpointValue({ base: '90%', md: '35%' });
   const side = useBreakpointValue({ base: '30%', md: '0px' });
 
@@ -42,8 +95,8 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
     <Box
       position={'relative'}
       height={'270px'}
-      width={'105%'}
-      overflow={'hidden'}
+      w="105%"
+      pr="7vw"
     >
       {/* CSS files for react-slick */}
       <link
@@ -57,73 +110,54 @@ export default function CarouselTvShow({ openPlayer, movies, videoSerie }) {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      {/* Left Icon */}
-      <IconButton
-        aria-label="left-arrow"
-        colorScheme="messenger"
-        borderRadius="full"
-        position="absolute"
-        left={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        onClick={() => slider?.slickPrev()}
-      >
-        <IoIosArrowBack />
-      </IconButton>
-      {/* Right Icon */}
-      <IconButton
-        aria-label="right-arrow"
-        colorScheme="messenger"
-        borderRadius="full"
-        position="absolute"
-        right={side}
-        top={top}
-        transform={'translate(0%, -50%)'}
-        zIndex={2}
-        onClick={() => slider?.slickNext()}
-      >
-        <IoIosArrowForward />
-      </IconButton>
+
+
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((m, index) => {
           if (m.episode_number) {
             return (
               <Box
-                maxW={'260px'}
+                maxW={'240px'}
                 key={index}
-                m={'5vh'}
+                m={'2vh'}
                 mt="1vh"
+                /* mr="10vw" */
                 transition="0.4s"
                 _hover={{
                   transform: 'scale(1.07)',
                   transition: '0.8s',
                 }}
               >
+
                 <Link
                   onClick={() => openPlayer()}
                   position="relative"
                   w={'250px'}
                   pointerEvents={!user || user.subscription === 1 ? 'none' : ''}
+
                 >
-                  <Image src={m.image} borderRadius="0.5vh"></Image>
+                  <Box maxW={isShortThan800px ? "30vw" : "20vw"}>
+                    <Image src={m.image} borderRadius="0.5vh"></Image>
 
-                  {m.duration ? (
-                    <Text color={'white'} fontWeight="600">
-                      {' '}
-                      {m.episode_number}.{m.name} ({m.duration} min){' '}
-                    </Text>
-                  ) : (
-                    <Text color={'white'} fontWeight="600">
-                      {' '}
-                      {m.episode_number}.{m.name}
-                    </Text>
-                  )}
+                    {m.duration ? (
+                      <Text color={'white'} fontWeight="600">
+                        {' '}
+                        {m.episode_number}.{m.name} ({m.duration} min){' '}
+                      </Text>
+                    ) : (
+                      <Text color={'white'} fontWeight="600">
+                        {' '}
+                        {m.episode_number}.{m.name}
+                      </Text>
+                    )}
 
-                  <Text color={'white'} noOfLines={3} fontSize="1.2vh">
-                    {m.overview}
-                  </Text>
+                    {isShortThan420px ? <></> :
+                      <Text color={'white'} noOfLines={3} fontSize="1.2vh">
+                        {m.overview}
+                      </Text>
+                    }
+                  </Box>
                 </Link>
               </Box>
             );

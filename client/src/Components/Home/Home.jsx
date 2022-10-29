@@ -7,7 +7,7 @@ import CarouselHome from '../Carrousel/Chackra UI Components/CarouselHome';
 import CarouselWatchList from '../Carrousel/Chackra UI Components/CarouselWatchList';
 import CarouselRented from '../Carrousel/Chackra UI Components/CarouselRented';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHomeAll, logOutUser } from '../../Redux/actions';
+import { getHomeAll, loadUserData, logOutUser } from '../../Redux/actions';
 import { Container, Flex, Box, Text } from '@chakra-ui/react';
 import Loader from '../Loader/LoaderCarrusels';
 import Error from '../Error/Error.jsx';
@@ -30,7 +30,7 @@ export default function Home() {
       description:
         'For any complaint or further information please contact our crew.',
       status: 'error',
-      duration: 3000,
+      duration: 5000,
       position: 'top-center',
       isClosable: true,
     });
@@ -38,6 +38,7 @@ export default function Home() {
   }
 
     useEffect(() => {
+        dispatch(loadUserData(userData.uid))
         dispatch({ type: ERROR_CLEAN });
         if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
     }, []);
