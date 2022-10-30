@@ -55,7 +55,6 @@ const {
 
 const { getDataComments } = require('../controllers DB/comments');
 
-// TODO: get all for panel admin
 const { getAllMoviesJSON } = require('../controllers local/getDataJSON');
 
 const paymenRoutes = require('./paymentRoutes');
