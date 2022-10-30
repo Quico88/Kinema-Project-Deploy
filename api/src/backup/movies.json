@@ -1,18 +1,5 @@
 [
-  {
-    "id": 614939,
-    "genres": ["Comedy", "Romance"],
-    "title": "Bros",
-    "description": "Two men with commitment problems attempt a relationship.",
-    "rating": 6.425,
-    "user_reviews": 60,
-    "release_date": "September 30, 2022",
-    "duration": "115 minutes.",
-    "poster": "/4CArWLRroMPXwKJeO3HSYiyKyHD.jpg",
-    "back_poster": "/qCtf5YUt0uPHRVZUDJPKW0UMDuZ.jpg",
-    "trailer": "https://www.youtube.com/watch?v=AalwGQuANVU"
-  },
-  {
+ {
     "id": 779782,
     "genres": ["Fantasy", "Action", "Drama"],
     "title": "The School for Good and Evil",
