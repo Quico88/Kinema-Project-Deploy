@@ -4,7 +4,6 @@ import {
   Text,
   Flex,
   Image,
-  Center,
   Divider,
   Button,
 } from "@chakra-ui/react";

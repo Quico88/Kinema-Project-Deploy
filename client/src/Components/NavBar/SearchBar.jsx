@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { Box, Flex } from '@chakra-ui/layout';
-import { useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import style from "./SearchBar.module.css"
-
-import { useEffect, useRef } from "react"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-/* import { SearchIcon } from "@chakra-ui/icons"; */
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const IconSearch = styled(SearchIcon)`
     z-index: 10;
     width: 25px;
     height: 25px;
     color: white;
-`
-
-const ArrowRigth = styled(ArrowForwardIcon)`
-    /* size: 100px; */
-    align-self: flex-end;
-    z-index: 10;
-    cursor: pointer;
 `
 
 const Container = styled.div`
@@ -43,7 +31,7 @@ const Container = styled.div`
         ${({hover}) => hover && css`
             width: 100px;
         `}
-        @media (min-width: 420px){    
+        @media (min-width: 768px){    
           display: none
       }
     `;
@@ -68,18 +56,11 @@ const Container = styled.div`
     display: ${(props) => (props.showSearchInput ? "block" : "none")}
 `;
 
-
-
-
 const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [search2, setSearch2] = useState('');
   const navigate = useNavigate();
-  const bg = useColorModeValue('gray.100', 'gray.800');
-  let [isPageWide] = useMediaQuery('(max-width: 400px)')
-  let showText = useMediaQuery('(min-width: 400px)')
-  
-  
+ 
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/home/search/?query=${search}`);
@@ -95,19 +76,17 @@ const SearchBar = () => {
   const [isFocused, setIsFocused] = useState(false)
   const showSearchInput = isHovered || isFocused;
 
- 
-
   return (
     <Box>
-    <form onSubmit={handleSearch} className={style.searchbar} >
+      <form onSubmit={handleSearch} className={style.searchbar} >
         <Flex >
           <InputGroup>
-          <InputLeftElement
-            children={<SearchIcon/>}
-            color={"white"}
-            cursor={"pointer"}
-            onClick={handleSearch}
-          />
+            <InputLeftElement
+              children={<SearchIcon/>}
+              color={"white"}
+              cursor={"pointer"}
+              onClick={handleSearch}
+            />
             <Input
               type="text"
               placeholder="Search..."
@@ -123,7 +102,7 @@ const SearchBar = () => {
         </Flex>
       </form>
       <form onSubmit={handleSearch2}>
-      <Container
+          <Container
                 onMouseEnter={()=> setIsHovered(true)}
                 onMouseLeave={()=> setIsHovered(false)}
                 onFocus={() => setIsFocused(true)}
@@ -140,8 +119,8 @@ const SearchBar = () => {
                     />
                 {showSearchInput ? null : <IconSearch/>}
                 
-            </Container>
-                    </form>
+          </Container>
+      </form>
     </Box>
   );
 };

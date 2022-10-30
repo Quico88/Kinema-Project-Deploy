@@ -3,7 +3,6 @@
     width: 450px;
 }
 
-
 @media (max-width: 400px){
     .tabla_user{
         height: 55vh;

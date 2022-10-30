@@ -1,47 +1,22 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
-  Link,
   IconButton,
   Image,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
-  Stack,
-  MenuGroup,
-  
+  Stack
 } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from 'react-icons/bs';
-import { useAuth } from "../AuthContext/AuthContext";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
 
 import logo from "../../Assets/logo.png";
-import { color } from "../globalStyles";
-import { useSelector } from "react-redux";
-
-
-
 
 export default function NavBarPayment({ ruta }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { logout } = useAuth()
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [dataUser, setDataUser] = useState();
-
-  async function logOut() {
-    await logout();
-    navigate("/");
-  }
 
   function functionBack() {
     navigate(-1);
@@ -81,6 +56,8 @@ export default function NavBarPayment({ ruta }) {
           <Flex alignItems={"center"}>
           <Button onClick={() => functionBack()} variant='outline' 
                 color={'white'}
+                h={'30px'}
+                w={'80px'}
               _hover={{ bg: 'blue.400' }}
               rightIcon={<BsArrowReturnLeft />}>Back</Button>
           </Flex>

@@ -6,7 +6,6 @@ import {
   Stack,
   Text,
   Image,
-  useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
 
@@ -23,7 +22,7 @@ const ListHeader = (props) => {
 };
 
 const NavLink = (props) => (
-  <Link
+  <Text
       px={2}
       py={1}
       rounded={'md'}
@@ -35,7 +34,7 @@ const NavLink = (props) => (
       }}
     >
       {props.name}
-  </Link>
+  </Text>
 );
 
 export default function Footer() {
@@ -66,12 +65,12 @@ export default function Footer() {
           <Stack align={'flex-start'}>
             <ListHeader children={'Product'}></ListHeader>
             <RouteLink to='/overview'><NavLink name='Overview'/></RouteLink>
-            <RouteLink to='/register'><NavLink name='Pricing'/></RouteLink>
+            <RouteLink to='/register/plan'><NavLink name='Pricing'/></RouteLink>
           </Stack>
           <Stack align={'flex-start'}>
             <ListHeader children={'Company'}></ListHeader>
-            <RouteLink to='/about'><NavLink name='About'/></RouteLink>
-            <RouteLink to='/founders'><NavLink name='Contact'/></RouteLink>
+            <RouteLink to='/about_us'><NavLink name='About us'/></RouteLink>
+            <RouteLink to='/contact'><NavLink name='Contact'/></RouteLink>
           </Stack>
         </SimpleGrid>
       </Container>
