@@ -86,7 +86,7 @@ export default function TVShowDetail() {
     dispatch(getSeasonDetail(id, 1));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
-    dispatch(loadUserData(user.uid))
+    dispatch(loadUserData(user.uid));
   }, [dispatch]);
 
   useEffect(() => {}, [like]);
@@ -242,9 +242,9 @@ export default function TVShowDetail() {
                       noOfLines={4}
                       ml="10vw"
                     >
-                      {mySerie.genres?.map((genre) => (
+                      {mySerie.genres?.map((genre, index) => (
                         <Button
-                          key={genre.id}
+                          key={index}
                           size="xs"
                           variant="outline"
                           mr="1vh"
@@ -304,17 +304,17 @@ export default function TVShowDetail() {
                   {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`}{' '}
                   {isShortThan400px ? null : '||'}
                   {isShortThan400px ? <br /> : null}
-                  <Text
-                    fontSize="1.5vh"
-                    textAlign="left"
-                    color="white"
-                    fontWeight="bold"
-                    display="inline"
-                    ml={isShortThan400px ? '10vw' : '0'}
-                  >
-                    {' '}
-                    User reviews:{' '}
-                  </Text>
+                </Text>
+                <Text
+                  fontSize="1.5vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                  ml={isShortThan400px ? '10vw' : '0'}
+                >
+                  {' '}
+                  User reviews:{' '}
                   {mySerie.user_reviews
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -400,15 +400,15 @@ export default function TVShowDetail() {
                               Like
                             </Button>
                           )}
+                          <Text color="#72EFDD" fontWeight={600}>
+                            {totalLikes}&nbsp;
+                          </Text>
                           <Text
                             color="white"
                             ml="1vh"
                             fontSize="2vw"
                             display="flex"
                           >
-                            <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
-                            </Text>
                             {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
@@ -507,15 +507,10 @@ export default function TVShowDetail() {
                               Like
                             </Button>
                           )}
-                          <Text
-                            color="white"
-                            ml="1vh"
-                            fontSize="2vw"
-                            display="flex"
-                          >
-                            <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
-                            </Text>
+                          <Text color="#72EFDD" ml="1vh" fontWeight={600}>
+                            {totalLikes}&nbsp;
+                          </Text>
+                          <Text color="white" fontSize="2vw">
                             {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
@@ -571,6 +566,7 @@ export default function TVShowDetail() {
                   {totalSeasons?.map((el, index) => {
                     return (
                       <option
+                        key={index}
                         value={index + 1}
                         style={{ backgroundColor: '#233d4d' }}
                       >
@@ -639,22 +635,26 @@ export default function TVShowDetail() {
                       name="rating"
                     />
                     <Text
-                      fontSize="2vh"
+                      ml={3}
+                      fontSize="1.5vh"
                       textAlign="left"
                       color="white"
                       display="inline"
                     >
-                      {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`} ||
-                      <Text
-                        fontSize="2vh"
-                        textAlign="left"
-                        color="white"
-                        fontWeight="bold"
-                        display="inline"
-                      >
-                        {' '}
-                        User reviews:{' '}
-                      </Text>
+                      {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`}{' '}
+                      {isShortThan400px ? null : '||'}
+                      {isShortThan400px ? <br /> : null}
+                    </Text>
+                    <Text
+                      fontSize="1.5vh"
+                      textAlign="left"
+                      color="white"
+                      fontWeight="bold"
+                      display="inline"
+                      ml={isShortThan400px ? '10vw' : '0'}
+                    >
+                      {' '}
+                      User reviews:{' '}
                       {mySerie.user_reviews
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -689,9 +689,9 @@ export default function TVShowDetail() {
                     noOfLines={4}
                   >
                     Genres:{' '}
-                    {mySerie.genres?.map((genre) => (
+                    {mySerie.genres?.map((genre, index) => (
                       <Button
-                        key={genre.id}
+                        key={index}
                         size="sm"
                         variant="outline"
                         mr="1vh"
@@ -775,15 +775,10 @@ export default function TVShowDetail() {
                               Like
                             </Button>
                           )}
-                          <Text
-                            color="white"
-                            ml="1vh"
-                            fontSize={15}
-                            display="flex"
-                          >
-                            <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
-                            </Text>
+                          <Text color="#72EFDD" ml="1vh" fontWeight={600}>
+                            {totalLikes}&nbsp;
+                          </Text>
+                          <Text color="white" fontSize={15}>
                             {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
@@ -878,18 +873,14 @@ export default function TVShowDetail() {
                               Like
                             </Button>
                           )}
+                          <Text color="#72EFDD" ml="1vh" fontWeight={600}>
+                            {totalLikes}&nbsp;
+                          </Text>
                           <Text
                             color="white"
-                            ml="1vh"
                             fontSize={15}
-                            display="flex"
                           >
-                            <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
-                            </Text>
-                            {totalLikes === 1
-                              ? ' like.'
-                              : ' likes.'}
+                            {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
@@ -945,6 +936,7 @@ export default function TVShowDetail() {
                     {totalSeasons?.map((el, index) => {
                       return (
                         <option
+                          key={index}
                           value={index + 1}
                           style={{ backgroundColor: '#233d4d' }}
                         >
@@ -1000,6 +992,7 @@ export default function TVShowDetail() {
                   comments.map((comment) => {
                     return (
                       <Comment
+                        key={comment._id}
                         username={comment.username}
                         text={comment.content}
                         avatar={comment.avatar}
