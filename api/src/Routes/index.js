@@ -45,7 +45,7 @@ const {
   getDataTVJSON,
   getDetailTVJSON,
   // getDataSearchTVJSON,
-  getAllSeriesJSON, // TODO: REVISAR
+  getAllSeriesJSON,
   getSeriesByGenreJSON,
 } = require('../controllers local/getDataJSONSeries');
 
