@@ -20,18 +20,15 @@ import {
   PopoverBody,
   Avatar,
   Image,
-  Text,
 } from '@chakra-ui/react';
 import OwnerNavbar from './AdminNavbar';
 import Statistics from './StatisticsAdmin';
-/* import TableSales from "./TableSales"; */
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { /* useDispatch, */ useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useAuth } from '../../AuthContext/AuthContext';
 import { firestore } from '../../AuthContext/firebase';
 import { Navigate } from 'react-router-dom';
-import edit from '../../../Assets/edit.png';
 import prohibition from '../../../Assets/prohibition.png';
 import { useToast } from '@chakra-ui/react';
 
@@ -199,7 +196,7 @@ export default function Admin() {
 
         <TableContainer
           bg={loadingUser ? null : backgroundBox}
-          height={'700px'}
+          height={'900px'}
         >
           <Center>
             <Table variant="simple" width={'90%'}>
@@ -209,30 +206,30 @@ export default function Admin() {
                   <Th fontSize={'14px'}>Email</Th>
                   <Th fontSize={'14px'}>Username</Th>
                   <Th fontSize={'14px'}>
-                    Subscription Date{' '}
-                    <Button
+                    Subscription Date
+                    {/*   <Button
                       padding={'5px'}
                       height={'25px'}
                       fontSize={'12px'}
-                      border={'1px solid black'} /* onClick={sortByDate} */
+                      border={'1px solid black'}
+                      onClick={sortByDate}
                     >
                       Sort
-                    </Button>
+                    </Button> */}
                   </Th>
                   <Th fontSize={'14px'}>Subscription</Th>
                   <Th fontSize={'14px'}>
-                    Rented{' '}
-                    <Button
+                    Rented
+                    {/*  <Button
                       padding={'5px'}
                       height={'25px'}
                       fontSize={'12px'}
-                      border={'1px solid black'} /* onClick={sortRented } */
+                      border={'1px solid black'}  onClick={sortRented }
                     >
                       Sort
-                    </Button>
+                    </Button> */}
                   </Th>
                   <Th fontSize={'14px'}>Status</Th>
-                  <Th fontSize={'14px'}>Edit</Th>
                   <Th fontSize={'14px'}>Ban / Lift Ban</Th>
                   <Th fontSize={'14px'}>Banned</Th>
                 </Tr>
@@ -247,44 +244,37 @@ export default function Admin() {
                           <Td>
                             <Avatar size={'md'} src={user.avatar} />
                           </Td>
-                          <Td fontSize={'14px'} key={user.email} color={'gray'}>
+                          <Td
+                            fontSize={'14px'}
+                            key={user.email}
+                            color={'gray.500'}
+                          >
                             {user.email}
                           </Td>
                           <Td
                             fontSize={'14px'}
                             key={user.username}
-                            color={'gray'}
+                            color={'gray.500'}
                           >
                             {user.username}
                           </Td>
                           <Td
                             fontSize={'14px'}
                             key={user.subscriptionDate}
-                            color={'gray'}
+                            color={'gray.500'}
                           >
                             {user.subscriptionDate
                               .toDate()
                               .toLocaleDateString('en-US', options)}
                           </Td>
-                          <Td fontSize={'14px'} color={'gray'}>
+                          <Td fontSize={'14px'} color={'gray.500'}>
                             {user.subscription === 1 ? 'Basic' : 'Premium'}
                           </Td>
-                          <Td fontSize={'14px'} color={'gray'}>
+                          <Td fontSize={'14px'} color={'gray.500'}>
                             {user.rented.length}
                           </Td>
-                          <Td fontSize={'14px'} color={'gray'}>
+                          <Td fontSize={'14px'} color={'gray.500'}>
                             {activeOrNot}
-                          </Td>
-                          <Td key={i + 1} color={'gray'}>
-                            <Button background={'lightgray'}>
-                              <Image
-                                src={edit}
-                                alt="delete_image"
-                                width="20px"
-                                height="20px"
-                                color="white"
-                              />
-                            </Button>
                           </Td>
                           <Td>
                             <Box display="flex" justifyContent="center">
@@ -351,7 +341,7 @@ export default function Admin() {
                               </Popover>
                             </Box>
                           </Td>
-                          <Td fontSize={'14px'} color={'gray'}>
+                          <Td fontSize={'14px'} color={'gray.500'}>
                             {user.banned ? 'Yes' : 'No'}
                           </Td>
                         </Tr>

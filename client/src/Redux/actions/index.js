@@ -581,3 +581,17 @@ export const isLike = (user, content) => {
     }
   };
 };
+
+//Get all content for admin panel:
+export const getAllContent = () => {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(`/panelAdmin`);
+      return json.data;
+    } catch (error) {
+      return dispatch({
+        type: ERROR_FOUND,
+      });
+    }
+  };
+};

@@ -45,21 +45,23 @@ const {
   getDataTVJSON,
   getDetailTVJSON,
   // getDataSearchTVJSON,
+  getAllSeriesJSON,
   getSeriesByGenreJSON,
 } = require('../controllers local/getDataJSONSeries');
 
 const {
   detailSeasonJSON,
 } = require('../controllers local/detailedSeasonsSeriesJSON.js');
+
 const { getDataComments } = require('../controllers DB/comments');
+
+const { getAllMoviesJSON } = require('../controllers local/getDataJSON');
 
 const paymenRoutes = require('./paymentRoutes');
 
 router.use('/payment', paymenRoutes);
 
 // ROUTES:
-
-// TODO: Get season and it's episodes details by ID and season number:
 router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
@@ -274,7 +276,7 @@ router.post('/like', async (req, res) => {
   } catch (error) {
     return res.status(204).json({ Error: error.message });
   }
-})
+});
 
 router.post('/dislike', async (req, res) => {
   const { idContent, idUser } = req.query;
@@ -284,7 +286,7 @@ router.post('/dislike', async (req, res) => {
   } catch (error) {
     return res.status(204).json({ Error: error.message });
   }
-})
+});
 
 router.get('/likes_from/:idContent', async (req, res) => {
   const { idContent } = req.params;
@@ -294,7 +296,7 @@ router.get('/likes_from/:idContent', async (req, res) => {
   } catch (error) {
     return res.status(204).json({ Error: error.message });
   }
-})
+});
 
 router.get('/likes_from_user/:idUser', async (req, res) => {
   const { idUser } = req.params;
@@ -304,7 +306,7 @@ router.get('/likes_from_user/:idUser', async (req, res) => {
   } catch (error) {
     return res.status(204).json({ Error: error.message });
   }
-})
+});
 
 router.get('/islike', async (req, res) => {
   const { idContent, idUser } = req.query;
@@ -314,6 +316,18 @@ router.get('/islike', async (req, res) => {
   } catch (error) {
     return res.status(204).json({ Error: error.message });
   }
-})
+});
+
+//  Get all movies and tv series for admin content panel:
+router.get('/panelAdmin', async (req, res) => {
+  try {
+    const movies = await getAllMoviesJSON();
+    const series = await getAllSeriesJSON();
+    const allContent = movies.concat(series);
+    res.send(allContent);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
 
 module.exports = router;

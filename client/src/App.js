@@ -22,6 +22,8 @@ import Watch from './Components/Home/Watch.jsx';
 import Overview from './Components/Overview/Overview.jsx';
 import Owner from './Components/UserData/Owner/Owner.jsx';
 import AboutUs from './Components/Footer links/About us/AboutUs.jsx';
+import KinemaContent from './Components/UserData/Admin/KinemaContent.jsx';
+import UserComments from './Components/UserData/Admin/UserComments.jsx';
 import NotFound from './Components/Not Found/Not Found.jsx';
 import Contact from './Components/Footer links/Contact/Contact.jsx';
 
@@ -39,9 +41,17 @@ export default function App() {
         <Route path="/payment" element={<PaymentCheckout />} />
         <Route path="/payment/upgrade" element={<PaymentCheckout />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/content" element={<KinemaContent />} />
+        <Route path="/admin/content/:id" element={<UserComments />} />
         <Route path="/owner" element={<Owner />} />
-        <Route path="/payment/rent/movie/:id" element={<PaymentCheckoutRent />} />
-        <Route path="/payment/rent/tv_show/:id" element={<PaymentCheckoutRent />} />
+        <Route
+          path="/payment/rent/movie/:id"
+          element={<PaymentCheckoutRent />}
+        />
+        <Route
+          path="/payment/rent/tv_show/:id"
+          element={<PaymentCheckoutRent />}
+        />
         <Route
           path="/profile"
           element={
