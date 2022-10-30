@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext/AuthContext';
 import loader from '../../../Assets/loader.gif'
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -69,7 +70,10 @@ export default function Login() {
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
     >
+      <NavBarPayment/>
       <Container
+        display='flex'
+        justifyContent='center'
         as={SimpleGrid}
         maxW={'7xl'}
         columns={{ base: 1, md: 2 }}
