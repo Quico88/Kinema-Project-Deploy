@@ -11,15 +11,19 @@ import {
   FormControl,
   Link,
   Checkbox,
+  Image,
+  Flex,
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext/AuthContext';
+import loader from '../../../Assets/loader.gif'
 
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
     email: '',
@@ -38,17 +42,21 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       await login(user.email, user.password);
       // navigate('/home');
     } catch (error) {
       setError(error.message);
     }
+    setLoading(false);
   }
 
   async function handleGoogleSignin() {
+    setLoading(true);
     await signupWithGoogle();
     // setTimeout(() => navigate('/home'), 500);
+    setLoading(false);
   }
 
   return (
@@ -77,7 +85,7 @@ export default function Login() {
           spacing={{ base: 8 }}
           maxW={{ lg: 'lg' }}
         >
-          <Stack spacing={4}>
+          <Flex justify='space-between' align='center' h='60px'>
             <Heading
               color={'white'}
               lineHeight={1.1}
@@ -92,7 +100,8 @@ export default function Login() {
                 !
               </Text>
             </Heading>
-          </Stack>
+            { loading ? <Image boxSize='60px' src={loader} alt='loader' /> : null }
+          </Flex>
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
               <FormControl>
@@ -188,5 +197,6 @@ export default function Login() {
         </Stack>
       </Container>
     </Box>
+    
   );
 }

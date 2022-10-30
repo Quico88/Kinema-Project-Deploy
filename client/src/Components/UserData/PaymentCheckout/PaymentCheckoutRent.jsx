@@ -32,6 +32,7 @@ import logo from '../../../Assets/logoPayment.png';
 import moment from 'moment';
 import { doc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../AuthContext/firebase';
+import loader from '../../../Assets/loader.gif'
 
 const stripePromise = loadStripe(
   'pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI'
@@ -81,6 +82,8 @@ const CheckoutForm = () => {
     name: '',
     surname: '',
   });
+
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     setInput({
@@ -133,6 +136,7 @@ const CheckoutForm = () => {
       });
     } else {
       e.preventDefault();
+      setLoading(true);
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: elements.getElement(CardElement),
@@ -145,7 +149,7 @@ const CheckoutForm = () => {
           email,
           title,
         });
-
+        setLoading(false);
         if (data.success) {
           toast.success(data.message, {
             position: 'top-center',
@@ -161,6 +165,7 @@ const CheckoutForm = () => {
           await updateRented(rentedMovie);
           navigate(-1);
         } else {
+          setLoading(false);
           toast.error(data.message, {
             position: 'top-center',
             autoClose: 5000,
@@ -269,13 +274,17 @@ const CheckoutForm = () => {
                   </Box>
                 </Stack>
                 <CardElement className='pcard' />
-                {isLargerThan480 ? null : (
-                  <Box p={6}>
-                    <button className='btn-premium2'>Confirm</button>
-                  </Box>
-                )}
+                {isLargerThan480 ? null : 
+                  loading ? 
+                    <Flex justify='center' align='center'>
+                      <Image mt='20px' boxSize='60px' src={loader} alt='loader' /> 
+                    </Flex>
+                  :
+                    <Box p={6}>
+                      <button className='btn-premium2'>Confirm</button>
+                    </Box> 
+                }
               </Box>
-
               <Flex
                 w='20vw'
                 h={isLargerThan480 ? '500px' : '280px'}
@@ -289,11 +298,15 @@ const CheckoutForm = () => {
                 p='5px'
               >
                 {isLargerThan480 ?
-                <Image
-                  src={logo}
-                  w='80px'
-                  h='80px'
-                ></Image>
+                loading ? 
+                  <Image mt='10px' boxSize='80px' src={loader} alt='loader' />
+                  : 
+                  <Image
+                    mt= '10px'
+                    src={logo}
+                    w='80px'
+                    h='80px'
+                  />
                 : null }
                 <Text align={'center'} justify={'center'} color='white'>
                   Rent
@@ -312,7 +325,7 @@ const CheckoutForm = () => {
                     w={isLargerThan480 ? '100px' : '75px'}
                     h={isLargerThan480 ? '140px' : '105px'}
                     borderRadius='0.5vh'
-                  ></Image>
+                />
                 <Flex align={'center'} justify={'center'} mt='3vh' direction="column">
                   {isLargerThan480 ? (
                     <button className='btn-premium'>Confirm</button>
