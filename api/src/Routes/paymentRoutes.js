@@ -34,7 +34,7 @@ paymenRoutes.post('/premium', async (req, res) => {
         res.send({ message: 'Your payment has been successfully processed. Enjoy Kinema Premium', subId, success: true });
     } 
     catch (error) {
-        res.json({ message: "We were not able to process your payment. Please try again", sucess: false });
+        res.json({ message: error.message, sucess: false });
     }
 });
   
@@ -71,7 +71,7 @@ paymenRoutes.post('/rent', async (req, res) => {
         res.send({ message: 'Your payment has been successfully processed. Enjoy your movie!', success: true });
     } 
     catch (error) {
-        res.json({ message: "We were not able to process your payment. Please try again", sucess: false });
+        res.json({ message: error.message, sucess: false });
     }
 });
 

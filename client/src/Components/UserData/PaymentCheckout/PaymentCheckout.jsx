@@ -33,6 +33,7 @@ import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 import { changeSID, upgradePlan } from '../../../Redux/actions';
 import { ToastContainer, toast } from 'react-toastify';
 import { CheckIcon } from '@chakra-ui/icons';
+import loader from '../../../Assets/loader.gif';
 
 const stripePromise = loadStripe(
   'pk_test_51LvQonFFC0gF7yTeuOEoxQ3wpBdRP5RTM4qfj3LBPhDG49fftecGaI3ixkwnaU5yKXDHiEIg4RW6mdoZGWM5GEs200MTQVMdhI'
@@ -57,6 +58,8 @@ const CheckoutForm = () => {
     name: '',
     surname: '',
   });
+  const [loading, setLoading] = useState(false);
+
   function handleChange(e) {
     setInput({
       ...input,
@@ -109,6 +112,7 @@ const CheckoutForm = () => {
     } else {
       try {
         e.preventDefault();
+        setLoading(true);
         const { error, paymentMethod } = await stripe.createPaymentMethod({
           type: 'card',
           card: elements.getElement(CardElement),
@@ -120,6 +124,7 @@ const CheckoutForm = () => {
             username,
             email,
           });
+          setLoading(false);
           if (data.success) {
             toast.success(data.message, {
               position: 'top-center',
@@ -140,6 +145,7 @@ const CheckoutForm = () => {
             dispatch(upgradePlan());
             pathname.includes('upgrade') ? navigate(-1) : navigate('/home');
           } else {
+            setLoading(false);
             toast.error(data.message, {
               position: 'top-center',
               autoClose: 5000,
@@ -154,6 +160,7 @@ const CheckoutForm = () => {
         }
       } catch (e) {
         alert(e);
+        setLoading(false);
       }
     }
   };
@@ -194,6 +201,7 @@ const CheckoutForm = () => {
               pr='30px'
               pt='3vh'
               mb={'15px'}
+              justifyItems='center'
             >
               <FormLabel m={'0px'} p='0px'>
                 Name
@@ -240,9 +248,16 @@ const CheckoutForm = () => {
                 </Box>
               </Stack>
               <CardElement className='pcard' />
-              {isLargerThan480 ? null : (
-                <button className='btn-premium2'>Confirm</button>
-              )}
+              {isLargerThan480 ? null : 
+                  loading ? 
+                    <Flex justify='center' align='center'>
+                      <Image mt='20px' boxSize='60px' src={loader} alt='loader' /> 
+                    </Flex>
+                  :
+                    <Box p={6}>
+                      <button className='btn-premium2'>Confirm</button>
+                    </Box> 
+                }
             </Box>
 
             <Flex
@@ -259,11 +274,12 @@ const CheckoutForm = () => {
               align='center'
               direction='column'
             >
+              { loading && isLargerThan480 ? <Image boxSize='160px' src={loader} alt='loader' /> : 
               <Image
                 src={logo}
                 w={isLargerThan480 ? '160px' : '0px'}
                 h={isLargerThan480 ? '160px' : '0px'}
-              ></Image>
+              /> }
               <Text
                 align={'center'}
                 justify={'center'}
