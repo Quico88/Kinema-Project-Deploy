@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import styles from './LandingPage.module.css';
 import logo from '../../Assets/logo.png';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getHomeAll } from '../../Redux/actions';
 import {
@@ -23,9 +23,14 @@ import { color } from '../globalStyles';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(getHomeAll());
+    if(user){
+      navigate("/home")
+    }
   }, [dispatch]);
 
   let refMenuBtn = useRef();
