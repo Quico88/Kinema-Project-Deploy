@@ -27,6 +27,23 @@ const getDataTVJSON = (page) => {
   return TvSeries;
 };
 
+//Get all series for admin panel:
+const getAllSeriesJSON = () => {
+  const image_route = 'https://image.tmdb.org/t/p/original';
+
+  const allSeries = data.map((serie) => {
+    return {
+      id: serie.id,
+      title: serie.title,
+      release_date: serie.release_date_first_episode,
+      rating: serie.rating,
+      image: image_route + serie.poster,
+      serie: true,
+    };
+  });
+  return allSeries;
+};
+
 // TV Series detail:
 const getDetailTVJSON = (id) => {
   const options = {
@@ -143,4 +160,5 @@ module.exports = {
   getDetailTVJSON,
   getDataSearchTVJSON,
   getSeriesByGenreJSON,
+  getAllSeriesJSON,
 };

@@ -8,11 +8,11 @@ import {
   StatNumber,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { BsPerson } from 'react-icons/bs';
-import { FaUsers } from 'react-icons/fa';
-import { RiUserStarLine } from 'react-icons/ri';
+import { BsFilm } from 'react-icons/bs';
+import { BsFillCollectionPlayFill } from 'react-icons/bs';
+import { BsFillCameraVideoFill } from 'react-icons/bs';
 
-export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
+export default function Statistics({ movies, tvShows, totalContent }) {
   return (
     <Box maxW="7xl" mx={'auto'} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
       <chakra.h1
@@ -21,7 +21,7 @@ export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
         py={10}
         fontWeight={'bold'}
       >
-        Users data
+        Kinema Content
       </chakra.h1>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
         <Stat
@@ -34,11 +34,11 @@ export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
         >
           <Flex justifyContent={'space-between'}>
             <Box pl={{ base: 2, md: 4 }}>
-              <StatLabel color={'yellow.500'} fontWeight={'medium'} isTruncated>
-                Premium Users
+              <StatLabel color={'blue.600'} fontWeight={'medium'} isTruncated>
+                Movies
               </StatLabel>
               <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-                {premiumUsers}
+                {movies}
               </StatNumber>
             </Box>
             <Box
@@ -46,7 +46,33 @@ export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
               color={useColorModeValue('gray.800', 'gray.200')}
               alignContent={'center'}
             >
-              <RiUserStarLine size={'3em'} />
+              <BsFilm size={'3em'} />
+            </Box>
+          </Flex>
+        </Stat>
+        <Stat
+          px={{ base: 2, md: 4 }}
+          py={'5'}
+          shadow={'xl'}
+          border={'1px solid'}
+          borderColor={useColorModeValue('gray.800', 'gray.500')}
+          rounded={'lg'}
+        >
+          <Flex justifyContent={'space-between'}>
+            <Box pl={{ base: 2, md: 4 }}>
+              <StatLabel color={'yellow.500'} fontWeight={'medium'} isTruncated>
+                TV Shows
+              </StatLabel>
+              <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
+                {tvShows}
+              </StatNumber>
+            </Box>
+            <Box
+              my={'auto'}
+              color={useColorModeValue('gray.800', 'gray.200')}
+              alignContent={'center'}
+            >
+              <BsFillCameraVideoFill size={'3em'} />
             </Box>
           </Flex>
         </Stat>
@@ -61,10 +87,10 @@ export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
           <Flex justifyContent={'space-between'}>
             <Box pl={{ base: 2, md: 4 }}>
               <StatLabel color={'green.600'} fontWeight={'medium'} isTruncated>
-                Basic Users
+                Total Content
               </StatLabel>
               <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-                {basicUsers}
+                {totalContent}
               </StatNumber>
             </Box>
             <Box
@@ -72,33 +98,7 @@ export default function Statistics({ totalUsers, premiumUsers, basicUsers }) {
               color={useColorModeValue('gray.800', 'gray.200')}
               alignContent={'center'}
             >
-              <BsPerson size={'3em'} />
-            </Box>
-          </Flex>
-        </Stat>
-        <Stat
-          px={{ base: 2, md: 4 }}
-          py={'5'}
-          shadow={'xl'}
-          border={'1px solid'}
-          borderColor={useColorModeValue('gray.800', 'gray.500')}
-          rounded={'lg'}
-        >
-          <Flex justifyContent={'space-between'}>
-            <Box pl={{ base: 2, md: 4 }}>
-              <StatLabel color={'blue.600'} fontWeight={'medium'} isTruncated>
-                Total Users
-              </StatLabel>
-              <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-                {totalUsers}
-              </StatNumber>
-            </Box>
-            <Box
-              my={'auto'}
-              color={useColorModeValue('gray.800', 'gray.200')}
-              alignContent={'center'}
-            >
-              <FaUsers size={'3em'} />
+              <BsFillCollectionPlayFill size={'3em'} />
             </Box>
           </Flex>
         </Stat>
