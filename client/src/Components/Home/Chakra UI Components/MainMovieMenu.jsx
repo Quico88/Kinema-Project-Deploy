@@ -1,10 +1,11 @@
+/* eslint-disable */
 import {
-  Stack,
-  Flex,
-  Button,
-  Text,
-  VStack,
-  useBreakpointValue,
+    Stack,
+    Flex,
+    Button,
+    Text,
+    VStack,
+    useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,93 +14,115 @@ import { getMovieDetail } from '../../../Redux/actions';
 import { Icon } from '@chakra-ui/react';
 import { BsCreditCard } from 'react-icons/bs';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
+import { MdPlayArrow } from 'react-icons/md';
 
 
 export default function MainMovieMenu(props) {
-  const userData = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+    const userData = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch(getMovieDetail(props.id));
-  };
+    const handleClick = () => {
+        dispatch(getMovieDetail(props.id));
+    };
 
-  return (
-    <Flex
-      w={'full'}
-      h={'65vh'}
-      backgroundImage={props.poster}
-      backgroundSize={'cover'}
-      backgroundPosition={'center center'}
-    >
-      <VStack
-        w={'full'}
-        justify={'center'}
-        px={useBreakpointValue({ base: 4, md: 8 })}
-        bgGradient={
-          'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'
-        }
-      >
-        <Stack maxW={'2xl'} align={'flex-start'} spacing={6}>
-          <Text
-            color={'white'}
-            fontWeight={700}
-            lineHeight={1.2}
-            fontSize={useBreakpointValue({ base: '3xl', md: '4xl' })}
-          >
-            {props.title}
-          </Text>
-          <Stack direction={'row'} spacing={4} alignSelf={'center'}>
-            {userData.subscription === 2 ? (
-              <Link to={`/home/movie_details/${props.id}`}>
-                <Button
-                  bg={'blue.400'}
-                  rounded={'full'}
-                  color={'white'}
-                  _hover={{ bg: 'blue.500' }}
-                >
-                  Watch
-                </Button>
-              </Link>
-            ) : userData.subscription === 1 ? (
-              <Link to={`/payment/rent/movie/${props.id}`}>
-                <Button
-                  onClick={() => handleClick()}
-                  rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
-                  bg={'blue.400'}
-                  rounded={'full'}
-                  color={'white'}
-                  _hover={{ bg: 'blue.500' }}
-                >
-                  Rent
-                </Button>
-              </Link>
-            ) : (
-              <Link to={`/login`}>
-                <Button
-                  bg={'blue.400'}
-                  rounded={'full'}
-                  color={'white'}
-                  _hover={{ bg: 'blue.500' }}
-                >
-                  Log In to Watch
-                </Button>
-              </Link>
-            )}
+    const validExpirationDate = () => {
+        const { rented } = userData;
+        if (!rented.length) return false;
+        const movieRentHistory = rented.filter ( m => m.id == props.id);
+        let now = new Date();
+        if (!movieRentHistory.length) return false;
+        const validMovie = (movieRentHistory.find ( (m) => m.expirationDate > now.getTime())) 
+        return validMovie.expirationDate;
+    }
 
-            <Link to={`/home/movie_details/${props.id}`}>
-              <Button
-                bg={'whiteAlpha.300'}
-                rightIcon={<Icon as={IoMdInformationCircleOutline} boxSize={6} />}
-                rounded={'full'}
-                color={'white'}
-                _hover={{ bg: 'whiteAlpha.500' }}
-              >
-                More Information
-              </Button>
-            </Link>
-          </Stack>
-        </Stack>
-      </VStack>
-    </Flex>
-  );
+    return (
+        <Flex
+            w={'full'}
+            h={{base:'50vh', sm: '65vh'}}
+            backgroundImage={props.poster}
+            backgroundSize={'cover'}
+            backgroundPosition={'center center'}
+        >
+        <VStack
+            w={'full'}
+            justify={'center'}
+            px={useBreakpointValue({ base: 4, md: 8 })}
+            bgGradient={
+            'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'
+            }
+        >
+            <Stack maxW={'2xl'} align={'center'} spacing={6} w={{base: '50%', md: '90%'}}>
+                <Text
+                    color={'white'}
+                    textAlign='center'
+                    fontWeight={700}
+                    lineHeight={1.2}
+                    fontSize={useBreakpointValue({ base: '2xl', sm: '3xl', md: '4xl' })}
+                >
+                    {props.title}
+                </Text>
+                <Stack direction={{base: 'column', sm: 'row'}} spacing={4} alignSelf={'center'}>
+                    {userData.subscription === 2 || (userData.subscription === 1 && validExpirationDate()) ? (
+                    <Link to={`/home/watch/${props.id}`}>
+                        <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
+                            onClick={() => handleClick()}
+                            rightIcon={<Icon as={MdPlayArrow} boxSize={{base: 4, sm: 5, md: 6}} />}
+                            bg={'blue.400'}
+                            w={{base: '100%', sm: '100px'}}
+                            rounded={'full'}
+                            color={'white'}
+                            _hover={{ bg: 'blue.500' }}
+                        >
+                            Watch
+                        </Button>
+                    </Link>
+                    ) : userData.subscription === 1 ? (
+                        <Link to={`/payment/rent/movie/${props.id}`}>
+                            <Button
+                                size={{base: "xs", sm: "sm", md: "md"}}
+                                onClick={() => handleClick()}
+                                rightIcon={<Icon as={BsCreditCard} boxSize={{base: 4, sm: 5, md: 6}} />}
+                                bg={'blue.400'}
+                                w={{base: '100%', sm: '100px'}}
+                                rounded={'full'}
+                                color={'white'}
+                                _hover={{ bg: 'blue.500' }}
+                            >
+                                Rent
+                            </Button>
+                        </Link>
+                    ) : (
+                    <Link to={`/login`}>
+                        <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
+                            w={{base: '100%', sm: '200px'}}
+                            bg={'blue.400'}
+                            rounded={'full'}
+                            color={'white'}
+                            _hover={{ bg: 'blue.500' }}
+                        >
+                            Log In to Watch
+                        </Button>
+                    </Link>
+                    )}
+
+                    <Link to={`/home/movie_details/${props.id}`}>
+                        <Button
+                            size={{base: "xs", sm: "sm", md: "md"}}
+                            w={{base: '100%', sm: '200px'}}
+                            bg={'whiteAlpha.300'}
+                            rightIcon={<Icon as={IoMdInformationCircleOutline} boxSize={{base: 4, sm: 5, md: 6}} />}
+                            rounded={'full'}
+                            color={'white'}
+                            _hover={{ bg: 'whiteAlpha.500' }}
+                        >
+                            More Information
+                        </Button>
+                    </Link>
+                </Stack>
+            </Stack>
+        </VStack>
+        </Flex>
+    );
 }

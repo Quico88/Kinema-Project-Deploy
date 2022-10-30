@@ -12,13 +12,12 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
 
 import { useAuth } from '../AuthContext/AuthContext';
 import './NavBarPlayer.module.css';
-import { Link as RouteLink, useNavigate } from 'react-router-dom';
+import { Link as RouteLink, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { color } from '../globalStyles';
@@ -76,10 +75,11 @@ const NavLink3 = () => (
 
 export default function Simple(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, logout, loadingUser, read } = useAuth();
+  const { user, logout, read } = useAuth();
   const [image, setImage] = useState();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
   const { closePlayer } = props;
 
   async function logOut() {
@@ -107,10 +107,13 @@ export default function Simple(props) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Button onClick={() => closePlayer()} variant='outline' 
+            <Button onClick={ location.pathname.includes("watch") ? () => navigate(-1) : () => closePlayer()} variant='outline' 
                 color={'white'}
               _hover={{ bg: 'blue.400' }}
-              rightIcon={<BsArrowReturnLeft />}>BACK</Button>
+              rightIcon={<BsArrowReturnLeft />}
+              h={'30px'}
+              w={'80px'}
+              >Back</Button>
             <HStack
               as={'nav'}
               spacing={4}

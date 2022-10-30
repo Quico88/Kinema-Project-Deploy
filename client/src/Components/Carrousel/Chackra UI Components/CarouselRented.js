@@ -12,6 +12,16 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { extendTheme } from '@chakra-ui/react'
+
+const breakpoints = {
+  sm: '400px',
+  md: '768px',
+  lg: '960px',
+  xl: '1200px',
+  '2xl': '1536px',
+}
+const theme = extendTheme({ breakpoints })
 
 // Settings for the slider
 const settings = {
@@ -22,6 +32,37 @@ const settings = {
   speed: 1500,
   slidesToShow: 8,
   slidesToScroll: 4,
+  initialSlide: 0,
+  responsive: [
+    {
+      breakpoint: 2048,
+      settings: {
+        slidesToShow: 8,
+        slidesToScroll: 4,
+      }
+    },
+    {
+      breakpoint: 960,
+      settings: {
+        slidesToShow: 6,
+        slidesToScroll: 3,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+      }
+    },
+    {
+      breakpoint: 440,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3
+      }
+    }
+  ]
 };
 
 export default function CarouselWatchList({ movies }) {
@@ -31,8 +72,9 @@ export default function CarouselWatchList({ movies }) {
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
-  const top = useBreakpointValue({ base: '90%', md: '50%' });
-  const side = useBreakpointValue({ base: '30%', md: '10px' });
+  const buttonSize = useBreakpointValue({base:40, md:60, lg:80})
+  const top = useBreakpointValue({ base: '60%', md: '50%' });
+  const side = useBreakpointValue({ base: "2px", md: "10px" });
 
   // These are the images used in the slide
 
@@ -40,11 +82,8 @@ export default function CarouselWatchList({ movies }) {
 
   return (
     <Box
-      position={cards.length > 8 ? 'relative' : 'static'}
-      height={'390px'}
-      width={cards.length < 8 ? `${cards.length * 12.5}%` : 'full'}
-      mt={20}
-      mb={20}
+      position={'relative'}
+      mb={{base: 4, sm: 6, md: 12}}
       overflow={'hidden'}
     >
       {/* CSS files for react-slick */}
@@ -61,11 +100,12 @@ export default function CarouselWatchList({ movies }) {
       />
       {/* Left Icon */}
       <Text
-        fontSize={{ base: '1xl', md: '3xl' }}
+        fontSize={{ base: '1xl', md: '2xl' }}
         fontWeight={'bold'}
         color={'white'}
+        
       >
-        Rented :
+        Rented
       </Text>
       <IconButton
         aria-label="left-arrow"
@@ -77,7 +117,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
-        display={cards.length < 8 ? 'none' : 'inline-flex'}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
@@ -86,7 +126,7 @@ export default function CarouselWatchList({ movies }) {
           backgroundColor: 'transparent',
         }}
       >
-        <IoIosArrowBack color="white" size={85} />
+        <IoIosArrowBack color="white" size={buttonSize} />
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -99,7 +139,7 @@ export default function CarouselWatchList({ movies }) {
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
-        display={cards.length < 8 ? 'none' : 'inline-flex'}
+        display={{base: cards.length <= 3 ? 'none' : 'inline-flex', sm: cards.length <= 4 ? 'none' : 'inline-flex', md: cards.length <= 6 ? 'none' : 'inline-flex', lg: cards.length <= 8 ? 'none' : 'inline-flex'}}
         backgroundColor={'transparent'}
         _hover={{
           backgroundColor: 'transparent',
@@ -108,18 +148,18 @@ export default function CarouselWatchList({ movies }) {
           backgroundColor: 'transparent',
         }}
       >
-        <IoIosArrowForward color="white" size={85} />
+        <IoIosArrowForward color="white" size={buttonSize} />
       </IconButton>
       {/* Slider */}
       <Slider
         {...settings}
         ref={(slider) => setSlider(slider)}
-        slidesToShow={cards.length < 8 ? cards.length : 8}
+        
       >
         {cards.map((m, index) => {
           if (m.serie) {
             return (
-              <Box key={index} height={'6xl'}>
+              <Box key={index} h="100%" position={'absolute'} >
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
                     src={
@@ -140,7 +180,7 @@ export default function CarouselWatchList({ movies }) {
             );
           } else {
             return (
-              <Box key={index} height={'6xl'} zIndex={20}>
+              <Box key={index} h="100%" zIndex={20} position={'relative'}>
                 <Link to={`/home/movie_details/${m.id}`}>
                   <Image
                     src={

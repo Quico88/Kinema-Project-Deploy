@@ -3,7 +3,6 @@ import {
   Box,
   IconButton,
   useBreakpointValue,
-  Text,
   Image,
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
@@ -11,6 +10,16 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { extendTheme } from '@chakra-ui/react'
+
+const breakpoints = {
+  sm: '400px',
+  md: '768px',
+  lg: '960px',
+  xl: '1200px',
+  '2xl': '1536px',
+}
+const theme = extendTheme({ breakpoints })
 
 // Settings for the slider
 const settings = {
@@ -21,6 +30,30 @@ const settings = {
   speed: 1500,
   slidesToShow: 8,
   slidesToScroll: 4,
+  initialSlide: 0,
+  responsive: [
+    {
+      breakpoint: 960,
+      settings: {
+        slidesToShow: 6,
+        slidesToScroll: 3,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+      }
+    },
+    {
+      breakpoint: 440,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3
+      }
+    }
+  ]
 };
 
 export default function CarouselHome({ movies }) {
@@ -30,8 +63,9 @@ export default function CarouselHome({ movies }) {
 
   // These are the breakpoints which changes the position of the
   // buttons as the screen size changes
-  const top = useBreakpointValue({ base: '90%', md: '50%' });
-  const side = useBreakpointValue({ base: '30%', md: '10px' });
+  const buttonSize = useBreakpointValue({base:40, md:60, lg:80})
+  const top = useBreakpointValue({ base: '60%', md: '50%' });
+  const side = useBreakpointValue({ base: "2px", md: "10px" });
 
   // These are the images used in the slide
   const cards = movies;
@@ -39,9 +73,8 @@ export default function CarouselHome({ movies }) {
   return (
     <Box
       position={'relative'}
-      height={'350px'}
       width={'full'}
-      mb={20}
+      mb={{base: 4, sm: 6, md: 12}}
       overflow={'hidden'}
     >
       {/* CSS files for react-slick */}
@@ -75,7 +108,7 @@ export default function CarouselHome({ movies }) {
           backgroundColor: 'transparent',
         }}
       >
-        <IoIosArrowBack color="white" size={85} />
+        <IoIosArrowBack color="white" size={buttonSize}/>
       </IconButton>
       {/* Right Icon */}
       <IconButton
@@ -96,14 +129,14 @@ export default function CarouselHome({ movies }) {
           backgroundColor: 'transparent',
         }}
       >
-        <IoIosArrowForward color="white" size={85} />
+        <IoIosArrowForward color="white" size={buttonSize}/>
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((m, index) => {
           if (m.serie) {
             return (
-              <Box key={index} height={'6xl'}>
+              <Box key={index} h="100%">
                 <Link to={`/home/tv_show_details/${m.id}`}>
                   <Image
                     src={'https://image.tmdb.org/t/p/w300' + m.poster}
@@ -120,7 +153,7 @@ export default function CarouselHome({ movies }) {
             );
           } else {
             return (
-              <Box key={index} height={'6xl'} zIndex={20}>
+              <Box key={index} zIndex={20}>
                 <Link to={`/home/movie_details/${m.id}`}>
                   <Image
                     src={'https://image.tmdb.org/t/p/w300' + m.poster}

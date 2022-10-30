@@ -1,9 +1,9 @@
-import React from "react";
-import Card from "./Card";
-import { Wrap, Flex, Center, Text } from "@chakra-ui/react";
-import { DotSpinner } from "@uiball/loaders";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Card from './Card';
+import { Wrap, Flex, Center, Text } from '@chakra-ui/react';
+import { DotSpinner } from '@uiball/loaders';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
 
 export default function DataList({ data, next, hasMore }) {
   return (
@@ -13,7 +13,7 @@ export default function DataList({ data, next, hasMore }) {
       next={() => next((prev) => prev + 1)}
       loader={
         <Flex alignItems="center" justify="center" minH={500}>
-          <DotSpinner size={100} speed={1} color="black" />
+          <DotSpinner size={100} speed={1} color="white" />
         </Flex>
       }
       endMessage={
@@ -39,7 +39,7 @@ export default function DataList({ data, next, hasMore }) {
             return (
               <Link key={m.id} to={`/home/tv_show_details/${m.id}`}>
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                 />
               </Link>
@@ -48,7 +48,7 @@ export default function DataList({ data, next, hasMore }) {
             return (
               <Link key={m.id} to={`/home/movie_details/${m.id}`}>
                 <Card
-                  posterUrl={"https://image.tmdb.org/t/p/w300" + m.poster}
+                  posterUrl={'https://image.tmdb.org/t/p/w300' + m.poster}
                   id={m.id}
                   title={m.title}
                 />

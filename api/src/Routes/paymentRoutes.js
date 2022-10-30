@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_KEY);
-
+const { doc,updateDoc } = require('firebase/firestore') 
 const paymenRoutes = Router();
 
 // Stripe:
@@ -18,6 +18,7 @@ paymenRoutes.post('/premium', async (req, res) => {
         });
 
         clientId = newCustomer.id;
+
         
         const subscription = await stripe.subscriptions.create({
             currency: 'usd',
@@ -28,10 +29,12 @@ paymenRoutes.post('/premium', async (req, res) => {
             ],
         });
 
-        res.send({ message: 'Your payment has been successfully processed. Enjoy Kinema Premium', success: true });
+        const subId = subscription.id
+
+        res.send({ message: 'Your payment has been successfully processed. Enjoy Kinema Premium', subId, success: true });
     } 
     catch (error) {
-        res.json({ message: "We were not able to process your payment. Please try again", sucess: false });
+        res.json({ message: error.message, sucess: false });
     }
 });
   
@@ -68,9 +71,19 @@ paymenRoutes.post('/rent', async (req, res) => {
         res.send({ message: 'Your payment has been successfully processed. Enjoy your movie!', success: true });
     } 
     catch (error) {
-        res.json({ message: "We were not able to process your payment. Please try again", sucess: false });
+        res.json({ message: error.message, sucess: false });
     }
 });
+
+paymenRoutes.post('/downgrade', async (req, res ) => {
+    try {
+        const { id } = req.body;
+        stripe.subscriptions.del(id);
+        res.send({message : 'Your subscription has been canceled.', success: true})
+    } catch (error) {
+        res.json({ message: "Fail downgrade.", sucess: false });
+    }
+})
 
 
 module.exports = paymenRoutes;

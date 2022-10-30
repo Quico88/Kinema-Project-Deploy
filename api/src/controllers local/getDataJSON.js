@@ -4,13 +4,26 @@ const genres_json = require('../backup/genres_movies.json');
 
 // Get movies for home:
 const getDataJSON = (page) => {
+  let omit = (page - 1) * 20;
+  let limit = omit + 20;
+  //let totalResults = data.length;
+  return data.slice(omit, limit);
+  //return {data: data.slice(omit, limit), totalResults};
+};
 
-	let omit = (page - 1) * 20;
-	let limit = omit + 20;
-	//let totalResults = data.length;
-	return data.slice(omit, limit);
-	//return {data: data.slice(omit, limit), totalResults};
+const getAllMoviesJSON = () => {
+  const image_route = 'https://image.tmdb.org/t/p/original';
 
+  const movies = data.map((movie) => {
+    return {
+      id: movie.id,
+      title: movie.title,
+      release_date: movie.release_date,
+      rating: movie.rating,
+      image: image_route + movie.poster,
+    };
+  });
+  return movies;
 };
 
 // Get movies by search:
@@ -78,4 +91,5 @@ module.exports = {
   getGenreIdJSON,
   getGenresJSON,
   getVideoJSON,
+  getAllMoviesJSON,
 };
