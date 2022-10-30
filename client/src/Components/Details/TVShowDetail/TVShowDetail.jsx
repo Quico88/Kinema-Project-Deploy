@@ -14,6 +14,8 @@ import {
   dislike,
   putLike,
   getLikesFromContent,
+  logOutUser,
+  loadUserData,
 } from '../../../Redux/actions';
 import {
   Box,
@@ -27,6 +29,7 @@ import {
   Divider,
   Center,
   Textarea,
+  VStack,
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
@@ -40,7 +43,7 @@ import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShow
 import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
-import { useToast } from '@chakra-ui/react';
+import { useToast, useMediaQuery } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
 import { FiPlusCircle } from 'react-icons/fi';
 import moment from 'moment';
@@ -60,6 +63,9 @@ export default function TVShowDetail() {
   const [errorCommentArea, setErrorCommentArea] = useState(false);
   const [random, refresh] = useState('');
   const toast = useToast();
+  const [isShortThan960px] = useMediaQuery('(max-width: 960px)');
+  const [isShortThan800px] = useMediaQuery('(max-width: 800px)');
+  const [isShortThan400px] = useMediaQuery('(max-width: 400px)');
 
   if (user && user.banned) {
     toast({
@@ -67,7 +73,7 @@ export default function TVShowDetail() {
       description:
         'For any complaint or further information please contact our crew.',
       status: 'error',
-      duration: 3000,
+      duration: 5000,
       position: 'top-center',
       isClosable: true,
     });
@@ -80,6 +86,7 @@ export default function TVShowDetail() {
     dispatch(getSeasonDetail(id, 1));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
+    dispatch(loadUserData(user.uid))
   }, [dispatch]);
 
   useEffect(() => {}, [like]);
@@ -206,352 +213,359 @@ export default function TVShowDetail() {
         </Flex>
         {mySerie.title ? (
           <Box>
-            <Flex
-              as="main"
-              mt={16}
-              w={'100%'}
-              h={'85vh'}
-              backgroundImage={
-                mySerie.back_poster.includes('https://image.tmdb.org')
-                  ? mySerie.back_poster
-                  : 'https://image.tmdb.org/t/p/original/' + mySerie.back_poster
-              }
-              backgroundSize={'cover'}
-              backgroundPosition={'center center'}
-              boxShadow="70vh 0px 128px 64px black inset"
-              justify="left"
-            >
-              <Container maxW="90%" ms="none" ml="10vh" mt="3vh">
-                <Heading
-                  mb="1.5vh"
-                  size="3xl"
-                  textAlign="left"
-                  noOfLines={2}
-                  color="white"
-                  fontWeight="bold"
+            {isShortThan960px ? (
+              <Box /* ml="10vw" */ mt={16}>
+                <Flex
+                  h="30vh"
+                  backgroundImage={
+                    mySerie.back_poster.includes('https://image.tmdb.org')
+                      ? mySerie.back_poster
+                      : 'https://image.tmdb.org/t/p/original/' +
+                        mySerie.back_poster
+                  }
+                  backgroundSize={'cover'}
+                  backgroundPosition={'center center'}
+                  boxShadow="5vw 0px 128px 64px black inset"
+                  flexDirection="column"
+                  justifyContent="flex-end"
                 >
-                  {mySerie.title}
-                </Heading>
-                <Box>
-                  <Text
-                    fontSize="2vh"
-                    textAlign="left"
-                    color="white"
-                    fontWeight="bold"
-                    display="inline"
+                  <VStack
+                    alignItems="flex-start"
+                    bgGradient="linear(to-t, rgba(0,0,0,1) 33%, rgba(0,0,0,0.9051995798319328) 57%, rgba(0,0,0,0.6587009803921569) 82%, rgba(0,0,0,0.4822303921568627) 90%, rgba(0,0,0,0) 100%);"
                   >
-                    Rating:{' '}
-                  </Text>
-                  <StarRatings
-                    rating={Math.floor(mySerie.rating / 2)}
-                    starRatedColor="gold"
-                    starHoverColor="gold"
-                    starDimension={'2vh'}
-                    starSpacing={'0.5vh'}
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                  <Text
-                    fontSize="2vh"
-                    textAlign="left"
-                    color="white"
-                    display="inline"
-                  >
-                    {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`} ||
                     <Text
                       fontSize="2vh"
                       textAlign="left"
                       color="white"
+                      maxW="80vh"
                       fontWeight="bold"
-                      display="inline"
+                      noOfLines={4}
+                      ml="10vw"
                     >
-                      {' '}
-                      User reviews:{' '}
+                      {mySerie.genres?.map((genre) => (
+                        <Button
+                          key={genre.id}
+                          size="xs"
+                          variant="outline"
+                          mr="1vh"
+                          mb="1vh"
+                          pointerEvents="none"
+                        >
+                          {genre}
+                        </Button>
+                      ))}
                     </Text>
-                    {mySerie.user_reviews
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </Text>
-                </Box>
-                <br />
-                <Text
-                  fontSize="2vh"
-                  textAlign="left"
-                  color="white"
-                  fontWeight="bold"
-                  display="inline"
-                >
-                  Released:{' '}
-                </Text>
-                <Text
-                  fontSize="2vh"
-                  textAlign="left"
-                  color="white"
-                  display="inline"
-                >
-                  {mySerie.release_date_first_episode}.
-                </Text>
-                <br />
-                <br />
-                <Text
-                  fontSize="2vh"
-                  textAlign="left"
-                  color="white"
-                  maxW="80vh"
-                  fontWeight="bold"
-                  noOfLines={4}
-                >
-                  Genres:{' '}
-                  {mySerie.genres?.map((genre) => (
-                    <Button
-                      key={genre.id}
-                      size="sm"
-                      variant="outline"
-                      mr="1vh"
-                      mb="1vh"
-                      pointerEvents="none"
-                    >
-                      {genre}
-                    </Button>
-                  ))}
-                </Text>
-                <br />
-                <Text
-                  fontSize="2vh"
-                  color="white"
-                  maxW="80vh"
-                  noOfLines={4}
-                  textAlign="justify"
-                >
-                  {mySerie.description}
-                </Text>
-                {
-                  //  USER PREMIUM CASE:
-                  user.subscription === 2 ? (
-                    <Box textAlign="left" mt="3vh">
-                      <Flex alignItems="center">
-                        <Button
-                          onClick={() => openPlayer()}
-                          borderRadius="3vh"
-                          rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
-                          bg={'blue.400'}
-                          rounded={'full'}
-                          color={'white'}
-                          mr="2vh"
-                          _hover={{ bg: 'blue.500' }}
-                        >
-                          <Text mb="0.25vh">Watch</Text>
-                        </Button>
-                        <Button
-                          onClick={() => handleAddToWatchlist(mySerie.id)}
-                          bg={'whiteAlpha.300'}
-                          rounded={'full'}
-                          color={'white'}
-                          mr="2vh"
-                          rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          _hover={{ bg: 'whiteAlpha.500' }}
-                        >
-                          My List
-                        </Button>
-                        {(likeLocal === undefined && like) || likeLocal ? (
-                          <Button
-                            onClick={handleDislike}
-                            backgroundColor="whiteAlpha.300"
-                            rounded={'full'}
-                            color="white"
-                            rightIcon={
-                              <Icon
-                                as={AiFillHeart}
-                                color="#72EFDD"
-                                boxSize={6}
-                              />
-                            }
-                            _hover={{ bg: 'whiteAlpha.500' }}
-                          >
-                            Like
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={handleLike}
-                            backgroundColor="whiteAlpha.300"
-                            rounded={'full'}
-                            color="white"
-                            rightIcon={
-                              <Icon
-                                as={AiOutlineHeart}
-                                color={'whiteAlpha.300'}
-                                boxSize={6}
-                              />
-                            }
-                            _hover={{ bg: 'whiteAlpha.500' }}
-                          >
-                            Like
-                          </Button>
-                        )}
-                        <Text
-                          color="white"
-                          ml="1vh"
-                          fontSize={15}
-                          display="flex"
-                        >
-                          <Text color="#72EFDD" fontWeight={600}>
-                            {totalLikes}&nbsp;
-                          </Text>
-                          {totalLikes === 1 ? ' like' : ' likes'}
-                        </Text>
-                      </Flex>
+                    <Box>
+                      <Heading
+                        mb="1.5vh"
+                        size="3xl"
+                        textAlign="left"
+                        noOfLines={2}
+                        color="white"
+                        fontWeight="bold"
+                        fontSize="4vh"
+                        ml="10vw"
+                      >
+                        {mySerie.title}
+                      </Heading>
                     </Box>
-                  ) : null
-                }
-                {
-                  //  USER FREE CASE:
-                  user.subscription === 1 ? (
-                    <Box textAlign="left" mt="3vh">
-                      <Flex alignItems="center">
-                        {validExpirationDate() ? (
+                  </VStack>
+                </Flex>
+
+                <Text
+                  fontSize="1.5vh"
+                  textAlign="left"
+                  color="white"
+                  fontWeight="bold"
+                  display="inline"
+                  mr={3}
+                  ml="10vw"
+                >
+                  Rating:{' '}
+                </Text>
+
+                <StarRatings
+                  rating={Math.floor(mySerie.rating / 2)}
+                  starRatedColor="gold"
+                  starHoverColor="gold"
+                  starDimension={'1.5vh'}
+                  starSpacing={'0.5vh'}
+                  numberOfStars={5}
+                  name="rating"
+                />
+
+                <Text
+                  ml={3}
+                  fontSize="1.5vh"
+                  textAlign="left"
+                  color="white"
+                  display="inline"
+                >
+                  {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`}{' '}
+                  {isShortThan400px ? null : '||'}
+                  {isShortThan400px ? <br /> : null}
+                  <Text
+                    fontSize="1.5vh"
+                    textAlign="left"
+                    color="white"
+                    fontWeight="bold"
+                    display="inline"
+                    ml={isShortThan400px ? '10vw' : '0'}
+                  >
+                    {' '}
+                    User reviews:{' '}
+                  </Text>
+                  {mySerie.user_reviews
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </Text>
+                <br />
+
+                <Divider w="80vw" mt={1} ml="10vw"></Divider>
+                <Box mr="10vw" ml="10vw">
+                  <br />
+
+                  <Text
+                    fontSize="2vh"
+                    color="white"
+                    maxW={'80vh'}
+                    textAlign="justify"
+                  >
+                    {mySerie.description}
+                  </Text>
+                  {
+                    // USER PREMIUM CASE:
+                    user.subscription === 2 ? (
+                      <Box textAlign="left" mt="3vh">
+                        <Flex alignItems="center">
                           <Button
-                            onClick={() => openPlayer()}
+                            onClick={() => setPlayerTrailer(true)}
                             borderRadius="3vh"
-                            mr="2vh"
                             rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
                             bg={'blue.400'}
                             rounded={'full'}
                             color={'white'}
+                            mr="2vh"
                             _hover={{ bg: 'blue.500' }}
+                            fontSize={isShortThan400px ? '12px' : '17px'}
                           >
                             <Text mb="0.25vh">Watch</Text>
                           </Button>
-                        ) : (
                           <Button
-                            bg={'blue.400'}
-                            mr="2vh"
-                            rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
-                            onClick={() =>
-                              navigate(`/payment/rent/tv_show/${id}`)
-                            }
+                            onClick={() => handleAddToWatchlist(mySerie.id)}
+                            bg={'whiteAlpha.300'}
+                            rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
                             rounded={'full'}
                             color={'white'}
-                            _hover={{ bg: 'blue.500' }}
-                          >
-                            <Text mb="0.25vh">Rent</Text>
-                          </Button>
-                        )}
-                        <Button
-                          onClick={() =>
-                            toast({
-                              title: `Upgrade your account to add to your list.`,
-                              status: 'info',
-                              position: 'top-right',
-                              isClosable: true,
-                              duration: 3000,
-                            })
-                          }
-                          bg={'whiteAlpha.300'}
-                          rounded={'full'}
-                          color={'white'}
-                          mr="2vh"
-                          rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
-                          _hover={{ bg: 'whiteAlpha.500' }}
-                        >
-                          My List
-                        </Button>
-
-                        {(likeLocal === undefined && like) || likeLocal ? (
-                          <Button
-                            onClick={handleDislike}
-                            backgroundColor="whiteAlpha.300"
-                            rounded={'full'}
-                            color="white"
-                            rightIcon={
-                              <Icon
-                                as={AiFillHeart}
-                                color="#72EFDD"
-                                boxSize={6}
-                              />
-                            }
+                            mr="2vh"
                             _hover={{ bg: 'whiteAlpha.500' }}
+                            fontSize={isShortThan400px ? '12px' : '17px'}
                           >
-                            Like
+                            My List
                           </Button>
-                        ) : (
-                          <Button
-                            onClick={handleLike}
-                            backgroundColor="whiteAlpha.300"
-                            rounded={'full'}
+                          {(likeLocal === undefined && like) || likeLocal ? (
+                            <Button
+                              onClick={handleDislike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiFillHeart}
+                                  color="#72EFDD"
+                                  boxSize={6}
+                                />
+                              }
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={handleLike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiOutlineHeart}
+                                  color={'whiteAlpha.300'}
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                            >
+                              Like
+                            </Button>
+                          )}
+                          <Text
                             color="white"
-                            rightIcon={
-                              <Icon
-                                as={AiOutlineHeart}
-                                color={'whiteAlpha.300'}
-                                boxSize={6}
-                              />
-                            }
-                            _hover={{ bg: 'whiteAlpha.500' }}
+                            ml="1vh"
+                            fontSize="2vw"
+                            display="flex"
                           >
-                            Like
-                          </Button>
-                        )}
-                        <Text
-                          color="white"
-                          ml="1vh"
-                          fontSize={15}
-                          display="flex"
-                        >
-                          <Text color="#72EFDD" fontWeight={600}>
-                            {totalLikes}&nbsp;
+                            <Text color="#72EFDD" fontWeight={600}>
+                              {totalLikes}&nbsp;
+                            </Text>
+                            {totalLikes === 1 ? ' like.' : ' likes.'}
                           </Text>
-                          {totalLikes === 1
-                            ? ' person likes this.'
-                            : ' others likes this.'}
+                        </Flex>
+                      </Box>
+                    ) : null
+                  }
+                  {
+                    // USER FREE CASE
+                    user.subscription === 1 ? (
+                      <Box textAlign="left" mt="3vh">
+                        <Flex alignItems="center">
+                          {validExpirationDate() ? (
+                            <Button
+                              onClick={() => setPlayerTrailer(true)}
+                              borderRadius="3vh"
+                              rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                              bg={'blue.400'}
+                              rounded={'full'}
+                              color={'white'}
+                              mr="2vh"
+                              _hover={{ bg: 'blue.500' }}
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                            >
+                              <Text mb="0.25vh">Watch</Text>
+                            </Button>
+                          ) : (
+                            <Button
+                              bg={'blue.400'}
+                              onClick={() =>
+                                navigate(`/payment/rent/movie/${mySerie.id}`)
+                              }
+                              rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
+                              rounded={'full'}
+                              color={'white'}
+                              mr="2vh"
+                              _hover={{ bg: 'blue.500' }}
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                            >
+                              <Text mb="0.25vh">Rent</Text>
+                            </Button>
+                          )}
+                          <Button
+                            onClick={() => {
+                              toast({
+                                title: `Upgrade your account to add to your list.`,
+                                status: 'info',
+                                position: 'top-right',
+                                isClosable: true,
+                                duration: 3000,
+                              });
+                            }}
+                            bg={'whiteAlpha.300'}
+                            rounded={'full'}
+                            color={'white'}
+                            rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
+                            _hover={{ bg: 'whiteAlpha.500' }}
+                            mr="2vh"
+                            fontSize={isShortThan400px ? '12px' : '17px'}
+                          >
+                            My List
+                          </Button>
+                          {(likeLocal === undefined && like) || likeLocal ? (
+                            <Button
+                              onClick={handleDislike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiFillHeart}
+                                  color="#72EFDD"
+                                  boxSize={6}
+                                />
+                              }
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          ) : (
+                            <Button
+                              fontSize={isShortThan400px ? '12px' : '17px'}
+                              onClick={handleLike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiOutlineHeart}
+                                  color={'whiteAlpha.300'}
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          )}
+                          <Text
+                            color="white"
+                            ml="1vh"
+                            fontSize="2vw"
+                            display="flex"
+                          >
+                            <Text color="#72EFDD" fontWeight={600}>
+                              {totalLikes}&nbsp;
+                            </Text>
+                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                          </Text>
+                        </Flex>
+                        {validExpirationDate() ? (
+                          <Text mt="2vh" color={'white'}>
+                            You have until{' '}
+                            {moment(validExpirationDate()).format(
+                              'MMMM Do YYYY, h:mm a'
+                            )}{' '}
+                            to watch this content.
+                          </Text>
+                        ) : null}
+                        <Text mt="2vh" fontSize="2.5vw" color={'white'}>
+                          You can&nbsp;
+                          <Link href="/payment" color={'#72efdd'}>
+                            <b>upgrade</b>
+                          </Link>
+                          &nbsp;your plan to watch any content.
                         </Text>
-                      </Flex>
-                      {validExpirationDate() ? (
-                        <Text mt="2vh" color={'white'}>
-                          You have until{' '}
-                          {moment(validExpirationDate()).format(
-                            'MMMM Do YYYY, h:mm a'
-                          )}{' '}
-                          to watch this content.
+                      </Box>
+                    ) : null
+                  }
+                  {
+                    // USER GUEST CASE:
+                    user.subscription == null ? (
+                      <Box textAlign="left" mt="3vh">
+                        <Text fontSize="2vh" color={'white'}>
+                          <Link href="/login" color={'#72efdd'}>
+                            <b>Log In </b>
+                          </Link>
+                          or
+                          <Link href="/register" color={'#64dfdf'}>
+                            <b> Register </b>
+                          </Link>
+                          to watch this movie.
                         </Text>
-                      ) : null}
-                      <Text mt="2vh" fontSize="2.3vh" color={'white'}>
-                        You can&nbsp;
-                        <Link href="/payment" color={'#72efdd'}>
-                          <b>upgrade</b>
-                        </Link>
-                        &nbsp;your plan to watch any content.
-                      </Text>
-                    </Box>
-                  ) : null
-                }
-                {
-                  //  USER GUEST CASE:
-                  user.subscription == null ? (
-                    <Box textAlign="left" mt="1vh">
-                      <Text fontSize="2.3vh" color={'white'} mt="2vh">
-                        <Link href="/login" color={'#72efdd'}>
-                          <b>Log In </b>
-                        </Link>
-                        or
-                        <Link href="/register" color={'#64dfdf'}>
-                          <b> Register </b>
-                        </Link>
-                        to watch this serie.
-                      </Text>
-                      <br />
-                    </Box>
-                  ) : null
-                }
-                <br />
+                      </Box>
+                    ) : null
+                  }
+                  <br />
+                </Box>
                 <Select
                   focusBorderColor="#233d4d"
                   onChange={(e) => handleSeason(e)}
                   bg="#233d4d"
-                  maxW="15vh"
                   display={'inline-block'}
                   color="white"
-                  mt="0vh"
-                  mr="1vh"
+                  w={isShortThan800px ? '35vw' : '25vw'}
+                  mr="10vw"
+                  ml="10vw"
                   cursor="pointer"
                 >
                   {totalSeasons?.map((el, index) => {
@@ -565,28 +579,409 @@ export default function TVShowDetail() {
                     );
                   })}
                 </Select>
-                {mySeason.id ? (
-                  <CarouselTvShow
-                    openPlayer={openPlayer}
-                    movies={mySeason.episodes}
-                    videoSerie={mySerie.trailer}
-                  ></CarouselTvShow>
-                ) : null}
-              </Container>
-            </Flex>
-            <Flex flexDirection="column" ml="10vh" mt={100} mb={50}>
-              <Box w="50%" borderBottom="1px" borderColor="gray.800" mb={5}>
-                <Text color="gray.200" fontSize={30}>
+                <br />
+                <br />
+                <Box mr="10vw" ml="10vw">
+                  {mySeason.id ? (
+                    <CarouselTvShow
+                      openPlayer={openPlayer}
+                      movies={mySeason.episodes}
+                      videoSerie={mySerie.trailer}
+                    ></CarouselTvShow>
+                  ) : null}
+                </Box>
+              </Box>
+            ) : (
+              <Flex
+                as="main"
+                mt={16}
+                w={'100%'}
+                h={'85vh'}
+                backgroundImage={
+                  mySerie.back_poster.includes('https://image.tmdb.org')
+                    ? mySerie.back_poster
+                    : 'https://image.tmdb.org/t/p/original/' +
+                      mySerie.back_poster
+                }
+                backgroundSize={'cover'}
+                backgroundPosition={'center center'}
+                boxShadow="40vw 0px 128px 64px black inset"
+                justify="left"
+              >
+                <Container maxW="90%" ms="none" ml="5vw" mt="3vh">
+                  <Heading
+                    mb="1.5vh"
+                    size="3xl"
+                    textAlign="left"
+                    noOfLines={2}
+                    color="white"
+                    fontWeight="bold"
+                  >
+                    {mySerie.title}
+                  </Heading>
+                  <Box>
+                    <Text
+                      fontSize="2vh"
+                      textAlign="left"
+                      color="white"
+                      fontWeight="bold"
+                      display="inline"
+                    >
+                      Rating:{' '}
+                    </Text>
+                    <StarRatings
+                      rating={Math.floor(mySerie.rating / 2)}
+                      starRatedColor="gold"
+                      starHoverColor="gold"
+                      starDimension={'2vh'}
+                      starSpacing={'0.5vh'}
+                      numberOfStars={5}
+                      name="rating"
+                    />
+                    <Text
+                      fontSize="2vh"
+                      textAlign="left"
+                      color="white"
+                      display="inline"
+                    >
+                      {`  (${Math.round(mySerie.rating * 10) / 10 / 2}/5)`} ||
+                      <Text
+                        fontSize="2vh"
+                        textAlign="left"
+                        color="white"
+                        fontWeight="bold"
+                        display="inline"
+                      >
+                        {' '}
+                        User reviews:{' '}
+                      </Text>
+                      {mySerie.user_reviews
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </Text>
+                  </Box>
+                  <br />
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    fontWeight="bold"
+                    display="inline"
+                  >
+                    Released:{' '}
+                  </Text>
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    display="inline"
+                  >
+                    {mySerie.release_date_first_episode}.
+                  </Text>
+                  <br />
+                  <br />
+                  <Text
+                    fontSize="2vh"
+                    textAlign="left"
+                    color="white"
+                    maxW="80vh"
+                    fontWeight="bold"
+                    noOfLines={4}
+                  >
+                    Genres:{' '}
+                    {mySerie.genres?.map((genre) => (
+                      <Button
+                        key={genre.id}
+                        size="sm"
+                        variant="outline"
+                        mr="1vh"
+                        mb="1vh"
+                        pointerEvents="none"
+                      >
+                        {genre}
+                      </Button>
+                    ))}
+                  </Text>
+                  <br />
+                  <Text
+                    fontSize="2vh"
+                    color="white"
+                    maxW="80vh"
+                    noOfLines={4}
+                    textAlign="justify"
+                  >
+                    {mySerie.description}
+                  </Text>
+                  {
+                    //  USER PREMIUM CASE:
+                    user.subscription === 2 ? (
+                      <Box textAlign="left" mt="3vh">
+                        <Flex alignItems="center">
+                          <Button
+                            onClick={() => openPlayer()}
+                            borderRadius="3vh"
+                            rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                            bg={'blue.400'}
+                            rounded={'full'}
+                            color={'white'}
+                            mr="2vh"
+                            _hover={{ bg: 'blue.500' }}
+                          >
+                            <Text mb="0.25vh">Watch</Text>
+                          </Button>
+                          <Button
+                            onClick={() => handleAddToWatchlist(mySerie.id)}
+                            bg={'whiteAlpha.300'}
+                            rounded={'full'}
+                            color={'white'}
+                            mr="2vh"
+                            rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
+                            _hover={{ bg: 'whiteAlpha.500' }}
+                          >
+                            My List
+                          </Button>
+                          {(likeLocal === undefined && like) || likeLocal ? (
+                            <Button
+                              onClick={handleDislike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiFillHeart}
+                                  color="#72EFDD"
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={handleLike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiOutlineHeart}
+                                  color={'whiteAlpha.300'}
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          )}
+                          <Text
+                            color="white"
+                            ml="1vh"
+                            fontSize={15}
+                            display="flex"
+                          >
+                            <Text color="#72EFDD" fontWeight={600}>
+                              {totalLikes}&nbsp;
+                            </Text>
+                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                          </Text>
+                        </Flex>
+                      </Box>
+                    ) : null
+                  }
+                  {
+                    //  USER FREE CASE:
+                    user.subscription === 1 ? (
+                      <Box textAlign="left" mt="3vh">
+                        <Flex alignItems="center">
+                          {validExpirationDate() ? (
+                            <Button
+                              onClick={() => openPlayer()}
+                              borderRadius="3vh"
+                              mr="2vh"
+                              rightIcon={<Icon as={MdPlayArrow} boxSize={6} />}
+                              bg={'blue.400'}
+                              rounded={'full'}
+                              color={'white'}
+                              _hover={{ bg: 'blue.500' }}
+                            >
+                              <Text mb="0.25vh">Watch</Text>
+                            </Button>
+                          ) : (
+                            <Button
+                              bg={'blue.400'}
+                              mr="2vh"
+                              rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
+                              onClick={() =>
+                                navigate(`/payment/rent/tv_show/${id}`)
+                              }
+                              rounded={'full'}
+                              color={'white'}
+                              _hover={{ bg: 'blue.500' }}
+                            >
+                              <Text mb="0.25vh">Rent</Text>
+                            </Button>
+                          )}
+                          <Button
+                            onClick={() =>
+                              toast({
+                                title: `Upgrade your account to add to your list.`,
+                                status: 'info',
+                                position: 'top-right',
+                                isClosable: true,
+                                duration: 3000,
+                              })
+                            }
+                            bg={'whiteAlpha.300'}
+                            rounded={'full'}
+                            color={'white'}
+                            mr="2vh"
+                            rightIcon={<Icon as={FiPlusCircle} boxSize={6} />}
+                            _hover={{ bg: 'whiteAlpha.500' }}
+                          >
+                            My List
+                          </Button>
+
+                          {(likeLocal === undefined && like) || likeLocal ? (
+                            <Button
+                              onClick={handleDislike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiFillHeart}
+                                  color="#72EFDD"
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={handleLike}
+                              backgroundColor="whiteAlpha.300"
+                              rounded={'full'}
+                              color="white"
+                              rightIcon={
+                                <Icon
+                                  as={AiOutlineHeart}
+                                  color={'whiteAlpha.300'}
+                                  boxSize={6}
+                                />
+                              }
+                              _hover={{ bg: 'whiteAlpha.500' }}
+                            >
+                              Like
+                            </Button>
+                          )}
+                          <Text
+                            color="white"
+                            ml="1vh"
+                            fontSize={15}
+                            display="flex"
+                          >
+                            <Text color="#72EFDD" fontWeight={600}>
+                              {totalLikes}&nbsp;
+                            </Text>
+                            {totalLikes === 1
+                              ? ' like.'
+                              : ' likes.'}
+                          </Text>
+                        </Flex>
+                        {validExpirationDate() ? (
+                          <Text mt="2vh" color={'white'}>
+                            You have until{' '}
+                            {moment(validExpirationDate()).format(
+                              'MMMM Do YYYY, h:mm a'
+                            )}{' '}
+                            to watch this content.
+                          </Text>
+                        ) : null}
+                        <Text mt="2vh" fontSize="2.3vh" color={'white'}>
+                          You can&nbsp;
+                          <Link href="/payment" color={'#72efdd'}>
+                            <b>upgrade</b>
+                          </Link>
+                          &nbsp;your plan to watch any content.
+                        </Text>
+                      </Box>
+                    ) : null
+                  }
+                  {
+                    //  USER GUEST CASE:
+                    user.subscription == null ? (
+                      <Box textAlign="left" mt="1vh">
+                        <Text fontSize="2.3vh" color={'white'} mt="2vh">
+                          <Link href="/login" color={'#72efdd'}>
+                            <b>Log In </b>
+                          </Link>
+                          or
+                          <Link href="/register" color={'#64dfdf'}>
+                            <b> Register </b>
+                          </Link>
+                          to watch this serie.
+                        </Text>
+                        <br />
+                      </Box>
+                    ) : null
+                  }
+                  <br />
+
+                  <Select
+                    focusBorderColor="#233d4d"
+                    onChange={(e) => handleSeason(e)}
+                    bg="#233d4d"
+                    maxW="10vw"
+                    display={'inline-block'}
+                    color="white"
+                    mt="0vh"
+                    mr="1vh"
+                    cursor="pointer"
+                  >
+                    {totalSeasons?.map((el, index) => {
+                      return (
+                        <option
+                          value={index + 1}
+                          style={{ backgroundColor: '#233d4d' }}
+                        >
+                          {el}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                  <br />
+                  <br />
+                  {mySeason.id ? (
+                    <CarouselTvShow
+                      openPlayer={openPlayer}
+                      movies={mySeason.episodes}
+                      videoSerie={mySerie.trailer}
+                    ></CarouselTvShow>
+                  ) : null}
+                </Container>
+              </Flex>
+            )}
+            <Flex
+              flexDirection="column"
+              ml={isShortThan960px ? '10vw' : '10vw'}
+              mt={100}
+              mb={50}
+              w={isShortThan960px ? '80%' : '50%'}
+            >
+              <Box borderBottom="1px" borderColor="gray.800" mb={5}>
+                <Text color="gray.200" fontSize={isShortThan960px ? 25 : 30}>
                   Comments
                 </Text>
               </Box>
-
               <Flex
                 maxH={500}
                 overflow="auto"
                 flexDirection="column"
                 alignItems="center"
-                w="50%"
                 css={{
                   '&::-webkit-scrollbar': {
                     backgroundColor: 'black',
@@ -636,10 +1031,9 @@ export default function TVShowDetail() {
                 borderColor="gray.800"
                 backgroundColor={color.kinemaBg}
                 color="gray.100"
-                w="50%"
                 borderRadius={0}
               >
-                <Text fontSize={20} ml={7} mt={5}>
+                <Text fontSize="2.5vh" ml="5vh" mt={5}>
                   Leave your comment!
                 </Text>
                 <Divider mt={4} mb={4} />
@@ -659,7 +1053,7 @@ export default function TVShowDetail() {
                     <Flex justifyContent="flex-end">
                       {errorCommentArea ? (
                         <Text mr={5} color="red">
-                          You must write at least 5 letters
+                          You must write at least 5 characters.
                         </Text>
                       ) : (
                         <></>

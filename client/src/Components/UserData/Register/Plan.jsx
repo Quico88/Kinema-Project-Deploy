@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Stack,
@@ -9,8 +9,21 @@ import {
 import Pricing from './Pricing';
 import Footer from '../../Home/Chakra UI Components/Footer';
 
-
 export default function Plan() {
+
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+    window.addEventListener('scroll', () => {
+      setScroll(window.scrollY > 0);
+    });
+  }, []);
+
   return (
     <div>
     <Box

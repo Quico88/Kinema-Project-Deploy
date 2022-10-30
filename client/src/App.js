@@ -24,6 +24,8 @@ import Owner from './Components/UserData/Owner/Owner.jsx';
 import AboutUs from './Components/Footer links/About us/AboutUs.jsx';
 import KinemaContent from './Components/UserData/Admin/KinemaContent.jsx';
 import UserComments from './Components/UserData/Admin/UserComments.jsx';
+import NotFound from './Components/Not Found/Not Found.jsx';
+import Contact from './Components/Footer links/Contact/Contact.jsx';
 
 // Create App component:
 export default function App() {
@@ -37,6 +39,7 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/watch/:id" element={<Watch />} />
         <Route path="/payment" element={<PaymentCheckout />} />
+        <Route path="/payment/upgrade" element={<PaymentCheckout />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/content" element={<KinemaContent />} />
         <Route path="/admin/content/:id" element={<UserComments />} />
@@ -62,8 +65,10 @@ export default function App() {
         <Route path="/home/search" element={<HomeSearch />} />
         <Route path="/home/movie_details/:id" element={<MovieDetail />} />
         <Route path="/home/tv_show_details/:id" element={<TVShowDetail />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/about_us" element={<AboutUs />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>
   );
