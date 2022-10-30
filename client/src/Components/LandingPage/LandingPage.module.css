@@ -56,9 +56,10 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 90%;
+  height: 65%;
   z-index: 2;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-top: 20vh;
   align-items: center;
 }
 
@@ -78,7 +79,7 @@
       rgba(10, 22, 19, 0.13)
     ),
     #1cdaff;
-  border-radius: 6px;
+  border-radius: 10px;
   color: white;
 }
 
@@ -98,7 +99,7 @@
   top: 0;
   width: max-content;
   overflow: hidden;
-  height: 85vh;
+  height: 90vh;
   z-index: 0;
 }
 
@@ -171,7 +172,7 @@
   height: 100vh;
   visibility: hidden;
   background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%),
-    url('../../Assets/collage.jpg');
+    url('../../Assets/landing-bg-mobile.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -244,8 +245,10 @@ h3 {
   .movie_list_collage {
     margin-top: 0;
     visibility: visible;
+    background-position: center;
+    
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%),
-      url('../../Assets/collage.jpg');
+      url('../../Assets/landing-bg-mobile.jpg');
   }
 
   .top_blur {
@@ -284,5 +287,6 @@ h3 {
 
   .main_text {
     text-align: center;
+    font-weight: bold;
   }
 }
