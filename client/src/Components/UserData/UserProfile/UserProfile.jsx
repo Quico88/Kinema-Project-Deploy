@@ -59,9 +59,11 @@ import {
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
+import './slick-theme.css'
 
 const settings = {
   dots: true,
+  dotsClass: 'pointer-up',
   arrows: false,
   fade: false,
   infinite: false,
