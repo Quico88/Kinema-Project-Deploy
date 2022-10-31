@@ -3,7 +3,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Link,
   IconButton,
   Image,
   Button,

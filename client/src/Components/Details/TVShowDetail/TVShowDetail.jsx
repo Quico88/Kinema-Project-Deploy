@@ -441,7 +441,7 @@ export default function TVShowDetail() {
                             <Button
                               bg={'blue.400'}
                               onClick={() =>
-                                navigate(`/payment/rent/movie/${mySerie.id}`)
+                                navigate(`/payment/rent/tv_show/${mySerie.id}`)
                               }
                               rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
                               rounded={'full'}
@@ -548,7 +548,7 @@ export default function TVShowDetail() {
                           <Link href="/register" color={'#64dfdf'}>
                             <b> Register </b>
                           </Link>
-                          to watch this movie.
+                          to watch this content.
                         </Text>
                       </Box>
                     ) : null
@@ -917,7 +917,7 @@ export default function TVShowDetail() {
                           <Link href="/register" color={'#64dfdf'}>
                             <b> Register </b>
                           </Link>
-                          to watch this serie.
+                          to watch this show.
                         </Text>
                         <br />
                       </Box>
