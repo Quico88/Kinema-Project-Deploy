@@ -413,7 +413,7 @@ export default function TVShowDetail() {
                             fontSize="2vw"
                             display="flex"
                           >
-                            {likesLocal === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like' : ' likes'}
                           </Text>
                         </Flex>
                       </Box>

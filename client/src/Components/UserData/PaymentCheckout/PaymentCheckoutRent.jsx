@@ -56,10 +56,10 @@ const CheckoutForm = () => {
   const type = pathname.split('/')[3];
 
   if (type === 'tv_show') {
-    var { title, poster, genres, number_seasons, duration, rating } =
+    var { title, poster } =
       serieDetail;
   } else {
-    var { title, poster, genres, release_date, duration, rating } = movieDetail;
+    var { title, poster } = movieDetail;
   }
 
   const now = new Date();
@@ -350,11 +350,6 @@ const CheckoutForm = () => {
                     <b>You can watch this content until:</b>{' '}
                     {moment(now.getTime() + 345600000).format('MMMM Do YYYY')}
                   </Text>
-                  {number_seasons ? (
-                    <Text mt="2.2vh">
-                      <b>Seasons:</b> {number_seasons}
-                    </Text>
-                  ) : null}
                 </Flex>
               </Flex>
             </Stack>

@@ -409,7 +409,7 @@ export default function MovieDetail() {
                             <Text color="#72EFDD" fontWeight={600}>
                               {likesLocal}&nbsp;
                             </Text>
-                            {likesLocal === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like' : ' likes'}
                           </Text>
                         </Flex>
                       </Box>
