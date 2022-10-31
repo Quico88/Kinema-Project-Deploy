@@ -1,33 +1,33 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import NavBar from "../NavBar/NavBar";
-import Footer from "./Chakra UI Components/Footer";
-import "./Home.css";
-import allGenres from "./allGenresMovies.json";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import NavBar from '../NavBar/NavBar';
+import Footer from './Chakra UI Components/Footer';
+import './Home.css';
+import allGenres from './allGenresMovies.json';
 import {
   clearMovies,
   getMovies,
   getAllGenres,
   getMovieGenreByID,
-} from "../../Redux/actions";
-import DataList from "./DataList/DataList";
-import { Box, Center, Flex, Select, Text } from "@chakra-ui/react";
-import Error from "../Error/Error";
-import "@fontsource/raleway";
-import { color } from "../globalStyles";
+} from '../../Redux/actions';
+import DataList from './DataList/DataList';
+import { Box, Center, Flex, Select, Text } from '@chakra-ui/react';
+import Error from '../Error/Error';
+import '@fontsource/raleway';
+import { color } from '../globalStyles';
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
-  const [genero, setGenero] = useState("All");
+  const [genero, setGenero] = useState('All');
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
   const error = useSelector((state) => state.error);
-  const [titulo, setTitulo] = useState("Movies");
+  const [titulo, setTitulo] = useState('Movies');
 
   useEffect(() => {
-    if (genero === "All" && page !== 1) {
+    if (genero === 'All' && page !== 1) {
       dispatch(getMovies(page));
     } else if (page !== 1) {
       dispatch(getMovieGenreByID(genero, page));
@@ -40,7 +40,7 @@ export default function HomeMovies() {
 
   useEffect(() => {
     setMoviesToShow([]);
-    if (genero === "All") {
+    if (genero === 'All') {
       dispatch(getMovies(page));
     } else {
       dispatch(getMovieGenreByID(genero, page));
@@ -54,7 +54,7 @@ export default function HomeMovies() {
 
   function handleGenres(e) {
     e.preventDefault();
-    let variable = "";
+    let variable = '';
     for (let i = 0; i < allGenres.length; i++) {
       if (allGenres[i].name === e.target.value) {
         variable = allGenres[i].id;
@@ -62,11 +62,11 @@ export default function HomeMovies() {
     }
     setPage(1);
     setGenero(variable);
-    if (e.target.value === "All") {
-      setGenero("All");
-      setTitulo("Movies");
+    if (e.target.value === 'All') {
+      setGenero('All');
+      setTitulo('Movies');
     } else {
-      setTitulo(e.target.value + " Movies");
+      setTitulo(e.target.value + ' Movies');
     }
   }
 
@@ -76,21 +76,21 @@ export default function HomeMovies() {
     return (
       <Flex direction="column" bg='#0d0c0c'>
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
-          <NavBar ruta={"Movies"} />
+          <NavBar ruta={'Movies'} />
         </Flex>
 
         <Flex as="main" mt={16} w="100%" direction="column">
           <Box>
             <Flex
-              direction={{base: "column", md:"row"}}
+              direction={{ base: 'column', md: 'row' }}
               mt={10}
               mb={5}
               justify="space-around"
               alignItems="center"
             >
-              {genero === "All" ? (
+              {genero === 'All' ? (
                 <Text
-                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
+                  fontSize={{ base: '32px', md: '40px', lg: '48px' }}
                   fontWeight="600"
                   color={color.kinemaLogoColor1}
                   fontFamily="Raleway"
@@ -99,7 +99,7 @@ export default function HomeMovies() {
                 </Text>
               ) : (
                 <Text
-                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
+                  fontSize={{ base: '32px', md: '40px', lg: '48px' }}
                   fontWeight="600"
                   color={color.kinemaLogoColor1}
                   fontFamily="Raleway"
@@ -111,20 +111,20 @@ export default function HomeMovies() {
               <Select
                 onChange={(e) => handleGenres(e)}
                 w="240px"
-                h={{base: "32px", md: "36px", lg:"44px"}}
-                fontSize={{base: "18px", md: "24px", lg:"28px"}}
+                h={{ base: '32px', md: '36px', lg: '44px' }}
+                fontSize={{ base: '18px', md: '24px', lg: '28px' }}
                 textAlign="center"
                 fontWeight="500"
-                color="white"
+                color={color.kinemaLogoColor1}
                 defaultValue="Genres"
               >
                 <option disabled>Genres</option>
-                <option value="All" className="options">
+                <option className="options" value="All">
                   All
                 </option>
                 {allGenres.map((g) => {
                   return (
-                    <option value={g.name} key={g.id} className="options">
+                    <option className="options" value={g.name} key={g.id}>
                       {g.name}
                     </option>
                   );
