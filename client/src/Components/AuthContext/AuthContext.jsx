@@ -14,6 +14,7 @@ import { loadUserData, logOutUser } from '../../Redux/actions';
 import welcomeEmail from './welcomeEmail';
 import { useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const authContext = createContext();
 
@@ -28,7 +29,6 @@ export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
 
   const signup = async (userEmail, password, displayName) => {
@@ -56,7 +56,10 @@ export default function AuthProvider({ children }) {
       banned: false,
       rented: [],
     });
-    welcomeEmail(userEmail, displayName);
+    await axios.post('/email', {
+      email: userEmail,
+      user: displayName
+    });
     dispatch(loadUserData(infoUser.user.uid));
   };
 
@@ -128,7 +131,11 @@ export default function AuthProvider({ children }) {
         banned: false,
         rented: [],
       });
-      welcomeEmail(infoUser.user.email, infoUser.user.displayName);
+      await axios.post('/email', {
+        email: infoUser.user.email,
+        user: infoUser.user.displayName
+      });
+      
       dispatch(loadUserData(infoUser.user.uid));
     }
   };

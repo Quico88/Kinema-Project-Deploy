@@ -136,6 +136,10 @@ const CheckoutForm = () => {
               progress: undefined,
               theme: 'dark',
             });
+            await axios.post('/email/upgrade', {
+              email: email,
+              user: username
+            });
             const userRef = doc(firestore, `/users/${uid}`);
             await updateDoc(userRef, {
               stripeId: data.subId,

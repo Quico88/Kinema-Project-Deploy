@@ -165,6 +165,7 @@ export default function MovieDetail() {
     const validMovie = movieRentHistory.find(
       (m) => m.expirationDate > now.getTime()
     );
+    if (!validMovie) return false;
     return validMovie.expirationDate;
   };
 
