@@ -145,12 +145,36 @@ export default function UserProfile() {
   };
 
   const accDelete = async () => {
-    const userRef = doc(firestore, `/users/${user.uid}`);
-    await updateDoc(userRef, {
-      active: false,
-    });
-    alert('Your account was deleted.');
-    logOut();
+    if(userData.subscription === 2) {
+      const id = userData.stripeId;
+      const { data } = await axios.post('/payment/downgrade', { id });
+      if (data.success) {
+        dispatch(downgradePlan());
+        const userRef = doc(firestore, `/users/${user.uid}`);
+        await updateDoc(userRef, {
+          subscription: 1,
+        });
+      } else {
+        alert(data.message);
+      }
+      const userRef = doc(firestore, `/users/${user.uid}`);
+      await updateDoc(userRef, {
+        active: false,
+      });
+      ToastifyMessage('Your account has been deleted.', 'success');
+      setTimeout(() => {
+        logOut();
+      }, 2000);
+    } else {
+      const userRef = doc(firestore, `/users/${user.uid}`);
+      await updateDoc(userRef, {
+        active: false,
+      });
+      ToastifyMessage('Your account has been deleted.', 'success');
+      setTimeout(() => {
+        logOut();
+      }, 2000);
+    }
   };
 
   const changeUser = () => {
