@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Stack, Text, Container, SimpleGrid } from '@chakra-ui/react';
 import Pricing from './Pricing';
 import Footer from '../../Home/Chakra UI Components/Footer';
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Plan() {
   const [scroll, setScroll] = useState(false);
@@ -29,6 +30,7 @@ export default function Plan() {
         backgroundRepeat={'no-repeat'}
         backgroundSize={'cover'}
       >
+        <NavBarPayment/>
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
