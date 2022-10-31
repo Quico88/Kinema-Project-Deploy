@@ -59,6 +59,7 @@ export default function TVShowDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
+  const [likesLocal, setLikesLocal] = useState(totalLikes);
   const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
   const [random, refresh] = useState('');
@@ -99,12 +100,14 @@ export default function TVShowDetail() {
     e.preventDefault();
     dispatch(dislike(user.uid, id));
     setLikeLocal(false);
+    setLikesLocal(prev => prev - 1)
   };
 
   const handleLike = (e) => {
     e.preventDefault();
     dispatch(putLike(user.uid, id));
     setLikeLocal(true);
+    setLikesLocal(prev => prev + 1)
   };
 
   function handleSeason(e) {
@@ -401,7 +404,7 @@ export default function TVShowDetail() {
                             </Button>
                           )}
                           <Text color="#72EFDD" fontWeight={600}>
-                            {totalLikes}&nbsp;
+                            {likesLocal}&nbsp;
                           </Text>
                           <Text
                             color="white"
@@ -409,7 +412,7 @@ export default function TVShowDetail() {
                             fontSize="2vw"
                             display="flex"
                           >
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                       </Box>
@@ -508,10 +511,10 @@ export default function TVShowDetail() {
                             </Button>
                           )}
                           <Text color="#72EFDD" ml="1vh" fontWeight={600}>
-                            {totalLikes}&nbsp;
+                            {likesLocal}&nbsp;
                           </Text>
                           <Text color="white" fontSize="2vw">
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
@@ -776,10 +779,10 @@ export default function TVShowDetail() {
                             </Button>
                           )}
                           <Text color="#72EFDD" ml="1vh" fontWeight={600}>
-                            {totalLikes}&nbsp;
+                            {likesLocal}&nbsp;
                           </Text>
                           <Text color="white" fontSize={15}>
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                       </Box>
@@ -874,13 +877,13 @@ export default function TVShowDetail() {
                             </Button>
                           )}
                           <Text color="#72EFDD" ml="1vh" fontWeight={600}>
-                            {totalLikes}&nbsp;
+                            {likesLocal}&nbsp;
                           </Text>
                           <Text
                             color="white"
                             fontSize={15}
                           >
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (

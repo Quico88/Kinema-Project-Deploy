@@ -60,6 +60,7 @@ export default function MovieDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
+  const [likesLocal, setLikesLocal] = useState(totalLikes);
   const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
   const [random, refresh] = useState('');
@@ -96,12 +97,14 @@ export default function MovieDetail() {
     e.preventDefault();
     dispatch(dislike(user.uid, id));
     setLikeLocal(false);
+    setLikesLocal(prev => prev - 1)
   };
 
   const handleLike = (e) => {
     e.preventDefault();
     dispatch(putLike(user.uid, id));
     setLikeLocal(true);
+    setLikesLocal(prev => prev + 1)
   };
 
   const handleTextArea = (e) => {
@@ -404,9 +407,9 @@ export default function MovieDetail() {
                             display="flex"
                           >
                             <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
+                              {likesLocal}&nbsp;
                             </Text>
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                       </Box>
@@ -511,9 +514,9 @@ export default function MovieDetail() {
                             display="flex"
                           >
                             <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
+                              {likesLocal}&nbsp;
                             </Text>
-                            {totalLikes === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
@@ -763,9 +766,9 @@ export default function MovieDetail() {
                             display="flex"
                           >
                             <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
+                              {likesLocal}&nbsp;
                             </Text>
-                            {totalLikes === 1
+                            {likesLocal === 1
                               ? ' like.'
                               : ' likes.'}
                           </Text>
@@ -867,11 +870,11 @@ export default function MovieDetail() {
                             display="flex"
                           >
                             <Text color="#72EFDD" fontWeight={600}>
-                              {totalLikes}&nbsp;
+                              {likesLocal}&nbsp;
                             </Text>
-                            {totalLikes === 1
-                              ? ' person likes this.'
-                              : ' others likes this.'}
+                            {likesLocal === 1
+                              ? ' like.'
+                              : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
