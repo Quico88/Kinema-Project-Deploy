@@ -13,13 +13,13 @@ import { color } from "../../globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../../Redux/actions";
 
-export default function Comment({ username, text, avatar, date, userId, id, refresh }) {
+export default function Comment({ username, text, avatar, date, userId, id, deleteLocal }) {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user);
   const handleDeleteComment = (e) => {
     e.preventDefault()
     dispatch(deleteComment(id))
-    refresh(Math.random())
+    deleteLocal(prev => prev.filter(comment => {return comment._id !== id}))
   }
   return (
     <Box

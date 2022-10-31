@@ -209,6 +209,13 @@ export default function NavBar({ ruta }) {
                     ) : (
                       <></>
                     )}
+                    {user.owner ? (
+                      <RouteLink to="/owner">
+                        <MenuItem>Owner Panel</MenuItem>
+                      </RouteLink>
+                    ) : (
+                      <></>
+                    )}
                     <MenuDivider />
                     <MenuItem onClick={logOut}>Log out</MenuItem>
                   </MenuGroup>

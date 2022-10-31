@@ -179,8 +179,8 @@ const CheckoutForm = () => {
       <ToastContainer />
       <form onSubmit={handleSubmit}>
         <FormControl
-          display='flex'
-          justifyContent='center'
+          display="flex"
+          justifyContent="center"
           alignItems={'center'}
           mt={isLargerThan480 ? '18vh' : '3vh'}
         >
@@ -190,130 +190,146 @@ const CheckoutForm = () => {
           >
             <Box
               w={'24vw'}
-              h='48vh'
-              minW='300px'
-              minH='430px'
-              maxH='450px'
-              pl='30px'
+              h="48vh"
+              minW="300px"
+              minH="430px"
+              maxH="450px"
+              pl="30px"
               bgColor={'white'}
               borderLeftRadius={isLargerThan480 ? '10px' : null}
               borderBottomRadius={isLargerThan480 ? null : '10px'}
-              pr='30px'
-              pt='3vh'
+              pr="30px"
+              pt="3vh"
               mb={'15px'}
-              justifyItems='center'
+              justifyItems="center"
             >
-              <FormLabel m={'0px'} p='0px'>
+              <FormLabel m={'0px'} p="0px" color={'black'}>
                 Name
               </FormLabel>
               <Input
-                variant='flushed'
+                variant="flushed"
                 value={input.name}
-                name='name'
+                name="name"
                 onChange={handleChange}
-                w='18vw'
-                h='3.5vh'
-                minW='200px'
+                w="18vw"
+                h="3.5vh"
+                minW="200px"
+                borderColor={'black'}
               />
               {errors.name && (
                 <FormHelperText color={'red'}>{errors.name}</FormHelperText>
               )}
-              <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
+              <FormLabel m={'3vh 0px 0px 0px'} p="0px" color={'black'}>
                 Surname
               </FormLabel>
               <Input
-                variant='flushed'
+                variant="flushed"
                 value={input.surname}
-                name='surname'
+                name="surname"
                 onChange={handleChange}
-                w='18vw'
-                h='3.5vh'
-                minW='200px'
+                w="18vw"
+                h="3.5vh"
+                minW="200px"
+                borderColor={'black'}
               />
               {errors.surname && (
                 <FormHelperText color={'red'}>{errors.surname}</FormHelperText>
               )}
-              <Stack direction='row' spacing={10} mb='5vh'>
+              <Stack direction="row" spacing={10} mb="5vh">
                 <Box>
-                  <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
+                  <FormLabel m={'3vh 0px 0px 0px'} p="0px" color={'black'}>
                     City
                   </FormLabel>
-                  <Input variant='flushed' w='8vw' minW={'100px'} h='3.5vh' />
+                  <Input
+                    variant="flushed"
+                    w="8vw"
+                    minW={'100px'}
+                    h="3.5vh"
+                    borderColor={'black'}
+                  />
                 </Box>
                 <Box>
-                  <FormLabel m={'3vh 0px 0px 0px'} p='0px'>
+                  <FormLabel m={'3vh 0px 0px 0px'} p="0px" color={'black'}>
                     Address
                   </FormLabel>
-                  <Input variant='flushed' minW={'100px'} w='8vw' h='3.5vh' />
+                  <Input
+                    variant="flushed"
+                    minW={'100px'}
+                    w="8vw"
+                    h="3.5vh"
+                    borderColor={'black'}
+                  />
                 </Box>
               </Stack>
-              <CardElement className='pcard' />
-              {isLargerThan480 ? null : 
-                  loading ? 
-                    <Flex justify='center' align='center'>
-                      <Image mt='20px' boxSize='60px' src={loader} alt='loader' /> 
-                    </Flex>
-                  :
-                    <Box p={6}>
-                      <button className='btn-premium2'>Confirm</button>
-                    </Box> 
-                }
+              <CardElement className="pcard" />
+              {isLargerThan480 ? null : loading ? (
+                <Flex justify="center" align="center">
+                  <Image mt="20px" boxSize="60px" src={loader} alt="loader" />
+                </Flex>
+              ) : (
+                <Box p={6}>
+                  <button className="btn-premium2">Confirm</button>
+                </Box>
+              )}
             </Box>
 
             <Flex
-              pt='10px'
-              w='20vw'
+              pt="10px"
+              w="20vw"
               h={isLargerThan480 ? '48vh' : '200px'}
               borderRightRadius={isLargerThan480 ? '10px' : null}
               borderTopRadius={isLargerThan480 ? null : '10px'}
               minW={isLargerThan480 ? '250px' : '300px'}
               minH={isLargerThan480 ? '430px' : null}
-              maxH='450px'
+              maxH="450px"
               bg={'rgba(17, 173, 152, 0.3)'}
               backdropFilter={'blur(10px)'}
-              align='center'
-              direction='column'
+              align="center"
+              direction="column"
             >
-              { loading && isLargerThan480 ? <Image boxSize='160px' src={loader} alt='loader' /> : 
-              <Image
-                src={logo}
-                w={isLargerThan480 ? '160px' : '0px'}
-                h={isLargerThan480 ? '160px' : '0px'}
-              /> }
+              {loading && isLargerThan480 ? (
+                <Image boxSize="160px" src={loader} alt="loader" />
+              ) : (
+                <Image
+                  src={logo}
+                  w={isLargerThan480 ? '160px' : '0px'}
+                  h={isLargerThan480 ? '160px' : '0px'}
+                />
+              )}
               <Text
                 align={'center'}
                 justify={'center'}
-                color='white'
-                fontWeight='bold'
+                color="white"
+                fontWeight="bold"
               >
                 Be premium
               </Text>
               <Stack direction={'row'} align={'center'} justify={'center'}>
-                <Text fontSize={'2xl'} color='white'>
+                <Text fontSize={'2xl'} color="white">
                   $
                 </Text>
-                <Text fontSize={'4xl'} color='white' fontWeight={800}>
+                <Text fontSize={'4xl'} color="white" fontWeight={800}>
                   7.99
                 </Text>
               </Stack>
               {isSmallerThan480 ? (
                 <List
-                  pt='8px'
+                  pt="8px"
                   spacing={3}
-                  ml='5px'
-                  color='white'
+                  ml="5px"
+                  color="white"
                   fontSize={isLargerThan480 ? '12px' : '10px'}
                 >
                   <ListItem key={'first-feature-2'}>
-                    <ListIcon as={CheckIcon} color='green.400' />
+                    <ListIcon as={CheckIcon} color="green.400" />
                     Watch any Movie and TV Show
                   </ListItem>
                   <ListItem key={'first-feature-2'}>
-                    <ListIcon as={CheckIcon} color='green.400' />
+                    <ListIcon as={CheckIcon} color="green.400" />
                     Create your own Watchlist
                   </ListItem>
                   <ListItem key={'first-feature-2'}>
-                    <ListIcon as={CheckIcon} color='green.400' />
+                    <ListIcon as={CheckIcon} color="green.400" />
                     Search for information of all available content
                   </ListItem>
                 </List>
@@ -322,36 +338,36 @@ const CheckoutForm = () => {
               <Flex
                 align={'center'}
                 justify={'center'}
-                mt='3vh'
-                direction='column'
+                mt="3vh"
+                direction="column"
               >
                 {isLargerThan480 ? (
-                  <button className='btn-premium'>Confirm</button>
+                  <button className="btn-premium">Confirm</button>
                 ) : null}
                 {pathname.includes('upgrade') && isLargerThan480 ? (
                   <Flex
-                    justify='center'
-                    align='center'
-                    w='100%'
-                    textAlign='left'
-                    mt='20px'
+                    justify="center"
+                    align="center"
+                    w="100%"
+                    textAlign="left"
+                    mt="20px"
                   >
                     <List
                       spacing={3}
-                      ml='5px'
-                      color='white'
+                      ml="5px"
+                      color="white"
                       fontSize={isLargerThan480 ? '12px' : '10px'}
                     >
                       <ListItem key={'first-feature-2'}>
-                        <ListIcon as={CheckIcon} color='green.400' />
+                        <ListIcon as={CheckIcon} color="green.400" />
                         Watch any Movie and TV Show
                       </ListItem>
                       <ListItem key={'first-feature-2'}>
-                        <ListIcon as={CheckIcon} color='green.400' />
+                        <ListIcon as={CheckIcon} color="green.400" />
                         Create your own Watchlist
                       </ListItem>
                       <ListItem key={'first-feature-2'}>
-                        <ListIcon as={CheckIcon} color='green.400' />
+                        <ListIcon as={CheckIcon} color="green.400" />
                         Search for information of all available content
                       </ListItem>
                     </List>

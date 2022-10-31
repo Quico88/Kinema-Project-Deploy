@@ -39,6 +39,7 @@ export default function Admin() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const { user, loadingUser } = useAuth();
+  const [, setByDate] = useState();
   const toast = useToast();
 
   async function allUsers() {
@@ -98,8 +99,9 @@ export default function Admin() {
     day: 'numeric',
   };
 
-  const premiumUsers = users.filter((u) => u.subscription === 2);
-  const basicUsers = users.filter((u) => u.subscription === 1);
+  const premiumUsers = users.filter((u) => u.subscription === 2 && u.active);
+  const basicUsers = users.filter((u) => u.subscription === 1 && u.active);
+  const totalUsers = premiumUsers.length + basicUsers.length;
 
   function searcher(e) {
     e.preventDefault();
@@ -140,6 +142,15 @@ export default function Admin() {
     if (page !== totalPaginas) return setPage(page + 1);
   };
 
+  function sortByDate() {
+    let res = results.sort((a, b) => {
+      if (a.subscriptionDate < b.subscriptionDate) return 1;
+      if (a.subscriptionDate > b.subscriptionDate) return -1;
+    });
+
+    setByDate(res);
+  }
+
   let backgroundBox = useColorModeValue('gray.100', 'gray.900');
 
   useEffect(() => {
@@ -165,7 +176,7 @@ export default function Admin() {
         user={userData}
       />
       <Statistics
-        totalUsers={users.length}
+        totalUsers={totalUsers}
         premiumUsers={premiumUsers.length}
         basicUsers={basicUsers.length}
       />
@@ -207,7 +218,7 @@ export default function Admin() {
                   <Th fontSize={'14px'}>Username</Th>
                   <Th fontSize={'14px'}>
                     Subscription Date
-                    {/*   <Button
+                    <Button
                       padding={'5px'}
                       height={'25px'}
                       fontSize={'12px'}
@@ -215,20 +226,10 @@ export default function Admin() {
                       onClick={sortByDate}
                     >
                       Sort
-                    </Button> */}
+                    </Button>
                   </Th>
                   <Th fontSize={'14px'}>Subscription</Th>
-                  <Th fontSize={'14px'}>
-                    Rented
-                    {/*  <Button
-                      padding={'5px'}
-                      height={'25px'}
-                      fontSize={'12px'}
-                      border={'1px solid black'}  onClick={sortRented }
-                    >
-                      Sort
-                    </Button> */}
-                  </Th>
+                  <Th fontSize={'14px'}>Rented</Th>
                   <Th fontSize={'14px'}>Status</Th>
                   <Th fontSize={'14px'}>Ban / Lift Ban</Th>
                   <Th fontSize={'14px'}>Banned</Th>

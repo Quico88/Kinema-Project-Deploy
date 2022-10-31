@@ -15,6 +15,7 @@ import { useAuth } from '../AuthContext/AuthContext';
 import '@fontsource/raleway';
 import { ERROR_CLEAN } from '../../Redux/actions/const';
 import { useToast } from '@chakra-ui/react';
+import { color } from '../globalStyles';
 
 export default function Home() {
   const { loadingUser } = useAuth();
@@ -24,7 +25,13 @@ export default function Home() {
   const userData = useSelector((state) => state.user);
   const toast = useToast();
 
-  if (userData.banned) {
+  useEffect(() => {
+    dispatch(loadUserData(userData.uid));
+    dispatch({ type: ERROR_CLEAN });
+    if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
+  }, []);
+
+  if (userData && userData.banned) {
     toast({
       title: 'You have been banned.',
       description:
@@ -35,29 +42,25 @@ export default function Home() {
       isClosable: true,
     });
     dispatch(logOutUser());
+    navigate('/home');
   }
 
-    useEffect(() => {
-        dispatch(loadUserData(userData.uid))
-        dispatch({ type: ERROR_CLEAN });
-        if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
-    }, []);
-
-    if (!loading) {
-        var movieCarrousel = carrousels_home.allCarruselsMovies;
-        var SeriesCarrousel = carrousels_home.allCarruselsSeries;
-        if (movieCarrousel) {
-        var topTrendingMovie = movieCarrousel.trending[0];
-        }
+  if (!loading) {
+    var movieCarrousel = carrousels_home.allCarruselsMovies;
+    var SeriesCarrousel = carrousels_home.allCarruselsSeries;
+    if (movieCarrousel) {
+      var topTrendingMovie = movieCarrousel.trending[0];
     }
+  }
 
-    if (loadingUser) return null;
+  if (loadingUser) return null;
+
 
     if (error) {
         return <Error />;
     } else {
         return (
-        <Flex direction="column" bg="#222222">
+        <Flex direction="column" bg="#0d0c0c">
             <Flex as="header" position="fixed" w="100%" zIndex={200}>
                 <NavBar ruta={'Home'} />
             </Flex>
@@ -83,9 +86,10 @@ export default function Home() {
                 ) : null}
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Trending
                 </Text>
@@ -95,9 +99,10 @@ export default function Home() {
                 />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     On Theaters
                 </Text>
@@ -107,18 +112,20 @@ export default function Home() {
                 />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Popular
                 </Text>
                 <CarouselHome movies={movieCarrousel.populars} title="Popular:" />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Top rated Movies
                 </Text>
@@ -128,9 +135,10 @@ export default function Home() {
                 />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Up Coming
                 </Text>
@@ -140,9 +148,10 @@ export default function Home() {
                 />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Top rated Series
                 </Text>
@@ -152,21 +161,22 @@ export default function Home() {
                 />
                 <Text
                     fontWeight={'bold'}
-                    color={'white'}
+                    color={color.kinemaLogoColor1}
                     fontSize={{ base: '1xl', md: '2xl' }}
                     mb={0}
+                    ml={4}
                 >
                     Latest Series
                 </Text>
                 <CarouselHome
                     movies={SeriesCarrousel.latestSeries}
                     title="Latest Series:"
-                />
-                </Box>
-            )}
-            <Footer />
-            </Flex>
+              />
+            </Box>
+          )}
+          <Footer />
         </Flex>
-        );
-    }
+      </Flex>
+    );
+  }
 }
