@@ -146,6 +146,7 @@ export default function MovieDetail() {
       let year = date.getFullYear();
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
+      setCommentArea('')
       refresh(Math.random());
     }
   };

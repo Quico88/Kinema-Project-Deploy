@@ -22,7 +22,12 @@ Table,
   Avatar,
   Image,
   Flex,
-  useToast
+  useToast,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel
 }from "@chakra-ui/react"
 import Statistics from "./Statistics";
 import LineChart from "./LineChart";
@@ -244,24 +249,175 @@ export default function Owner(){
                 results={results}
                 user={userData}
             />
-            <Box>
 
-            <Statistics 
-                totalUsers={users.length}
-                premiumUsers={premiumUsers.length}
-                basicUsers={basicUsers.length}
-                />
+<Tabs align='center' variant='enclosed' >
+  <TabList marginTop={"10px"}>
+    <Tab fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                color={'#99a3a4'}>Users</Tab>
+    <Tab fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                color={'#99a3a4'}>Tables</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+        <Box>
 
-<Center>
+          <Statistics 
+            totalUsers={users.length}
+            premiumUsers={premiumUsers.length}
+            basicUsers={basicUsers.length}
+          />
 
-<Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
-   <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
-</Box>
+          <Box  bg={loadingUser ? null : backgroundBox}>
+
+<Center margin={"50px"}>
+<Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
+  <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
+<Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
 </Center>
-           
-                </Box>
-            <Center>
-            <Box /* width={"800px"} */ backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
+
+<TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
+
+  <Center>
+  <Table variant="simple" width={"90vw"} >
+    <Thead>
+      <Tr>
+      <Th  fontSize={"14px"} >
+          Photo
+        </Th>
+        <Th  fontSize={"14px"}>
+          Email
+        </Th>
+        <Th  fontSize={"14px"}>
+          Username
+        </Th>
+        <Th  fontSize={"14px"}>
+          Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
+        </Th>
+        <Th  fontSize={"14px"}>
+          Subscription
+        </Th>
+        <Th  fontSize={"14px"}>
+          Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortRented} >Sort</Button>
+        </Th>
+        <Th fontSize={"14px"}>
+          Status
+        </Th>
+        <Th  fontSize={"14px"}>
+          Type User
+        </Th>
+        <Th  fontSize={"14px"}>
+          Edit Admin
+        </Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      {users
+        ? currentUsers.map((user, i) => {
+
+          let activeOrNot = user.active ? "Active" : "Banned"
+
+            return (
+              <Tr >
+                  <Td  >
+                       <Avatar
+                           size={'md'}
+                           src={user.avatar}
+                       />
+                </Td>
+                <Td fontSize={"14px"} key={user.email} color={ "gray.500" } >
+                  {user.email}
+                </Td>
+                <Td fontSize={"14px"} key={user.username} color={ "gray.500" } >
+                  {user.username}
+                </Td>
+                <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray.500" } >
+                  {user.subscriptionDate
+                    .toDate()
+                    .toLocaleDateString("en-US", options)}
+                </Td>
+                <Td fontSize={"14px"} color={ "gray.500" } >
+                  {user.subscription === 1 ? "Basic" : "Premium"}
+                </Td>
+                <Td fontSize={"14px"} color={ "gray.500" } >{user.rented.length}</Td>
+                <Td fontSize={"14px"}color={ "gray.500" } >
+                  {activeOrNot}
+                </Td>
+                <Td key={i + 1} color={ "gray.500" } >
+
+                    {
+                      user.admin ? "Admin" : "User"
+                    }
+                </Td>
+                <Td>
+                  <Box >
+                    <Popover>
+                      <PopoverTrigger>
+                            <Button background={"lightgray"} >
+                              <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
+                            </Button>
+                            
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>
+                          {
+                              user.admin ? `Are you sure you want to REMOVE admin ${user.username}?` : `Are you sure you want to MAKE admin ${user.username}?`
+                            }
+                          </PopoverHeader>
+                          <PopoverBody>
+                            <Button
+                              background={"#cd6155"}
+                              value={user.username}
+                              onClick={() => handleBan(user)}
+                            >
+                              Continue
+                            </Button>
+                          </PopoverBody>
+                        </PopoverContent>
+                        
+                      </Portal>
+                    </Popover>
+                    
+
+                    
+                  </Box>
+                </Td>
+              </Tr>
+            );
+          })
+        : null}
+        
+    </Tbody>
+  </Table>
+  </Center>
+</TableContainer>
+<Center marginTop={"20px"} paddingBottom={"30px"}>
+<Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
+  <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
+<Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
+</Center>
+</Box>
+
+        </Box>
+    </TabPanel>
+    <TabPanel>
+
+    <Statistics 
+            totalUsers={users.length}
+            premiumUsers={premiumUsers.length}
+            basicUsers={basicUsers.length}
+          />
+
+          <Center>
+          <Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
+              <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
+          </Box>
+          </Center>
+
+          <Center>
+            <Box backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
             <LineChart data={totalRevenue} tableName="Total Revenue"/>  
             </Box>
             </Center>
@@ -276,9 +432,46 @@ export default function Owner(){
             <BarChart data={users.length} tableName="New Users"/>
             </Flex>
 
+
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+
+       {/*      <Box> */}
+
+            {/* <Statistics 
+                totalUsers={users.length}
+                premiumUsers={premiumUsers.length}
+                basicUsers={basicUsers.length}
+                /> */}
+
+{/* <Center>
+
+<Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
+   <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
+</Box>
+</Center> */}
+           
+                {/* </Box> */}
+           {/*  <Center>
+            <Box  backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
+            <LineChart data={totalRevenue} tableName="Total Revenue"/>  
+            </Box>
+            </Center>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <LineChart data={totalRentRevenue} tableName="Rent Revenue" color="white" />
+            <LineChart data={totalPremiumRevenue} tableName="Premium Revenue"/>
+            </Flex>
+
+            <Flex justify={"space-evenly"} direction={"row "} margin={"100px"} >
+            <BarChart data={users.length} tableName="User growth" />
+            <BarChart data={users.length} tableName="New Users"/>
+            </Flex> */}
+
            
         
-            <Box  bg={loadingUser ? null : backgroundBox}>
+            {/* <Box  bg={loadingUser ? null : backgroundBox}>
 
       <Center margin={"20px"}>
       <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
@@ -409,7 +602,7 @@ export default function Owner(){
         <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
       <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
       </Center>
-      </Box>
+      </Box> */}
         </Box>
 
         
