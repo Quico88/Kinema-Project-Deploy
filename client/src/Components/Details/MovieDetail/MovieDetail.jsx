@@ -60,13 +60,23 @@ export default function MovieDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
-  const [likesLocal, setLikesLocal] = useState(totalLikes);
+  const [likesLocal, setLikesLocal] = useState(undefined);
+  const [commentsLocal, setCommentsLocal] = useState([]);
   const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState('');
   const toast = useToast();
   const [isShortThan960px] = useMediaQuery('(max-width: 960px)');
   const [isShortThan400px] = useMediaQuery('(max-width: 400px)');
+
+
+  useEffect(() => {
+    dispatch(clearMovieDetail());
+    dispatch(getMovieDetail(id));
+    dispatch(isLike(user.uid, id));
+    dispatch(getLikesFromContent(id));
+    dispatch(loadUserData(user.uid))
+    dispatch(getCommentsData(id))
+  }, [dispatch]);
 
   if (user && user.banned) {
     toast({
@@ -79,19 +89,16 @@ export default function MovieDetail() {
       isClosable: true,
     });
     dispatch(logOutUser());
+    navigate("/home")
   }
 
   useEffect(() => {
-    dispatch(clearMovieDetail());
-    dispatch(getMovieDetail(id));
-    dispatch(isLike(user.uid, id));
-    dispatch(getLikesFromContent(id));
-    dispatch(loadUserData(user.uid))
-  }, [dispatch]);
+    setCommentsLocal(comments)
+  }, [comments])
 
   useEffect(() => {
-    dispatch(getCommentsData(id));
-  }, [random]);
+    setLikesLocal(totalLikes)
+  }, [totalLikes])
 
   const handleDislike = (e) => {
     e.preventDefault();
@@ -146,7 +153,7 @@ export default function MovieDetail() {
       let year = date.getFullYear();
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
-      refresh(Math.random());
+      setCommentsLocal(prev => prev.concat({_id: Math.random(), userId: user.uid, content: commentArea, date: currentDate, idReference: myMovie.id, avatar: user.avatar, username: user.username}))
     }
   };
 
@@ -948,8 +955,8 @@ export default function MovieDetail() {
                   },
                 }}
               >
-                {comments.length ? (
-                  comments.map((comment) => {
+                {commentsLocal.length ? (
+                  commentsLocal.map((comment) => {
                     return (
                       <Comment
                         username={comment.username}
@@ -958,7 +965,7 @@ export default function MovieDetail() {
                         date={comment.date}
                         userId={comment.userId}
                         id={comment._id}
-                        refresh={refresh}
+                        deleteLocal={setCommentsLocal}
                       ></Comment>
                     );
                   })

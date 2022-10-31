@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { useAuth } from '../../AuthContext/AuthContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import style from "./UserProfile.module.css"
@@ -47,7 +46,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +55,8 @@ import {
   downgradePlan,
   uploadImg,
   avatarImg,
+  logOutUser,
+  loadUserData,
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
@@ -191,6 +192,24 @@ export default function UserProfile() {
     }
     exe();
   }, [user.uid]);
+
+  useEffect(() => {
+    dispatch(loadUserData(userData.uid));
+  }, []);
+
+  if (userData && userData.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 5000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+    navigate("/home")
+  }
 
   const {
     isOpen: firstIsOpen,
