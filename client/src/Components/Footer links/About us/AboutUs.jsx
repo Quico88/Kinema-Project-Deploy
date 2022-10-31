@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Icon, Text, Image, chakra, Wrap, Heading } from "@chakra-ui/react";
+import { Box, Text, Wrap, Heading } from "@chakra-ui/react";
 import NavBar from "../../NavBar/NavBar";
 import Footer from "../../Home/Chakra UI Components/Footer";
 import ProfileCard from "./ProfileCard";
