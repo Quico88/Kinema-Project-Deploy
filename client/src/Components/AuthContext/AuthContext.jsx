@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { auth, firestore } from './firebase';
@@ -137,12 +138,10 @@ export default function AuthProvider({ children }) {
     signOut(auth);
     dispatch(logOutUser());
   };
-  // eslint-disable-next-line
-  const updateUserInfo = async (img, userName) => {
-    let docu = user;
-    const userRef = doc(firestore, `/users/${docu.user.uid}`);
-    await updateDoc(userRef, { username: userName, avatar: img });
-  };
+  
+  function forgotPasswordFunction(email){
+    return sendPasswordResetEmail(auth, email)
+  }
 
   async function read(id) {
     const docRef = doc(firestore, `/users/${id}`);
@@ -170,6 +169,7 @@ export default function AuthProvider({ children }) {
         user,
         loadingUser,
         signupWithGoogle,
+        forgotPasswordFunction,
         read,
       }}
     >

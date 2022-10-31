@@ -9,7 +9,6 @@ import {
   SimpleGrid,
   Center,
   Link,
-  Checkbox,
   FormControl,
 } from '@chakra-ui/react';
 import Footer from '../../Home/Chakra UI Components/Footer';
@@ -208,14 +207,6 @@ export default function Register() {
               Sign up with Google
             </Button>
           </Box>
-          <Stack
-            direction={{ base: 'flex', sm: 'row' }}
-            align={'start'}
-            justify={'space-evenly'}
-          >
-            <Checkbox color={'white'}>Remember me</Checkbox>
-            <Link color={'gray'}>Forgot password?</Link>
-          </Stack>
           form
           <Stack
             direction={{ base: 'flex', sm: 'row' }}

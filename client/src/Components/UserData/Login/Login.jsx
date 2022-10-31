@@ -10,20 +10,18 @@ import {
   Center,
   FormControl,
   Link,
-  Checkbox,
   Image,
   Flex,
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext/AuthContext';
 import loader from '../../../Assets/loader.gif'
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Login() {
-  const navigate = useNavigate();
   const [error, setError] = useState();
+  const [incomplete, setIncomplete] = useState(true)
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
@@ -45,10 +43,19 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
+      if(!user.password){
+        setIncomplete(false)
+      }else{
+        setIncomplete(true)
+      }
       await login(user.email, user.password);
       // navigate('/home');
     } catch (error) {
-      setError(error.message);
+      if(error.message.includes("wrong")){
+        setError(true)
+      }else{
+        setError(false)
+      }
     }
     setLoading(false);
   }
@@ -143,6 +150,7 @@ export default function Login() {
                     color: 'gray.500',
                   }}
                 />
+                <Center>{!incomplete && <Text color={"#cd6155"} fontWeight={"600"} >Add your password</Text>} </Center>
                 <Button
                   fontFamily={'heading'}
                   mt={8}
@@ -158,7 +166,7 @@ export default function Login() {
                   Log in
                 </Button>
 
-                <Center>{error && <p>{error}</p>} </Center>
+                <Center>{error && <Text color={"#cd6155"} fontWeight={"600"} >Wrong password</Text>} </Center>
               </FormControl>
             </Stack>
             <Button
@@ -181,15 +189,6 @@ export default function Login() {
           </Box>
           <Stack
             direction={{ base: 'flex', sm: 'row' }}
-            align={'start'}
-            justify={'space-evenly'}
-          >
-            <Checkbox color={'white'}>Remember me</Checkbox>
-            <Text color={'gray'}>Forgot password?</Text>
-          </Stack>
-          form
-          <Stack
-            direction={{ base: 'flex', sm: 'row' }}
             gap={1}
             justifyContent={'center'}
           >
@@ -197,6 +196,15 @@ export default function Login() {
             <Link href="/register" color={'gray'}>
               Sign up
             </Link>
+          </Stack>
+          <Stack
+            direction={{ base: 'flex', sm: 'row' }}
+            align={'start'}
+            justify={'space-evenly'}
+            color={'gray'}
+            _hover={{textDecoration: "block"}}
+          >
+            <Link href="/recover_password" color={'gray'}>Forgot password?</Link>
           </Stack>
         </Stack>
       </Container>
