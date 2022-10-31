@@ -168,7 +168,7 @@ export default function AuthProvider({ children }) {
       active: true,
     });
     toast({
-      title: 'Your account is available again.',
+      title: 'You can now have access to your account.',
       description: 'Please login.',
       status: 'success',
       duration: 3000,
