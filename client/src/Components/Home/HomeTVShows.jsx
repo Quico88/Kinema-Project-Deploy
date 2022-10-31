@@ -17,6 +17,8 @@ import '@fontsource/raleway';
 import allGenres from './allGenresTV.json';
 import { color } from '../globalStyles';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
+
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ export default function HomeTVShows() {
   // const allGenres = useSelector((state) => state.allgenres);
   const [genre, setGenero] = useState('All');
   const [titulo, setTitulo] = useState('TV Shows');
-
+  const toast = useToast();
   const error = useSelector((state) => state.error);
 
   useEffect(() => {

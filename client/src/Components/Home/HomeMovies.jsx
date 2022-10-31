@@ -19,6 +19,8 @@ import Error from "../Error/Error";
 import "@fontsource/raleway";
 import { color } from "../globalStyles";
 import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react';
+
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ export default function HomeMovies() {
   const error = useSelector((state) => state.error);
   const [titulo, setTitulo] = useState("Movies");
   const user = useSelector((state) => state.user);
-
+  const toast = useToast();
 
   useEffect(() => {
     if (genero === 'All' && page !== 1) {

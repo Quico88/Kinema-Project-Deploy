@@ -4,6 +4,7 @@ import { logOutUser, loadUserData } from '../../Redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import NavBarPlayer from '../NavBarPlayer/NavBarPlayer.jsx';
+import { useToast } from '@chakra-ui/react';
 
 export default function Watch() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ export default function Watch() {
   const myMovie = useSelector((state) => state.movieDetail);
   const idTrailer = myMovie.trailer.slice(32);
   const user = useSelector((state) => state.user);
+  const toast = useToast();
 
   const { id } = useParams();
 

@@ -61,6 +61,8 @@ import {
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 import styles from './UserProfile.module.css'
+import { useToast } from '@chakra-ui/react';
+
 
 const settings = {
   dots: true,
@@ -95,7 +97,8 @@ export default function UserProfile() {
   const [formErrors, setFormErrors] = useState({});
   const [, setSlider] = useState(null);
   const dispatch = useDispatch();
-
+  const toast = useToast();
+  
   async function logOut() {
     await logout();
     navigate('/');

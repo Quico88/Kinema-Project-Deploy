@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Flex, Divider, Center, Text } from '@chakra-ui/react';
 import Error from '../Error/Error';
 import '@fontsource/raleway';
+import { useToast } from '@chakra-ui/react';
 
 export default function HomeSearch() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function HomeSearch() {
   const [searchToShow, setSearchToShow] = useState([]);
   const error = useSelector((state) => state.error);
   const user = useSelector((state) => state.user);
+  const toast = useToast();
 
   const form = useLocation().search;
   const query = new URLSearchParams(form).get('query');
