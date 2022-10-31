@@ -131,10 +131,10 @@ export default function NavBar({ ruta }) {
     <>
       <Box
         bgGradient={
-          scroll
+          {base: 'linear(to-b, rgba(0,0,0,0.559093137254902) 95%, rgba(0,0,0,0) 100%)', md: scroll
             ? 'linear(to-b, rgba(0,0,0,0.85) 100%, rgba(0,0,0,0) 100%)'
             : 'linear(to-b, rgba(0,0,0,0.639093137254902) 35%, rgba(0,0,0,0) 100%)'
-        }
+        }}
         px={4}
         w="100%"
       >
