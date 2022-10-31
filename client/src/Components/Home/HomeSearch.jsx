@@ -38,7 +38,7 @@ export default function HomeSearch() {
     return <Error />;
   } else {
     return (
-      <Flex direction="column" bgGradient="linear(to-b, #222222, #333333)">
+      <Flex direction="column" bg='#0d0c0c'>
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
           <NavBar />
         </Flex>
