@@ -25,7 +25,13 @@ export default function Home() {
   const userData = useSelector((state) => state.user);
   const toast = useToast();
 
-  if (userData.banned) {
+  useEffect(() => {
+    dispatch(loadUserData(userData.uid));
+    dispatch({ type: ERROR_CLEAN });
+    if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
+  }, []);
+
+  if (userData && userData.banned) {
     toast({
       title: 'You have been banned.',
       description:
@@ -36,23 +42,19 @@ export default function Home() {
       isClosable: true,
     });
     dispatch(logOutUser());
+    navigate('/home');
   }
 
-    useEffect(() => {
-        dispatch(loadUserData(userData.uid))
-        dispatch({ type: ERROR_CLEAN });
-        if (!carrousels_home.allCarruselsMovies) dispatch(getHomeAll());
-    }, []);
-
-    if (!loading) {
-        var movieCarrousel = carrousels_home.allCarruselsMovies;
-        var SeriesCarrousel = carrousels_home.allCarruselsSeries;
-        if (movieCarrousel) {
-        var topTrendingMovie = movieCarrousel.trending[0];
-        }
+  if (!loading) {
+    var movieCarrousel = carrousels_home.allCarruselsMovies;
+    var SeriesCarrousel = carrousels_home.allCarruselsSeries;
+    if (movieCarrousel) {
+      var topTrendingMovie = movieCarrousel.trending[0];
     }
+  }
 
-    if (loadingUser) return null;
+  if (loadingUser) return null;
+
 
     if (error) {
         return <Error />;
@@ -169,12 +171,12 @@ export default function Home() {
                 <CarouselHome
                     movies={SeriesCarrousel.latestSeries}
                     title="Latest Series:"
-                />
-                </Box>
-            )}
-            <Footer />
-            </Flex>
+              />
+            </Box>
+          )}
+          <Footer />
         </Flex>
-        );
-    }
+      </Flex>
+    );
+  }
 }

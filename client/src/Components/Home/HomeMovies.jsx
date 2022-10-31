@@ -10,21 +10,29 @@ import {
   getMovies,
   getAllGenres,
   getMovieGenreByID,
-} from '../../Redux/actions';
-import DataList from './DataList/DataList';
-import { Box, Center, Flex, Select, Text } from '@chakra-ui/react';
-import Error from '../Error/Error';
-import '@fontsource/raleway';
-import { color } from '../globalStyles';
+  logOutUser,
+  loadUserData,
+} from "../../Redux/actions";
+import DataList from "./DataList/DataList";
+import { Box, Center, Flex, Select, Text } from "@chakra-ui/react";
+import Error from "../Error/Error";
+import "@fontsource/raleway";
+import { color } from "../globalStyles";
+import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react';
+
 
 export default function HomeMovies() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const movies = useSelector((state) => state.movies);
   const [genero, setGenero] = useState('All');
   const [page, setPage] = useState(1);
   const [moviesToShow, setMoviesToShow] = useState([]);
   const error = useSelector((state) => state.error);
-  const [titulo, setTitulo] = useState('Movies');
+  const [titulo, setTitulo] = useState("Movies");
+  const user = useSelector((state) => state.user);
+  const toast = useToast();
 
   useEffect(() => {
     if (genero === 'All' && page !== 1) {
@@ -36,7 +44,22 @@ export default function HomeMovies() {
 
   useEffect(() => {
     dispatch(getAllGenres());
+    dispatch(loadUserData(user.uid))
   }, []);
+
+  if (user && user.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 5000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+    navigate("/home")
+  }
 
   useEffect(() => {
     setMoviesToShow([]);

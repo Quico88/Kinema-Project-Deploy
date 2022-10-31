@@ -7,6 +7,8 @@ import {
   clearTvShows,
   getTvShows,
   getSeriesByGenre,
+  logOutUser,
+  loadUserData,
 } from '../../Redux/actions';
 import DataList from './DataList/DataList';
 import { Box, Flex, Select, Text, Center } from '@chakra-ui/react';
@@ -14,16 +16,21 @@ import Error from '../Error/Error';
 import '@fontsource/raleway';
 import allGenres from './allGenresTV.json';
 import { color } from '../globalStyles';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
+
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const series = useSelector((state) => state.series);
+  const user = useSelector((state) => state.user);
   const [page, setPage] = useState(1);
   const [seriesToShow, setSeriesToShow] = useState([]);
   // const allGenres = useSelector((state) => state.allgenres);
   const [genre, setGenero] = useState('All');
   const [titulo, setTitulo] = useState('TV Shows');
-
+  const toast = useToast();
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
@@ -34,9 +41,23 @@ export default function HomeTVShows() {
     }
   }, [page]);
 
-  // useEffect(() => {
-  //   dispatch(getTVShowGenres());
-  // }, []);
+  useEffect(() => {
+    dispatch(loadUserData(user.uid));
+  }, []);
+
+  if (user && user.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 5000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+    navigate("/home")
+  }
 
   useEffect(() => {
     setSeriesToShow([]);
