@@ -1,19 +1,19 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import NavBar from "../NavBar/NavBar";
-import Footer from "./Chakra UI Components/Footer";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import NavBar from '../NavBar/NavBar';
+import Footer from './Chakra UI Components/Footer';
 import {
   clearTvShows,
   getTvShows,
   getSeriesByGenre,
-} from "../../Redux/actions";
-import DataList from "./DataList/DataList";
-import { Box, Flex, Select, Text, Center } from "@chakra-ui/react";
-import Error from "../Error/Error";
-import "@fontsource/raleway";
-import allGenres from "./allGenresTV.json";
-import { color } from "../globalStyles";
+} from '../../Redux/actions';
+import DataList from './DataList/DataList';
+import { Box, Flex, Select, Text, Center } from '@chakra-ui/react';
+import Error from '../Error/Error';
+import '@fontsource/raleway';
+import allGenres from './allGenresTV.json';
+import { color } from '../globalStyles';
 
 export default function HomeTVShows() {
   const dispatch = useDispatch();
@@ -21,13 +21,13 @@ export default function HomeTVShows() {
   const [page, setPage] = useState(1);
   const [seriesToShow, setSeriesToShow] = useState([]);
   // const allGenres = useSelector((state) => state.allgenres);
-  const [genre, setGenero] = useState("All");
-  const [titulo, setTitulo] = useState("TV Shows");
+  const [genre, setGenero] = useState('All');
+  const [titulo, setTitulo] = useState('TV Shows');
 
   const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    if (genre === "All" && page !== 1) {
+    if (genre === 'All' && page !== 1) {
       dispatch(getTvShows(page));
     } else if (page !== 1) {
       dispatch(getSeriesByGenre(genre, page));
@@ -40,7 +40,7 @@ export default function HomeTVShows() {
 
   useEffect(() => {
     setSeriesToShow([]);
-    if (genre === "All") {
+    if (genre === 'All') {
       dispatch(getTvShows(page));
     } else {
       dispatch(getSeriesByGenre(genre, page));
@@ -59,10 +59,10 @@ export default function HomeTVShows() {
     e.preventDefault();
     setGenero(e.target.value);
     setPage(1);
-    if (e.target.value === "All") {
-      setTitulo("TV Shows");
+    if (e.target.value === 'All') {
+      setTitulo('TV Shows');
     } else {
-      setTitulo(e.target.value + " TV Shows");
+      setTitulo(e.target.value + ' TV Shows');
     }
   }
   if (error) {
@@ -71,33 +71,34 @@ export default function HomeTVShows() {
     return (
       <Flex direction="column" bgGradient="linear(to-b, #222222, #333333)">
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
-          <NavBar ruta={"Series"} />
+          <NavBar ruta={'Series'} />
         </Flex>
         <Flex as="main" mt={16} w="100%" direction="column">
           <Box>
             <Flex
-              direction={{base: "column", md:"row"}}
+              direction={{ base: 'column', md: 'row' }}
               mt={10}
               mb={5}
               justify="space-around"
               alignItems="center"
               color="white"
             >
-              <Text 
-                  fontSize={{base: "32px", md: "40px", lg:"48px"}}
-                  fontWeight="600"
-                  color={color.kinemaLogoColor1}
-                  fontFamily="Raleway">
+              <Text
+                fontSize={{ base: '32px', md: '40px', lg: '48px' }}
+                fontWeight="600"
+                color={color.kinemaLogoColor1}
+                fontFamily="Raleway"
+              >
                 {titulo}
               </Text>
               <Select
                 onChange={(e) => handleGenres(e)}
                 w="240px"
-                h={{base: "32px", md: "36px", lg:"44px"}}
-                fontSize={{base: "18px", md: "24px", lg:"28px"}}
+                h={{ base: '32px', md: '36px', lg: '44px' }}
+                fontSize={{ base: '18px', md: '24px', lg: '28px' }}
                 textAlign="center"
                 fontWeight="500"
-                color="white"
+                color={color.kinemaLogoColor1}
                 defaultValue="Genres"
               >
                 <option disabled>Genres</option>
