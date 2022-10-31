@@ -77,6 +77,7 @@ export default function TVShowDetail() {
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
     dispatch(loadUserData(user.uid));
+    dispatch(getCommentsData(id));
   }, [dispatch]);
 
   if (user && user.banned) {
