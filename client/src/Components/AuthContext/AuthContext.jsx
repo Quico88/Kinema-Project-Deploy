@@ -217,8 +217,7 @@ export default function AuthProvider({ children }) {
               src={logo}
             />
             <Text color={'white'}>
-              Your account was disabled. Do you want to enable it again and
-              recover all your previous data?
+              You are no longer subscribed. Do you want to recover your account with all your previous data?
             </Text>
           </Box>
           <Box
