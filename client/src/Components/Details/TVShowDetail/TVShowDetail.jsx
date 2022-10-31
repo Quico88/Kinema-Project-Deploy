@@ -30,6 +30,7 @@ import {
   Center,
   Textarea,
   VStack,
+  Image,
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
@@ -40,13 +41,13 @@ import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Comment from '../Comment/Comment';
 import Footer from '../../Home/Chakra UI Components/Footer';
 import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
-import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast, useMediaQuery } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
 import { FiPlusCircle } from 'react-icons/fi';
 import moment from 'moment';
+import loader from '../../../Assets/loader.gif';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -100,14 +101,14 @@ export default function TVShowDetail() {
     e.preventDefault();
     dispatch(dislike(user.uid, id));
     setLikeLocal(false);
-    setLikesLocal(prev => prev - 1)
+    setLikesLocal((prev) => prev - 1);
   };
 
   const handleLike = (e) => {
     e.preventDefault();
     dispatch(putLike(user.uid, id));
     setLikeLocal(true);
-    setLikesLocal(prev => prev + 1)
+    setLikesLocal((prev) => prev + 1);
   };
 
   function handleSeason(e) {
@@ -879,10 +880,7 @@ export default function TVShowDetail() {
                           <Text color="#72EFDD" ml="1vh" fontWeight={600}>
                             {likesLocal}&nbsp;
                           </Text>
-                          <Text
-                            color="white"
-                            fontSize={15}
-                          >
+                          <Text color="white" fontSize={15}>
                             {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
@@ -1098,7 +1096,15 @@ export default function TVShowDetail() {
             </Flex>
           </Box>
         ) : (
-          <Loader />
+          <Image
+            w={['100px', '150px', '200px']}
+            src={loader}
+            alt="loader"
+            display="block"
+            margin="auto"
+            mt="20vh"
+            mb="20vh"
+          />
         )}
         <Footer />
       </Flex>

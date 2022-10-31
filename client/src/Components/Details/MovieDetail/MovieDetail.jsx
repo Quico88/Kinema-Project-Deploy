@@ -41,12 +41,12 @@ import { useState } from 'react';
 import './MovieDetail.css';
 import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Comment from '../Comment/Comment';
-import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast, useMediaQuery } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
 import moment from 'moment';
+import loader from '../../../Assets/loader.gif';
 
 export default function MovieDetail() {
   const dispatch = useDispatch();
@@ -86,7 +86,7 @@ export default function MovieDetail() {
     dispatch(getMovieDetail(id));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
-    dispatch(loadUserData(user.uid))
+    dispatch(loadUserData(user.uid));
   }, [dispatch]);
 
   useEffect(() => {
@@ -97,14 +97,14 @@ export default function MovieDetail() {
     e.preventDefault();
     dispatch(dislike(user.uid, id));
     setLikeLocal(false);
-    setLikesLocal(prev => prev - 1)
+    setLikesLocal((prev) => prev - 1);
   };
 
   const handleLike = (e) => {
     e.preventDefault();
     dispatch(putLike(user.uid, id));
     setLikeLocal(true);
-    setLikesLocal(prev => prev + 1)
+    setLikesLocal((prev) => prev + 1);
   };
 
   const handleTextArea = (e) => {
@@ -475,7 +475,7 @@ export default function MovieDetail() {
                               onClick={handleDislike}
                               backgroundColor="whiteAlpha.300"
                               rounded={'full'}
-                              color='white'
+                              color="white"
                               rightIcon={
                                 <Icon
                                   as={AiFillHeart}
@@ -768,9 +768,7 @@ export default function MovieDetail() {
                             <Text color="#72EFDD" fontWeight={600}>
                               {likesLocal}&nbsp;
                             </Text>
-                            {likesLocal === 1
-                              ? ' like.'
-                              : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                       </Box>
@@ -872,9 +870,7 @@ export default function MovieDetail() {
                             <Text color="#72EFDD" fontWeight={600}>
                               {likesLocal}&nbsp;
                             </Text>
-                            {likesLocal === 1
-                              ? ' like.'
-                              : ' likes.'}
+                            {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
                         {validExpirationDate() ? (
@@ -1054,7 +1050,15 @@ export default function MovieDetail() {
             </Flex>
           </Box>
         ) : (
-          <Loader />
+          <Image
+            w={['100px', '150px', '200px']}
+            src={loader}
+            alt="loader"
+            display="block"
+            margin="auto"
+            mt="20vh"
+            mb="20vh"
+          />
         )}
         <Footer />
       </Flex>
