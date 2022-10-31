@@ -59,6 +59,7 @@ import {
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
+import styles from './UserProfile.module.css'
 
 const settings = {
   dots: true,
@@ -800,11 +801,9 @@ export default function UserProfile() {
                             <Image
                               onClick={() => handleChangeImage(i)}
                               src={i}
-                              h={'100px'}
-                              w={'100px'}
-                              borderRadius={'100%'}
                               alt={i}
                               key={i}
+                              className={image === i ? style.selectedImg2 : style.selectedImg}
                             />
                           ))}
                         </Box>
