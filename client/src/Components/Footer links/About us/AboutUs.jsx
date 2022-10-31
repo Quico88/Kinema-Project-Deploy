@@ -7,6 +7,12 @@ import aboutUsData from './aboutUsData.json';
 import { color } from '../../globalStyles' 
 
 export default function AboutUs (){
+
+    function randomCards(array){
+        return array.sort(()=> Math.random() > .5 ? 1 : -1)
+    }
+
+    let result = randomCards(aboutUsData)
     
     return (
         <Box>
@@ -31,7 +37,7 @@ export default function AboutUs (){
                 align="center"
                 justify="center"
             >
-                {aboutUsData.map( (el) =>
+                {result.map( (el) =>
                     <Box >
                         <ProfileCard
                             fullName={el.fullName}
