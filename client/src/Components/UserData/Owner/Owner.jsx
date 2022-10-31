@@ -22,7 +22,12 @@ Table,
   Avatar,
   Image,
   Flex,
-  useToast
+  useToast,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel
 }from "@chakra-ui/react"
 import Statistics from "./Statistics";
 import LineChart from "./LineChart";
@@ -33,7 +38,6 @@ import { useAuth } from "../../AuthContext/AuthContext";
 import { firestore } from "../../AuthContext/firebase";
 import { Navigate } from "react-router-dom";
 import edit from "../../../Assets/edit.png";
-import prohibition from "../../../Assets/prohibition.png";
 import DoughnutGraph from "./DoughnutChart";
 import BarChart from "./BarChart";
 
@@ -46,8 +50,7 @@ export default function Owner(){
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const {user, loadingUser} = useAuth()
-    const [byDate, setByDate] = useState()
-    const [byRent, setByRent] = useState()
+    const [, setByDate] = useState()
     const toast = useToast();
 
     async function allUsers() {
@@ -67,7 +70,8 @@ export default function Owner(){
       };
 
       const premiumUsers = users.filter(u => u.subscription === 2 )
-      const basicUsers = users.filter(u => u.subscription === 1 )
+      const basicUsers = users.filter(u => (u.active && u.subscription === 1) )
+      const totalUsers = premiumUsers.length + basicUsers.length
 
 
       const totalRent = users.filter(u => u.rented.length ).map(u => u.rented) 
@@ -123,29 +127,6 @@ export default function Owner(){
       };
 
 
-      const makeAdmin = async (user) => {
-        try {
-          const userRef = doc(firestore, `/users/${user.uid}`);
-        await updateDoc(userRef, {
-          admin: true,
-        });
-        } catch (error) {
-          console.log(error)
-        }
-      };
-
-      const removeAdmin = async (user) => {
-        try {
-          const userRef = doc(firestore, `/users/${user.id}`);
-        await updateDoc(userRef, {
-          admin: false,
-        });
-        } catch (error) {
-          console.log(error)
-        }
-        
-      };
-
       const handleBan = async (user) => {
         if (!user.admin) {
           toast({
@@ -188,23 +169,13 @@ export default function Owner(){
         }
       };
 
-
-      function sortRented(){
-        let res = [...users]
-        res.sort((a,b) => {
-          if(a.rented.length < b.rented.length) return 1 
-          if(a.rented.length > b.rented.length) return -1 
-        })
-  
-        setByRent(res)
-      }
-  
       function sortByDate(){
         let res = results.sort((a,b) => {
           if(a.subscriptionDate < b.subscriptionDate) return 1 
           if(a.subscriptionDate > b.subscriptionDate) return -1 
+          else return 0
         })
-  
+
         setByDate(res)
       }
 
@@ -216,12 +187,6 @@ export default function Owner(){
         async function exe() {
           let allUsersData = await allUsers();
           console.log(allUsersData)
-         /*  console.log(totalRented)
-          console.log("Total Peliculas rentadas: ", totalRentRevenue)
-          console.log("Total Ventas Usuarios Premium: ", totalPremiumRevenue)
-          console.log("Total vendido", totalRevenue)
-          console.log("Porcentaje Usuarios Premium", porcentajePremiumUsers.toFixed(2))
-          console.log("Porcentaje Usuarios Premium", porcentajeBasicUsers.toFixed(2)) */
           setUsers(allUsersData);
           setReady(true);
         }
@@ -244,24 +209,175 @@ export default function Owner(){
                 results={results}
                 user={userData}
             />
-            <Box>
 
-            <Statistics 
-                totalUsers={users.length}
-                premiumUsers={premiumUsers.length}
-                basicUsers={basicUsers.length}
-                />
+<Tabs align='center' variant='enclosed' >
+  <TabList marginTop={"10px"}>
+    <Tab fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                color={'#99a3a4'}>Users</Tab>
+    <Tab fontSize={{ base: '14px', md: '16px', lg: '20px' }}
+                color={'#99a3a4'}>Tables</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+        <Box>
 
-<Center>
+          <Statistics 
+            totalUsers={totalUsers}
+            premiumUsers={premiumUsers.length}
+            basicUsers={basicUsers.length}
+          />
 
-<Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
-   <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
-</Box>
+          <Box  bg={loadingUser ? null : backgroundBox}>
+
+<Center margin={"50px"}>
+<Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
+  <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
+<Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
 </Center>
-           
-                </Box>
-            <Center>
-            <Box /* width={"800px"} */ backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
+
+<TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
+
+  <Center>
+  <Table variant="simple" width={"90vw"} >
+    <Thead>
+      <Tr>
+      <Th  fontSize={"14px"} >
+          Photo
+        </Th>
+        <Th  fontSize={"14px"}>
+          Email
+        </Th>
+        <Th  fontSize={"14px"}>
+          Username
+        </Th>
+        <Th  fontSize={"14px"}>
+          Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
+        </Th>
+        <Th  fontSize={"14px"}>
+          Subscription
+        </Th>
+        <Th  fontSize={"14px"}>
+          Rented 
+        </Th>
+        <Th fontSize={"14px"}>
+          Status
+        </Th>
+        <Th  fontSize={"14px"}>
+          Type User
+        </Th>
+        <Th  fontSize={"14px"}>
+          Edit Admin
+        </Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      {users
+        ? currentUsers.map((user, i) => {
+
+          let activeOrNot = user.active ? "Active" : "Inactive"
+
+            return (
+              <Tr >
+                  <Td  >
+                       <Avatar
+                           size={'md'}
+                           src={user.avatar}
+                       />
+                </Td>
+                <Td fontSize={"14px"} key={user.email} color={ "gray.500" } >
+                  {user.email}
+                </Td>
+                <Td fontSize={"14px"} key={user.username} color={ "gray.500" } >
+                  {user.username}
+                </Td>
+                <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray.500" } >
+                  {user.subscriptionDate
+                    .toDate()
+                    .toLocaleDateString("en-US", options)}
+                </Td>
+                <Td fontSize={"14px"} color={ "gray.500" } >
+                  {user.subscription === 1 ? "Basic" : "Premium"}
+                </Td>
+                <Td fontSize={"14px"} color={ "gray.500" } >{user.rented.length}</Td>
+                <Td fontSize={"14px"}color={ "gray.500" } >
+                  {activeOrNot}
+                </Td>
+                <Td key={i + 1} color={ "gray.500" } >
+
+                    {
+                      user.admin ? "Admin" : "User"
+                    }
+                </Td>
+                <Td>
+                  <Box >
+                    <Popover>
+                      <PopoverTrigger>
+                            <Button background={"lightgray"} >
+                              <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
+                            </Button>
+                            
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>
+                          {
+                              user.admin ? `Are you sure you want to REMOVE admin ${user.username}?` : `Are you sure you want to MAKE admin ${user.username}?`
+                            }
+                          </PopoverHeader>
+                          <PopoverBody>
+                            <Button
+                              background={"#cd6155"}
+                              value={user.username}
+                              onClick={() => handleBan(user)}
+                            >
+                              Continue
+                            </Button>
+                          </PopoverBody>
+                        </PopoverContent>
+                        
+                      </Portal>
+                    </Popover>
+                    
+
+                    
+                  </Box>
+                </Td>
+              </Tr>
+            );
+          })
+        : null}
+        
+    </Tbody>
+  </Table>
+  </Center>
+</TableContainer>
+<Center marginTop={"20px"} paddingBottom={"30px"}>
+<Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
+  <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
+<Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
+</Center>
+</Box>
+
+        </Box>
+    </TabPanel>
+    <TabPanel>
+
+    <Statistics 
+            totalUsers={users.length}
+            premiumUsers={premiumUsers.length}
+            basicUsers={basicUsers.length}
+          />
+
+          <Center>
+          <Box w="200px" marginTop={"40px"}  marginBottom={"70px"}>
+              <DoughnutGraph basicUsers={porcentajeBasicUsers.toFixed(2)} premiumUsers={porcentajePremiumUsers.toFixed(2)} />
+          </Box>
+          </Center>
+
+          <Center>
+            <Box backgroundColor="var(--chakra-colors-gray-300)" borderRadius="10px">
             <LineChart data={totalRevenue} tableName="Total Revenue"/>  
             </Box>
             </Center>
@@ -276,140 +392,10 @@ export default function Owner(){
             <BarChart data={users.length} tableName="New Users"/>
             </Flex>
 
-           
-        
-            <Box  bg={loadingUser ? null : backgroundBox}>
 
-      <Center margin={"20px"}>
-      <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
-        <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray" >{page}</Button> de  {totalPaginas}</label>
-      <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
-      </Center>
-
-<TableContainer bg={loadingUser ? null :  backgroundBox}  height={"900px"}  >
-  
-        <Center>
-        <Table variant="simple" width={"90vw"} >
-          <Thead>
-            <Tr>
-            <Th  fontSize={"14px"} >
-                Photo
-              </Th>
-              <Th  fontSize={"14px"}>
-                Email
-              </Th>
-              <Th  fontSize={"14px"}>
-                Username
-              </Th>
-              <Th  fontSize={"14px"}>
-                Subscription Date <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortByDate} >Sort</Button>
-              </Th>
-              <Th  fontSize={"14px"}>
-                Subscription
-              </Th>
-              <Th  fontSize={"14px"}>
-                Rented <Button padding={"5px"} height={"25px"} fontSize={"12px"} border={"1px solid black"} onClick={sortRented} >Sort</Button>
-              </Th>
-              <Th fontSize={"14px"}>
-                Status
-              </Th>
-              <Th  fontSize={"14px"}>
-                Type User
-              </Th>
-              <Th  fontSize={"14px"}>
-                Edit Admin
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {users
-              ? currentUsers.map((user, i) => {
-
-                let activeOrNot = user.active ? "Active" : "Banned"
-
-                  return (
-                    <Tr >
-                        <Td  >
-                             <Avatar
-                                 size={'md'}
-                                 src={user.avatar}
-                             />
-                      </Td>
-                      <Td fontSize={"14px"} key={user.email} color={ "gray.500" } >
-                        {user.email}
-                      </Td>
-                      <Td fontSize={"14px"} key={user.username} color={ "gray.500" } >
-                        {user.username}
-                      </Td>
-                      <Td fontSize={"14px"} key={user.subscriptionDate} color={ "gray.500" } >
-                        {user.subscriptionDate
-                          .toDate()
-                          .toLocaleDateString("en-US", options)}
-                      </Td>
-                      <Td fontSize={"14px"} color={ "gray.500" } >
-                        {user.subscription === 1 ? "Basic" : "Premium"}
-                      </Td>
-                      <Td fontSize={"14px"} color={ "gray.500" } >{user.rented.length}</Td>
-                      <Td fontSize={"14px"}color={ "gray.500" } >
-                        {activeOrNot}
-                      </Td>
-                      <Td key={i + 1} color={ "gray.500" } >
-
-                          {
-                            user.admin ? "Admin" : "User"
-                          }
-                      </Td>
-                      <Td>
-                        <Box >
-                          <Popover>
-                            <PopoverTrigger>
-                                  <Button background={"lightgray"} >
-                                    <Image src={edit} alt="delete_image" width="20px" height="20px" color="white" />
-                                  </Button>
-                                  
-                            </PopoverTrigger>
-                            <Portal>
-                              <PopoverContent>
-                                <PopoverArrow />
-                                <PopoverCloseButton />
-                                <PopoverHeader>
-                                {
-                                    user.admin ? `Are you sure you want to REMOVE admin ${user.username}?` : `Are you sure you want to MAKE admin ${user.username}?`
-                                  }
-                                </PopoverHeader>
-                                <PopoverBody>
-                                  <Button
-                                    background={"#cd6155"}
-                                    value={user.username}
-                                    onClick={() => handleBan(user)}
-                                  >
-                                    Continue
-                                  </Button>
-                                </PopoverBody>
-                              </PopoverContent>
-                              
-                            </Portal>
-                          </Popover>
-                          
-
-                          
-                        </Box>
-                      </Td>
-                    </Tr>
-                  );
-                })
-              : null}
-              
-          </Tbody>
-        </Table>
-        </Center>
-      </TableContainer>
-      <Center marginTop={"20px"} paddingBottom={"30px"}>
-      <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray"  >Prev</Button>
-        <label  style={{"marginLeft": "20px", "marginRight": "20px"}} ><Button color={ "black" }backgroundColor="lightgray">{page}</Button> de  {totalPaginas}</label>
-      <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
-      </Center>
-      </Box>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
         </Box>
 
         
