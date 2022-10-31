@@ -8,10 +8,9 @@ import {
     StatNumber,
     useColorModeValue,
   } from '@chakra-ui/react';
-  import { ReactNode } from 'react';
   import { BsPerson } from 'react-icons/bs';
-  import { FiServer } from 'react-icons/fi';
-  import { GoLocation } from 'react-icons/go';
+  import { FaUsers } from 'react-icons/fa';
+  import { RiUserStarLine } from 'react-icons/ri';
 
   
   export default function Statistics({totalUsers, premiumUsers, basicUsers}) {
@@ -39,42 +38,18 @@ import {
                 rounded={'lg'}>
                     <Flex justifyContent={'space-between'}>
                         <Box pl={{ base: 2, md: 4 }}>
-                            <StatLabel  color={"blue.600"} fontWeight={'medium'} isTruncated>
-                                Total Users
-                            </StatLabel>
-                            <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-                                 {totalUsers}
-                            </StatNumber>
-                        </Box>
-                        <Box
-                        my={'auto'}
-                        color={useColorModeValue('gray.800', 'gray.200')}
-                        alignContent={'center'}>
-                        <BsPerson size={'3em'} />
-                        </Box>
-                    </Flex>
-                </Stat>
-                <Stat
-                px={{ base: 2, md: 4 }}
-                py={'5'}
-                shadow={'xl'}
-                border={'1px solid'}
-                borderColor={useColorModeValue('gray.800', 'gray.500')}
-                rounded={'lg'}>
-                    <Flex justifyContent={'space-between'}>
-                        <Box pl={{ base: 2, md: 4 }}>
                             <StatLabel  color={"yellow.500"} fontWeight={'medium'} isTruncated>
                                 Premium Users
                             </StatLabel>
                             <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-                                {premiumUsers}
+                                 {premiumUsers}
                             </StatNumber>
                         </Box>
                         <Box
                         my={'auto'}
                         color={useColorModeValue('gray.800', 'gray.200')}
                         alignContent={'center'}>
-                        <BsPerson size={'3em'} />
+                        <RiUserStarLine size={'3em'} />
                         </Box>
                     </Flex>
                 </Stat>
@@ -102,21 +77,31 @@ import {
                         </Box>
                     </Flex>
                 </Stat>
+                <Stat
+                px={{ base: 2, md: 4 }}
+                py={'5'}
+                shadow={'xl'}
+                border={'1px solid'}
+                borderColor={useColorModeValue('gray.800', 'gray.500')}
+                rounded={'lg'}>
+                    <Flex justifyContent={'space-between'}>
+                        <Box pl={{ base: 2, md: 4 }}>
+                            <StatLabel  color={"blue.600"} fontWeight={'medium'} isTruncated>
+                                Total Users
+                            </StatLabel>
+                            <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
+                                {totalUsers}
+                            </StatNumber>
+                        </Box>
+                        <Box
+                        my={'auto'}
+                        color={useColorModeValue('gray.800', 'gray.200')}
+                        alignContent={'center'}>
+                        <FaUsers size={'3em'} />
+                        </Box>
+                    </Flex>
+                </Stat>
         </SimpleGrid>
-
-        
-    {/* <Center margin={"20px"}>
-      <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
-        <label  style={{"marginLeft": "20px", "marginRight": "20px", "color": "black"}} ><Button>{page}</Button> de  {totalPaginas}</label>
-      <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
-      </Center> */}
-
-      
-      {/*  <Center margin={"20px"} paddingBottom={"20px"} >
-      <Button color={ "black" } onClick={prevPage} backgroundColor="lightgray" >Prev</Button>
-        <label  style={{"marginLeft": "20px", "marginRight": "20px", "color": "black"}} ><Button>{page}</Button> de  {totalPaginas}</label>
-      <Button color={ "black" } onClick={nextPage} backgroundColor="lightgray" >Next</Button>
-      </Center> */}
       </Box>
     );
   }

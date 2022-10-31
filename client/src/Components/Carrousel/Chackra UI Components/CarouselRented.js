@@ -13,6 +13,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import { extendTheme } from '@chakra-ui/react'
+import { color } from '../../globalStyles';
 
 const breakpoints = {
   sm: '400px',
@@ -102,7 +103,8 @@ export default function CarouselWatchList({ movies }) {
       <Text
         fontSize={{ base: '1xl', md: '2xl' }}
         fontWeight={'bold'}
-        color={'white'}
+        color={color.kinemaLogoColor1}
+        ml={4}
         
       >
         Rented

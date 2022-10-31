@@ -88,7 +88,7 @@ export default function HomeTVShows() {
     return <Error />;
   } else {
     return (
-      <Flex direction="column" bgGradient="linear(to-b, #222222, #333333)">
+      <Flex direction="column" bg='#0d0c0c'>
         <Flex as="header" position="fixed" w="100%" zIndex={200}>
           <NavBar ruta={'Series'} />
         </Flex>
@@ -117,7 +117,7 @@ export default function HomeTVShows() {
                 fontSize={{ base: '18px', md: '24px', lg: '28px' }}
                 textAlign="center"
                 fontWeight="500"
-                color="white"
+                color={color.kinemaLogoColor1}
                 defaultValue="Genres"
               >
                 <option disabled>Genres</option>

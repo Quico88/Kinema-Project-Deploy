@@ -26,23 +26,18 @@ export default function Pricing({
       <Box
         maxW={'420px'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={'gray.800'}
         boxShadow={'2xl'}
         rounded={'md'}
         overflow={'hidden'}
         backgroundColor={'rgba(17, 173, 152, 0.3)'}
         backdropFilter={'blur(10px)'}
       >
-        <Stack
-          textAlign={'center'}
-          p={6}
-          color={useColorModeValue('gray.800', 'white')}
-          align={'center'}
-        >
+        <Stack textAlign={'center'} p={6} color={'white'} align={'center'}>
           <Text
             fontSize={'sm'}
             fontWeight={600}
-            bg={useColorModeValue('green.50', 'green.900')}
+            bg={'green.50'}
             p={2}
             px={3}
             color={'green.700'}
@@ -61,12 +56,7 @@ export default function Pricing({
           </Stack>
         </Stack>
 
-        <Box
-          bg={useColorModeValue('rgba(17, 173, 152, 0.2)', 'gray.900')}
-          px={6}
-          py={5}
-          color="white"
-        >
+        <Box bg={'gray.900'} px={6} py={5} color="white">
           <List spacing={3}>
             <ListItem key={'first-feature-1'}>
               <ListIcon as={CheckIcon} color="green.400" />
@@ -96,13 +86,13 @@ export default function Pricing({
           <Box align={'center'} color="blackAlpha.800">
             {planType == 'Premium' ? (
               <Link href="/payment">
-                <Button ml="1.5vh" mt="2vh">
+                <Button ml="1.5vh" mt="2vh" backgroundColor={'white'}>
                   Subscribe to premium
                 </Button>
               </Link>
             ) : (
               <Link href="/home">
-                <Button ml="2.7vh" mt="2vh">
+                <Button ml="2.7vh" mt="2vh" backgroundColor={'white'}>
                   Subscribe to basic
                 </Button>{' '}
               </Link>

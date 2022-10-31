@@ -30,6 +30,7 @@ import {
   Center,
   Textarea,
   VStack,
+  Image,
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
@@ -40,13 +41,13 @@ import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Comment from '../Comment/Comment';
 import Footer from '../../Home/Chakra UI Components/Footer';
 import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
-import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast, useMediaQuery } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
 import { FiPlusCircle } from 'react-icons/fi';
 import moment from 'moment';
+import loader from '../../../Assets/loader.gif';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -425,7 +426,7 @@ export default function TVShowDetail() {
                             fontSize="2vw"
                             display="flex"
                           >
-                            {likesLocal === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like' : ' likes'}
                           </Text>
                         </Flex>
                       </Box>
@@ -454,7 +455,7 @@ export default function TVShowDetail() {
                             <Button
                               bg={'blue.400'}
                               onClick={() =>
-                                navigate(`/payment/rent/movie/${mySerie.id}`)
+                                navigate(`/payment/rent/tv_show/${mySerie.id}`)
                               }
                               rightIcon={<Icon as={BsCreditCard} boxSize={6} />}
                               rounded={'full'}
@@ -561,7 +562,7 @@ export default function TVShowDetail() {
                           <Link href="/register" color={'#64dfdf'}>
                             <b> Register </b>
                           </Link>
-                          to watch this movie.
+                          to watch this content.
                         </Text>
                       </Box>
                     ) : null
@@ -927,7 +928,7 @@ export default function TVShowDetail() {
                           <Link href="/register" color={'#64dfdf'}>
                             <b> Register </b>
                           </Link>
-                          to watch this serie.
+                          to watch this show.
                         </Text>
                         <br />
                       </Box>
@@ -1108,7 +1109,15 @@ export default function TVShowDetail() {
             </Flex>
           </Box>
         ) : (
-          <Loader />
+          <Image
+            w={['100px', '150px', '200px']}
+            src={loader}
+            alt="loader"
+            display="block"
+            margin="auto"
+            mt="20vh"
+            mb="20vh"
+          />
         )}
         <Footer />
       </Flex>
