@@ -21,6 +21,7 @@ import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Login() {
   const [error, setError] = useState();
+  const [notFound, setNotFound] = useState();
   const [incomplete, setIncomplete] = useState(true)
   const [loading, setLoading] = useState(false);
 
@@ -49,12 +50,16 @@ export default function Login() {
         setIncomplete(true)
       }
       await login(user.email, user.password);
-      // navigate('/home');
     } catch (error) {
       if(error.message.includes("wrong")){
         setError(true)
       }else{
         setError(false)
+      }
+      if(error.message.includes("not-found")){
+        setNotFound(true)
+      }else{
+        setNotFound(false)
       }
     }
     setLoading(false);
@@ -63,7 +68,6 @@ export default function Login() {
   async function handleGoogleSignin() {
     setLoading(true);
     await signupWithGoogle();
-    // setTimeout(() => navigate('/home'), 500);
     setLoading(false);
   }
 
@@ -166,7 +170,7 @@ export default function Login() {
                   Log in
                 </Button>
 
-                <Center>{error && <Text color={"#cd6155"} fontWeight={"600"} >Wrong password</Text>} </Center>
+                <Center>{error && <Text color={"#cd6155"} fontWeight={"600"} >Wrong password</Text>}{notFound && <Text color={"#cd6155"} fontWeight={"600"} >User not found</Text>} </Center>
               </FormControl>
             </Stack>
             <Button
