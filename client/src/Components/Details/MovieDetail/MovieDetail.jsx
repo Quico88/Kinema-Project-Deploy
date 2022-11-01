@@ -155,6 +155,7 @@ export default function MovieDetail() {
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
       setCommentsLocal(prev => prev.concat({_id: Math.random(), userId: user.uid, content: commentArea, date: currentDate, idReference: myMovie.id, avatar: user.avatar, username: user.username}))
+      setCommentArea("")
     }
   };
 
