@@ -23,7 +23,16 @@ export default function Home() {
   const { carrousels_home, loading } = useSelector((state) => state);
   const error = useSelector((state) => state.error);
   const userData = useSelector((state) => state.user);
-  const toast = useToast();
+    const toast = useToast();
+    
+    
+        
+        let now = new Date();
+        const validMovies = userData.rented.filter(
+            (m) => m.expirationDate > now.getTime()
+        );
+        
+     
 
   useEffect(() => {
     dispatch(loadUserData(userData.uid));
@@ -82,7 +91,7 @@ export default function Home() {
                     />
                 ) : null}
                 {userData.subscription === 1 && userData.rented.length > 0 ? (
-                    <CarouselRented title="Rented" movies={userData.rented}/>
+                    <CarouselRented title="Rented" movies={validMovies}/>
                 ) : null}
                 <Text
                     fontWeight={'bold'}

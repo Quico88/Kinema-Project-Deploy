@@ -64,6 +64,7 @@ const CheckoutForm = () => {
 
   const now = new Date();
   const rentDuration = 3600 * 24 * 4 * 1000; // 4 days
+  const date = moment(now.getTime() + 345600000).format('MMMM Do YYYY');
 
   const rentedMovie = {
     id: Number(params.id),
@@ -160,6 +161,13 @@ const CheckoutForm = () => {
             draggable: true,
             progress: undefined,
             theme: 'dark',
+          });
+          await axios.post('/email/rent', {
+            email: email,
+            title: title,
+            img: poster,
+            date: date,
+            user: username
           });
           dispatch(rentVideo(rentedMovie));
           await updateRented(rentedMovie);
