@@ -368,4 +368,15 @@ router.post("/email/rent", async (req, res) => {
   }
 })
 
+// nodemailer: Contact us email
+router.post("/email/contact", async (req, res) => {
+  try {
+    const body = req.body;
+    emailer.sendMailContact(body.email, body.user, body.message)
+    res.status(200).json('email de contact enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
+
 module.exports = router;
