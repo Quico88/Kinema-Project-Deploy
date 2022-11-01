@@ -505,7 +505,7 @@ const sendMailRent = async (email, title, img, date, user) => {
     <td align="center" style="padding:0;Margin:0;font-size:0px"><img class="adapt-img" src="https://image.tmdb.org/t/p/original${img}" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="218"></td>
     </tr>
     <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#64434a;font-size:16px">Title: ${title} </p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#64434a;font-size:16px">Price: 1.99$<br>Expiration date: ${date} </p></td>
+    <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#64434a;font-size:16px">Title: ${title} </p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#64434a;font-size:16px">Price: $1.99<br>Expiration date: ${date} </p></td>
     </tr>
     <tr style="border-collapse:collapse">
     <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><!--[if mso]><a href="https://kinema-seven.vercel.app/" target="_blank" hidden>

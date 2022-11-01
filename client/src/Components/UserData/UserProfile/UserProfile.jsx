@@ -99,6 +99,11 @@ export default function UserProfile() {
   const [, setSlider] = useState(null);
   const dispatch = useDispatch();
   const toast = useToast();
+
+  let now = new Date();
+    userData.rented = userData.rented?.filter(
+    (m) => m.expirationDate > now.getTime()
+  );
   
   async function logOut() {
     await logout();
