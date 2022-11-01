@@ -1,10 +1,9 @@
 /* eslint-disable */
 import { useAuth } from '../../AuthContext/AuthContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import style from "./UserProfile.module.css"
+import style from './UserProfile.module.css';
 import { firestore } from '../../AuthContext/firebase';
 import { ToastifyMessage } from '../../Toastify/Toastify';
 import { EditIcon } from '@chakra-ui/icons';
@@ -47,7 +46,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import logo from '../../../Assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,12 +55,18 @@ import {
   downgradePlan,
   uploadImg,
   avatarImg,
+  logOutUser,
+  loadUserData,
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
+import './slick-theme.css'
+import styles from './UserProfile.module.css'
+import { useToast } from '@chakra-ui/react';
 
 const settings = {
   dots: true,
+  dotsClass: 'pointer-up',
   arrows: false,
   fade: false,
   infinite: false,
@@ -92,8 +97,14 @@ export default function UserProfile() {
   const [changeUserName, setChangeUserName] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [, setSlider] = useState(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const toast = useToast();
 
+  let now = new Date();
+    userData.rented = userData.rented?.filter(
+    (m) => m.expirationDate > now.getTime()
+  );
+  
   async function logOut() {
     await logout();
     navigate('/');
@@ -145,12 +156,36 @@ export default function UserProfile() {
   };
 
   const accDelete = async () => {
-    const userRef = doc(firestore, `/users/${user.uid}`);
-    await updateDoc(userRef, {
-      active: false,
-    });
-    alert('Your account was deleted.');
-    logOut();
+    if(userData.subscription === 2) {
+      const id = userData.stripeId;
+      const { data } = await axios.post('/payment/downgrade', { id });
+      if (data.success) {
+        dispatch(downgradePlan());
+        const userRef = doc(firestore, `/users/${user.uid}`);
+        await updateDoc(userRef, {
+          subscription: 1,
+        });
+      } else {
+        alert(data.message);
+      }
+      const userRef = doc(firestore, `/users/${user.uid}`);
+      await updateDoc(userRef, {
+        active: false,
+      });
+      ToastifyMessage('Your account has been deleted.', 'success');
+      setTimeout(() => {
+        logOut();
+      }, 2000);
+    } else {
+      const userRef = doc(firestore, `/users/${user.uid}`);
+      await updateDoc(userRef, {
+        active: false,
+      });
+      ToastifyMessage('Your account has been deleted.', 'success');
+      setTimeout(() => {
+        logOut();
+      }, 2000);
+    }
   };
 
   const changeUser = () => {
@@ -192,6 +227,24 @@ export default function UserProfile() {
     exe();
   }, [user.uid]);
 
+  useEffect(() => {
+    dispatch(loadUserData(userData.uid));
+  }, []);
+
+  if (userData && userData.banned) {
+    toast({
+      title: 'You have been banned.',
+      description:
+        'For any complaint or further information please contact our crew.',
+      status: 'error',
+      duration: 5000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    dispatch(logOutUser());
+    navigate("/home")
+  }
+
   const {
     isOpen: firstIsOpen,
     onOpen: firstOnOpen,
@@ -201,6 +254,11 @@ export default function UserProfile() {
     isOpen: secondIsOpen,
     onOpen: secondOnOpen,
     onClose: secondOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: thirdIsOpen,
+    onOpen: thirdOnOpen,
+    onClose: thirdOnClose,
   } = useDisclosure();
   const cancelRef = useRef();
 
@@ -258,7 +316,7 @@ export default function UserProfile() {
         marginBottom={'5vh'}
         shadow="0px 0.5px 8px #444444"
       >
-        <NavBarPayment/>
+        <NavBarPayment />
         <Flex alignItems={'center'}></Flex>
       </Flex>
 
@@ -736,31 +794,41 @@ export default function UserProfile() {
                   >
                     Delete Account
                   </Text>
-                  <Popover>
-                    <PopoverTrigger>
-                      <Button
-                        background={'none'}
-                        color={'#cd6155'}
-                        variant="link"
-                      >
-                        Delete
-                      </Button>
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent>
-                        <PopoverArrow />
-                        <PopoverCloseButton />
-                        <PopoverHeader>
-                          Are you sure you want to delete?
-                        </PopoverHeader>
-                        <PopoverBody>
-                          <Button background={'#cd6155'} onClick={accDelete}>
-                            Delete
-                          </Button>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Portal>
-                  </Popover>
+                  <>
+                    <Button variant={'link'} onClick={thirdOnOpen}>
+                      Delete
+                    </Button>
+
+                    <AlertDialog
+                      isOpen={thirdIsOpen}
+                      leastDestructiveRef={cancelRef}
+                      onClose={thirdOnClose}
+                    >
+                      <AlertDialogOverlay>
+                        <AlertDialogContent>
+                          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete Account
+                          </AlertDialogHeader>
+
+                          <AlertDialogBody>
+                            Are you sure you want to DELETE your account?
+                          </AlertDialogBody>
+                          <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={thirdOnClose}>
+                              Cancel
+                            </Button>
+                            <Button
+                              colorScheme="red"
+                              onClick={accDelete}
+                              ml={3}
+                            >
+                              Delete
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialogOverlay>
+                    </AlertDialog>
+                  </>
                 </Box>
               </TabPanel>
               <TabPanel>
@@ -800,11 +868,9 @@ export default function UserProfile() {
                             <Image
                               onClick={() => handleChangeImage(i)}
                               src={i}
-                              h={'100px'}
-                              w={'100px'}
-                              borderRadius={'100%'}
                               alt={i}
                               key={i}
+                              className={image === i ? style.selectedImg2 : style.selectedImg}
                             />
                           ))}
                         </Box>

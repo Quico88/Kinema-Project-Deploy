@@ -6,14 +6,18 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { auth, firestore } from './firebase';
 import { useDispatch } from 'react-redux';
 import { loadUserData, logOutUser } from '../../Redux/actions';
 import welcomeEmail from './welcomeEmail';
-import { useToast } from '@chakra-ui/react';
+import { useToast, Box, Text, Button, Image } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import logo from '../../Assets/logo.png';
+
 
 export const authContext = createContext();
 
@@ -28,8 +32,8 @@ export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
+  const [stateInactive, setStateInactive] = useState(false);
 
   const signup = async (userEmail, password, displayName) => {
     let infoUser = await createUserWithEmailAndPassword(
@@ -56,7 +60,10 @@ export default function AuthProvider({ children }) {
       banned: false,
       rented: [],
     });
-    welcomeEmail(userEmail, displayName);
+    await axios.post('/email', {
+      email: userEmail,
+      user: displayName
+    });
     dispatch(loadUserData(infoUser.user.uid));
   };
 
@@ -81,6 +88,8 @@ export default function AuthProvider({ children }) {
           position: 'top-center',
           isClosable: true,
         });
+      } else if (!userData.active) {
+        setStateInactive(true);
       } else {
         dispatch(loadUserData(userCredentials.user.uid));
         navigate('/home');
@@ -128,7 +137,11 @@ export default function AuthProvider({ children }) {
         banned: false,
         rented: [],
       });
-      welcomeEmail(infoUser.user.email, infoUser.user.displayName);
+      await axios.post('/email', {
+        email: infoUser.user.email,
+        user: infoUser.user.displayName
+      });
+      
       dispatch(loadUserData(infoUser.user.uid));
     }
   };
@@ -137,12 +150,10 @@ export default function AuthProvider({ children }) {
     signOut(auth);
     dispatch(logOutUser());
   };
-  // eslint-disable-next-line
-  const updateUserInfo = async (img, userName) => {
-    let docu = user;
-    const userRef = doc(firestore, `/users/${docu.user.uid}`);
-    await updateDoc(userRef, { username: userName, avatar: img });
-  };
+  
+  function forgotPasswordFunction(email){
+    return sendPasswordResetEmail(auth, email)
+  }
 
   async function read(id) {
     const docRef = doc(firestore, `/users/${id}`);
@@ -154,12 +165,84 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  const cancelActivateAcc = () => {
+    setStateInactive(false);
+  };
+
+  const activateAcc = async () => {
+    const userRef = doc(firestore, `/users/${user.uid}`);
+    await updateDoc(userRef, {
+      active: true,
+    });
+    toast({
+      title: 'You can now have access to your account.',
+      description: 'Please login.',
+      status: 'success',
+      duration: 3000,
+      position: 'top-center',
+      isClosable: true,
+    });
+    setStateInactive(false);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoadingUser(false);
     });
   }, []);
+
+  if (stateInactive)
+    return (
+      <Box
+        alignItems={'center'}
+        display="flex"
+        justifyContent="center"
+        columns={{ base: 1, md: 2 }}
+        spacing={{ base: 10, lg: 32 }}
+        py={{ base: 10, sm: 20, lg: 32 }}
+        height={'100vh'}
+        backgroundSize={'cover'}
+        backgroundImage={
+          'linear-gradient(180deg, #0000008c 20%, #0000008c 100%), url(https://www.lavanguardia.com/files/og_thumbnail/uploads/2020/12/14/5fd73c24bebce.jpeg)'
+        }
+      >
+        <Box
+          height={[300, 300, 300]}
+          bg={'rgba(17, 173, 152, 0.3)'}
+          backdropFilter={'blur(10px)'}
+          rounded={'xl'}
+          p={{ base: 4, sm: 6, md: 8 }}
+          spacing={{ base: 8 }}
+          maxW={{ lg: 'lg' }}
+        >
+          <Box display={'flex'} textAlign={'center'} alignItems={'center'}>
+            <Image
+              boxSize={'200px'}
+              objectFit={'cover'}
+              alt={'kinema-logo'}
+              src={logo}
+            />
+            <Text color={'white'}>
+              You are no longer subscribed. Do you want to recover your account with all your previous data?
+            </Text>
+          </Box>
+          <Box
+            display={'flex'}
+            textAlign={'center'}
+            alignItems={'center'}
+            justifyContent={'space-around'}
+          >
+            <Button colorScheme={'green'} onClick={activateAcc}>
+              Accept
+            </Button>
+            <Button colorScheme={'red'} onClick={cancelActivateAcc}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    );
 
   return (
     <authContext.Provider
@@ -170,6 +253,7 @@ export default function AuthProvider({ children }) {
         user,
         loadingUser,
         signupWithGoogle,
+        forgotPasswordFunction,
         read,
       }}
     >
