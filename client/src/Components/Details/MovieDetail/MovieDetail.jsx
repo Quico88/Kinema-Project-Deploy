@@ -68,14 +68,13 @@ export default function MovieDetail() {
   const [isShortThan960px] = useMediaQuery('(max-width: 960px)');
   const [isShortThan400px] = useMediaQuery('(max-width: 400px)');
 
-
   useEffect(() => {
     dispatch(clearMovieDetail());
     dispatch(getMovieDetail(id));
     dispatch(isLike(user.uid, id));
     dispatch(getLikesFromContent(id));
-    dispatch(loadUserData(user.uid))
-    dispatch(getCommentsData(id))
+    dispatch(loadUserData(user.uid));
+    dispatch(getCommentsData(id));
   }, [dispatch]);
 
   if (user && user.banned) {
@@ -89,17 +88,16 @@ export default function MovieDetail() {
       isClosable: true,
     });
     dispatch(logOutUser());
-    navigate("/home")
+    navigate('/home');
   }
 
   useEffect(() => {
-    setCommentsLocal(comments)
-  }, [comments])
-
+    setCommentsLocal(comments);
+  }, [comments]);
 
   useEffect(() => {
-    setLikesLocal(totalLikes)
-  }, [totalLikes])
+    setLikesLocal(totalLikes);
+  }, [totalLikes]);
 
   const handleDislike = (e) => {
     e.preventDefault();
@@ -154,7 +152,17 @@ export default function MovieDetail() {
       let year = date.getFullYear();
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, myMovie.id));
-      setCommentsLocal(prev => prev.concat({_id: Math.random(), userId: user.uid, content: commentArea, date: currentDate, idReference: myMovie.id, avatar: user.avatar, username: user.username}))
+      setCommentsLocal((prev) =>
+        prev.concat({
+          _id: Math.random(),
+          userId: user.uid,
+          content: commentArea,
+          date: currentDate,
+          idReference: myMovie.id,
+          avatar: user.avatar,
+          username: user.username,
+        })
+      );
     }
   };
 
@@ -251,13 +259,14 @@ export default function MovieDetail() {
                     <Box>
                       <Heading
                         mb="1.5vh"
-                        size="3xl"
+                        // size="3xl"
                         textAlign="left"
                         noOfLines={2}
                         color="white"
                         fontWeight="bold"
-                        fontSize="4vh"
+                        // fontSize="4vh"
                         ml="10vw"
+                        fontSize="8vw"
                       >
                         {myMovie.title}
                       </Heading>
@@ -587,11 +596,12 @@ export default function MovieDetail() {
                 <Container maxW="900px" ms="none" ml="10vw" mt="10vh">
                   <Heading
                     mb="1.5vh"
-                    size="3xl"
+                    size="xl"
                     textAlign="left"
                     noOfLines={2}
                     color="white"
                     fontWeight="bold"
+                    fontSize="3vw"
                   >
                     {myMovie.title}
                   </Heading>
