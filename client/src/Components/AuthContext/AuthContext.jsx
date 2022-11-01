@@ -68,7 +68,6 @@ export default function AuthProvider({ children }) {
     });
     dispatch(loadUserData(infoUser.user.uid));
   } else if(error){
-    /* console.log(error, "error") */
     const userCredentials = await signInWithEmailAndPassword(
       auth,
       userEmail,
@@ -79,12 +78,10 @@ export default function AuthProvider({ children }) {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()){
       const userData = docSnap.data();
-      /* console.log(userData) */
       if(!userData.active) {
         setStateInactive(true);
       }
     }
-   /*  console.log(error, "error") */
   }
   };
 
