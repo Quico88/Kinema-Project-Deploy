@@ -259,12 +259,10 @@ export default function MovieDetail() {
                     <Box>
                       <Heading
                         mb="1.5vh"
-                        // size="3xl"
                         textAlign="left"
                         noOfLines={2}
                         color="white"
                         fontWeight="bold"
-                        // fontSize="4vh"
                         ml="10vw"
                         fontSize="8vw"
                       >
