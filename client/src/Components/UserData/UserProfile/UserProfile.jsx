@@ -60,12 +60,13 @@ import {
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
+import './slick-theme.css'
 import styles from './UserProfile.module.css'
 import { useToast } from '@chakra-ui/react';
 
-
 const settings = {
   dots: true,
+  dotsClass: 'pointer-up',
   arrows: false,
   fade: false,
   infinite: false,
