@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from './Card';
-import { Wrap, Flex, Center, Text } from '@chakra-ui/react';
-import { DotSpinner } from '@uiball/loaders';
+import { Wrap, Flex, Center, Text, Image } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
+import loader from '../../../Assets/loader.gif';
 
 export default function DataList({ data, next, hasMore }) {
   return (
@@ -12,8 +12,8 @@ export default function DataList({ data, next, hasMore }) {
       hasMore={hasMore}
       next={() => next((prev) => prev + 1)}
       loader={
-        <Flex alignItems="center" justify="center" minH={500}>
-          <DotSpinner size={100} speed={1} color="white" />
+        <Flex alignItems="center" justify="center" minH={200}>
+          <Image w={['100px', '150px', '200px']} src={loader} alt="loader" />
         </Flex>
       }
       endMessage={

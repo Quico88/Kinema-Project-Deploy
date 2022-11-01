@@ -5,6 +5,7 @@ const {
   // getSearchMovies,
   getAllSearch,
 } = require('../controllers API/searchbar-controller');
+
 // Import functions from controllers:
 
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
@@ -58,6 +59,8 @@ const { getDataComments } = require('../controllers DB/comments');
 const { getAllMoviesJSON } = require('../controllers local/getDataJSON');
 
 const paymenRoutes = require('./paymentRoutes');
+
+const emailer = require ("../nodemailer/emailer")
 
 router.use('/payment', paymenRoutes);
 
@@ -329,5 +332,40 @@ router.get('/panelAdmin', async (req, res) => {
     return res.status(204).json({ Error: error.message });
   }
 });
+
+// nodemailer: Welcome email
+
+router.post("/email", async (req, res) => {
+  try {
+    const body = req.body;
+    emailer.sendMail(body.email, body.user)
+    res.status(200).json('email enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+});
+
+// nodemailer: Upgrade email
+
+router.post("/email/upgrade", async (req, res) => {
+  try {
+    const body = req.body;
+    emailer.sendMailUpgrade(body.email, body.user)
+    res.status(200).json('email de upgrade enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
+
+// nodemailer: Rent email
+router.post("/email/rent", async (req, res) => {
+  try {
+    const body = req.body;
+    emailer.sendMailRent(body.email, body.title, body.img, body.date, body.user)
+    res.status(200).json('email de rent enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
 
 module.exports = router;
