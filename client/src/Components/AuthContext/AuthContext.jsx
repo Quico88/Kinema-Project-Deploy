@@ -6,7 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { auth, firestore } from './firebase';
@@ -17,7 +17,6 @@ import { useToast, Box, Text, Button, Image } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../Assets/logo.png';
-
 
 export const authContext = createContext();
 
@@ -62,7 +61,7 @@ export default function AuthProvider({ children }) {
     });
     await axios.post('/email', {
       email: userEmail,
-      user: displayName
+      user: displayName,
     });
     dispatch(loadUserData(infoUser.user.uid));
   };
@@ -118,6 +117,8 @@ export default function AuthProvider({ children }) {
           position: 'top-center',
           isClosable: true,
         });
+      } else if (!userData.active) {
+        setStateInactive(true);
       } else {
         dispatch(loadUserData(infoUser.user.uid));
         setTimeout(() => navigate('/home'), 500);
@@ -139,9 +140,9 @@ export default function AuthProvider({ children }) {
       });
       await axios.post('/email', {
         email: infoUser.user.email,
-        user: infoUser.user.displayName
+        user: infoUser.user.displayName,
       });
-      
+
       dispatch(loadUserData(infoUser.user.uid));
     }
   };
@@ -150,9 +151,9 @@ export default function AuthProvider({ children }) {
     signOut(auth);
     dispatch(logOutUser());
   };
-  
-  function forgotPasswordFunction(email){
-    return sendPasswordResetEmail(auth, email)
+
+  function forgotPasswordFunction(email) {
+    return sendPasswordResetEmail(auth, email);
   }
 
   async function read(id) {
@@ -224,7 +225,8 @@ export default function AuthProvider({ children }) {
               src={logo}
             />
             <Text color={'white'}>
-              You are no longer subscribed. Do you want to recover your account with all your previous data?
+              You are no longer subscribed. Do you want to recover your account
+              with all your previous data?
             </Text>
           </Box>
           <Box
