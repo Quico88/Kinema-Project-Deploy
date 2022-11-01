@@ -24,10 +24,12 @@ export default function Register() {
   const [errorEm, setErrorEm] = useState(true);
   const [validName, setValidName] = useState(true)
 
+
   const [user, setUser] = useState({
     displayName: '',
     email: '',
     password: '',
+    error: false,
   });
 
   const { signup, signupWithGoogle } = useAuth();
@@ -55,6 +57,7 @@ export default function Register() {
     } catch (error) {
       if(error.message.includes("already")){
         setErrorEm(false)
+        await signup(user.email, user.password, user.displayName, error);
       }else{
         setErrorEm(true)
       }
@@ -68,7 +71,6 @@ export default function Register() {
 
   async function handleGoogleSignin() {
     await signupWithGoogle();
-    navigate('/register/plan');
   }
 
   return (
