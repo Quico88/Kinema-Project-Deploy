@@ -40,6 +40,7 @@ import { Navigate } from 'react-router-dom';
 import edit from '../../../Assets/edit.png';
 import DoughnutGraph from './DoughnutChart';
 import BarChart from './BarChart';
+import moment from 'moment';
 
 export default function Owner() {
   const [ready, setReady] = useState(false);
@@ -68,21 +69,76 @@ export default function Owner() {
 
   const premiumUsers = users.filter((u) => u.subscription === 2 && u.active);
   const basicUsers = users.filter((u) => u.subscription === 1 && u.active);
-  const totalUsers = premiumUsers.length + basicUsers.length;
+  const inactiveUsers = users.filter((u) => !u.active);
+
+  // const totalUsers = premiumUsers.length + basicUsers.length;
+
+  // Total users in october:
+  const octoberUsers = users.filter(
+    (u) =>
+      u.active &&
+      moment(u.subscriptionDate.seconds * 1000).format('MMMM') === 'October'
+  ).length;
+
+  // console.log(octoberUsers);
+
+  // Total users in november:
+  const novemberUsers = users.filter(
+    (u) =>
+      u.active &&
+      moment(u.subscriptionDate.seconds * 1000).format('MMMM') === 'November'
+  ).length;
+
+  // Total users:
+  const totalUsers = octoberUsers + novemberUsers;
+
+  // console.log(novemberUsers);
 
   const totalRent = users.filter((u) => u.rented.length).map((u) => u.rented);
   const totalRented = totalRent.flat();
-  const totalRentRevenue = totalRented.length * 1.99;
-  const totalPremiumRevenue = premiumUsers.length * 7.99;
 
-  const totalRevenue = totalRentRevenue + totalPremiumRevenue;
+  // October rent revenues
+  const totalRentedOctober = totalRented.filter(
+    (u) =>
+      moment(u.expirationDate - 1000 * 3600 * 24 * 4).format('MMMM') ===
+      'October'
+  );
+  const totalRentRevenueOctober = totalRentedOctober.length * 1.99;
 
-  // const totalRevenueSeptember =
-  //   totalRented.filter((r) => r.date.toDate().getMonth() === 8).length * 1.99 +
-  //   premiumUsers.filter((u) => u.date.toDate().getMonth() === 8).length * 7.99;
+  // November rent revenues
+  const totalRentedNovember = totalRented.filter(
+    (u) =>
+      moment(u.expirationDate - 1000 * 3600 * 24 * 4).format('MMMM') ===
+      'November'
+  );
 
-  const percentagePremiumUsers = (premiumUsers.length * 100) / users.length;
-  const percentageBasicUsers = (basicUsers.length * 100) / users.length;
+  const totalRentRevenueNovember = totalRentedNovember.length * 1.99;
+
+  const percentagePremiumUsers =
+    (premiumUsers.length * 100) / (users.length - inactiveUsers.length);
+  const percentageBasicUsers =
+    (basicUsers.length * 100) / (users.length - inactiveUsers.length);
+
+  // October premium revenue:
+  const premiumUsersOctober = premiumUsers.filter(
+    (u) =>
+      moment(u.subscriptionDate.seconds * 1000).format('MMMM') === 'October'
+  );
+  const premiumRevenueOctober = premiumUsersOctober.length * 7.99;
+
+  // November premium revenue:
+  const premiumUsersNovember = premiumUsers.filter(
+    (u) =>
+      moment(u.subscriptionDate.seconds * 1000).format('MMMM') === 'November'
+  );
+  const premiumRevenueNovember = premiumUsersNovember.length * 7.99;
+
+  // October total revenue:
+  const totalRevenueOctober = premiumRevenueOctober + totalRentRevenueOctober;
+
+  // November total revenue:
+  const totalRevenueNovember =
+    premiumRevenueNovember + totalRentRevenueNovember;
 
   function searcher(e) {
     e.preventDefault();
@@ -180,7 +236,6 @@ export default function Owner() {
   useEffect(() => {
     async function exe() {
       let allUsersData = await allUsers();
-      console.log(allUsersData);
       setUsers(allUsersData);
       setReady(true);
     }
@@ -419,25 +474,44 @@ export default function Owner() {
                 backgroundColor="var(--chakra-colors-gray-300)"
                 borderRadius="10px"
               >
-                <LineChart data={totalRevenue} tableName="Total Revenue" />
+                <LineChart
+                  dataSeptember={0}
+                  dataOctober={totalRevenueOctober}
+                  dataNovember={totalRevenueNovember}
+                  tableName="Total Revenue"
+                />
               </Box>
             </Center>
 
             <Flex justify={'space-evenly'} direction={'row '} margin={'100px'}>
               <LineChart
-                data={totalRentRevenue}
+                dataSeptember={0}
+                dataOctober={totalRentRevenueOctober}
+                dataNovember={totalRentRevenueNovember}
                 tableName="Rent Revenue"
                 color="white"
               />
               <LineChart
-                data={totalPremiumRevenue}
+                dataSeptember={0}
+                dataOctober={premiumRevenueOctober}
+                dataNovember={premiumRevenueNovember}
                 tableName="Premium Revenue"
               />
             </Flex>
 
             <Flex justify={'space-evenly'} direction={'row '} margin={'100px'}>
-              <BarChart data={users.length} tableName="User growth" />
-              <BarChart data={users.length} tableName="New Users" />
+              <BarChart
+                dataSeptember={0}
+                dataOctober={octoberUsers}
+                dataNovember={novemberUsers}
+                tableName="New Users"
+              />
+              <BarChart
+                dataSeptember={0}
+                dataOctober={octoberUsers}
+                dataNovember={novemberUsers + octoberUsers}
+                tableName="Total Users"
+              />
             </Flex>
           </TabPanel>
         </TabPanels>
