@@ -183,6 +183,7 @@ const CheckoutForm = () => {
           justifyContent="center"
           alignItems={'center'}
           mt={isLargerThan480 ? '18vh' : '3vh'}
+          color="black"
         >
           <Stack
             direction={isLargerThan480 ? 'row' : 'column-reverse'}

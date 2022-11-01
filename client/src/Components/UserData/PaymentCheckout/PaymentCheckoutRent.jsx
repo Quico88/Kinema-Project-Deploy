@@ -56,8 +56,7 @@ const CheckoutForm = () => {
   const type = pathname.split('/')[3];
 
   if (type === 'tv_show') {
-    var { title, poster } =
-      serieDetail;
+    var { title, poster } = serieDetail;
   } else {
     var { title, poster } = movieDetail;
   }
@@ -208,6 +207,7 @@ const CheckoutForm = () => {
             display="flex"
             justifyContent="center"
             alignItems={'center'}
+            color="black"
           >
             <Stack
               direction={isLargerThan480 ? 'row' : 'column-reverse'}
