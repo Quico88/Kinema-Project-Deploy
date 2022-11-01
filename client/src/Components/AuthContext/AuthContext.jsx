@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { loadUserData, logOutUser } from '../../Redux/actions';
 import welcomeEmail from './welcomeEmail';
 import { useToast, Box, Text, Button, Image } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../Assets/logo.png';
 
@@ -31,6 +31,8 @@ export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const [user, setUser] = useState(null);
   const [stateInactive, setStateInactive] = useState(false);
 
@@ -91,7 +93,7 @@ export default function AuthProvider({ children }) {
         setStateInactive(true);
       } else {
         dispatch(loadUserData(userCredentials.user.uid));
-        navigate('/home');
+        pathname.includes('start') ? navigate('/home') :  navigate(-1);
       }
     }
   };
@@ -121,7 +123,7 @@ export default function AuthProvider({ children }) {
         setStateInactive(true);
       } else {
         dispatch(loadUserData(infoUser.user.uid));
-        setTimeout(() => navigate('/home'), 500);
+        setTimeout(() => pathname.includes('start') ? navigate('/home') :  navigate(-1), 500);
       }
     } else {
       setDoc(googleRef, {
