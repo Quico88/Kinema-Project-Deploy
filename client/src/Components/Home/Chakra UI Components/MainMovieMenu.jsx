@@ -49,7 +49,7 @@ export default function MainMovieMenu(props) {
             justify={'center'}
             px={useBreakpointValue({ base: 4, md: 8 })}
             bgGradient={
-            'linear(to-b,  rgba(34,34,34,0.2721463585434174) 86%, rgba(34,34,34,0.8715861344537815) 94%, rgba(34,34,34,1) 100%)'
+            'linear(to-b,  rgba(34,34,34,0) 30%, rgba(34,34,34,.7) 90%, #0d0c0c 95%)'
             }
         >
             <Stack maxW={'2xl'} align={'center'} spacing={6} w={{base: '50%', md: '90%'}}>

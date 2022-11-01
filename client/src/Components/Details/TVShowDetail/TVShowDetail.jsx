@@ -30,6 +30,7 @@ import {
   Center,
   Textarea,
   VStack,
+  Image,
 } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { MdPlayArrow } from 'react-icons/md';
@@ -40,13 +41,13 @@ import NavBarPlayer from '../../NavBarPlayer/NavBarPlayer';
 import Comment from '../Comment/Comment';
 import Footer from '../../Home/Chakra UI Components/Footer';
 import CarouselTvShow from '../../Carrousel/Chackra UI Components/CarouselTVShowDetail';
-import Loader from '../../Loader/LoaderDetails.jsx';
 import Error from '../../Error/Error.jsx';
 import { color } from '../../globalStyles';
 import { useToast, useMediaQuery } from '@chakra-ui/react';
 import StarRatings from 'react-star-ratings';
 import { FiPlusCircle } from 'react-icons/fi';
 import moment from 'moment';
+import loader from '../../../Assets/loader.gif';
 
 export default function TVShowDetail() {
   const dispatch = useDispatch();
@@ -59,14 +60,26 @@ export default function TVShowDetail() {
   const like = useSelector((state) => state.isLike);
   const totalLikes = useSelector((state) => state.totalLikes);
   const [likeLocal, setLikeLocal] = useState(undefined);
-  const [likesLocal, setLikesLocal] = useState(totalLikes);
+  const [likesLocal, setLikesLocal] = useState(undefined);
+  const [commentsLocal, setCommentsLocal] = useState([]);
   const [commentArea, setCommentArea] = useState('');
   const [errorCommentArea, setErrorCommentArea] = useState(false);
-  const [random, refresh] = useState('');
   const toast = useToast();
   const [isShortThan960px] = useMediaQuery('(max-width: 960px)');
   const [isShortThan800px] = useMediaQuery('(max-width: 800px)');
   const [isShortThan400px] = useMediaQuery('(max-width: 400px)');
+  const mySerie = useSelector((state) => state.serieDetail);
+  const mySeason = useSelector((state) => state.seasonDetail);
+
+  useEffect(() => {
+    dispatch(clearSerieDetail());
+    dispatch(getSerieDetail(id));
+    dispatch(getSeasonDetail(id, 1));
+    dispatch(isLike(user.uid, id));
+    dispatch(getLikesFromContent(id));
+    dispatch(loadUserData(user.uid));
+    dispatch(getCommentsData(id));
+  }, [dispatch]);
 
   if (user && user.banned) {
     toast({
@@ -79,35 +92,29 @@ export default function TVShowDetail() {
       isClosable: true,
     });
     dispatch(logOutUser());
+    navigate("/home")
   }
+  
+  useEffect(() => {
+    setCommentsLocal(comments);
+  }, [comments]);
 
   useEffect(() => {
-    dispatch(clearSerieDetail());
-    dispatch(getSerieDetail(id));
-    dispatch(getSeasonDetail(id, 1));
-    dispatch(isLike(user.uid, id));
-    dispatch(getLikesFromContent(id));
-    dispatch(loadUserData(user.uid));
-  }, [dispatch]);
-
-  useEffect(() => {}, [like]);
-
-  useEffect(() => {
-    dispatch(getCommentsData(id));
-  }, [random]);
+    setLikesLocal(totalLikes);
+  }, [totalLikes]);
 
   const handleDislike = (e) => {
     e.preventDefault();
     dispatch(dislike(user.uid, id));
     setLikeLocal(false);
-    setLikesLocal(prev => prev - 1)
+    setLikesLocal((prev) => prev - 1);
   };
 
   const handleLike = (e) => {
     e.preventDefault();
     dispatch(putLike(user.uid, id));
     setLikeLocal(true);
-    setLikesLocal(prev => prev + 1)
+    setLikesLocal((prev) => prev + 1);
   };
 
   function handleSeason(e) {
@@ -154,8 +161,17 @@ export default function TVShowDetail() {
       let year = date.getFullYear();
       let currentDate = `${day}-${month}-${year}`;
       dispatch(postNewComment(user.uid, commentArea, currentDate, mySerie.id));
-      refresh(Math.random());
-      setCommentArea('');
+      setCommentsLocal((prev) =>
+        prev.concat({
+          _id: Math.random(),
+          userId: user.uid,
+          content: commentArea,
+          date: currentDate,
+          idReference: mySerie.id,
+          avatar: user.avatar,
+          username: user.username,
+        })
+      );
     }
   };
 
@@ -165,8 +181,6 @@ export default function TVShowDetail() {
     } else return false;
   };
 
-  const mySerie = useSelector((state) => state.serieDetail);
-  const mySeason = useSelector((state) => state.seasonDetail);
   let totalSeasons = [];
   if (mySerie.number_seasons >= 1) {
     for (let i = 1; i <= mySerie.number_seasons; i++) {
@@ -413,7 +427,7 @@ export default function TVShowDetail() {
                             fontSize="2vw"
                             display="flex"
                           >
-                            {likesLocal === 1 ? ' like.' : ' likes.'}
+                            {likesLocal === 1 ? ' like' : ' likes'}
                           </Text>
                         </Flex>
                       </Box>
@@ -880,10 +894,7 @@ export default function TVShowDetail() {
                           <Text color="#72EFDD" ml="1vh" fontWeight={600}>
                             {likesLocal}&nbsp;
                           </Text>
-                          <Text
-                            color="white"
-                            fontSize={15}
-                          >
+                          <Text color="white" fontSize={15}>
                             {likesLocal === 1 ? ' like.' : ' likes.'}
                           </Text>
                         </Flex>
@@ -992,8 +1003,8 @@ export default function TVShowDetail() {
                   },
                 }}
               >
-                {comments.length ? (
-                  comments.map((comment) => {
+                {commentsLocal.length ? (
+                  commentsLocal.map((comment) => {
                     return (
                       <Comment
                         key={comment._id}
@@ -1003,7 +1014,7 @@ export default function TVShowDetail() {
                         date={comment.date}
                         userId={comment.userId}
                         id={comment._id}
-                        refresh={refresh}
+                        deleteLocal={setCommentsLocal}
                       ></Comment>
                     );
                   })
@@ -1099,7 +1110,15 @@ export default function TVShowDetail() {
             </Flex>
           </Box>
         ) : (
-          <Loader />
+          <Image
+            w={['100px', '150px', '200px']}
+            src={loader}
+            alt="loader"
+            display="block"
+            margin="auto"
+            mt="20vh"
+            mb="20vh"
+          />
         )}
         <Footer />
       </Flex>

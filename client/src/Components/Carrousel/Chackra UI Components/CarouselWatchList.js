@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import deleted from '../../../Assets/delete.png';
 import { removeFromWatchlist } from '../../../Redux/actions';
 import { extendTheme } from '@chakra-ui/react';
+import { color } from '../../globalStyles';
 
 const breakpoints = {
   sm: '400px',
@@ -110,8 +111,9 @@ export default function CarouselWatchList({ movies }) {
       {/* Left Icon */}
       <Text
         fontWeight={'bold'}
-        color={'white'}
+        color={color.kinemaLogoColor1}
         fontSize={{ base: '1xl', md: '2xl' }}
+        ml={4}
       >
         Watchlist
       </Text>
