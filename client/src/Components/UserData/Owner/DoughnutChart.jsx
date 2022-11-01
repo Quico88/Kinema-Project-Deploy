@@ -7,7 +7,7 @@ export default function DoughnutChart({ basicUsers, premiumUsers }) {
       {
         label: 'My First Dataset',
         data: [basicUsers, premiumUsers],
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+        backgroundColor: ['rgb(100, 180, 2)', 'rgb(255, 180, 86)'],
         color: 'blue',
       },
     ],
