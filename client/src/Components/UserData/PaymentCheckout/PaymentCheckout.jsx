@@ -147,7 +147,7 @@ const CheckoutForm = () => {
             dispatch(changeSID(data.subId));
             await upgratePlanFire();
             dispatch(upgradePlan());
-            pathname.includes('upgrade') ? navigate(-1) : navigate('/home');
+            pathname.includes('upgrade') ? navigate(-1) : pathname.includes('start') ? navigate('/home') : navigate(-3);
           } else {
             setLoading(false);
             toast.error(data.message, {
@@ -187,6 +187,7 @@ const CheckoutForm = () => {
           justifyContent="center"
           alignItems={'center'}
           mt={isLargerThan480 ? '18vh' : '3vh'}
+          color="black"
         >
           <Stack
             direction={isLargerThan480 ? 'row' : 'column-reverse'}
