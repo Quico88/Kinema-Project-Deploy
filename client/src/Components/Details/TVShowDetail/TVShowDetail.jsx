@@ -557,13 +557,13 @@ export default function TVShowDetail() {
                       <Box textAlign="left" mt="3vh">
                         <Text fontSize="2vh" color={'white'}>
                           <Link href="/login" color={'#72efdd'}>
-                            <b>Log In </b>
+                            <b>Log In</b>
                           </Link>
-                          or
+                          &nbsp;or&nbsp;
                           <Link href="/register" color={'#64dfdf'}>
-                            <b> Register </b>
+                            <b>Register</b>
                           </Link>
-                          to watch this content.
+                          &nbsp;to watch this content.
                         </Text>
                       </Box>
                     ) : null
@@ -924,13 +924,13 @@ export default function TVShowDetail() {
                       <Box textAlign="left" mt="1vh">
                         <Text fontSize="2.3vh" color={'white'} mt="2vh">
                           <Link href="/login" color={'#72efdd'}>
-                            <b>Log In </b>
+                            <b>Log In</b>
                           </Link>
-                          or
+                          &nbsp;or&nbsp;
                           <Link href="/register" color={'#64dfdf'}>
-                            <b> Register </b>
+                            <b>Register</b>
                           </Link>
-                          to watch this show.
+                          &nbsp;to watch this show.
                         </Text>
                         <br />
                       </Box>

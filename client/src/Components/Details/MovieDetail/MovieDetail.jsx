@@ -561,13 +561,13 @@ export default function MovieDetail() {
                       <Box textAlign="left" mt="3vh">
                         <Text fontSize="2vh" color={'white'}>
                           <Link href="/login" color={'#72efdd'}>
-                            <b>Log In </b>
+                            <b>Log In</b>
                           </Link>
-                          or
+                          &nbsp;or&nbsp;
                           <Link href="/register" color={'#64dfdf'}>
-                            <b> Register </b>
+                            <b>Register</b>
                           </Link>
-                          to watch this movie.
+                          &nbsp;to watch this movie.
                         </Text>
                       </Box>
                     ) : null
@@ -916,13 +916,13 @@ export default function MovieDetail() {
                       <Box textAlign="left" mt="3vh">
                         <Text fontSize="2.3vh" color={'white'}>
                           <Link href="/login" color={'#72efdd'}>
-                            <b>Log In </b>
+                            <b>Log In</b>
                           </Link>
-                          or
+                          &nbsp;or&nbsp;
                           <Link href="/register" color={'#64dfdf'}>
-                            <b> Register </b>
+                            <b>Register</b>
                           </Link>
-                          to watch this movie.
+                          &nbsp;to watch this movie.
                         </Text>
                       </Box>
                     ) : null
