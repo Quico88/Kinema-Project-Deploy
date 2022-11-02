@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import { CheckIcon } from '@chakra-ui/icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Pricing({
   planType,
@@ -21,8 +22,13 @@ export default function Pricing({
   secondFeature,
   thirdFeature,
 }) {
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   return (
     <Center py={6}>
+      {console.log(pathname)}
       <Box
         maxW={'420px'}
         w={'full'}
@@ -85,17 +91,13 @@ export default function Pricing({
           </List>
           <Box align={'center'} color="blackAlpha.800">
             {planType == 'Premium' ? (
-              <Link href="/payment">
-                <Button ml="1.5vh" mt="2vh" backgroundColor={'white'}>
+                <Button ml="1.5vh" mt="2vh" backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/payment/start') : navigate('/payment')}>
                   Subscribe to premium
                 </Button>
-              </Link>
             ) : (
-              <Link href="/home">
-                <Button ml="2.7vh" mt="2vh" backgroundColor={'white'}>
+                <Button ml="2.7vh" mt="2vh" backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/home') : navigate(-2)}>
                   Subscribe to basic
-                </Button>{' '}
-              </Link>
+                </Button>
             )}
           </Box>
         </Box>
