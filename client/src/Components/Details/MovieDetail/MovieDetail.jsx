@@ -163,6 +163,7 @@ export default function MovieDetail() {
           username: user.username,
         })
       );
+      setCommentArea("")
     }
   };
 

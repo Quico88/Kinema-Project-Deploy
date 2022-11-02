@@ -172,6 +172,7 @@ export default function TVShowDetail() {
           username: user.username,
         })
       );
+      setCommentArea("")
     }
   };
 
