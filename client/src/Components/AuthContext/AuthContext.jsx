@@ -213,7 +213,7 @@ export default function AuthProvider({ children }) {
       isClosable: true,
     });
     setStateInactive(false);
-    navigate("/login")
+    navigate("/login/start")
   };
 
   const activeWithoutRecover = async () => {
@@ -244,7 +244,7 @@ export default function AuthProvider({ children }) {
       isClosable: true,
     });
     setStateInactive(false);
-    navigate("/login")
+    navigate("/login/start")
   }
 
   useEffect(() => {

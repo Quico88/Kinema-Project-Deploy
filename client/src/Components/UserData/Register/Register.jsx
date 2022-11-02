@@ -72,7 +72,6 @@ export default function Register() {
 
   async function handleGoogleSignin() {
     await signupWithGoogle();
-    pathname.includes('start') ? navigate('/register/plan/start') : navigate('/register/plan');
   }
 
   return (
