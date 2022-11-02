@@ -90,11 +90,11 @@ export default function Pricing({
           </List>
           <Box align={'center'} color="blackAlpha.800">
             {planType == 'Premium' ? (
-                <Button ml="1.5vh" mt="2vh" backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/payment/start') : navigate('/payment')}>
+                <Button ml="1.5vh" mt="2vh" display={pathname =='/' ? 'none' : null} backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/payment/start') : navigate('/payment')}>
                   Subscribe to premium
                 </Button>
             ) : (
-                <Button ml="2.7vh" mt="2vh" backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/home') : navigate(-2)}>
+                <Button ml="2.7vh" mt="2vh" display={pathname =='/' ? 'none' : null} backgroundColor={'white'} onClick={() => pathname.includes('/start') ? navigate('/home') : navigate(-2)}>
                   Subscribe to basic
                 </Button>
             )}
