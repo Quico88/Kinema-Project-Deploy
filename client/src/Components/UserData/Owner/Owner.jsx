@@ -336,27 +336,24 @@ export default function Owner() {
                                 : 'Inactive';
 
                               return (
-                                <Tr>
+                                <Tr key={i}>
                                   <Td>
                                     <Avatar size={'md'} src={user.avatar} />
                                   </Td>
                                   <Td
                                     fontSize={'14px'}
-                                    key={user.email}
                                     color={'gray.500'}
                                   >
                                     {user.email}
                                   </Td>
                                   <Td
                                     fontSize={'14px'}
-                                    key={user.username}
                                     color={'gray.500'}
                                   >
                                     {user.username}
                                   </Td>
                                   <Td
                                     fontSize={'14px'}
-                                    key={user.subscriptionDate}
                                     color={'gray.500'}
                                   >
                                     {user.subscriptionDate
@@ -374,7 +371,7 @@ export default function Owner() {
                                   <Td fontSize={'14px'} color={'gray.500'}>
                                     {activeOrNot}
                                   </Td>
-                                  <Td key={i + 1} color={'gray.500'}>
+                                  <Td color={'gray.500'}>
                                     {user.admin ? 'Admin' : 'User'}
                                   </Td>
                                   <Td>
