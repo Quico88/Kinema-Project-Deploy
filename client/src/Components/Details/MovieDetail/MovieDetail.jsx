@@ -1068,15 +1068,17 @@ export default function MovieDetail() {
             </Flex>
           </Box>
         ) : (
-          <Image
-            w={['100px', '150px', '200px']}
-            src={loader}
-            alt="loader"
-            display="block"
-            margin="auto"
-            mt="20vh"
-            mb="20vh"
-          />
+          <Box h='80vh'>
+            <Image
+              w={['100px', '150px', '200px']}
+              src={loader}
+              alt="loader"
+              display="block"
+              margin="auto"
+              mt="20vh"
+              mb="20vh"
+            />
+          </Box>
         )}
         <Footer />
       </Flex>
