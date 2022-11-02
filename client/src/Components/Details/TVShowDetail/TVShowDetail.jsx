@@ -92,9 +92,9 @@ export default function TVShowDetail() {
       isClosable: true,
     });
     dispatch(logOutUser());
-    navigate("/home")
+    navigate('/home');
   }
-  
+
   useEffect(() => {
     setCommentsLocal(comments);
   }, [comments]);
@@ -172,6 +172,7 @@ export default function TVShowDetail() {
           username: user.username,
         })
       );
+      setCommentArea("")
     }
   };
 
@@ -276,13 +277,12 @@ export default function TVShowDetail() {
                     <Box>
                       <Heading
                         mb="1.5vh"
-                        size="3xl"
                         textAlign="left"
                         noOfLines={2}
                         color="white"
                         fontWeight="bold"
-                        fontSize="4vh"
                         ml="10vw"
+                        fontSize="8vw"
                       >
                         {mySerie.title}
                       </Heading>
@@ -624,12 +624,13 @@ export default function TVShowDetail() {
               >
                 <Container maxW="90%" ms="none" ml="5vw" mt="3vh">
                   <Heading
-                    mb="1.5vh"
-                    size="3xl"
+                    mb="3vh"
+                    size="xl"
                     textAlign="left"
                     noOfLines={2}
                     color="white"
                     fontWeight="bold"
+                    fontSize="3vw"
                   >
                     {mySerie.title}
                   </Heading>

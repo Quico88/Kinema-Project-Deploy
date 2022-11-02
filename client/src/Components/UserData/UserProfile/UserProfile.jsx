@@ -60,8 +60,8 @@ import {
 } from '../../../Redux/actions';
 import { reload } from 'firebase/auth';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
-import './slick-theme.css'
-import styles from './UserProfile.module.css'
+import './slick-theme.css';
+import styles from './UserProfile.module.css';
 import { useToast } from '@chakra-ui/react';
 
 const settings = {
@@ -101,10 +101,10 @@ export default function UserProfile() {
   const toast = useToast();
 
   let now = new Date();
-    userData.rented = userData.rented?.filter(
+  userData.rented = userData.rented?.filter(
     (m) => m.expirationDate > now.getTime()
   );
-  
+
   async function logOut() {
     await logout();
     navigate('/');
@@ -156,7 +156,7 @@ export default function UserProfile() {
   };
 
   const accDelete = async () => {
-    if(userData.subscription === 2) {
+    if (userData.subscription === 2) {
       const id = userData.stripeId;
       const { data } = await axios.post('/payment/downgrade', { id });
       if (data.success) {
@@ -174,7 +174,8 @@ export default function UserProfile() {
       });
       ToastifyMessage('Your account has been deleted.', 'success');
       setTimeout(() => {
-        logOut();
+        logout();
+        navigate('/');
       }, 2000);
     } else {
       const userRef = doc(firestore, `/users/${user.uid}`);
@@ -184,6 +185,7 @@ export default function UserProfile() {
       ToastifyMessage('Your account has been deleted.', 'success');
       setTimeout(() => {
         logOut();
+        navigate('/');
       }, 2000);
     }
   };
@@ -242,7 +244,7 @@ export default function UserProfile() {
       isClosable: true,
     });
     dispatch(logOutUser());
-    navigate("/home")
+    navigate('/home');
   }
 
   const {
@@ -870,7 +872,11 @@ export default function UserProfile() {
                               src={i}
                               alt={i}
                               key={i}
-                              className={image === i ? style.selectedImg2 : style.selectedImg}
+                              className={
+                                image === i
+                                  ? style.selectedImg2
+                                  : style.selectedImg
+                              }
                             />
                           ))}
                         </Box>
