@@ -56,14 +56,14 @@ const CheckoutForm = () => {
   const type = pathname.split('/')[3];
 
   if (type === 'tv_show') {
-    var { title, poster } =
-      serieDetail;
+    var { title, poster } = serieDetail;
   } else {
     var { title, poster } = movieDetail;
   }
 
   const now = new Date();
   const rentDuration = 3600 * 24 * 4 * 1000; // 4 days
+  const date = moment(now.getTime() + 345600000).format('MMMM Do YYYY');
 
   const rentedMovie = {
     id: Number(params.id),
@@ -161,6 +161,13 @@ const CheckoutForm = () => {
             progress: undefined,
             theme: 'dark',
           });
+          await axios.post('/email/rent', {
+            email: email,
+            title: title,
+            img: poster,
+            date: date,
+            user: username
+          });
           dispatch(rentVideo(rentedMovie));
           await updateRented(rentedMovie);
           navigate(-1);
@@ -208,6 +215,7 @@ const CheckoutForm = () => {
             display="flex"
             justifyContent="center"
             alignItems={'center'}
+            color="black"
           >
             <Stack
               direction={isLargerThan480 ? 'row' : 'column-reverse'}

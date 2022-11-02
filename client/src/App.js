@@ -26,6 +26,7 @@ import KinemaContent from './Components/UserData/Admin/KinemaContent.jsx';
 import UserComments from './Components/UserData/Admin/UserComments.jsx';
 import NotFound from './Components/Not Found/Not Found.jsx';
 import Contact from './Components/Footer links/Contact/Contact.jsx';
+import ForgotPassword from './Components/UserData/ForgotPassword/ForgotPassword.jsx';
 
 // Create App component:
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/recover_password" element={<ForgotPassword />} />
         <Route path="/register/plan" element={<Plan />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home/watch/:id" element={<Watch />} />

@@ -136,6 +136,10 @@ const CheckoutForm = () => {
               progress: undefined,
               theme: 'dark',
             });
+            await axios.post('/email/upgrade', {
+              email: email,
+              user: username
+            });
             const userRef = doc(firestore, `/users/${uid}`);
             await updateDoc(userRef, {
               stripeId: data.subId,
@@ -183,6 +187,7 @@ const CheckoutForm = () => {
           justifyContent="center"
           alignItems={'center'}
           mt={isLargerThan480 ? '18vh' : '3vh'}
+          color="black"
         >
           <Stack
             direction={isLargerThan480 ? 'row' : 'column-reverse'}

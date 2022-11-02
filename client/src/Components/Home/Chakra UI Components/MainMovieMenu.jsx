@@ -31,7 +31,8 @@ export default function MainMovieMenu(props) {
         const movieRentHistory = rented.filter ( m => m.id == props.id);
         let now = new Date();
         if (!movieRentHistory.length) return false;
-        const validMovie = (movieRentHistory.find ( (m) => m.expirationDate > now.getTime())) 
+        const validMovie = (movieRentHistory.find((m) => m.expirationDate > now.getTime()));
+        if (!validMovie) return false;
         return validMovie.expirationDate;
     }
 
