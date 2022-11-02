@@ -71,16 +71,12 @@ export default function Owner() {
   const basicUsers = users.filter((u) => u.subscription === 1 && u.active);
   const inactiveUsers = users.filter((u) => !u.active);
 
-  // const totalUsers = premiumUsers.length + basicUsers.length;
-
   // Total users in october:
   const octoberUsers = users.filter(
     (u) =>
       u.active &&
       moment(u.subscriptionDate.seconds * 1000).format('MMMM') === 'October'
   ).length;
-
-  // console.log(octoberUsers);
 
   // Total users in november:
   const novemberUsers = users.filter(
@@ -91,8 +87,6 @@ export default function Owner() {
 
   // Total users:
   const totalUsers = octoberUsers + novemberUsers;
-
-  // console.log(novemberUsers);
 
   const totalRent = users.filter((u) => u.rented.length).map((u) => u.rented);
   const totalRented = totalRent.flat();

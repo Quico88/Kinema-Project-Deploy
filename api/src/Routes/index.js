@@ -338,7 +338,7 @@ router.get('/panelAdmin', async (req, res) => {
 router.post("/email", async (req, res) => {
   try {
     const body = req.body;
-    emailer.sendMail(body.email, body.user)
+    await emailer.sendMail(body.email, body.user)
     res.status(200).json('email enviado!');
   } catch (e) {
     return res.status(204).json({ Error: e.message });
@@ -350,7 +350,7 @@ router.post("/email", async (req, res) => {
 router.post("/email/upgrade", async (req, res) => {
   try {
     const body = req.body;
-    emailer.sendMailUpgrade(body.email, body.user)
+    await emailer.sendMailUpgrade(body.email, body.user)
     res.status(200).json('email de upgrade enviado!');
   } catch (e) {
     return res.status(204).json({ Error: e.message });
@@ -372,7 +372,7 @@ router.post("/email/rent", async (req, res) => {
 router.post("/email/contact", async (req, res) => {
   try {
     const body = req.body;
-    emailer.sendMailContact(body.email, body.user, body.message)
+    await emailer.sendMailContact(body.email, body.user, body.message)
     res.status(200).json('email de contact enviado!');
   } catch (e) {
     return res.status(204).json({ Error: e.message });

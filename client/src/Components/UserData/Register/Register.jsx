@@ -15,7 +15,7 @@ import Footer from '../../Home/Chakra UI Components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { useAuth } from '../../AuthContext/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Register() {
@@ -23,11 +23,14 @@ export default function Register() {
   const [error, setError] = useState(true);
   const [errorEm, setErrorEm] = useState(true);
   const [validName, setValidName] = useState(true)
+  const { pathname } = useLocation();
+
 
   const [user, setUser] = useState({
     displayName: '',
     email: '',
     password: '',
+    error: false,
   });
 
   const { signup, signupWithGoogle } = useAuth();
@@ -51,10 +54,11 @@ export default function Register() {
         setValidName(true)
       }
       await signup(user.email, user.password, user.displayName);
-      navigate('/register/plan');
+      pathname.includes('start') ? navigate('/register/plan/start') : navigate('/register/plan');
     } catch (error) {
       if(error.message.includes("already")){
         setErrorEm(false)
+        await signup(user.email, user.password, user.displayName, error);
       }else{
         setErrorEm(true)
       }
@@ -68,7 +72,6 @@ export default function Register() {
 
   async function handleGoogleSignin() {
     await signupWithGoogle();
-    navigate('/register/plan');
   }
 
   return (

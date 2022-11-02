@@ -58,10 +58,10 @@ export default function LandingPage() {
         />
         <Box className={styles.list} ref={list}>
           <Text marginBottom={'20px'} className={styles.sign}>
-            <Link to={'/register'}>Register </Link>
+            <Link to={'/register/start'}>Register </Link>
           </Text>
           <Text className={styles.sign}>
-            <Link to={'/login'}>Log In </Link>
+            <Link to={'/login/start'}>Log In </Link>
           </Text>
 
           <Box className={styles.nav__close}>
@@ -326,7 +326,7 @@ export default function LandingPage() {
               }}
             >
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Link to={'/register'}>
+                <Link to={'/register/start'}>
                   <Pricing
                     planType={'Premium'}
                     price={7.99}
@@ -346,7 +346,7 @@ export default function LandingPage() {
                 }}
               />
               <Box width={{ base: '100%', md: '50%', lg: '40%' }}>
-                <Link to={'/register'}>
+                <Link to={'/register/start'}>
                   <Pricing
                     planType={'Basic'}
                     price={0}
