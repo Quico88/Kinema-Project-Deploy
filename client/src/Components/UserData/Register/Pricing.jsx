@@ -28,7 +28,6 @@ export default function Pricing({
 
   return (
     <Center py={6}>
-      {console.log(pathname)}
       <Box
         maxW={'420px'}
         w={'full'}
