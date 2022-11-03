@@ -543,7 +543,7 @@ export default function TVShowDetail() {
                         ) : null}
                         <Text mt="2vh" fontSize="2.5vw" color={'white'}>
                           You can&nbsp;
-                          <Link href="/payment" color={'#72efdd'}>
+                          <Link href="/payment/upgrade" color={'#72efdd'}>
                             <b>upgrade</b>
                           </Link>
                           &nbsp;your plan to watch any content.
@@ -910,7 +910,7 @@ export default function TVShowDetail() {
                         ) : null}
                         <Text mt="2vh" fontSize="2.3vh" color={'white'}>
                           You can&nbsp;
-                          <Link href="/payment" color={'#72efdd'}>
+                          <Link href="/payment/upgrade" color={'#72efdd'}>
                             <b>upgrade</b>
                           </Link>
                           &nbsp;your plan to watch any content.
