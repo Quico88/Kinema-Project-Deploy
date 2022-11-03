@@ -89,6 +89,7 @@ export default function UserProfile() {
   const [avatar, setAvatar] = useState();
   const [avatars, setAvatars] = useState();
   const [admin, setAdmin] = useState();
+  const [stateButton, setStateButton] = useState(true);
   const [input, setInput] = useState({
     username: '',
     email: '',
@@ -138,6 +139,7 @@ export default function UserProfile() {
   };
 
   const downgrade = async () => {
+    setStateButton(false)
     const id = userData.stripeId;
     const { data } = await axios.post('/payment/downgrade', { id });
     if (data.success) {
@@ -764,13 +766,13 @@ export default function UserProfile() {
                                     >
                                       Cancel
                                     </Button>
-                                    <Button
+                                    {stateButton ?                                     <Button
                                       colorScheme="red"
                                       onClick={downgrade}
                                       ml={3}
                                     >
                                       Downgrade
-                                    </Button>
+                                    </Button> : null }
                                   </AlertDialogFooter>
                                 </AlertDialogContent>
                               </AlertDialogOverlay>
