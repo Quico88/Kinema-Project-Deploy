@@ -3,7 +3,7 @@
     <img src = "client/src/Assets/logo.png"> 
 <div>
 
-Kinema is a TV-Show and Movies streaming platform, built for academic purposes as part of the SoyHenry Bootcamp final project. The site can be visited by guests but it also contains gated features for premium users.
+Kinema is a TV-Show and Movie streaming platform, built for academic purposes as part of the SoyHenry Bootcamp final project. The site can be visited by guests but it also contains gated features for premium users.
 
 Tech Stack:
  - Mongo Db
