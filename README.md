@@ -31,6 +31,8 @@ Kinema was built with the following tools:
 • Railway; and
 • Vercel.
 
+Contributors: Matias Tonelli, Juan Francisco Drewans, Federico Irarrázaval, Pedro Martinez, Pablo Carro, Adriel Lopez and Gustavo Engers.
+
 Due to legal copyright issues, Kinema only play trailers. 
 
 Link: https://kinema-entertainment.vercel.app/
