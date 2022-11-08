@@ -34,6 +34,7 @@ Kinema was built with the following tools:
 Due to legal copyright issues, Kinema only play trailers. 
 
 Link: https://kinema-entertainment.vercel.app/
+You can try any credit card operation with the following: 4242 4242 4242 4242 (any security code will work).
 
 Hope you enjoy it! 
 
