@@ -1,4 +1,6 @@
 import {
+  Flex,
+  Image,
   Box,
   Stack,
   Heading,
@@ -9,24 +11,30 @@ import {
   SimpleGrid,
   Center,
   Link,
-  Checkbox,
   FormControl,
 } from '@chakra-ui/react';
-import Pricing from './Pricing';
 import Footer from '../../Home/Chakra UI Components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { useAuth } from '../../AuthContext/AuthContext';
-import { useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
+import loader from '../../../Assets/loader.gif';
 
 export default function Register() {
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [error, setError] = useState(true);
+  const [errorEm, setErrorEm] = useState(true);
+  const [validName, setValidName] = useState(true)
+  const [loading, setLoading] = useState(false);
+  const { pathname } = useLocation();
+
 
   const [user, setUser] = useState({
     displayName: '',
     email: '',
     password: '',
+    error: false,
   });
 
   const { signup, signupWithGoogle } = useAuth();
@@ -39,19 +47,37 @@ export default function Register() {
     });
   }
 
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
+      if(!user.displayName || user.displayName.trim() === "" ) {
+        setValidName(false)
+        return
+      }else{
+        setValidName(true)
+      }
+      setLoading(true)
       await signup(user.email, user.password, user.displayName);
-      navigate('/profile');
+      pathname.includes('start') ? navigate('/register/plan/start') : navigate('/register/plan');
     } catch (error) {
-      setError(error.message);
+      if(error.message.includes("already")){
+        setErrorEm(false)
+        await signup(user.email, user.password, user.displayName, error);
+      }else{
+        setErrorEm(true)
+      }
+      if(error.message.includes("Password")){
+        setError(false);
+      }else{
+        setError(true)
+      }
     }
   }
 
   async function handleGoogleSignin() {
+    setLoading(true)
     await signupWithGoogle();
-    navigate('/profile');
   }
 
   return (
@@ -65,29 +91,19 @@ export default function Register() {
       }
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
-    >
+      >
+      <NavBarPayment></NavBarPayment>
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
         columns={{ base: 1, md: 2 }}
         spacing={{ base: 10, lg: 32 }}
-        py={{ base: 10, sm: 20, lg: 32 }}
+          py={{ base: 10, sm: 20, lg: 32 }}
+          display="flex"
+          alignItems={"center"}
+        justifyContent="center"  
       >
-        <Stack direction={{ base: 'flex', sm: 'row' }}>
-          <Pricing 
-            planType={"Basic"}
-            price={0}
-            firstFeature={"Rent any Movie or TV Serie"}
-            secondFeature={"All features"}
-           />
-          <Pricing 
-            planType={"Premium"} 
-            price={15}
-            firstFeature={"Play any Movie or TV Serie"}
-            secondFeature={"Create Your Watch List"}
-            thirdFeature={"All features"}
-           />
-        </Stack>
+       
         <Stack
           bg={'rgba(17, 173, 152, 0.3)'}
           backdropFilter={'blur(10px)'}
@@ -97,12 +113,13 @@ export default function Register() {
           maxW={{ lg: 'lg' }}
         >
           <Stack spacing={4}>
+          <Flex justify='space-between' align='center' h='60px'>
             <Heading
               color={'white'}
               lineHeight={1.1}
               fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
             >
-              Sign up
+              Sign Up
               <Text
                 as={'span'}
                 bgGradient="linear(to-r, red.400,pink.400)"
@@ -111,6 +128,9 @@ export default function Register() {
                 !
               </Text>
             </Heading>
+            { loading ? <Image boxSize='60px' src={loader} alt='loader' /> : null }
+          </Flex>
+
           </Stack>
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
@@ -129,6 +149,7 @@ export default function Register() {
                   color: 'gray.500',
                 }}
               />
+              <Center>{!validName && <Text color={"#cd6155"} fontWeight={"600"} >You need to add a username</Text>} </Center>
               <FormControl>
                 <Input
                   placeholder="example@email.com"
@@ -179,7 +200,8 @@ export default function Register() {
                   Sign Up
                 </Button>
 
-                <Center>{error && <p>{error}</p>} </Center>
+                <Center>{!errorEm && <Text color={"#cd6155"} fontWeight={"600"} >Email already in use</Text>} </Center>
+                <Center>{!error && <Text color={"#cd6155"} fontWeight={"600"} >Should have at least 6 characters</Text>}</Center>
               </FormControl>
             </Stack>
             <Button
@@ -188,29 +210,23 @@ export default function Register() {
               variant={'outline'}
               backgroundColor={'white'}
               marginTop={'30px'}
+              color={"black"}
+              _hover={{
+                backgroundColor: "rgb(232, 229, 229)"
+              }}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
-              <Center>
-                <Text>Sign in with Google</Text>
-              </Center>
+              Sign up with Google
             </Button>
           </Box>
-          <Stack
-            direction={{ base: 'flex', sm: 'row' }}
-            align={'start'}
-            justify={'space-evenly'}
-          >
-            <Checkbox color={'white'}>Remember me</Checkbox>
-            <Link color={'gray'}>Forgot password?</Link>
-          </Stack>
           form
           <Stack
             direction={{ base: 'flex', sm: 'row' }}
             gap={1}
             justifyContent={'center'}
           >
-            <Text color={'white'}>You are already registered. </Text>
+            <Text color={'white'}>Are you already registered? </Text>
               <Link  href='/login'  color={'gray'}>Log in</Link>
           </Stack>
         </Stack>

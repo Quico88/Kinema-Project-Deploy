@@ -1,20 +1,19 @@
 const { Router } = require('express');
 const router = Router();
 const {
-  getSearchSeriesDB,
-  getSearchMovies,
+  // getSearchSeriesDB,
+  // getSearchMovies,
+  getAllSearch,
 } = require('../controllers API/searchbar-controller');
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_KEY);
-
-// const { Movies, Genres } = require('../db.js');
 
 // Import functions from controllers:
 
 const { getGenresFromDB } = require('../controllers DB/getGenres.js');
 
-const {getMoviesGenreById} = require("../controllers API/genresMovies")
+const { getMoviesGenreById } = require('../controllers API/genresMovies');
 
+const Comment = require('../Db/Schema/comment.js');
+const Like = require('../Db/Schema/like.js');
 
 const {
   getMoviesByIdApi,
@@ -30,28 +29,54 @@ const {
 } = require('../controllers API/detailedSeasonSelected.js');
 
 const {
-  getTVSeriesByIdApi,
+  // getTVSeriesByIdApi,
   getTrailerSerie,
 } = require('../controllers API/detailedTVSerie.js');
 
 const {
   getSeriesByGenre,
-  getAllSeriesDB,
+  // getAllSeriesDB,
 } = require('../controllers DB/getDataDB.js');
 
 const { getAllCarrusels } = require('../controllers API/homeAll.js');
 
 const { getAllCarruselsTV } = require('../controllers DB/homeAllDB.js');
 
-// ROUTES:
+const {
+  getDataTVJSON,
+  getDetailTVJSON,
+  // getDataSearchTVJSON,
+  getAllSeriesJSON,
+  getSeriesByGenreJSON,
+} = require('../controllers local/getDataJSONSeries');
 
-// Get season and it's episodes details by ID and season number:
+const {
+  detailSeasonJSON,
+} = require('../controllers local/detailedSeasonsSeriesJSON.js');
+
+const { getDataComments } = require('../controllers DB/comments');
+
+const { getAllMoviesJSON } = require('../controllers local/getDataJSON');
+
+const paymenRoutes = require('./paymentRoutes');
+
+const emailer = require ("../nodemailer/emailer")
+
+router.use('/payment', paymenRoutes);
+
+// ROUTES:
 router.get('/season/:id/:season', async (req, res) => {
   try {
     const { id, season } = req.params;
-    const season_detail = await getSeasonDetails(id, season);
-    if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
-    res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
+
+    let season_detail = await getSeasonDetails(id, season);
+
+    if (season_detail === undefined) {
+      // if (typeof season_detail === 'string') return res.json(season_detail); //si NO existe la serie te envia un string
+      // res.send(season_detail); //si existe la serie te envia un objeto con todos los datos
+      season_detail = detailSeasonJSON(id, season);
+    }
+    res.json(season_detail);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
   }
@@ -62,6 +87,11 @@ router.get('/movies/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let movieDetail = await getMoviesByIdApi(id);
+
+    if (movieDetail.hasOwnProperty('json')) {
+      return res.json(movieDetail.data);
+    }
+
     const trailer = await getTrailerMovie(id);
 
     movieDetail = {
@@ -74,16 +104,17 @@ router.get('/movies/:id', async (req, res) => {
   }
 });
 
-// Get serie from API by ID with trailer:
+// Get TV series detail from JSON:
 router.get('/tv/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    let TVSeriesDetail = await getTVSeriesByIdApi(id);
-    if (typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail);
-    const trailer = await getTrailerSerie(id);
+    // let TVSeriesDetail = await getTVSeriesByIdApi(id);
+    // if (typeof TVSeriesDetail === 'string') return res.json(TVSeriesDetail);
+    let detail = await getDetailTVJSON(id);
+    let trailer = await getTrailerSerie(detail.title);
 
-    TVSeriesDetail = {
-      ...TVSeriesDetail,
+    let TVSeriesDetail = {
+      ...detail,
       trailer,
     };
     res.send(TVSeriesDetail);
@@ -107,11 +138,11 @@ router.get('/home/movies', async (req, res) => {
 router.get('/home/search', async (req, res) => {
   try {
     const { page, name } = req.query;
-    let allSeries = await getSearchSeriesDB(name, page);
-    let allMovies = await getSearchMovies(name, page);
-    let seriesAndMovies = allSeries.concat(allMovies);
+    let data = await getAllSearch(page, name);
 
-    seriesAndMovies.sort((a, b) => {
+    /* if (data.length === 0) return res.status(204).send({ Error: 'Not found' }); */ // ROMPE EL CODIGO ==== VACIO
+
+    data.sort((a, b) => {
       if (a.vote_average < b.vote_average) {
         return 1;
       }
@@ -120,42 +151,9 @@ router.get('/home/search', async (req, res) => {
       }
       return 0;
     });
-    res.send(seriesAndMovies);
+    return res.send(data);
   } catch (error) {
     return res.status(204).send({ Error: error.message });
-  }
-});
-
-// Stripe:
-router.post('/payment/premium', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Plan Premium',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Congratulations for your Premium Plan' });
-  } catch (error) {
-    res.json({ message: error.row.message });
-  }
-});
-
-router.post('/payment/rent', async (req, res) => {
-  try {
-    const { id, amount } = req.body;
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: 'USD',
-      description: 'Movie rent',
-      payment_method: id,
-      confirm: true,
-    });
-    res.send({ message: 'Enjoy your movie' });
-  } catch (error) {
-    res.json({ message: error.row.message });
   }
 });
 
@@ -188,9 +186,10 @@ router.get('/home/series/:id', async (req, res) => {
 router.get('/home/series', async (req, res) => {
   const { page } = req.query;
   try {
-    let skip = (page - 1) * 20;
-    let limit = 20;
-    let data = await getAllSeriesDB(skip, limit);
+    // let skip = (page - 1) * 20;
+    // let limit = 20;
+    // let data = await getAllSeriesDB(skip, limit);
+    let data = await getDataTVJSON(page);
     res.json(data);
   } catch (error) {
     return res.status(204).json({ Error: error.message });
@@ -218,6 +217,7 @@ router.get('/movies_by_genre', async (req, res) => {
   }
 });
 
+// Get genres from DB:
 router.get('/genres', async (req, res) => {
   try {
     const genres = await getGenresFromDB();
@@ -227,17 +227,156 @@ router.get('/genres', async (req, res) => {
   }
 });
 
+// Get series by genres from JSON:
 router.get('/home/series_by_genre', async (req, res) => {
-  const {genre, page} = req.query
+  const { genre, page } = req.query;
   try {
-    let skip = (page - 1) * 20;
-    let limit = 20;
-    let data = await getSeriesByGenre(genre, skip, limit);
+    // let skip = (page - 1) * 20;
+    // let limit = 20;
+    // let data = await getSeriesByGenre(genre, skip, limit);
+    const data = await getSeriesByGenreJSON(genre, page);
     res.send(data);
   } catch (error) {
-      return res.status(204).json({Error: error.message});
+    return res.status(204).json({ Error: error.message });
   }
 });
 
+router.post('/comments', async (req, res) => {
+  const { userId, content, date, idReference } = req.body;
+  try {
+    Comment.create({ userId, content, date, idReference });
+    res.status(201).json('creado!');
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.get('/comments/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    let info = await getDataComments(id);
+    res.status(200).send(info);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.delete('/comments/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    let json = await Comment.deleteOne({ _id: id });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.post('/like', async (req, res) => {
+  const { idContent, idUser } = req.query;
+  try {
+    let json = await Like.create({ idUser, idContent });
+    res.status(201).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.post('/dislike', async (req, res) => {
+  const { idContent, idUser } = req.query;
+  try {
+    let json = await Like.deleteOne({ idUser, idContent });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.get('/likes_from/:idContent', async (req, res) => {
+  const { idContent } = req.params;
+  try {
+    let json = await Like.find({ idContent });
+    res.status(200).json(json.length);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.get('/likes_from_user/:idUser', async (req, res) => {
+  const { idUser } = req.params;
+  try {
+    let json = await Like.find({ idUser });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+router.get('/islike', async (req, res) => {
+  const { idContent, idUser } = req.query;
+  try {
+    let json = await Like.findOne({ idUser, idContent });
+    res.status(200).json(json);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+//  Get all movies and tv series for admin content panel:
+router.get('/panelAdmin', async (req, res) => {
+  try {
+    const movies = await getAllMoviesJSON();
+    const series = await getAllSeriesJSON();
+    const allContent = movies.concat(series);
+    res.send(allContent);
+  } catch (error) {
+    return res.status(204).json({ Error: error.message });
+  }
+});
+
+// nodemailer: Welcome email
+
+router.post("/email", async (req, res) => {
+  try {
+    const body = req.body;
+    await emailer.sendMail(body.email, body.user)
+    res.status(200).json('email enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+});
+
+// nodemailer: Upgrade email
+
+router.post("/email/upgrade", async (req, res) => {
+  try {
+    const body = req.body;
+    await emailer.sendMailUpgrade(body.email, body.user)
+    res.status(200).json('email de upgrade enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
+
+// nodemailer: Rent email
+router.post("/email/rent", async (req, res) => {
+  try {
+    const body = req.body;
+    emailer.sendMailRent(body.email, body.title, body.img, body.date, body.user)
+    res.status(200).json('email de rent enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
+
+// nodemailer: Contact us email
+router.post("/email/contact", async (req, res) => {
+  try {
+    const body = req.body;
+    await emailer.sendMailContact(body.email, body.user, body.message)
+    res.status(200).json('email de contact enviado!');
+  } catch (e) {
+    return res.status(204).json({ Error: e.message });
+  }
+})
 
 module.exports = router;

@@ -10,23 +10,27 @@ import {
   Center,
   FormControl,
   Link,
-  Checkbox,
+  Image,
+  Flex,
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext/AuthContext';
+import loader from '../../../Assets/loader.gif'
+import NavBarPayment from '../../NavBarPayment/NavBarPayment';
 
 export default function Login() {
-  const navigate = useNavigate();
   const [error, setError] = useState();
+  const [notFound, setNotFound] = useState();
+  const [incomplete, setIncomplete] = useState(true)
+  const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
 
-  const { login, loginWithGoogle } = useAuth();
+  const { login, signupWithGoogle } = useAuth();
 
   function handleChange(e) {
     e.preventDefault();
@@ -38,17 +42,33 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     try {
+      if(!user.password){
+        setIncomplete(false)
+      }else{
+        setIncomplete(true)
+      }
       await login(user.email, user.password);
-      navigate('/home');
     } catch (error) {
-      setError(error.message);
+      if(error.message.includes("wrong")){
+        setError(true)
+      }else{
+        setError(false)
+      }
+      if(error.message.includes("not-found")){
+        setNotFound(true)
+      }else{
+        setNotFound(false)
+      }
     }
+    setLoading(false);
   }
 
   async function handleGoogleSignin() {
-    await loginWithGoogle();
-    navigate('/home');
+    setLoading(true);
+    await signupWithGoogle();
+    setLoading(false);
   }
 
   return (
@@ -61,7 +81,10 @@ export default function Login() {
       backgroundRepeat={'no-repeat'}
       backgroundSize={'cover'}
     >
+      <NavBarPayment/>
       <Container
+        display='flex'
+        justifyContent='center'
         as={SimpleGrid}
         maxW={'7xl'}
         columns={{ base: 1, md: 2 }}
@@ -77,7 +100,7 @@ export default function Login() {
           spacing={{ base: 8 }}
           maxW={{ lg: 'lg' }}
         >
-          <Stack spacing={4}>
+          <Flex justify='space-between' align='center' h='60px'>
             <Heading
               color={'white'}
               lineHeight={1.1}
@@ -92,7 +115,8 @@ export default function Login() {
                 !
               </Text>
             </Heading>
-          </Stack>
+            { loading ? <Image boxSize='60px' src={loader} alt='loader' /> : null }
+          </Flex>
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
               <FormControl>
@@ -130,6 +154,7 @@ export default function Login() {
                     color: 'gray.500',
                   }}
                 />
+                <Center>{!incomplete && <Text color={"#cd6155"} fontWeight={"600"} >Add your password</Text>} </Center>
                 <Button
                   fontFamily={'heading'}
                   mt={8}
@@ -145,7 +170,7 @@ export default function Login() {
                   Log in
                 </Button>
 
-                <Center>{error && <p>{error}</p>} </Center>
+                <Center>{error && <Text color={"#cd6155"} fontWeight={"600"} >Wrong password</Text>}{notFound && <Text color={"#cd6155"} fontWeight={"600"} >User not found</Text>} </Center>
               </FormControl>
             </Stack>
             <Button
@@ -154,6 +179,10 @@ export default function Login() {
               variant={'outline'}
               backgroundColor={'white'}
               marginTop={'20px'}
+              color={'black'}
+              _hover={{
+                backgroundColor: 'rgb(232, 229, 229)',
+              }}
               onClick={handleGoogleSignin}
               leftIcon={<FcGoogle />}
             >
@@ -164,23 +193,26 @@ export default function Login() {
           </Box>
           <Stack
             direction={{ base: 'flex', sm: 'row' }}
-            align={'start'}
-            justify={'space-evenly'}
-          >
-            <Checkbox color={'white'}>Remember me</Checkbox>
-            <Text color={'gray'}>Forgot password?</Text>
-          </Stack>
-          form
-          <Stack
-            direction={{ base: 'flex', sm: 'row' }}
             gap={1}
             justifyContent={'center'}
           >
             <Text color={'white'}>¿First Time in KINEMA? </Text>
-            <Link  href='/register'  color={'gray'}>Sign up</Link>
+            <Link href="/register/start" color={'gray'}>
+              Sign up
+            </Link>
+          </Stack>
+          <Stack
+            direction={{ base: 'flex', sm: 'row' }}
+            align={'start'}
+            justify={'space-evenly'}
+            color={'gray'}
+            _hover={{textDecoration: "block"}}
+          >
+            <Link href="/recover_password" color={'gray'}>Forgot password?</Link>
           </Stack>
         </Stack>
       </Container>
     </Box>
+    
   );
 }

@@ -7,9 +7,7 @@
 }
 
 .nav {
-  height: 50px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   color: transparent;
   position: relative;
@@ -17,13 +15,18 @@
 }
 
 .list {
-  display: inline-flex;
+  display: flex;
+  align-items: flex-start;
+}
 
-  justify-content: flex-end;
+@media (min-width: 500px) {
+  .list {
+    margin-top: 2.5rem;
+  }
 }
 
 .logo {
-  width: 250px;
+  width: 220px;
   height: 180px;
   margin-top: -20px;
 }
@@ -31,8 +34,9 @@
 .nav__toggle {
   display: none;
   cursor: pointer;
-  width: 32px;
-  margin-top: 40px;
+  width: 40px;
+  height: 40px;
+  margin-top: 20px;
   margin-right: 20px;
   background-image: url('../../Assets/menu.png');
   background-repeat: no-repeat;
@@ -46,19 +50,20 @@
 }
 
 .sign {
-  padding-top: 20px;
   color: white;
-  margin-right: 40px;
   cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 40px;
 }
 
 .container_landing {
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 90%;
+  height: 65%;
   z-index: 2;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-top: 20vh;
   align-items: center;
 }
 
@@ -78,7 +83,7 @@
       rgba(10, 22, 19, 0.13)
     ),
     #1cdaff;
-  border-radius: 6px;
+  border-radius: 10px;
   color: white;
 }
 
@@ -88,7 +93,6 @@
 }
 
 .main_text {
-  font-size: 48px;
   color: #ffffff;
 }
 
@@ -99,7 +103,7 @@
   top: 0;
   width: max-content;
   overflow: hidden;
-  height: 85vh;
+  height: 90vh;
   z-index: 0;
 }
 
@@ -172,7 +176,7 @@
   height: 100vh;
   visibility: hidden;
   background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%),
-    url('../../Assets/collage.jpg');
+    url('../../Assets/landing-bg-mobile.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -224,6 +228,8 @@ h3 {
 
   .logo {
     margin-left: 0;
+    width: 120px;
+    height: 120px;
   }
 
   .movie_list,
@@ -243,8 +249,10 @@ h3 {
   .movie_list_collage {
     margin-top: 0;
     visibility: visible;
+    background-position: center;
+
     background-image: linear-gradient(180deg, #0000008c 20%, #0000008c 100%),
-      url('../../Assets/collage.jpg');
+      url('../../Assets/landing-bg-mobile.jpg');
   }
 
   .top_blur {
@@ -262,6 +270,7 @@ h3 {
     background-color: hsla(180, 12%, 8%, 0.96);
     top: 0;
     right: 0;
+    width: 40%;
     font-size: 16px;
     border-left: 2px solid gray;
     flex-direction: column-reverse;
@@ -281,7 +290,7 @@ h3 {
   }
 
   .main_text {
-    font-size: 24px;
     text-align: center;
+    font-weight: bold;
   }
 }

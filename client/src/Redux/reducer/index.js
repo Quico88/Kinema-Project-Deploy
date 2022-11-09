@@ -13,13 +13,28 @@ import {
   CLEAR_SEARCH,
   CLEAR_MOVIES,
   CLEAR_SERIES,
+  CLEAR_GENRES,
   GET_ALL_GENRES,
   GET_MOVIE_GENRE_BY_ID,
   ERROR_FOUND,
   ERROR_CLEAN,
   GET_TV_SHOW_GENRES,
   GET_SERIES_BY_GENRE,
-} from "../actions/const";
+  LOG_IN,
+  LOG_OUT,
+  GET_COMMENTS_DATA,
+  RENT_VIDEO,
+  ADD_TO_WATCHLIST,
+  REMOVE_FROM_WATCHLIST,
+  UPGRADE_PLAN,
+  CHANGE_NAME,
+  DOWNGRADE_PLAN,
+  CHANGE_SID,
+  UPLOAD_IMG,
+  AVATAR_IMG,
+  ISLIKE,
+  GET_LIKES_FROM_CONTENT,
+} from '../actions/const';
 
 // Initial state of global store:
 const initialState = {
@@ -33,6 +48,10 @@ const initialState = {
   loading: false,
   allgenres: [],
   error: false,
+  user: false,
+  comments: [],
+  isLike: false,
+  totalLikes: 0,
 };
 
 // Reducer:
@@ -57,6 +76,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         series: [],
+      };
+    case CLEAR_GENRES:
+      return {
+        ...state,
+        allgenres: [],
       };
     case GET_SEARCH:
       return {
@@ -129,11 +153,89 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allgenres: action.payload,
       };
-
     case GET_SERIES_BY_GENRE:
       return {
         ...state,
         series: action.payload,
+      };
+    case LOG_IN:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        user: false,
+      };
+    case GET_COMMENTS_DATA:
+      return {
+        ...state,
+        comments: action.payload,
+      };
+    case RENT_VIDEO:
+      return {
+        ...state,
+        user: { ...state.user, rented: [...state.user.rented, action.payload] },
+      };
+    case CHANGE_NAME:
+      return {
+        ...state,
+        user: { ...state.user, username: action.payload },
+      };
+    case ADD_TO_WATCHLIST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          watchList: action.payload,
+        },
+      };
+    case REMOVE_FROM_WATCHLIST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          watchList: action.payload,
+        },
+      };
+    case UPGRADE_PLAN:
+      return {
+        ...state,
+        user: { ...state.user, subscription: 2 },
+      };
+    case UPLOAD_IMG:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          avatars: [...state.user.avatars, action.payload],
+        },
+      };
+    case AVATAR_IMG:
+      return {
+        ...state,
+        user: { ...state.user, avatar: action.payload },
+      };
+    case DOWNGRADE_PLAN:
+      return {
+        ...state,
+        user: { ...state.user, subscription: 1 },
+      };
+    case CHANGE_SID:
+      return {
+        ...state,
+        user: { ...state.user, stripeId: action.payload },
+      };
+    case ISLIKE:
+      return {
+        ...state,
+        isLike: action.payload,
+      };
+    case GET_LIKES_FROM_CONTENT:
+      return {
+        ...state,
+        totalLikes: action.payload,
       };
     default:
       return state;
