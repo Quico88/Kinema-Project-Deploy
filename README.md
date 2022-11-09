@@ -1,4 +1,3 @@
-
 # Kinema streaming website: Team project for SoyHenry.
 
 Kinema is a movie and tv show streaming website that includes the following features:
