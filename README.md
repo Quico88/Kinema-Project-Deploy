@@ -53,3 +53,5 @@ Below some pics.
 ![kinema 5](https://user-images.githubusercontent.com/93743323/200680970-3aedeec4-91c0-4554-8696-732b15692716.png)
 
 ![kinema 6](https://user-images.githubusercontent.com/93743323/200680990-ebc99376-f763-43d0-a62b-f04036bf0b02.png)
+
+Last updated 11.9.2022
