@@ -29,3 +29,5 @@
   - Admin dashboard
 
   Visit Kinema: https://kinema-entertainment.vercel.app
+  
+  * you can use Stripe test credit card #4242 4242 4242 4242
