@@ -6,14 +6,14 @@ let transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    user: "kinema.entertainment@gmail.com",
-    pass: "kemednjlbounxbwq"
+    user: "kinema.showcase@gmail.com",
+    pass: process.env.PASSWORD
   },
 });
 
 const sendMail = async (email, user) => {
   const info = await transporter.sendMail({
-    from: "kinema.entertainment@gmail.com",
+    from: "kinema.showcase@gmail.com",
     to: `${email}`,
     subject: "Welcome to Kinema",
     text: "Plaintext version of the message",
@@ -194,7 +194,7 @@ const sendMail = async (email, user) => {
 
 const sendMailUpgrade = async (email, user) => {
   const info = await transporter.sendMail({
-    from: "kinema.entertainment@gmail.com",
+    from: "kinema.showcase@gmail.com",
     to: `${email}`,
     subject: "Subscription Successfully",
     text: "Plaintext version of the message",
@@ -375,7 +375,7 @@ const sendMailUpgrade = async (email, user) => {
 
 const sendMailRent = async (email, title, img, date, user) => {
   const info = await transporter.sendMail({
-    from: "kinema.entertainment@gmail.com",
+    from: "kinema.showcase@gmail.com",
     to: `${email}`,
     subject: "Rent Successfully",
     text: "Plaintext version of the message",
@@ -556,8 +556,8 @@ const sendMailRent = async (email, title, img, date, user) => {
 
 const sendMailContact = async (email, user, message) => {
   const info = await transporter.sendMail({
-    from: "kinema.entertainment@gmail.com",
-    to: `kinema.entertainment@gmail.com`,
+    from: "kinema.showcase@gmail.com",
+    to: `kinema.showcase@gmail.com`,
     subject: `New message from ${user}`,
     text: "Plaintext version of the message",
     html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
